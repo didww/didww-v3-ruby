@@ -1,0 +1,13 @@
+{
+  "errors": [
+    {
+      "title": "should exist",
+      "detail": "name - already exist",
+      "code": "100",
+      "source": {
+        "pointer": "/data/attributes/name"
+      },
+      "status": "422"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "errors": [
+    {
+      "title": "is invalid",
+      "detail": "items/0/sku_id - is invalid",
+      "code": "100",
+      "source": {
+        "pointer": "/data/attributes/items/0/sku_id"
+      },
+      "status": "422"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "errors": [
+    {
+      "title": "Record not found",
+      "detail": "The record identified by a393cbf8-a63c-42d4-8f64-93559f00fe38 could not be found.",
+      "code": "404",
+      "status": "404"
+    }
+  ]
+}

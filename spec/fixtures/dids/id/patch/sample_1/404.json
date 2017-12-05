@@ -1,0 +1,10 @@
+{
+  "errors": [
+    {
+      "title": "Record not found",
+      "detail": "The record identified by 46e129f1-deaa-44db-8915-2646de4d4c70 could not be found.",
+      "code": "404",
+      "status": "404"
+    }
+  ]
+}

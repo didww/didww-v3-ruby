@@ -1,0 +1,81 @@
+{
+  "data": [
+    {
+      "id": "950159ac-225a-421a-a4a6-03708f6bd475",
+      "type": "cities",
+      "attributes": {
+        "name": "London"
+      },
+      "relationships": {
+        "country": {
+          "links": {
+            "self": "https://api.didww.com/v3/cities/950159ac-225a-421a-a4a6-03708f6bd475/relationships/country",
+            "related": "https://api.didww.com/v3/cities/950159ac-225a-421a-a4a6-03708f6bd475/country"
+          },
+          "data": {
+            "type": "countries",
+            "id": "b14af10b-cb73-4228-890b-5bbcb7fbb103"
+          }
+        },
+        "region": {
+          "links": {
+            "self": "https://api.didww.com/v3/cities/950159ac-225a-421a-a4a6-03708f6bd475/relationships/region",
+            "related": "https://api.didww.com/v3/cities/950159ac-225a-421a-a4a6-03708f6bd475/region"
+          }
+        }
+      }
+    },
+    {
+      "id": "5116f8c2-fc8d-4193-8d32-df8367e4a600",
+      "type": "cities",
+      "attributes": {
+        "name": "New York"
+      },
+      "relationships": {
+        "country": {
+          "links": {
+            "self": "https://api.didww.com/v3/cities/5116f8c2-fc8d-4193-8d32-df8367e4a600/relationships/country",
+            "related": "https://api.didww.com/v3/cities/5116f8c2-fc8d-4193-8d32-df8367e4a600/country"
+          },
+          "data": {
+            "type": "countries",
+            "id": "77b32b7b-b8cc-4f95-895b-075bfd10d302"
+          }
+        },
+        "region": {
+          "links": {
+            "self": "https://api.didww.com/v3/cities/5116f8c2-fc8d-4193-8d32-df8367e4a600/relationships/region",
+            "related": "https://api.didww.com/v3/cities/5116f8c2-fc8d-4193-8d32-df8367e4a600/region"
+          }
+        }
+      }
+    }
+  ],
+  "included": [
+    {
+      "id": "b14af10b-cb73-4228-890b-5bbcb7fbb103",
+      "type": "countries",
+      "attributes": {
+        "name": "United Kingdom",
+        "prefix": "44",
+        "iso": "GB"
+      }
+    },
+    {
+      "id": "77b32b7b-b8cc-4f95-895b-075bfd10d302",
+      "type": "countries",
+      "attributes": {
+        "name": "United States",
+        "prefix": "1",
+        "iso": "US"
+      }
+    }
+  ],
+  "meta": {
+    "total_records": 2
+  },
+  "links": {
+    "first": "https://api.didww.com/v3/cities?include=country&page%5Bnumber%5D=1&page%5Bsize%5D=1000",
+    "next": "https://api.didww.com/v3/cities?include=country&page%5Bnumber%5D=1&page%5Bsize%5D=1000"
+  }
+}

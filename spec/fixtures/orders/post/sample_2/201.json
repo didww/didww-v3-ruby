@@ -1,0 +1,23 @@
+{
+  "data": {
+    "id": "75dae051-7508-4a9b-ab1b-9bbd75de18c5",
+    "type": "orders",
+    "attributes": {
+      "amount": "79.2",
+      "status": "Pending",
+      "created_at": "2017-06-25T14:56:31.513Z",
+      "description": "DID",
+      "items": [
+        {
+          "type": "did_order_items",
+          "attributes": {
+            "qty": 15,
+            "setup_price": "5.00",
+            "monthly_price": "5.00",
+            "did_group_id": "a7b2abcb-6251-475f-b6e0-fd9acf2579ef"
+          }
+        }
+      ]
+    }
+  }
+}

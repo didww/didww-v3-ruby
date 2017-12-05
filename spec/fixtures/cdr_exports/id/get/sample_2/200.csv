@@ -1,0 +1,6 @@
+Date/Time (UTC),Source,DID,Destination,Duration (secs),Disconnect Initiator,Disconnect Code,Response,TollFree Amount (USD),Termination Amount (USD),Metered Channels Amount (USD),Customer ID,Sell Amount (Points)
+2017-06-26 01:11:42,4,97286259404,sip:test@example.com,0,Destination,404,Not Found,0.000,0.000,0.000,,0.000
+2017-06-17 08:50:47,"",97286259413,iax:324@34234234,54,Origination,200,Bye,0.000,0.000,0.003,,0.000
+2017-06-12 14:23:25,"",97286259407,iax:324@34234234,16,Origination,200,Bye,0.000,0.000,0.003,,0.000
+2017-06-05 12:58:41,4,97286259404,sip:test@example.com,0,Destination,404,Not Found,0.000,0.000,0.000,,0.000
+2017-06-01 07:57:43,4,97286259414,iax:324@34234234,57,Origination,200,Bye,0.000,0.000,0.003,,0.000

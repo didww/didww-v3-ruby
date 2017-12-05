@@ -1,0 +1,245 @@
+{
+  "data": [
+    {
+      "id": "d0163fe0-001f-4a03-87ea-84224822708e",
+      "type": "did_groups",
+      "links": {
+        "self": "https://api.didww.com/v3/did_groups/d0163fe0-001f-4a03-87ea-84224822708e"
+      },
+      "attributes": {
+        "prefix": "77",
+        "local_prefix": "",
+        "features": [
+          "voice",
+          "sms"
+        ],
+        "is_metered": false,
+        "area_name": "National",
+        "allow_additional_channels": true
+      },
+      "relationships": {
+        "country": {
+          "links": {
+            "self": "https://api.didww.com/v3/did_groups/d0163fe0-001f-4a03-87ea-84224822708e/relationships/country",
+            "related": "https://api.didww.com/v3/did_groups/d0163fe0-001f-4a03-87ea-84224822708e/country"
+          },
+          "data": {
+            "type": "countries",
+            "id": "370a24a2-7d84-4476-9fdb-1e0b0a7dc1d8"
+          }
+        },
+        "city": {
+          "links": {
+            "self": "https://api.didww.com/v3/did_groups/d0163fe0-001f-4a03-87ea-84224822708e/relationships/city",
+            "related": "https://api.didww.com/v3/did_groups/d0163fe0-001f-4a03-87ea-84224822708e/city"
+          },
+          "data": null
+        },
+        "did_group_type": {
+          "links": {
+            "self": "https://api.didww.com/v3/did_groups/d0163fe0-001f-4a03-87ea-84224822708e/relationships/did_group_type",
+            "related": "https://api.didww.com/v3/did_groups/d0163fe0-001f-4a03-87ea-84224822708e/did_group_type"
+          },
+          "data": {
+            "type": "did_group_types",
+            "id": "db2751a3-640c-4088-912d-8670b4698438"
+          }
+        },
+        "region": {
+          "links": {
+            "self": "https://api.didww.com/v3/did_groups/d0163fe0-001f-4a03-87ea-84224822708e/relationships/region",
+            "related": "https://api.didww.com/v3/did_groups/d0163fe0-001f-4a03-87ea-84224822708e/region"
+          },
+          "data": null
+        },
+        "stock_keeping_units": {
+          "links": {
+            "self": "https://api.didww.com/v3/did_groups/d0163fe0-001f-4a03-87ea-84224822708e/relationships/stock_keeping_units",
+            "related": "https://api.didww.com/v3/did_groups/d0163fe0-001f-4a03-87ea-84224822708e/stock_keeping_units"
+          },
+          "data": [
+            {
+              "type": "stock_keeping_units",
+              "id": "a04c8785-e530-4ee9-815a-80d24fd9d75e"
+            },
+            {
+              "type": "stock_keeping_units",
+              "id": "c6817623-92ad-4bd0-890a-99cdd865c1be"
+            }
+          ]
+        }
+      },
+      "meta": {
+        "needs_registration": false,
+        "is_available": true,
+        "restrictions": null
+      }
+    },
+    {
+      "id": "952b0724-45bc-4f87-b31b-ff04579357ef",
+      "type": "did_groups",
+      "links": {
+        "self": "https://api.didww.com/v3/did_groups/952b0724-45bc-4f87-b31b-ff04579357ef"
+      },
+      "attributes": {
+        "prefix": "3",
+        "local_prefix": "",
+        "features": [
+          "voice"
+        ],
+        "is_metered": false,
+        "area_name": "Tel Aviv",
+        "allow_additional_channels": true
+      },
+      "relationships": {
+        "country": {
+          "links": {
+            "self": "https://api.didww.com/v3/did_groups/952b0724-45bc-4f87-b31b-ff04579357ef/relationships/country",
+            "related": "https://api.didww.com/v3/did_groups/952b0724-45bc-4f87-b31b-ff04579357ef/country"
+          },
+          "data": {
+            "type": "countries",
+            "id": "370a24a2-7d84-4476-9fdb-1e0b0a7dc1d8"
+          }
+        },
+        "city": {
+          "links": {
+            "self": "https://api.didww.com/v3/did_groups/952b0724-45bc-4f87-b31b-ff04579357ef/relationships/city",
+            "related": "https://api.didww.com/v3/did_groups/952b0724-45bc-4f87-b31b-ff04579357ef/city"
+          },
+          "data": {
+            "type": "cities",
+            "id": "9d9f39e5-cf3e-446a-8e7b-f9e74be5f3e9"
+          }
+        },
+        "did_group_type": {
+          "links": {
+            "self": "https://api.didww.com/v3/did_groups/952b0724-45bc-4f87-b31b-ff04579357ef/relationships/did_group_type",
+            "related": "https://api.didww.com/v3/did_groups/952b0724-45bc-4f87-b31b-ff04579357ef/did_group_type"
+          },
+          "data": {
+            "type": "did_group_types",
+            "id": "a0cfd563-ebb0-4492-b046-74ab4609f9cb"
+          }
+        },
+        "region": {
+          "links": {
+            "self": "https://api.didww.com/v3/did_groups/952b0724-45bc-4f87-b31b-ff04579357ef/relationships/region",
+            "related": "https://api.didww.com/v3/did_groups/952b0724-45bc-4f87-b31b-ff04579357ef/region"
+          },
+          "data": null
+        },
+        "stock_keeping_units": {
+          "links": {
+            "self": "https://api.didww.com/v3/did_groups/952b0724-45bc-4f87-b31b-ff04579357ef/relationships/stock_keeping_units",
+            "related": "https://api.didww.com/v3/did_groups/952b0724-45bc-4f87-b31b-ff04579357ef/stock_keeping_units"
+          },
+          "data": [
+            {
+              "type": "stock_keeping_units",
+              "id": "f3c4ac7a-3fc5-4fd4-9d2a-7093a122428d"
+            },
+            {
+              "type": "stock_keeping_units",
+              "id": "915718ce-f904-49d8-88bd-7b52ef608026"
+            }
+          ]
+        }
+      },
+      "meta": {
+        "needs_registration": false,
+        "is_available": true,
+        "restrictions": null
+      }
+    }
+  ],
+  "included": [
+    {
+      "id": "370a24a2-7d84-4476-9fdb-1e0b0a7dc1d8",
+      "type": "countries",
+      "attributes": {
+        "name": "Israel",
+        "prefix": "972",
+        "iso": "IL"
+      }
+    },
+    {
+      "id": "db2751a3-640c-4088-912d-8670b4698438",
+      "type": "did_group_types",
+      "attributes": {
+        "name": "National"
+      }
+    },
+    {
+      "id": "a0cfd563-ebb0-4492-b046-74ab4609f9cb",
+      "type": "did_group_types",
+      "attributes": {
+        "name": "Local"
+      }
+    },
+    {
+      "id": "a04c8785-e530-4ee9-815a-80d24fd9d75e",
+      "type": "stock_keeping_units",
+      "attributes": {
+        "setup_price": "0.0",
+        "monthly_price": "2.06",
+        "channels_included_count": 0
+      }
+    },
+    {
+      "id": "c6817623-92ad-4bd0-890a-99cdd865c1be",
+      "type": "stock_keeping_units",
+      "attributes": {
+        "setup_price": "0.0",
+        "monthly_price": "7.0",
+        "channels_included_count": 2
+      }
+    },
+    {
+      "id": "915718ce-f904-49d8-88bd-7b52ef608026",
+      "type": "stock_keeping_units",
+      "attributes": {
+        "setup_price": "0.0",
+        "monthly_price": "2.06",
+        "channels_included_count": 0
+      }
+    },
+    {
+      "id": "f3c4ac7a-3fc5-4fd4-9d2a-7093a122428d",
+      "type": "stock_keeping_units",
+      "attributes": {
+        "setup_price": "0.0",
+        "monthly_price": "7.0",
+        "channels_included_count": 2
+      }
+    },
+    {
+      "id": "9d9f39e5-cf3e-446a-8e7b-f9e74be5f3e9",
+      "type": "cities",
+      "attributes": {
+        "name": "Tel Aviv"
+      },
+      "relationships": {
+        "country": {
+          "links": {
+            "self": "https://api.didww.com/v3/cities/9d9f39e5-cf3e-446a-8e7b-f9e74be5f3e9/relationships/country",
+            "related": "https://api.didww.com/v3/cities/9d9f39e5-cf3e-446a-8e7b-f9e74be5f3e9/country"
+          }
+        },
+        "region": {
+          "links": {
+            "self": "https://api.didww.com/v3/cities/9d9f39e5-cf3e-446a-8e7b-f9e74be5f3e9/relationships/region",
+            "related": "https://api.didww.com/v3/cities/9d9f39e5-cf3e-446a-8e7b-f9e74be5f3e9/region"
+          }
+        }
+      }
+    }
+  ],
+  "meta": {
+    "total_records": 2
+  },
+  "links": {
+    "first": "https://api.didww.com/v3/did_groups?include=country%2Ccity%2Cregion%2Cdid_group_type%2Cstock_keeping_units&page%5Bnumber%5D=1&page%5Bsize%5D=50",
+    "next": "https://api.didww.com/v3/did_groups?include=country%2Ccity%2Cregion%2Cdid_group_type%2Cstock_keeping_units&page%5Bnumber%5D=1&page%5Bsize%5D=50"
+  }
+}

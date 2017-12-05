@@ -1,0 +1,13 @@
+{
+  "errors": [
+    {
+      "title": "should exist",
+      "detail": "trunk_id - is invalid",
+      "code": "100",
+      "source": {
+        "pointer": "/data/attributes/trunk_id"
+      },
+      "status": "422"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "data": {
+    "id": "e2f3f115-11f1-43cf-8279-08b29d94403d",
+    "type": "regions",
+    "attributes": {
+      "name": "Alberta"
+    },
+    "relationships": {
+      "country": {
+        "links": {
+          "self": "https://api.didww.com/v3/regions/e2f3f115-11f1-43cf-8279-08b29d94403d/relationships/country",
+          "related": "https://api.didww.com/v3/regions/e2f3f115-11f1-43cf-8279-08b29d94403d/country"
+        },
+        "data": {
+          "type": "countries",
+          "id": "fa914558-9c64-4e01-967b-3302bd65a97b"
+        }
+      }
+    }
+  },
+  "included": [
+    {
+      "id": "fa914558-9c64-4e01-967b-3302bd65a97b",
+      "type": "countries",
+      "attributes": {
+        "name": "Canada",
+        "prefix": "1",
+        "iso": "CA"
+      }
+    }
+  ]
+}

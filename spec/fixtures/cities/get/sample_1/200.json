@@ -1,0 +1,53 @@
+{
+  "data": [
+    {
+      "id": "ddea3125-8d90-408a-85a5-ed662c02c671",
+      "type": "cities",
+      "attributes": {
+        "name": "London"
+      },
+      "relationships": {
+        "country": {
+          "links": {
+            "self": "https://api.didww.com/v3/cities/ddea3125-8d90-408a-85a5-ed662c02c671/relationships/country",
+            "related": "https://api.didww.com/v3/cities/ddea3125-8d90-408a-85a5-ed662c02c671/country"
+          }
+        },
+        "region": {
+          "links": {
+            "self": "https://api.didww.com/v3/cities/ddea3125-8d90-408a-85a5-ed662c02c671/relationships/region",
+            "related": "https://api.didww.com/v3/cities/ddea3125-8d90-408a-85a5-ed662c02c671/region"
+          }
+        }
+      }
+    },
+    {
+      "id": "42d5b2a9-5878-47ac-a08e-2932bf281125",
+      "type": "cities",
+      "attributes": {
+        "name": "New York"
+      },
+      "relationships": {
+        "country": {
+          "links": {
+            "self": "https://api.didww.com/v3/cities/42d5b2a9-5878-47ac-a08e-2932bf281125/relationships/country",
+            "related": "https://api.didww.com/v3/cities/42d5b2a9-5878-47ac-a08e-2932bf281125/country"
+          }
+        },
+        "region": {
+          "links": {
+            "self": "https://api.didww.com/v3/cities/42d5b2a9-5878-47ac-a08e-2932bf281125/relationships/region",
+            "related": "https://api.didww.com/v3/cities/42d5b2a9-5878-47ac-a08e-2932bf281125/region"
+          }
+        }
+      }
+    }
+  ],
+  "meta": {
+    "total_records": 2
+  },
+  "links": {
+    "first": "https://api.didww.com/v3/cities?&page%5Bnumber%5D=1&page%5Bsize%5D=1000",
+    "next": "https://api.didww.com/v3/cities?&page%5Bnumber%5D=1&page%5Bsize%5D=1000"
+  }
+}

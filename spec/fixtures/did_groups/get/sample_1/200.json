@@ -1,0 +1,120 @@
+{
+  "data": [
+    {
+      "id": "d35148e7-8858-446e-ae53-2f5ae17501ef",
+      "type": "did_groups",
+      "links": {
+        "self": "https://api.didww.com/v3/did_groups/d35148e7-8858-446e-ae53-2f5ae17501ef"
+      },
+      "attributes": {
+        "prefix": "77",
+        "local_prefix": "",
+        "features": [
+          "voice",
+          "sms"
+        ],
+        "is_metered": false,
+        "area_name": "National",
+        "allow_additional_channels": true
+      },
+      "relationships": {
+        "country": {
+          "links": {
+            "self": "https://api.didww.com/v3/did_groups/d35148e7-8858-446e-ae53-2f5ae17501ef/relationships/country",
+            "related": "https://api.didww.com/v3/did_groups/d35148e7-8858-446e-ae53-2f5ae17501ef/country"
+          }
+        },
+        "city": {
+          "links": {
+            "self": "https://api.didww.com/v3/did_groups/d35148e7-8858-446e-ae53-2f5ae17501ef/relationships/city",
+            "related": "https://api.didww.com/v3/did_groups/d35148e7-8858-446e-ae53-2f5ae17501ef/city"
+          }
+        },
+        "did_group_type": {
+          "links": {
+            "self": "https://api.didww.com/v3/did_groups/d35148e7-8858-446e-ae53-2f5ae17501ef/relationships/did_group_type",
+            "related": "https://api.didww.com/v3/did_groups/d35148e7-8858-446e-ae53-2f5ae17501ef/did_group_type"
+          }
+        },
+        "region": {
+          "links": {
+            "self": "https://api.didww.com/v3/did_groups/d35148e7-8858-446e-ae53-2f5ae17501ef/relationships/region",
+            "related": "https://api.didww.com/v3/did_groups/d35148e7-8858-446e-ae53-2f5ae17501ef/region"
+          }
+        },
+        "stock_keeping_units": {
+          "links": {
+            "self": "https://api.didww.com/v3/did_groups/d35148e7-8858-446e-ae53-2f5ae17501ef/relationships/stock_keeping_units",
+            "related": "https://api.didww.com/v3/did_groups/d35148e7-8858-446e-ae53-2f5ae17501ef/stock_keeping_units"
+          }
+        }
+      },
+      "meta": {
+        "needs_registration": false,
+        "is_available": true,
+        "restrictions": null
+      }
+    },
+    {
+      "id": "9e31a4a5-38ef-4e1e-8a83-f6ae10d61d51",
+      "type": "did_groups",
+      "links": {
+        "self": "https://api.didww.com/v3/did_groups/9e31a4a5-38ef-4e1e-8a83-f6ae10d61d51"
+      },
+      "attributes": {
+        "prefix": "3",
+        "local_prefix": "",
+        "features": [
+          "voice"
+        ],
+        "is_metered": false,
+        "area_name": "Tel Aviv",
+        "allow_additional_channels": true
+      },
+      "relationships": {
+        "country": {
+          "links": {
+            "self": "https://api.didww.com/v3/did_groups/9e31a4a5-38ef-4e1e-8a83-f6ae10d61d51/relationships/country",
+            "related": "https://api.didww.com/v3/did_groups/9e31a4a5-38ef-4e1e-8a83-f6ae10d61d51/country"
+          }
+        },
+        "city": {
+          "links": {
+            "self": "https://api.didww.com/v3/did_groups/9e31a4a5-38ef-4e1e-8a83-f6ae10d61d51/relationships/city",
+            "related": "https://api.didww.com/v3/did_groups/9e31a4a5-38ef-4e1e-8a83-f6ae10d61d51/city"
+          }
+        },
+        "did_group_type": {
+          "links": {
+            "self": "https://api.didww.com/v3/did_groups/9e31a4a5-38ef-4e1e-8a83-f6ae10d61d51/relationships/did_group_type",
+            "related": "https://api.didww.com/v3/did_groups/9e31a4a5-38ef-4e1e-8a83-f6ae10d61d51/did_group_type"
+          }
+        },
+        "region": {
+          "links": {
+            "self": "https://api.didww.com/v3/did_groups/9e31a4a5-38ef-4e1e-8a83-f6ae10d61d51/relationships/region",
+            "related": "https://api.didww.com/v3/did_groups/9e31a4a5-38ef-4e1e-8a83-f6ae10d61d51/region"
+          }
+        },
+        "stock_keeping_units": {
+          "links": {
+            "self": "https://api.didww.com/v3/did_groups/9e31a4a5-38ef-4e1e-8a83-f6ae10d61d51/relationships/stock_keeping_units",
+            "related": "https://api.didww.com/v3/did_groups/9e31a4a5-38ef-4e1e-8a83-f6ae10d61d51/stock_keeping_units"
+          }
+        }
+      },
+      "meta": {
+        "needs_registration": false,
+        "is_available": true,
+        "restrictions": null
+      }
+    }
+  ],
+  "meta": {
+    "total_records": 2
+  },
+  "links": {
+    "first": "https://api.didww.com/v3/did_groups?page%5Bnumber%5D=1&page%5Bsize%5D=50",
+    "next": "https://api.didww.com/v3/did_groups?page%5Bnumber%5D=1&page%5Bsize%5D=50"
+  }
+}

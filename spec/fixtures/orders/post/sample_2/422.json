@@ -1,0 +1,13 @@
+{
+  "errors": [
+    {
+      "title": "exceeds available DIDs count",
+      "detail": "items/0/qty - exceeds available DIDs count",
+      "code": "100",
+      "source": {
+        "pointer": "/data/attributes/items/0/qty"
+      },
+      "status": "422"
+    }
+  ]
+}

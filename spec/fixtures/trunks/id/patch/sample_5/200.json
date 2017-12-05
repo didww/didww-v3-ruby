@@ -1,0 +1,67 @@
+{
+  "data": {
+    "id": "389deacb-5be5-46d7-8cbd-aba11f66d6c2",
+    "type": "trunks",
+    "attributes": {
+      "priority": 1,
+      "capacity_limit": 18,
+      "weight": 65535,
+      "name": "Office H323 API",
+      "cli_format": "e164",
+      "cli_prefix": "+1",
+      "description": null,
+      "ringing_timeout": null,
+      "configuration": {
+        "type": "h323_configurations",
+        "attributes": {
+          "dst": "7xxxxxxxx",
+          "host": "example.com",
+          "port": null,
+          "codec_ids": [
+            9,
+            6
+          ]
+        }
+      },
+      "preferred_server": "USA"
+    },
+    "relationships": {
+      "trunk_group": {
+        "links": {
+          "self": "https://api.didww.com/v3/trunks/389deacb-5be5-46d7-8cbd-aba11f66d6c2/relationships/trunk_group",
+          "related": "https://api.didww.com/v3/trunks/389deacb-5be5-46d7-8cbd-aba11f66d6c2/trunk_group"
+        },
+        "data": {
+          "type": "trunk_groups",
+          "id": "86c9f271-0206-4906-833e-d4c09164468c"
+        }
+      }
+    }
+  },
+  "included": [
+    {
+      "id": "86c9f271-0206-4906-833e-d4c09164468c",
+      "type": "trunk_groups",
+      "links": {
+        "self": "https://api.didww.com/v3/trunk_groups/86c9f271-0206-4906-833e-d4c09164468c"
+      },
+      "attributes": {
+        "created_at": "2017-08-16T14:04:36.013Z",
+        "updated_at": "2017-08-16T14:04:36.013Z",
+        "name": "Main group",
+        "capacity_limit": 100
+      },
+      "relationships": {
+        "trunks": {
+          "links": {
+            "self": "https://api.didww.com/v3/trunk_groups/86c9f271-0206-4906-833e-d4c09164468c/relationships/trunks",
+            "related": "https://api.didww.com/v3/trunk_groups/86c9f271-0206-4906-833e-d4c09164468c/trunks"
+          }
+        }
+      },
+      "meta": {
+        "trunks_count": 1
+      }
+    }
+  ]
+}

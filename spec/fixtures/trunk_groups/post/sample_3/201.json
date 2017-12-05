@@ -1,0 +1,113 @@
+{
+  "data": {
+    "id": "3b49216d-ccb0-4376-b9fa-a43ffcb48c35",
+    "type": "trunk_groups",
+    "links": {
+      "self": "https://api.didww.com/v3/trunk_groups/3b49216d-ccb0-4376-b9fa-a43ffcb48c35"
+    },
+    "attributes": {
+      "created_at": "2017-08-16T14:04:36.013Z",
+      "name": "Main group",
+      "capacity_limit": 100
+    },
+    "relationships": {
+      "trunks": {
+        "links": {
+          "self": "https://api.didww.com/v3/trunk_groups/3b49216d-ccb0-4376-b9fa-a43ffcb48c35/relationships/trunks",
+          "related": "https://api.didww.com/v3/trunk_groups/3b49216d-ccb0-4376-b9fa-a43ffcb48c35/trunks"
+        },
+        "data": [
+          {
+            "type": "trunks",
+            "id": "1dcbcdae-4ad6-4c42-acc3-b4ec097dd2f7"
+          },
+          {
+            "type": "trunks",
+            "id": "c606cd05-a19f-4d3c-9362-3857a79a6e1d"
+          }
+        ]
+      }
+    },
+    "meta": {
+      "trunks_count": 2
+    }
+  },
+  "included": [
+    {
+      "data": {
+        "id": "1dcbcdae-4ad6-4c42-acc3-b4ec097dd2f7",
+        "type": "trunks",
+        "attributes": {
+          "priority": 1,
+          "capacity_limit": 9,
+          "weight": 65535,
+          "name": "Office IAX2",
+          "cli_format": "e164",
+          "cli_prefix": "+1",
+          "description": null,
+          "ringing_timeout": null,
+          "configuration": {
+            "type": "iax2_configurations",
+            "attributes": {
+              "dst": "1xxxxxxxxx",
+              "host": "example.com",
+              "port": null,
+              "auth_user": "username",
+              "auth_password": "password",
+              "codec_ids": [
+                9,
+                6
+              ]
+            }
+          },
+          "preferred_server": "USA"
+        },
+        "relationships": {
+          "trunk_group": {
+            "links": {
+              "self": "https://api.didww.com/v3/trunks/1dcbcdae-4ad6-4c42-acc3-b4ec097dd2f7/relationships/trunk_group",
+              "related": "https://api.didww.com/v3/trunks/1dcbcdae-4ad6-4c42-acc3-b4ec097dd2f7/trunk_group"
+            }
+          }
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "c606cd05-a19f-4d3c-9362-3857a79a6e1d",
+        "type": "trunks",
+        "attributes": {
+          "priority": 1,
+          "capacity_limit": 18,
+          "weight": 65535,
+          "name": "Office H323",
+          "cli_format": "e164",
+          "cli_prefix": "+1",
+          "description": null,
+          "ringing_timeout": null,
+          "configuration": {
+            "type": "h323_configurations",
+            "attributes": {
+              "dst": "1xxxxxxxxx",
+              "host": "example.com",
+              "port": null,
+              "codec_ids": [
+                9,
+                6
+              ]
+            }
+          },
+          "preferred_server": "USA"
+        },
+        "relationships": {
+          "trunk_group": {
+            "links": {
+              "self": "https://api.didww.com/v3/trunks/c606cd05-a19f-4d3c-9362-3857a79a6e1d/relationships/trunk_group",
+              "related": "https://api.didww.com/v3/trunks/c606cd05-a19f-4d3c-9362-3857a79a6e1d/trunk_group"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

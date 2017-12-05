@@ -1,0 +1,52 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": "842023f6-282e-4948-968a-3f2ba6c66fe0",
+        "type": "orders",
+        "attributes": {
+          "reference": "BEX-438024",
+          "amount": "15.0",
+          "status": "Completed",
+          "created_at": "2017-06-25T08:21:41.795Z",
+          "description": "DID",
+          "items": [
+            {
+              "type": "did_order_items",
+              "attributes": {
+                "qty": 1,
+                "setup_price": "0.0",
+                "monthly_price": "15.0",
+                "did_group_id": "0d941650-3812-4c2b-a660-f1c6bddc52c9"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "7a6e3338-2aca-4e7c-918d-7c0a0f7448e3",
+        "type": "orders",
+        "attributes": {
+          "reference": "NKZ-783320",
+          "amount": "15.0",
+          "status": "Completed",
+          "created_at": "2017-06-25T08:21:41.795Z",
+          "description": "DID",
+          "items": [
+            {
+              "type": "did_order_items",
+              "attributes": {
+                "qty": 1,
+                "setup_price": "0.0",
+                "monthly_price": "15.0",
+                "did_group_id": "2eeff832-c47e-48fb-80d4-b5687e193884"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

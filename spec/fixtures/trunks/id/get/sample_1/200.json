@@ -1,0 +1,64 @@
+{
+  "data": {
+    "id": "df78e081-b7d1-4769-80ce-f349af4f612e",
+    "type": "trunks",
+    "attributes": {
+      "priority": 1,
+      "capacity_limit": 10,
+      "weight": 2,
+      "name": "Office",
+      "cli_format": "e164",
+      "cli_prefix": "+",
+      "description": null,
+      "ringing_timeout": 30,
+      "created_at": "2017-06-25T08:21:41.795Z",
+      "configuration": {
+        "type": "sip_configurations",
+        "attributes": {
+          "username": "username",
+          "host": "example.com",
+          "port": null,
+          "codec_ids": [
+            9,
+            7
+          ],
+          "rx_dtmf_format_id": 1,
+          "tx_dtmf_format_id": 1,
+          "resolve_ruri": true,
+          "auth_enabled": true,
+          "auth_user": "username",
+          "auth_password": "password",
+          "auth_from_user": "Office",
+          "auth_from_domain": "example.com",
+          "sst_enabled": false,
+          "sst_min_timer": 600,
+          "sst_max_timer": 900,
+          "sst_accept_501": true,
+          "sip_timer_b": 8000,
+          "dns_srv_failover_timer": 2000,
+          "rtp_ping": false,
+          "rtp_timeout": 30,
+          "force_symmetric_rtp": false,
+          "symmetric_rtp_ignore_rtcp": false,
+          "rerouting_disconnect_code_ids": [
+            58,
+            59,
+            1505
+          ],
+          "sst_session_expires": null,
+          "sst_refresh_method_id": 1,
+          "transport_protocol_id": 1
+        }
+      },
+      "preferred_server": "Europe"
+    },
+    "relationships": {
+      "trunk_group": {
+        "links": {
+          "self": "https://api.didww.com/v3/trunks/df78e081-b7d1-4769-80ce-f349af4f612e/relationships/trunk_group",
+          "related": "https://api.didww.com/v3/trunks/df78e081-b7d1-4769-80ce-f349af4f612e/trunk_group"
+        }
+      }
+    }
+  }
+}

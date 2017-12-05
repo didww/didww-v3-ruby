@@ -1,0 +1,313 @@
+AllCops:
+  TargetRubyVersion: 2.4
+  DisplayCopNames: true
+  DisabledByDefault: true
+
+  Exclude:
+    - db/migrate/**/*
+
+  Include:
+    - "**/*.rake"
+    - "**/Gemfile"
+    - "**/Rakefile"
+
+##################### Layout ##################################
+Layout/TrailingBlankLines:
+  Enabled: true
+
+Layout/TrailingWhitespace:
+  Enabled: true
+
+Layout/SpaceAfterComma:
+  Enabled: true
+
+Layout/SpaceBeforeBlockBraces:
+  Enabled: true
+
+Layout/SpaceInsideBlockBraces:
+  Enabled: true
+
+Layout/SpaceInsideHashLiteralBraces:
+  Enabled: true
+
+Layout/EmptyLineBetweenDefs:
+  Enabled: true
+
+Layout/EmptyLines:
+  Enabled: true
+
+Layout/EmptyLinesAroundAccessModifier:
+  Enabled: true
+
+Layout/EmptyLinesAroundModuleBody:
+  Enabled: true
+
+##################### Style ##################################
+Style/HashSyntax:
+  Enabled: true
+
+Style/StringLiterals:
+  Enabled: true
+
+Style/StringLiteralsInInterpolation:
+  Enabled: true
+
+##################### Performance ############################
+
+# Use `casecmp` rather than `downcase ==`.
+Performance/Casecmp:
+  Enabled: true
+
+# Use `str.{start,end}_with?(x, ..., y, ...)` instead of
+# `str.{start,end}_with?(x, ...) || str.{start,end}_with?(y, ...)`.
+Performance/DoubleStartEndWith:
+  Enabled: true
+
+# Use `end_with?` instead of a regex match anchored to the end of a string.
+Performance/EndWith:
+  Enabled: true
+
+# Use `strip` instead of `lstrip.rstrip`.
+Performance/LstripRstrip:
+  Enabled: true
+
+# Use `Range#cover?` instead of `Range#include?`.
+Performance/RangeInclude:
+  Enabled: true
+
+# Use `yield` instead of `block.call`.
+Performance/RedundantBlockCall:
+  Enabled: true
+
+# Use `=~` instead of `String#match` or `Regexp#match` in a context where the
+# returned `MatchData` is not needed.
+Performance/RedundantMatch:
+  Enabled: true
+
+# Use `Hash#[]=`, rather than `Hash#merge!` with a single key-value pair.
+Performance/RedundantMerge:
+  # Max number of key-value pairs to consider an offense
+  MaxKeyValuePairs: 2
+  Enabled: true
+
+# Use `sort` instead of `sort_by { |x| x }`.
+Performance/RedundantSortBy:
+  Enabled: true
+
+# Use `start_with?` instead of a regex match anchored to the beginning of a
+# string.
+Performance/StartWith:
+  Enabled: true
+
+# Use `tr` instead of `gsub` when you are replacing the same number of
+# characters. Use `delete` instead of `gsub` when you are deleting
+# characters.
+Performance/StringReplacement:
+  Enabled: true
+
+# Checks for `.times.map` calls.
+Performance/TimesMap:
+  Enabled: true
+
+############################ Security ###############################################
+
+# This cop checks for the use of JSON class methods which have potential
+# security issues.
+Security/JSONLoad:
+  Enabled: true
+
+# This cop checks for the use of *Kernel#eval*.
+Security/Eval:
+  Enabled: true
+
+############################ Lint #############################################
+
+# Checks for ambiguous operators in the first argument of a method invocation
+# without parentheses.
+Lint/AmbiguousOperator:
+  Enabled: true
+
+# This cop checks for ambiguous regexp literals in the first argument of
+# a method invocation without parentheses.
+Lint/AmbiguousRegexpLiteral:
+  Enabled: true
+
+# This cop checks for assignments in the conditions of
+# if/while/until.
+Lint/AssignmentInCondition:
+  Enabled: true
+
+# Align block ends correctly.
+Lint/BlockAlignment:
+  Enabled: true
+
+# Default values in optional keyword arguments and optional ordinal arguments
+# should not refer back to the name of the argument.
+Lint/CircularArgumentReference:
+  Enabled: true
+
+# Checks for condition placed in a confusing position relative to the keyword.
+Lint/ConditionPosition:
+  Enabled: true
+
+# Check for debugger calls.
+Lint/Debugger:
+  Enabled: true
+
+# Align ends corresponding to defs correctly.
+Lint/DefEndAlignment:
+  Enabled: true
+
+# Check for deprecated class method calls.
+Lint/DeprecatedClassMethods:
+  Enabled: true
+
+# Check for immutable argument given to each_with_object.
+Lint/EachWithObjectArgument:
+  Enabled: true
+
+# Check for odd code arrangement in an else block.
+Lint/ElseLayout:
+  Enabled: false
+
+# Checks for empty ensure block.
+Lint/EmptyEnsure:
+  Enabled: true
+
+# Checks for the presence of `when` branches without a body.
+Lint/EmptyWhen:
+  Enabled: true
+
+# Align ends correctly.
+Lint/EndAlignment:
+  Enabled: true
+
+# END blocks should not be placed inside method definitions.
+Lint/EndInMethod:
+  Enabled: true
+
+# Do not use return in an ensure block.
+Lint/EnsureReturn:
+  Enabled: true
+
+# Catches floating-point literals too large or small for Ruby to represent.
+Lint/FloatOutOfRange:
+  Enabled: true
+
+# The number of parameters to format/sprint must match the fields.
+Lint/FormatParameterMismatch:
+  Enabled: true
+
+# This cop checks for *rescue* blocks with no body.
+Lint/HandleExceptions:
+  Enabled: true
+
+# Checks for adjacent string literals on the same line, which could better be
+# represented as a single string literal.
+Lint/ImplicitStringConcatenation:
+  Enabled: false
+
+# Checks for attempts to use `private` or `protected` to set the visibility
+# of a class method, which does not work.
+Lint/IneffectiveAccessModifier:
+  Enabled: false
+
+# Checks for literals used in interpolation.
+Lint/LiteralInInterpolation:
+  Enabled: false
+
+# This cop checks for uses of *begin...end while/until something*.
+Lint/Loop:
+  Enabled: false
+
+# Do not use nested method definitions.
+Lint/NestedMethodDefinition:
+  Enabled: false
+
+# Do not omit the accumulator when calling `next` in a `reduce`/`inject` block.
+Lint/NextWithoutAccumulator:
+  Enabled: false
+
+# Checks for method calls with a space before the opening parenthesis.
+Lint/ParenthesesAsGroupedExpression:
+  Enabled: false
+
+# Checks for `rand(1)` calls. Such calls always return `0` and most likely
+# a mistake.
+Lint/RandOne:
+  Enabled: false
+
+# Use parentheses in the method call to avoid confusion about precedence.
+Lint/RequireParentheses:
+  Enabled: false
+
+# Avoid rescuing the Exception class.
+Lint/RescueException:
+  Enabled: false
+
+# Checks for the order which exceptions are rescued to avoid rescueing a less specific exception before a more specific exception.
+Lint/ShadowedException:
+  Enabled: false
+
+# This cop looks for use of the same name as outer local variables
+# for block arguments or block local variables.
+Lint/ShadowingOuterLocalVariable:
+  Enabled: false
+
+# Checks for Object#to_s usage in string interpolation.
+Lint/StringConversionInInterpolation:
+  Enabled: false
+
+# Do not use prefix `_` for a variable that is used.
+Lint/UnderscorePrefixedVariableName:
+  Enabled: false
+
+# This cop checks for using Fixnum or Bignum constant
+Lint/UnifiedInteger:
+  Enabled: false
+
+# Checks for rubocop:disable comments that can be removed.
+# Note: this cop is not disabled when disabling all cops.
+# It must be explicitly disabled.
+Lint/UnneededDisable:
+  Enabled: false
+
+# This cop checks for unneeded usages of splat expansion
+Lint/UnneededSplatExpansion:
+  Enabled: false
+
+# Unreachable code.
+Lint/UnreachableCode:
+  Enabled: true
+
+# This cop checks for unused block arguments.
+Lint/UnusedBlockArgument:
+  Enabled: false
+
+# This cop checks for unused method arguments.
+Lint/UnusedMethodArgument:
+  Enabled: false
+
+# Checks for useless access modifiers.
+Lint/UselessAccessModifier:
+  Enabled: false
+
+# Checks for useless assignment to a local variable.
+Lint/UselessAssignment:
+  Enabled: false
+
+# Checks for comparison of something with itself.
+Lint/UselessComparison:
+  Enabled: false
+
+# Checks for useless `else` in `begin..end` without `rescue`.
+Lint/UselessElseWithoutRescue:
+  Enabled: false
+
+# Checks for useless setter call to a local variable.
+Lint/UselessSetterCall:
+  Enabled: false
+
+# Possible use of operator/literal/variable in void context.
+Lint/Void:
+  Enabled: false

@@ -1,0 +1,22 @@
+{
+  "data": [
+    {
+      "id": "9c56fe0f-eff0-4742-85f6-24868959344a",
+      "type": "countries",
+      "attributes": {
+        "name": "United Kingdom",
+        "prefix": "44",
+        "iso": "GB"
+      }
+    },
+    {
+      "id": "5d3d7640-16d2-4dc0-9aca-408789fbefc6",
+      "type": "countries",
+      "attributes": {
+        "name": "United States",
+        "prefix": "1",
+        "iso": "US"
+      }
+    }
+  ]
+}

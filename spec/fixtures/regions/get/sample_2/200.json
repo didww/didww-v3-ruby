@@ -1,0 +1,53 @@
+{
+  "data": [
+    {
+      "id": "a16f5b74-0500-454a-841a-fd9c6bb6bd9a",
+      "type": "regions",
+      "attributes": {
+        "name": "Texas"
+      },
+      "relationships": {
+        "country": {
+          "links": {
+            "self": "https://api.didww.com/v3/regions/a16f5b74-0500-454a-841a-fd9c6bb6bd9a/relationships/country",
+            "related": "https://api.didww.com/v3/regions/a16f5b74-0500-454a-841a-fd9c6bb6bd9a/country"
+          },
+          "data": {
+            "type": "countries",
+            "id": "76add73e-f965-4c5f-af45-edd681c62e83"
+          }
+        }
+      }
+    },
+    {
+      "id": "d0a64851-73e5-4c1c-9317-6b2ce8b33790",
+      "type": "regions",
+      "attributes": {
+        "name": "Rhode Island"
+      },
+      "relationships": {
+        "country": {
+          "links": {
+            "self": "https://api.didww.com/v3/regions/d0a64851-73e5-4c1c-9317-6b2ce8b33790/relationships/country",
+            "related": "https://api.didww.com/v3/regions/d0a64851-73e5-4c1c-9317-6b2ce8b33790/country"
+          },
+          "data": {
+            "type": "countries",
+            "id": "76add73e-f965-4c5f-af45-edd681c62e83"
+          }
+        }
+      }
+    }
+  ],
+  "included": [
+    {
+      "id": "76add73e-f965-4c5f-af45-edd681c62e83",
+      "type": "countries",
+      "attributes": {
+        "name": "United States",
+        "prefix": "1",
+        "iso": "US"
+      }
+    }
+  ]
+}

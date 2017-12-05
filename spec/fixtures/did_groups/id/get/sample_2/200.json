@@ -1,0 +1,113 @@
+{
+  "data": {
+    "id": "80167e78-62a1-4720-bf00-229fa7e1935d",
+    "type": "did_groups",
+    "links": {
+      "self": "https://api.didww.com/v3/did_groups/80167e78-62a1-4720-bf00-229fa7e1935d"
+    },
+    "attributes": {
+      "prefix": "77",
+      "local_prefix": "",
+      "features": [
+        "voice",
+        "sms"
+      ],
+      "is_metered": false,
+      "area_name": "National",
+      "allow_additional_channels": true
+    },
+    "relationships": {
+      "country": {
+        "links": {
+          "self": "https://api.didww.com/v3/did_groups/80167e78-62a1-4720-bf00-229fa7e1935d/relationships/country",
+          "related": "https://api.didww.com/v3/did_groups/80167e78-62a1-4720-bf00-229fa7e1935d/country"
+        },
+        "data": {
+          "type": "countries",
+          "id": "8002ed29-6b15-4e8c-b79e-3e0050ec9ebb"
+        }
+      },
+      "city": {
+        "links": {
+          "self": "https://api.didww.com/v3/did_groups/80167e78-62a1-4720-bf00-229fa7e1935d/relationships/city",
+          "related": "https://api.didww.com/v3/did_groups/80167e78-62a1-4720-bf00-229fa7e1935d/city"
+        },
+        "data": null
+      },
+      "did_group_type": {
+        "links": {
+          "self": "https://api.didww.com/v3/did_groups/80167e78-62a1-4720-bf00-229fa7e1935d/relationships/did_group_type",
+          "related": "https://api.didww.com/v3/did_groups/80167e78-62a1-4720-bf00-229fa7e1935d/did_group_type"
+        },
+        "data": {
+          "type": "did_group_types",
+          "id": "8bc37f63-acd7-4e43-a760-1a1caa6e4683"
+        }
+      },
+      "region": {
+        "links": {
+          "self": "https://api.didww.com/v3/did_groups/80167e78-62a1-4720-bf00-229fa7e1935d/relationships/region",
+          "related": "https://api.didww.com/v3/did_groups/80167e78-62a1-4720-bf00-229fa7e1935d/region"
+        },
+        "data": null
+      },
+      "stock_keeping_units": {
+        "links": {
+          "self": "https://api.didww.com/v3/did_groups/80167e78-62a1-4720-bf00-229fa7e1935d/relationships/stock_keeping_units",
+          "related": "https://api.didww.com/v3/did_groups/80167e78-62a1-4720-bf00-229fa7e1935d/stock_keeping_units"
+        },
+        "data": [
+          {
+            "type": "stock_keeping_units",
+            "id": "bd816e97-b273-40f5-aa72-ede9fdfa87b1"
+          },
+          {
+            "type": "stock_keeping_units",
+            "id": "c150278f-e94c-4792-8981-dbbe8c0b2b2a"
+          }
+        ]
+      }
+    },
+    "meta": {
+      "needs_registration": false,
+      "is_available": true,
+      "restrictions": null
+    }
+  },
+  "included": [
+    {
+      "id": "8002ed29-6b15-4e8c-b79e-3e0050ec9ebb",
+      "type": "countries",
+      "attributes": {
+        "name": "Israel",
+        "prefix": "972",
+        "iso": "IL"
+      }
+    },
+    {
+      "id": "8bc37f63-acd7-4e43-a760-1a1caa6e4683",
+      "type": "did_group_types",
+      "attributes": {
+        "name": "National"
+      }
+    },
+    {
+      "id": "bd816e97-b273-40f5-aa72-ede9fdfa87b1",
+      "type": "stock_keeping_units",
+      "attributes": {
+        "setup_price": "0.0",
+        "monthly_price": "2.06",
+        "channels_included_count": 0
+      }
+    },
+    {
+      "id": "c150278f-e94c-4792-8981-dbbe8c0b2b2a",
+      "type": "stock_keeping_units",
+      "attributes": {
+        "setup_price": "0.0",
+        "monthly_price": "7.0",
+        "channels_included_count": 2
+      }
+    }
+  ]
+}

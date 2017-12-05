@@ -1,0 +1,17 @@
+{
+  "data": {
+    "id": "8ce33ee2-73da-4baa-85a0-cd607d0e9733",
+    "type": "regions",
+    "attributes": {
+      "name": "Alberta"
+    },
+    "relationships": {
+      "country": {
+        "links": {
+          "self": "https://api.didww.com/v3/regions/8ce33ee2-73da-4baa-85a0-cd607d0e9733/relationships/country",
+          "related": "https://api.didww.com/v3/regions/8ce33ee2-73da-4baa-85a0-cd607d0e9733/country"
+        }
+      }
+    }
+  }
+}

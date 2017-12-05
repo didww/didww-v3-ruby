@@ -1,0 +1,44 @@
+{
+  "data": {
+    "id": "44957076-778a-4802-b60c-d22db0cda284",
+    "type": "dids",
+    "attributes": {
+      "blocked": false,
+      "capacity_limit": 1,
+      "description": "string",
+      "terminated": false,
+      "awaiting_registration": false,
+      "number": "437xxxxxxxxx",
+      "expires_at": "2017-06-25T08:21:41.795Z",
+      "channels_included_count": 2,
+      "created_at": "2017-06-25T08:21:41.795Z",
+      "pending_removal": false
+    },
+    "relationships": {
+      "did_group": {
+        "links": {
+          "self": "https://api.didww.com/v3/dids/44957076-778a-4802-b60c-d22db0cda284/relationships/did_group",
+          "related": "https://api.didww.com/v3/dids/44957076-778a-4802-b60c-d22db0cda284/did_group"
+        }
+      },
+      "order": {
+        "links": {
+          "self": "https://api.didww.com/v3/dids/44957076-778a-4802-b60c-d22db0cda284/relationships/order",
+          "related": "https://api.didww.com/v3/dids/44957076-778a-4802-b60c-d22db0cda284/order"
+        }
+      },
+      "trunk": {
+        "links": {
+          "self": "https://api.didww.com/v3/dids/44957076-778a-4802-b60c-d22db0cda284/relationships/trunk",
+          "related": "https://api.didww.com/v3/dids/44957076-778a-4802-b60c-d22db0cda284/trunk"
+        }
+      },
+      "trunk_group": {
+        "links": {
+          "self": "https://api.didww.com/v3/dids/44957076-778a-4802-b60c-d22db0cda284/relationships/trunk_group",
+          "related": "https://api.didww.com/v3/dids/44957076-778a-4802-b60c-d22db0cda284/trunk_group"
+        }
+      }
+    }
+  }
+}

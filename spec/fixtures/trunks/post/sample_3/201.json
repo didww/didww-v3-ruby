@@ -1,0 +1,40 @@
+{
+  "data": {
+    "id": "3",
+    "type": "trunks",
+    "attributes": {
+      "priority": 1,
+      "capacity_limit": 9,
+      "weight": 65535,
+      "name": "Office IAX2",
+      "cli_format": "e164",
+      "cli_prefix": "+1",
+      "description": null,
+      "ringing_timeout": null,
+      "created_at": "2017-06-25T08:21:41.795Z",
+      "configuration": {
+        "type": "iax2_configurations",
+        "attributes": {
+          "dst": "1xxxxxxxxx",
+          "host": "example.com",
+          "port": null,
+          "auth_user": "username",
+          "auth_password": "password",
+          "codec_ids": [
+            9,
+            6
+          ]
+        }
+      },
+      "preferred_server": "USA"
+    },
+    "relationships": {
+      "trunk_group": {
+        "links": {
+          "self": "https://api.didww.com/v3/trunks/3/relationships/trunk_group",
+          "related": "https://api.didww.com/v3/trunks/3/trunk_group"
+        }
+      }
+    }
+  }
+}

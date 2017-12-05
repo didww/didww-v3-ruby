@@ -1,0 +1,24 @@
+{
+  "data": {
+    "id": "9eeaab6c-b758-41b8-af86-8978a86603a2",
+    "type": "orders",
+    "attributes": {
+      "reference": "FZH-374899",
+      "amount": "79.2",
+      "status": "Pending",
+      "created_at": "2017-06-25T14:56:31.513Z",
+      "description": "DID",
+      "items": [
+        {
+          "type": "did_order_items",
+          "attributes": {
+            "qty": 15,
+            "setup_price": "5.00",
+            "monthly_price": "5.00",
+            "did_group_id": "d01704b0-6522-47d5-8865-3398c417ed1d"
+          }
+        }
+      ]
+    }
+  }
+}

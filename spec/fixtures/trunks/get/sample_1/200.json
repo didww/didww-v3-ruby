@@ -1,0 +1,103 @@
+{
+  "data": [
+    {
+      "id": "2d7f943f-07c4-4b27-8792-e85806368218",
+      "type": "trunks",
+      "attributes": {
+        "priority": 1,
+        "capacity_limit": 10,
+        "weight": 2,
+        "name": "Office",
+        "cli_format": "e164",
+        "cli_prefix": "+",
+        "description": null,
+        "ringing_timeout": 30,
+        "created_at": "2017-06-25T08:21:41.795Z",
+        "configuration": {
+          "type": "sip_configurations",
+          "attributes": {
+            "username": "username",
+            "host": "example.com",
+            "port": null,
+            "codec_ids": [
+              9,
+              7
+            ],
+            "rx_dtmf_format_id": 1,
+            "tx_dtmf_format_id": 1,
+            "resolve_ruri": true,
+            "auth_enabled": true,
+            "auth_user": "username",
+            "auth_password": "password",
+            "auth_from_user": "Office",
+            "auth_from_domain": "example.com",
+            "sst_enabled": false,
+            "sst_min_timer": 600,
+            "sst_max_timer": 900,
+            "sst_accept_501": true,
+            "sip_timer_b": 8000,
+            "dns_srv_failover_timer": 2000,
+            "rtp_ping": false,
+            "rtp_timeout": 30,
+            "force_symmetric_rtp": false,
+            "symmetric_rtp_ignore_rtcp": false,
+            "rerouting_disconnect_code_ids": [
+              58,
+              59,
+              1505
+            ],
+            "sst_session_expires": null,
+            "sst_refresh_method_id": 1,
+            "transport_protocol_id": 1
+          }
+        },
+        "preferred_server": "Europe"
+      },
+      "relationships": {
+        "trunk_group": {
+          "links": {
+            "self": "https://api.didww.com/v3/trunks/2d7f943f-07c4-4b27-8792-e85806368218/relationships/trunk_group",
+            "related": "https://api.didww.com/v3/trunks/2d7f943f-07c4-4b27-8792-e85806368218/trunk_group"
+          }
+        }
+      }
+    },
+    {
+      "id": "34b95e8c-9b78-4e64-aea8-9e5764d8f16f",
+      "type": "trunks",
+      "attributes": {
+        "priority": 1,
+        "capacity_limit": 5,
+        "weight": 65535,
+        "name": "Office Mobile",
+        "cli_format": "e164",
+        "cli_prefix": null,
+        "description": null,
+        "ringing_timeout": null,
+        "created_at": "2017-06-25T08:21:41.795Z",
+        "configuration": {
+          "type": "pstn_configurations",
+          "attributes": {
+            "dst": "1xxxxxxxxx"
+          }
+        },
+        "preferred_server": null
+      },
+      "relationships": {
+        "trunk_group": {
+          "links": {
+            "self": "https://api.didww.com/v3/trunks/34b95e8c-9b78-4e64-aea8-9e5764d8f16f/relationships/trunk_group",
+            "related": "https://api.didww.com/v3/trunks/34b95e8c-9b78-4e64-aea8-9e5764d8f16f/trunk_group"
+          }
+        }
+      }
+    }
+  ],
+  "meta": {
+    "total_records": 2
+  },
+  "links": {
+    "first": "https://api.didww.com/v3/trunks?page%5Bnumber%5D=1&page%5Bsize%5D=50",
+    "last": "https://api.didww.com/v3/trunks?page%5Bnumber%5D=1&page%5Bsize%5D=50"
+  }
+}

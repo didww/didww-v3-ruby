@@ -1,0 +1,13 @@
+{
+  "errors": [
+    {
+      "title": "must be less than or equal to 32767",
+      "detail": "capacity_limit - must be less than or equal to 32767",
+      "code": "100",
+      "source": {
+        "pointer": "/data/attributes/capacity_limit"
+      },
+      "status": "422"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "data": {
+    "id": "94441ce5-86fa-47bd-8ce7-b5e267d0603a",
+    "type": "balances",
+    "attributes": {
+      "balance": "50.00",
+      "credit": "10.00",
+      "total_balance": "60.00"
+    }
+  }
+}
