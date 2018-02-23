@@ -48,8 +48,7 @@
           "sst_refresh_method_id": 1,
           "transport_protocol_id": 2
         }
-      },
-      "preferred_server": "USA"
+      }
     },
     "relationships": {
       "trunk_group": {

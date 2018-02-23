@@ -45,10 +45,6 @@ module DIDWW
       # Type: String
       # Description: Optional description of trunk
 
-      property :preferred_server, type: :string
-      # Type: String
-      # Description: Preferred server for your voice route. In general, you should choose the server that is the closest to your location ["LOCAL", "USA", "DE"] or omit.
-
       property :configuration, type: :complex_object
       # Type: one of
       # sip_configurations

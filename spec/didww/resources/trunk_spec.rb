@@ -1,11 +1,6 @@
 RSpec.describe DIDWW::Resource::Trunk do
   let (:client) { DIDWW::Client }
 
-  it 'has PREFERRED_SERVERS constant' do
-    expect { described_class::PREFERRED_SERVERS }.to_not raise_error
-    expect(described_class::PREFERRED_SERVERS).to include('LOCAL', 'USA', 'Europe')
-  end
-
   it 'has CLI_FORMATS constant' do
     expect { described_class::CLI_FORMATS }.to_not raise_error
     expect(described_class::CLI_FORMATS).to include('e164', 'raw', 'local')
@@ -20,14 +15,6 @@ RSpec.describe DIDWW::Resource::Trunk do
   it 'can be initialized with given configuration type' do
     DIDWW::Resource::Trunk::CONST::CONF_TYPE_CLASSES.each do |type, klass|
       expect(described_class.new(configuration: { type: type }).configuration).to be_kind_of(klass)
-    end
-  end
-
-  describe '#preferred_server_human' do
-    it 'humanizes preferred_server attribute' do
-      expect(subject.preferred_server_human).to be_nil
-      subject.preferred_server = 'USA'
-      expect(subject.preferred_server_human).to eq('United States')
     end
   end
 
@@ -90,9 +77,6 @@ RSpec.describe DIDWW::Resource::Trunk do
         end
         it '"description", type: String' do
           expect(trunk.description).to be_kind_of(String).or be_nil
-        end
-        it '"preferred_server", type: String' do
-          expect(trunk.preferred_server).to be_kind_of(String)
         end
         it '"created_at", type: Time' do
           expect(trunk.created_at).to be_kind_of(Time)
@@ -224,7 +208,6 @@ RSpec.describe DIDWW::Resource::Trunk do
                   "cli_format": 'e164',
                   "cli_prefix": '+',
                   "description": 'custom description',
-                  "preferred_server": 'USA',
                   "configuration": {
                     "type": 'sip_configurations',
                     "attributes": {
@@ -277,8 +260,7 @@ RSpec.describe DIDWW::Resource::Trunk do
                     name: 'Office',
                     cli_format: 'e164',
                     cli_prefix: '+',
-                    description: 'custom description',
-                    preferred_server: 'USA'
+                    description: 'custom description'
                   )
         trunk.configuration = DIDWW::ComplexObject::SipConfiguration.new.tap do |c|
           c.username = 'username'
@@ -356,7 +338,6 @@ RSpec.describe DIDWW::Resource::Trunk do
                 "attributes": {
                   "name": 'Office IAX2',
                   "capacity_limit": 9,
-                  "preferred_server": 'USA',
                   "cli_format": 'e164',
                   "cli_prefix": '+1',
                   "configuration": {
@@ -383,7 +364,6 @@ RSpec.describe DIDWW::Resource::Trunk do
         trunk = client.trunks.new(
                     name: 'Office IAX2',
                     capacity_limit: 9,
-                    preferred_server: 'USA',
                     cli_format: 'e164',
                     cli_prefix: '+1'
                   )
@@ -408,7 +388,6 @@ RSpec.describe DIDWW::Resource::Trunk do
                 "attributes": {
                   "name": 'Office H323',
                   "capacity_limit": 18,
-                  "preferred_server": 'USA',
                   "cli_format": 'e164',
                   "cli_prefix": '+1',
                   "configuration": {
@@ -433,7 +412,6 @@ RSpec.describe DIDWW::Resource::Trunk do
         trunk = client.trunks.new(
                     name: 'Office H323',
                     capacity_limit: 18,
-                    preferred_server: 'USA',
                     cli_format: 'e164',
                     cli_prefix: '+1'
                   )
@@ -464,7 +442,6 @@ RSpec.describe DIDWW::Resource::Trunk do
                 "attributes": {
                   "name": 'Office H323',
                   "capacity_limit": 18,
-                  "preferred_server": 'USA',
                   "cli_format": 'e164',
                   "cli_prefix": '+1',
                   "configuration": {
@@ -489,7 +466,6 @@ RSpec.describe DIDWW::Resource::Trunk do
         trunk = client.trunks.new(
                     name: 'Office H323',
                     capacity_limit: 18,
-                    preferred_server: 'USA',
                     cli_format: 'e164',
                     cli_prefix: '+1'
                   )
@@ -524,7 +500,6 @@ RSpec.describe DIDWW::Resource::Trunk do
                 "attributes": {
                   "name": "Office SIP",
                   "capacity_limit": 18,
-                  "preferred_server": "USA",
                   "cli_format": "e164",
                   "cli_prefix": "+1",
                   "configuration": {
@@ -574,7 +549,6 @@ RSpec.describe DIDWW::Resource::Trunk do
         trunk = client.trunks.new(
                     name: "Office SIP",
                     capacity_limit: 18,
-                    preferred_server: "USA",
                     cli_format: "e164",
                     cli_prefix: "+1",
                   )

@@ -74,8 +74,7 @@
           "attributes": {
             "dst": "1xxxxxxxxx"
           }
-        },
-        "preferred_server": null
+        }
       },
       "relationships": {
         "trunk_group": {

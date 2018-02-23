@@ -49,8 +49,7 @@
           "sst_refresh_method_id": 1,
           "transport_protocol_id": 1
         }
-      },
-      "preferred_server": "Europe"
+      }
     },
     "relationships": {
       "trunk_group": {
