@@ -61,6 +61,10 @@ module DIDWW
         Resource::Order
       end
 
+      def pops
+        Resource::Pop
+      end
+
       def regions
         Resource::Region
       end
@@ -108,6 +112,7 @@ module DIDWW
         require 'didww/resources/did_group'
         require 'didww/resources/did'
         require 'didww/resources/order'
+        require 'didww/resources/pop'
         require 'didww/resources/region'
         require 'didww/resources/trunk_group'
         require 'didww/resources/trunk'

@@ -1,0 +1,25 @@
+{
+  "data": [
+    {
+      "id":"f5ffe21a-7b8f-4404-928f-88522d9bf153",
+      "type":"pops",
+      "attributes": {
+        "name":"USA, NY"
+      }
+    },
+    {
+      "id":"c4c214f5-5f70-4f8d-8ebe-2aa203bfdd0b",
+      "type":"pops",
+      "attributes": {
+        "name":"DE, FRA"
+      }
+    }
+  ],
+  "meta": {
+    "total_records":2
+  },
+  "links": {
+    "first":"https://api.didww.com/v3/pops?&page%5Bnumber%5D=1&page%5Bsize%5D=1000",
+    "next":"https://api.didww.com/v3/pops?&page%5Bnumber%5D=1&page%5Bsize%5D=1000"
+  }
+}
