@@ -6,6 +6,7 @@ module DIDWW
     class Trunk < Base
       include CONST
 
+      has_one :pop
       has_one :trunk_group
 
       property :priority, type: :integer

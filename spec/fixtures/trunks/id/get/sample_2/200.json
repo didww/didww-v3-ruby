@@ -26,6 +26,12 @@
           "self": "https://api.didww.com/v3/trunks/84746865-b1c0-414d-86c7-62c85c22fd69/relationships/trunk_group",
           "related": "https://api.didww.com/v3/trunks/84746865-b1c0-414d-86c7-62c85c22fd69/trunk_group"
         }
+      },
+      "pop": {
+        "links": {
+          "self": "https://api.didww.com/v3/trunks/84746865-b1c0-414d-86c7-62c85c22fd69/relationships/pop",
+          "related": "https://api.didww.com/v3/trunks/84746865-b1c0-414d-86c7-62c85c22fd69/pop"
+        }
       }
     }
   }

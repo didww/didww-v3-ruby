@@ -1,23 +1,22 @@
 {
   "data": {
-    "id": "df78e081-b7d1-4769-80ce-f349af4f612e",
+    "id": "7adfab4e-83bc-45e2-84e6-60342a505713",
     "type": "trunks",
     "attributes": {
       "priority": 1,
-      "capacity_limit": 10,
-      "weight": 2,
-      "name": "Office",
+      "capacity_limit": 18,
+      "weight": 65535,
+      "name": "Office SIP",
       "cli_format": "e164",
-      "cli_prefix": "+",
+      "cli_prefix": "+1",
       "description": null,
-      "ringing_timeout": 30,
-      "created_at": "2017-06-25T08:21:41.795Z",
+      "ringing_timeout": null,
       "configuration": {
         "type": "sip_configurations",
         "attributes": {
           "username": "username",
           "host": "example.com",
-          "port": null,
+          "port": 5060,
           "codec_ids": [
             9,
             7
@@ -42,29 +41,43 @@
           "symmetric_rtp_ignore_rtcp": false,
           "rerouting_disconnect_code_ids": [
             58,
-            59,
-            1505
+            59
           ],
           "sst_session_expires": null,
           "sst_refresh_method_id": 1,
-          "transport_protocol_id": 1
+          "transport_protocol_id": 2
         }
-      },
-      "preferred_server": "Europe"
+      }
     },
     "relationships": {
       "trunk_group": {
         "links": {
-          "self": "https://api.didww.com/v3/trunks/df78e081-b7d1-4769-80ce-f349af4f612e/relationships/trunk_group",
-          "related": "https://api.didww.com/v3/trunks/df78e081-b7d1-4769-80ce-f349af4f612e/trunk_group"
+          "self": "https://api.didww.com/v3/trunks/389deacb-5be5-46d7-8cbd-aba11f66d6c2/relationships/trunk_group",
+          "related": "https://api.didww.com/v3/trunks/389deacb-5be5-46d7-8cbd-aba11f66d6c2/trunk_group"
         }
       },
       "pop": {
         "links": {
-          "self": "https://api.didww.com/v3/trunks/df78e081-b7d1-4769-80ce-f349af4f612e/relationships/pop",
-          "related": "https://api.didww.com/v3/trunks/df78e081-b7d1-4769-80ce-f349af4f612e/pop"
+          "self": "https://api.didww.com/v3/trunks/389deacb-5be5-46d7-8cbd-aba11f66d6c2/relationships/pop",
+          "related": "https://api.didww.com/v3/trunks/389deacb-5be5-46d7-8cbd-aba11f66d6c2/pop"
+        },
+        "data": {
+          "type": "pops",
+          "id": "240416e4-aeb2-4ca5-9df2-f37f01e930cf"
         }
       }
     }
-  }
+  },
+  "included": [
+    {
+      "id": "240416e4-aeb2-4ca5-9df2-f37f01e930cf",
+      "type": "pops",
+      "links": {
+        "self": "https://api.didww.com/v3/pops/240416e4-aeb2-4ca5-9df2-f37f01e930cf"
+      },
+      "attributes": {
+        "name": "USA, NY"
+      }
+    }
+  ]
 }
