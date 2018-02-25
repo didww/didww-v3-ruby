@@ -45,7 +45,9 @@
           ],
           "sst_session_expires": null,
           "sst_refresh_method_id": 1,
-          "transport_protocol_id": 2
+          "transport_protocol_id": 2,
+          "max_transfers": 0,
+          "max_30x_redirects": 0
         }
       }
     },

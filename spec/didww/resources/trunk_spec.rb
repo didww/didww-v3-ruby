@@ -241,7 +241,9 @@ RSpec.describe DIDWW::Resource::Trunk do
                         59
                       ],
                       "port": 5060,
-                      "transport_protocol_id": 2
+                      "transport_protocol_id": 2,
+                      "max_transfers": 0,
+                      "max_30x_redirects": 0
                     }
                   }
                 }
@@ -288,6 +290,8 @@ RSpec.describe DIDWW::Resource::Trunk do
           c.rerouting_disconnect_code_ids = [ 58, 59 ]
           c.port = 5060
           c.transport_protocol_id = 2
+          c.max_transfers = 0
+          c.max_30x_redirects = 0
         end
         trunk.save
         expect(trunk).to be_persisted
@@ -535,7 +539,9 @@ RSpec.describe DIDWW::Resource::Trunk do
                         59
                       ],
                       "port": 5060,
-                      "transport_protocol_id": 2
+                      "transport_protocol_id": 2,
+                      "max_transfers": 0,
+                      "max_30x_redirects": 0
                     }
                   }
                 }
@@ -578,6 +584,8 @@ RSpec.describe DIDWW::Resource::Trunk do
           c.rerouting_disconnect_code_ids = [ 58, 59 ]
           c.port = 5060
           c.transport_protocol_id = 2
+          c.max_transfers = 0
+          c.max_30x_redirects = 0
         end
         trunk.relationships[:pop] = DIDWW::Resource::Pop.load(id: '240416e4-aeb2-4ca5-9df2-f37f01e930cf')
         trunk.save
