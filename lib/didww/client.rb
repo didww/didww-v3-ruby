@@ -37,6 +37,10 @@ module DIDWW
         Resource::Balance.all.first
       end
 
+      def cdr_exports
+        Resource::CdrExport
+      end
+
       def cities
         Resource::City
       end
@@ -77,10 +81,6 @@ module DIDWW
         Resource::Trunk
       end
 
-      def cdr_exports
-        Resource::CdrExport
-      end
-
       def api_mode=(arg)
         unless BASE_URLS.keys.include?(arg)
           raise ArgumentError.new("Mode should be in #{BASE_URLS.keys} (given '#{arg}').")
@@ -106,6 +106,7 @@ module DIDWW
 
       def require_didww_resources
         require 'didww/resources/balance'
+        require 'didww/resources/cdr_export'
         require 'didww/resources/city'
         require 'didww/resources/country'
         require 'didww/resources/did_group_type'
@@ -114,10 +115,9 @@ module DIDWW
         require 'didww/resources/order'
         require 'didww/resources/pop'
         require 'didww/resources/region'
+        require 'didww/resources/stock_keeping_unit'
         require 'didww/resources/trunk_group'
         require 'didww/resources/trunk'
-        require 'didww/resources/stock_keeping_unit'
-        require 'didww/resources/cdr_export'
       end
 
     end
