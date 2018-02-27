@@ -5,6 +5,7 @@ module DIDWW
       headers = {}
       headers['Content-Type'] = 'application/vnd.api+json'
       headers['Api-Key']      = DIDWW::Client.api_key
+      headers['User-Agent']   = "didww-v3 Ruby gem v#{VERSION}"
 
       request_env[:request_headers].merge!(headers)
       request_env.url.host = URI(DIDWW::Client.api_base_url).host

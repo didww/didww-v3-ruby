@@ -1,7 +1,7 @@
 module StubRequestHelper
   # stub_request shortcut
   def stub_didww_request(method, uri)
-    stub_request(method, api_uri(uri))
+    stub_request(method, api_uri(uri)).with(headers: request_headers)
   end
 
   def api_uri(uri)
@@ -15,5 +15,12 @@ module StubRequestHelper
 
   def json_api_headers
     { 'Content-Type' => 'application/vnd.api+json' }
+  end
+
+  def request_headers
+    {
+      'Content-Type' => 'application/vnd.api+json',
+      'User-Agent' => /didww-v3 Ruby gem v\d+\.\d+\.\d+/
+    }
   end
 end
