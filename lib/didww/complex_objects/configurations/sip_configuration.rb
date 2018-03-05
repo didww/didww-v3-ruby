@@ -149,6 +149,14 @@ module DIDWW
         # Nullable: No
         # Description: The transport layer that will be responsible for the actual transmission of SIP requests and responses (1 - UDP, 2 - TCP)
 
+        property :max_transfers, type: :integer
+        # Nullable: No
+        # Description: Max count of the REFER requests
+
+        property :max_30x_redirects, type: :integer
+        # Nullable: No
+        # Description: Max count of 301/302 redirects
+
         DEFAULTS = {
             username: DID_PLACEHOLDER,
             port: '5060',
@@ -161,6 +169,8 @@ module DIDWW
             dns_srv_failover_timer: 2000,
             rtp_timeout: 30,
             auth_enabled: false,
+            max_transfers: 0,
+            max_30x_redirects: 0,
             codec_ids: DEFAULT_CODEC_IDS,
             rerouting_disconnect_code_ids: DEFAULT_REROUTING_DISCONNECT_CODE_IDS,
             transport_protocol_id: 1

@@ -17,8 +17,7 @@
         "attributes": {
           "dst": "1xxxxxxxxx"
         }
-      },
-      "preferred_server": null
+      }
     },
     "relationships": {
       "trunk_group": {
@@ -29,6 +28,12 @@
         "data": {
           "type": "trunk_groups",
           "id": "6c5fbe50-1384-4de0-9d88-67b68aa12607"
+        }
+      },
+      "pop": {
+        "links": {
+          "self": "https://api.didww.com/v3/trunks/6de72e61-9b7b-40e8-a690-dd8e62017acb/relationships/pop",
+          "related": "https://api.didww.com/v3/trunks/6de72e61-9b7b-40e8-a690-dd8e62017acb/pop"
         }
       }
     }

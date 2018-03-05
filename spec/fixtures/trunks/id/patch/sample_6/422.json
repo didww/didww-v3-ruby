@@ -1,0 +1,13 @@
+{
+  "errors": [
+    {
+      "title": "is invalid",
+      "detail": "pop - is invalid",
+      "code": "100",
+      "source": {
+        "pointer": "/data/relationships/pop"
+      },
+      "status": "422"
+    }
+  ]
+}

@@ -2,17 +2,6 @@ module DIDWW
   module Resource
     class Trunk < Base
       module CONST
-        # Allowed values for trunk.preferred_server
-        PREFERRED_SERVER_LOCAL    = 'LOCAL'                  .freeze
-        PREFERRED_SERVER_USA      = 'USA'                    .freeze
-        PREFERRED_SERVER_EUROPE   = 'Europe'                 .freeze
-
-        PREFERRED_SERVERS = {
-          PREFERRED_SERVER_LOCAL  => 'Local'                 .freeze,
-          PREFERRED_SERVER_USA    => 'United States'         .freeze,
-          PREFERRED_SERVER_EUROPE => 'Europe'                .freeze
-        }.freeze
-
         # Allowed values for trunk.cli_format
         CLI_FORMAT_RAW     = 'raw'                           .freeze
         CLI_FORMAT_E164    = 'e164'                          .freeze
@@ -43,10 +32,6 @@ module DIDWW
           CONF_TYPE_IAX2  => DIDWW::ComplexObject::Iax2Configuration,
           CONF_TYPE_PSTN  => DIDWW::ComplexObject::PstnConfiguration
         }.freeze
-
-        def preferred_server_human
-          PREFERRED_SERVERS[preferred_server]
-        end
 
         def cli_format_human
           CLI_FORMATS[cli_format]

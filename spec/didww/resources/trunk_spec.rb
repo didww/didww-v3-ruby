@@ -1,11 +1,6 @@
 RSpec.describe DIDWW::Resource::Trunk do
   let (:client) { DIDWW::Client }
 
-  it 'has PREFERRED_SERVERS constant' do
-    expect { described_class::PREFERRED_SERVERS }.to_not raise_error
-    expect(described_class::PREFERRED_SERVERS).to include('LOCAL', 'USA', 'Europe')
-  end
-
   it 'has CLI_FORMATS constant' do
     expect { described_class::CLI_FORMATS }.to_not raise_error
     expect(described_class::CLI_FORMATS).to include('e164', 'raw', 'local')
@@ -20,14 +15,6 @@ RSpec.describe DIDWW::Resource::Trunk do
   it 'can be initialized with given configuration type' do
     DIDWW::Resource::Trunk::CONST::CONF_TYPE_CLASSES.each do |type, klass|
       expect(described_class.new(configuration: { type: type }).configuration).to be_kind_of(klass)
-    end
-  end
-
-  describe '#preferred_server_human' do
-    it 'humanizes preferred_server attribute' do
-      expect(subject.preferred_server_human).to be_nil
-      subject.preferred_server = 'USA'
-      expect(subject.preferred_server_human).to eq('United States')
     end
   end
 
@@ -90,9 +77,6 @@ RSpec.describe DIDWW::Resource::Trunk do
         end
         it '"description", type: String' do
           expect(trunk.description).to be_kind_of(String).or be_nil
-        end
-        it '"preferred_server", type: String' do
-          expect(trunk.preferred_server).to be_kind_of(String)
         end
         it '"created_at", type: Time' do
           expect(trunk.created_at).to be_kind_of(Time)
@@ -224,7 +208,6 @@ RSpec.describe DIDWW::Resource::Trunk do
                   "cli_format": 'e164',
                   "cli_prefix": '+',
                   "description": 'custom description',
-                  "preferred_server": 'USA',
                   "configuration": {
                     "type": 'sip_configurations',
                     "attributes": {
@@ -258,7 +241,9 @@ RSpec.describe DIDWW::Resource::Trunk do
                         59
                       ],
                       "port": 5060,
-                      "transport_protocol_id": 2
+                      "transport_protocol_id": 2,
+                      "max_transfers": 0,
+                      "max_30x_redirects": 0
                     }
                   }
                 }
@@ -277,8 +262,7 @@ RSpec.describe DIDWW::Resource::Trunk do
                     name: 'Office',
                     cli_format: 'e164',
                     cli_prefix: '+',
-                    description: 'custom description',
-                    preferred_server: 'USA'
+                    description: 'custom description'
                   )
         trunk.configuration = DIDWW::ComplexObject::SipConfiguration.new.tap do |c|
           c.username = 'username'
@@ -306,6 +290,8 @@ RSpec.describe DIDWW::Resource::Trunk do
           c.rerouting_disconnect_code_ids = [ 58, 59 ]
           c.port = 5060
           c.transport_protocol_id = 2
+          c.max_transfers = 0
+          c.max_30x_redirects = 0
         end
         trunk.save
         expect(trunk).to be_persisted
@@ -356,7 +342,6 @@ RSpec.describe DIDWW::Resource::Trunk do
                 "attributes": {
                   "name": 'Office IAX2',
                   "capacity_limit": 9,
-                  "preferred_server": 'USA',
                   "cli_format": 'e164',
                   "cli_prefix": '+1',
                   "configuration": {
@@ -383,7 +368,6 @@ RSpec.describe DIDWW::Resource::Trunk do
         trunk = client.trunks.new(
                     name: 'Office IAX2',
                     capacity_limit: 9,
-                    preferred_server: 'USA',
                     cli_format: 'e164',
                     cli_prefix: '+1'
                   )
@@ -408,7 +392,6 @@ RSpec.describe DIDWW::Resource::Trunk do
                 "attributes": {
                   "name": 'Office H323',
                   "capacity_limit": 18,
-                  "preferred_server": 'USA',
                   "cli_format": 'e164',
                   "cli_prefix": '+1',
                   "configuration": {
@@ -433,7 +416,6 @@ RSpec.describe DIDWW::Resource::Trunk do
         trunk = client.trunks.new(
                     name: 'Office H323',
                     capacity_limit: 18,
-                    preferred_server: 'USA',
                     cli_format: 'e164',
                     cli_prefix: '+1'
                   )
@@ -464,7 +446,6 @@ RSpec.describe DIDWW::Resource::Trunk do
                 "attributes": {
                   "name": 'Office H323',
                   "capacity_limit": 18,
-                  "preferred_server": 'USA',
                   "cli_format": 'e164',
                   "cli_prefix": '+1',
                   "configuration": {
@@ -489,7 +470,6 @@ RSpec.describe DIDWW::Resource::Trunk do
         trunk = client.trunks.new(
                     name: 'Office H323',
                     capacity_limit: 18,
-                    preferred_server: 'USA',
                     cli_format: 'e164',
                     cli_prefix: '+1'
                   )
@@ -506,6 +486,115 @@ RSpec.describe DIDWW::Resource::Trunk do
       end
 
       xit 'creates a H323 Trunk, assign it to trunk group and include it in response'
+
+      it 'creates a SIP trunk with assigning to pop' do
+        stub_didww_request(:post, '/trunks').
+          with(body:
+            {
+              "data": {
+                "type": "trunks",
+                "relationships": {
+                  "pop": {
+                    "data": {
+                      "type": "pops",
+                      "id": "240416e4-aeb2-4ca5-9df2-f37f01e930cf"
+                    }
+                  }
+                },
+                "attributes": {
+                  "name": "Office SIP",
+                  "capacity_limit": 18,
+                  "cli_format": "e164",
+                  "cli_prefix": "+1",
+                  "configuration": {
+                    "type": "sip_configurations",
+                    "attributes": {
+                      "username": "username",
+                      "host": "example.com",
+                      "codec_ids": [
+                        9,
+                        7
+                      ],
+                      "rx_dtmf_format_id": 1,
+                      "tx_dtmf_format_id": 1,
+                      "resolve_ruri": true,
+                      "auth_enabled": true,
+                      "auth_user": "username",
+                      "auth_password": "password",
+                      "auth_from_user": "Office",
+                      "auth_from_domain": "example.com",
+                      "sst_enabled": false,
+                      "sst_min_timer": 600,
+                      "sst_max_timer": 900,
+                      "sst_refresh_method_id": 1,
+                      "sst_accept_501": true,
+                      "sip_timer_b": 8000,
+                      "dns_srv_failover_timer": 2000,
+                      "rtp_ping": false,
+                      "rtp_timeout": 30,
+                      "force_symmetric_rtp": false,
+                      "symmetric_rtp_ignore_rtcp": false,
+                      "rerouting_disconnect_code_ids": [
+                        58,
+                        59
+                      ],
+                      "port": 5060,
+                      "transport_protocol_id": 2,
+                      "max_transfers": 0,
+                      "max_30x_redirects": 0
+                    }
+                  }
+                }
+              }
+            }.to_json).
+          to_return(
+            status: 201,
+            body: api_fixture('trunks/post/sample_6/201'),
+            headers: json_api_headers
+          )
+        trunk = client.trunks.new(
+                    name: "Office SIP",
+                    capacity_limit: 18,
+                    cli_format: "e164",
+                    cli_prefix: "+1",
+                  )
+        trunk.configuration = DIDWW::ComplexObject::SipConfiguration.new.tap do |c|
+          c.username = 'username'
+          c.host = 'example.com'
+          c.codec_ids = [ 9, 7 ]
+          c.rx_dtmf_format_id = 1
+          c.tx_dtmf_format_id = 1
+          c.resolve_ruri = 'true'
+          c.auth_enabled = true
+          c.auth_user = 'username'
+          c.auth_password = 'password'
+          c.auth_from_user = 'Office'
+          c.auth_from_domain = 'example.com'
+          c.sst_enabled = 'false'
+          c.sst_min_timer = 600
+          c.sst_max_timer = 900
+          c.sst_refresh_method_id = 1
+          c.sst_accept_501 = 'true'
+          c.sip_timer_b = 8000
+          c.dns_srv_failover_timer = 2000
+          c.rtp_ping = 'false'
+          c.rtp_timeout = 30
+          c.force_symmetric_rtp = 'false'
+          c.symmetric_rtp_ignore_rtcp = 'false'
+          c.rerouting_disconnect_code_ids = [ 58, 59 ]
+          c.port = 5060
+          c.transport_protocol_id = 2
+          c.max_transfers = 0
+          c.max_30x_redirects = 0
+        end
+        trunk.relationships[:pop] = DIDWW::Resource::Pop.load(id: '240416e4-aeb2-4ca5-9df2-f37f01e930cf')
+        trunk.save
+        expect(trunk).to be_persisted
+        expect(trunk.configuration).to be_kind_of(DIDWW::ComplexObject::SipConfiguration)
+        expect(trunk.pop).to be_kind_of(DIDWW::Resource::Pop)
+      end
+
+      xit 'creates a SIP trunk with assigning to pop and including it to response'
 
     end
 
@@ -725,6 +814,43 @@ RSpec.describe DIDWW::Resource::Trunk do
       end
 
       xit 'updates a H323 Trunk, assign it to trunk group and include it in response'
+
+      it 'updates a SIP Trunk with assigning to pop' do
+        id = '081ad751-d790-4e70-9c92-7c18f6b50a6d'
+        stub_didww_request(:patch, "/trunks/#{id}").
+          with(body:
+            {
+              "data": {
+                "id": '081ad751-d790-4e70-9c92-7c18f6b50a6d',
+                "type": 'trunks',
+                "relationships": {
+                  "pop": {
+                    "data": {
+                      "type": 'pops',
+                      "id": 'cb5ea690-e3a3-4781-a4f3-3bd0123284dd'
+                    }
+                  }
+                },
+                "attributes": {
+                  "name": 'New trunk'
+                }
+              }
+            }.to_json).
+          to_return(
+            status: 200,
+            body: api_fixture('trunks/id/patch/sample_6/200'),
+            headers: json_api_headers
+          )
+        trunk = DIDWW::Resource::Trunk.load(id: id)
+        trunk.name = "New trunk"
+        trunk.relationships.pop = DIDWW::Resource::Pop.load(id: 'cb5ea690-e3a3-4781-a4f3-3bd0123284dd')
+        trunk.save
+        expect(trunk.errors).to be_empty
+        expect(trunk.name).to eq('New trunk')
+        expect(trunk.pop).to be_kind_of(DIDWW::Resource::Pop)
+      end
+
+      xit 'updates a SIP Trunk, with assigning to pop and including it to response'
 
     end
 

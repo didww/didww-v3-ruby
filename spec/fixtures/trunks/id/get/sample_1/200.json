@@ -47,16 +47,23 @@
           ],
           "sst_session_expires": null,
           "sst_refresh_method_id": 1,
-          "transport_protocol_id": 1
+          "transport_protocol_id": 1,
+          "max_transfers": 5,
+          "max_30x_redirects": 0
         }
-      },
-      "preferred_server": "Europe"
+      }
     },
     "relationships": {
       "trunk_group": {
         "links": {
           "self": "https://api.didww.com/v3/trunks/df78e081-b7d1-4769-80ce-f349af4f612e/relationships/trunk_group",
           "related": "https://api.didww.com/v3/trunks/df78e081-b7d1-4769-80ce-f349af4f612e/trunk_group"
+        }
+      },
+      "pop": {
+        "links": {
+          "self": "https://api.didww.com/v3/trunks/df78e081-b7d1-4769-80ce-f349af4f612e/relationships/pop",
+          "related": "https://api.didww.com/v3/trunks/df78e081-b7d1-4769-80ce-f349af4f612e/pop"
         }
       }
     }

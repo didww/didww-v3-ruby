@@ -23,14 +23,19 @@
             6
           ]
         }
-      },
-      "preferred_server": "USA"
+      }
     },
     "relationships": {
       "trunk_group": {
         "links": {
           "self": "https://api.didww.com/v3/trunks/01155457-b08e-4b5a-a5a7-7cfa4e5bd37a/relationships/trunk_group",
           "related": "https://api.didww.com/v3/trunks/01155457-b08e-4b5a-a5a7-7cfa4e5bd37a/trunk_group"
+        }
+      },
+      "pop": {
+        "links": {
+          "self": "https://api.didww.com/v3/trunks/01155457-b08e-4b5a-a5a7-7cfa4e5bd37a/relationships/pop",
+          "related": "https://api.didww.com/v3/trunks/01155457-b08e-4b5a-a5a7-7cfa4e5bd37a/pop"
         }
       }
     }
