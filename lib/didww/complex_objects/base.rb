@@ -12,10 +12,8 @@ module DIDWW
 
         def property(name, options = {})
           property = schema.add(name, options)
-          define_method(name) { attributes[name] }
-          define_method("#{name}=".to_sym) do |val|
-            attributes[name] = property.cast(val)
-          end
+          define_method(name.to_sym) { self[name] }
+          define_method("#{name}=".to_sym) { |val| self[name] = val }
         end
 
         def schema
@@ -70,7 +68,8 @@ module DIDWW
       end
 
       def []=(key, value)
-        public_send("#{key}=", value)
+        property = self.class.schema.find(key)
+        attributes[key] = property ? property.cast(value) : value
       end
 
       # When we represent this resource for serialization (create/update), we do so
