@@ -81,6 +81,14 @@ module DIDWW
         Resource::Trunk
       end
 
+      def available_dids
+        Resource::AvailableDid
+      end
+
+      def did_reservations
+        Resource::DidReservation
+      end
+
       def api_mode=(arg)
         unless BASE_URLS.keys.include?(arg)
           raise ArgumentError.new("Mode should be in #{BASE_URLS.keys} (given '#{arg}').")
@@ -118,6 +126,8 @@ module DIDWW
         require 'didww/resources/stock_keeping_unit'
         require 'didww/resources/trunk_group'
         require 'didww/resources/trunk'
+        require 'didww/resources/available_did'
+        require 'didww/resources/did_reservation'
       end
 
     end

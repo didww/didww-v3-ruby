@@ -142,9 +142,77 @@ RSpec.describe DIDWW::Resource::Order do
         expect(order).to be_persisted
         expect(order[:reference]).to be_nil
       end
+      it 'with available_did_id' do
+        stub_didww_request(:post, '/orders').
+            with(body:
+                     {
+                         "data": {
+                             "type": 'orders',
+                             "attributes": {
+                                 "allow_back_ordering": false,
+                                 "items": [
+                                     {
+                                         "type": 'did_order_items',
+                                         "attributes": {
+                                             "sku_id": 'b6d9d793-578d-42d3-bc33-73dd8155e615',
+                                             "available_did_id": '7f44285d-20ef-4773-953f-ba012adafed3'
+                                         }
+                                     }
+                                 ]
+                             }
+                         }
+                     }.to_json).
+            to_return(
+                status: 201,
+                body: api_fixture('orders/post/sample_3/201'),
+                headers: json_api_headers
+            )
+        order = client.orders.new(allow_back_ordering: false)
+        order.items << DIDWW::ComplexObject::DidOrderItem.new(
+            sku_id: 'b6d9d793-578d-42d3-bc33-73dd8155e615',
+            available_did_id: '7f44285d-20ef-4773-953f-ba012adafed3'
+        )
+        order.save
+        expect(order).to be_persisted
+        expect(order[:reference]).to be_nil
+      end
+      it 'with did_reservation_id' do
+        stub_didww_request(:post, '/orders').
+            with(body:
+                     {
+                         "data": {
+                             "type": 'orders',
+                             "attributes": {
+                                 "allow_back_ordering": false,
+                                 "items": [
+                                     {
+                                         "type": 'did_order_items',
+                                         "attributes": {
+                                             "sku_id": 'b6d9d793-578d-42d3-bc33-73dd8155e615',
+                                             "did_reservation_id": '2a1d98d2-eafd-4332-80d5-5ecd36411eb3'
+                                         }
+                                     }
+                                 ]
+                             }
+                         }
+                     }.to_json).
+            to_return(
+                status: 201,
+                body: api_fixture('orders/post/sample_2/201'),
+                headers: json_api_headers
+            )
+        order = client.orders.new(allow_back_ordering: false)
+        order.items << DIDWW::ComplexObject::DidOrderItem.new(
+            sku_id: 'b6d9d793-578d-42d3-bc33-73dd8155e615',
+            did_reservation_id: '2a1d98d2-eafd-4332-80d5-5ecd36411eb3'
+        )
+        order.save
+        expect(order).to be_persisted
+        expect(order[:reference]).to be_nil
+      end
     end
 
-    describe 'with incorerct attributes' do
+    describe 'with incorrect attributes' do
       it 'returns an Order with errors' do
         stub_didww_request(:post, '/orders').
           with(body:

@@ -1,0 +1,64 @@
+{
+  "data": [
+    {
+      "id": "d0163fe0-001f-4a03-87ea-84224822708e",
+      "type": "did_reservations",
+      "links": {
+        "self": "https://api.didww.com/v3/did_reservations/d0163fe0-001f-4a03-87ea-84224822708e"
+      },
+      "attributes": {
+        "expire_at": "2018-03-15 12:34:56",
+        "created_at": "2018-03-15 12:14:56",
+        "description": "DIDWW"
+      },
+      "relationships": {
+        "available_did": {
+          "links": {
+            "self": "https://api.didww.com/v3/did_reservations/80167e78-62a1-4720-bf00-229fa7e1935d/relationships/available_did",
+            "related": "https://api.didww.com/v3/did_reservations/80167e78-62a1-4720-bf00-229fa7e1935d/available_did"
+          },
+          "data": {
+            "type": "available_dids",
+            "id": "8bc37f63-acd7-4e43-a760-1a1caa6e4683"
+          }
+        }
+      }
+    },
+    {
+      "id": "952b0724-45bc-4f87-b31b-ff04579357ef",
+      "type": "did_reservations",
+      "links": {
+        "self": "https://api.didww.com/v3/did_reservations/952b0724-45bc-4f87-b31b-ff04579357ef"
+      },
+      "attributes": {
+        "expire_at": "2018-03-15 12:34:56",
+        "created_at": "2018-03-15 12:14:56",
+        "description": "DIDWW"
+      },
+      "relationships": {
+        "available_did": {
+          "links": {
+            "self": "https://api.didww.com/v3/did_reservations/80167e78-62a1-4720-bf00-229fa7e1935d/relationships/available_did",
+            "related": "https://api.didww.com/v3/did_reservations/80167e78-62a1-4720-bf00-229fa7e1935d/available_did"
+          },
+          "data": {
+            "type": "available_dids",
+            "id": "8bc37f63-acd7-4e43-a760-1a1caa6e4683"
+          }
+        }
+      }
+    }
+  ],
+  "included": [
+    {
+      "id": "8bc37f63-acd7-4e43-a760-1a1caa6e4683",
+      "type": "available_dids",
+      "attributes": {
+        "number": "77124562356"
+      }
+    }
+  ],
+  "meta": {
+    "total_records": 2
+  }
+}

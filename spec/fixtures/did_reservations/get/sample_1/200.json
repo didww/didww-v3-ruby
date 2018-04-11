@@ -1,0 +1,47 @@
+{
+  "data": [
+    {
+      "id": "d35148e7-8858-446e-ae53-2f5ae17501ef",
+      "type": "did_reservations",
+      "links": {
+        "self": "https://api.didww.com/v3/did_reservations/d35148e7-8858-446e-ae53-2f5ae17501ef"
+      },
+      "attributes": {
+        "expire_at": "2018-03-15 12:34:56",
+        "created_at": "2018-03-15 12:14:56",
+        "description": "DIDWW"
+      },
+      "relationships": {
+        "did_group": {
+          "links": {
+            "self": "https://api.didww.com/v3/did_reservations/dd13cdb2-48ab-4374-94b3-56e162a659cd/relationships/available_did",
+            "related": "https://api.didww.com/v3/did_reservations/dd13cdb2-48ab-4374-94b3-56e162a659cd/available_did"
+          }
+        }
+      }
+    },
+    {
+      "id": "9e31a4a5-38ef-4e1e-8a83-f6ae10d61d51",
+      "type": "did_reservations",
+      "links": {
+        "self": "https://api.didww.com/v3/did_reservations/9e31a4a5-38ef-4e1e-8a83-f6ae10d61d51"
+      },
+      "attributes": {
+        "expire_at": "2018-03-15 12:34:56",
+        "created_at": "2018-03-15 12:14:56",
+        "description": "DIDWW"
+      },
+      "relationships": {
+        "did_group": {
+          "links": {
+            "self": "https://api.didww.com/v3/did_reservations/dd13cdb2-48ab-4374-94b3-56e162a659cd/relationships/available_did",
+            "related": "https://api.didww.com/v3/did_reservations/dd13cdb2-48ab-4374-94b3-56e162a659cd/available_did"
+          }
+        }
+      }
+    }
+  ],
+  "meta": {
+    "total_records": 2
+  }
+}
