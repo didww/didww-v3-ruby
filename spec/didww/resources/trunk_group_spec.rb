@@ -262,7 +262,7 @@ RSpec.describe DIDWW::Resource::TrunkGroup do
               }
             }.to_json).
           to_return(
-            status: 200,
+            status: 422,
             body: api_fixture('trunk_groups/id/patch/sample_1/422'),
             headers: json_api_headers
           )

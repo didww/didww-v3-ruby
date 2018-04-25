@@ -49,6 +49,10 @@ module DIDWW
       # TODO
       # Meta attributes
       #
+      # :available_dids_enabled
+      # Type: Boolean
+      # Description: Defines if particular DID from this DID group can be ordered via available_dids or did_reservations.
+      #
       # needs_registration
       # Type: Boolean
       # Description: Defines if end-user registration is required for this DID Group.

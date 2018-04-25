@@ -1,0 +1,103 @@
+{
+  "data": {
+    "attributes": {
+      "number": "16362660758"
+    },
+    "id": "1b8a6517-a4f5-4851-b534-4e3fddb15c2b",
+    "relationships": {
+      "did_group": {
+        "data": {
+          "id": "fe6cde1e-d68b-41e9-b1a0-8a617c65f3db",
+          "type": "did_groups"
+        },
+        "links": {
+          "related": "https://api.didww.com/v3/available_dids/1b8a6517-a4f5-4851-b534-4e3fddb15c2b/did_group",
+          "self": "https://api.didww.com/v3/available_dids/1b8a6517-a4f5-4851-b534-4e3fddb15c2b/relationships/did_group"
+        }
+      }
+    },
+    "type": "available_dids"
+  },
+  "included": [
+    {
+      "attributes": {
+        "allow_additional_channels": true,
+        "area_name": "Washington",
+        "features": [
+          "voice"
+        ],
+        "is_metered": false,
+        "local_prefix": "",
+        "prefix": "636"
+      },
+      "id": "fe6cde1e-d68b-41e9-b1a0-8a617c65f3db",
+      "meta": {
+        "available_dids_enabled": true,
+        "is_available": true,
+        "needs_registration": false,
+        "restrictions": null
+      },
+      "relationships": {
+        "city": {
+          "links": {
+            "related": "https://api.didww.com/v3/did_groups/fe6cde1e-d68b-41e9-b1a0-8a617c65f3db/city",
+            "self": "https://api.didww.com/v3/did_groups/fe6cde1e-d68b-41e9-b1a0-8a617c65f3db/relationships/city"
+          }
+        },
+        "country": {
+          "links": {
+            "related": "https://api.didww.com/v3/did_groups/fe6cde1e-d68b-41e9-b1a0-8a617c65f3db/country",
+            "self": "https://api.didww.com/v3/did_groups/fe6cde1e-d68b-41e9-b1a0-8a617c65f3db/relationships/country"
+          }
+        },
+        "did_group_type": {
+          "links": {
+            "related": "https://api.didww.com/v3/did_groups/fe6cde1e-d68b-41e9-b1a0-8a617c65f3db/did_group_type",
+            "self": "https://api.didww.com/v3/did_groups/fe6cde1e-d68b-41e9-b1a0-8a617c65f3db/relationships/did_group_type"
+          }
+        },
+        "region": {
+          "links": {
+            "related": "https://api.didww.com/v3/did_groups/fe6cde1e-d68b-41e9-b1a0-8a617c65f3db/region",
+            "self": "https://api.didww.com/v3/did_groups/fe6cde1e-d68b-41e9-b1a0-8a617c65f3db/relationships/region"
+          }
+        },
+        "stock_keeping_units": {
+          "data": [
+            {
+              "id": "eab604a5-d276-4233-aca3-da790cd8ac1e",
+              "type": "stock_keeping_units"
+            },
+            {
+              "id": "9da717e2-b235-43fd-ba12-9677fea6dea8",
+              "type": "stock_keeping_units"
+            }
+          ],
+          "links": {
+            "related": "https://api.didww.com/v3/did_groups/fe6cde1e-d68b-41e9-b1a0-8a617c65f3db/stock_keeping_units",
+            "self": "https://api.didww.com/v3/did_groups/fe6cde1e-d68b-41e9-b1a0-8a617c65f3db/relationships/stock_keeping_units"
+          }
+        }
+      },
+      "type": "did_groups"
+    },
+    {
+      "attributes": {
+        "channels_included_count": 0,
+        "monthly_price": "0.09",
+        "setup_price": "0.0"
+      },
+      "id": "eab604a5-d276-4233-aca3-da790cd8ac1e",
+      "type": "stock_keeping_units"
+    },
+    {
+      "attributes": {
+        "channels_included_count": 2,
+        "monthly_price": "0.19",
+        "setup_price": "0.0"
+      },
+      "id": "9da717e2-b235-43fd-ba12-9677fea6dea8",
+      "type": "stock_keeping_units"
+    }
+  ]
+}
