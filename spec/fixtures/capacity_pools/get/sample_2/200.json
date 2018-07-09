@@ -1,0 +1,165 @@
+{
+  "data": [
+    {
+      "id": "71185c2a-fcc7-468b-87e3-85260fbc3b86",
+      "type": "capacity_pools",
+      "attributes": {
+        "name": "Extended Pool",
+        "renew_date": "2018-07-21",
+        "total_channels_count": 10,
+        "assigned_channels_count": 6,
+        "minimum_limit": 5,
+        "minimum_qty_per_order": 1,
+        "setup_price": "0.0",
+        "monthly_price": "25.0",
+        "metered_rate": "0.0025"
+      },
+      "relationships": {
+        "countries": {
+          "links": {
+            "self": "https://api.didww.com/v3/capacity_pools/71185c2a-fcc7-468b-87e3-85260fbc3b86/relationships/countries",
+            "related": "https://api.didww.com/v3/capacity_pools/71185c2a-fcc7-468b-87e3-85260fbc3b86/countries"
+          },
+          "data": [
+            {
+              "type": "countries",
+              "id": "7eda11bb-0e66-4146-98e7-57a5281f56c8"
+            },
+            {
+              "type": "countries",
+              "id": "1f6fc2bd-f081-4202-9b1a-d9cb88d942b9"
+            }
+          ]
+        },
+        "shared_capacity_groups": {
+          "links": {
+            "self": "https://api.didww.com/v3/capacity_pools/71185c2a-fcc7-468b-87e3-85260fbc3b86/relationships/shared_capacity_groups",
+            "related": "https://api.didww.com/v3/capacity_pools/71185c2a-fcc7-468b-87e3-85260fbc3b86/shared_capacity_groups"
+          },
+          "data": [
+            {
+              "type": "shared_capacity_groups",
+              "id": "dd2e8844-6a79-4673-ba1c-c8a4913884cc"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ac62c8fc-886b-4477-8baf-0cc992e0ab1e",
+      "type": "capacity_pools",
+      "attributes": {
+        "name": "Standard Pool",
+        "renew_date": "2018-07-21",
+        "total_channels_count": 1,
+        "assigned_channels_count": 0,
+        "minimum_limit": 0,
+        "minimum_qty_per_order": 1,
+        "setup_price": "0.0",
+        "monthly_price": "15.0",
+        "metered_rate": "0.01"
+      },
+      "relationships": {
+        "countries": {
+          "links": {
+            "self": "https://api.didww.com/v3/capacity_pools/ac62c8fc-886b-4477-8baf-0cc992e0ab1e/relationships/countries",
+            "related": "https://api.didww.com/v3/capacity_pools/ac62c8fc-886b-4477-8baf-0cc992e0ab1e/countries"
+          },
+          "data": [
+            {
+              "type": "countries",
+              "id": "1f6fc2bd-f081-4202-9b1a-d9cb88d942b9"
+            }
+          ]
+        },
+        "shared_capacity_groups": {
+          "links": {
+            "self": "https://api.didww.com/v3/capacity_pools/ac62c8fc-886b-4477-8baf-0cc992e0ab1e/relationships/shared_capacity_groups",
+            "related": "https://api.didww.com/v3/capacity_pools/ac62c8fc-886b-4477-8baf-0cc992e0ab1e/shared_capacity_groups"
+          },
+          "data": [
+            {
+              "type": "shared_capacity_groups",
+              "id": "8a581244-de83-4c46-ac0a-32659279169e"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "included": [
+    {
+      "id": "7eda11bb-0e66-4146-98e7-57a5281f56c8",
+      "type": "countries",
+      "attributes": {
+        "name": "United Kingdom",
+        "prefix": "44",
+        "iso": "GB"
+      }
+    },
+    {
+      "id": "1f6fc2bd-f081-4202-9b1a-d9cb88d942b9",
+      "type": "countries",
+      "attributes": {
+        "name": "United States",
+        "prefix": "1",
+        "iso": "US"
+      }
+    },
+    {
+      "id": "dd2e8844-6a79-4673-ba1c-c8a4913884cc",
+      "type": "shared_capacity_groups",
+      "attributes": {
+        "name": "Sample group",
+        "shared_channels_count": 0,
+        "created_at": "2018-06-19T11:41:21.644Z",
+        "metered_channels_count": 30
+      },
+      "relationships": {
+        "capacity_pool": {
+          "links": {
+            "self": "https://api.didww.com/v3/shared_capacity_groups/dd2e8844-6a79-4673-ba1c-c8a4913884cc/relationships/capacity_pool",
+            "related": "https://api.didww.com/v3/shared_capacity_groups/dd2e8844-6a79-4673-ba1c-c8a4913884cc/capacity_pool"
+          }
+        },
+        "dids": {
+          "links": {
+            "self": "https://api.didww.com/v3/shared_capacity_groups/dd2e8844-6a79-4673-ba1c-c8a4913884cc/relationships/dids",
+            "related": "https://api.didww.com/v3/shared_capacity_groups/dd2e8844-6a79-4673-ba1c-c8a4913884cc/dids"
+          }
+        }
+      }
+    },
+    {
+      "id": "8a581244-de83-4c46-ac0a-32659279169e",
+      "type": "shared_capacity_groups",
+      "attributes": {
+        "name": "Mixed group",
+        "shared_channels_count": 5,
+        "created_at": "2018-06-20T08:48:47.811Z",
+        "metered_channels_count": 5
+      },
+      "relationships": {
+        "capacity_pool": {
+          "links": {
+            "self": "https://api.didww.com/v3/shared_capacity_groups/8a581244-de83-4c46-ac0a-32659279169e/relationships/capacity_pool",
+            "related": "https://api.didww.com/v3/shared_capacity_groups/8a581244-de83-4c46-ac0a-32659279169e/capacity_pool"
+          }
+        },
+        "dids": {
+          "links": {
+            "self": "https://api.didww.com/v3/shared_capacity_groups/8a581244-de83-4c46-ac0a-32659279169e/relationships/dids",
+            "related": "https://api.didww.com/v3/shared_capacity_groups/8a581244-de83-4c46-ac0a-32659279169e/dids"
+          }
+        }
+      }
+    }
+  ],
+  "meta": {
+    "total_records": 2
+  },
+  "links": {
+    "first": "https://api.didww.com/v3/capacity_pools?include=countries%2Cshared_capacity_groups&page%5Bnumber%5D=1&page%5Bsize%5D=50",
+    "last": "https://api.didww.com/v3/capacity_pools?include=countries%2Cshared_capacity_groups&page%5Bnumber%5D=1&page%5Bsize%5D=50"
+  }
+}

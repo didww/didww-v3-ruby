@@ -1,0 +1,13 @@
+{
+  "errors": [
+    {
+      "title": "cannot be applied to shared capacity group",
+      "detail": "dids/0 - cannot be applied to shared capacity group",
+      "code": "100",
+      "source": {
+        "pointer": "/data/relationships/dids/0"
+      },
+      "status": "422"
+    }
+  ]
+}

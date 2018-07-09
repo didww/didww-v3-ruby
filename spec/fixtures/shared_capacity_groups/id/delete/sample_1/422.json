@@ -1,0 +1,13 @@
+{
+  "errors": [
+    {
+      "title": "The capacity group cannot be removed while active numbers are assigned to it",
+      "detail": "The capacity group cannot be removed while active numbers are assigned to it",
+      "code": "100",
+      "source": {
+        "pointer": "/data"
+      },
+      "status": "422"
+    }
+  ]
+}

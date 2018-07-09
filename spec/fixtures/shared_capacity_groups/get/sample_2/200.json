@@ -1,0 +1,308 @@
+{
+  "data": [
+    {
+      "id": "dd2e8844-6a79-4673-ba1c-c8a4913884cc",
+      "type": "shared_capacity_groups",
+      "attributes": {
+        "name": "Sample group",
+        "shared_channels_count": 0,
+        "created_at": "2018-06-19T11:41:21.644Z",
+        "metered_channels_count": 30
+      },
+      "relationships": {
+        "capacity_pool": {
+          "links": {
+            "self": "https://api.didww.com/v3/shared_capacity_groups/dd2e8844-6a79-4673-ba1c-c8a4913884cc/relationships/capacity_pool",
+            "related": "https://api.didww.com/v3/shared_capacity_groups/dd2e8844-6a79-4673-ba1c-c8a4913884cc/capacity_pool"
+          },
+          "data": {
+            "type": "capacity_pools",
+            "id": "71185c2a-fcc7-468b-87e3-85260fbc3b86"
+          }
+        },
+        "dids": {
+          "links": {
+            "self": "https://api.didww.com/v3/shared_capacity_groups/dd2e8844-6a79-4673-ba1c-c8a4913884cc/relationships/dids",
+            "related": "https://api.didww.com/v3/shared_capacity_groups/dd2e8844-6a79-4673-ba1c-c8a4913884cc/dids"
+          },
+          "data": [
+            {
+              "type": "dids",
+              "id": "091b6984-07f7-4eca-a42c-f1856248d646"
+            },
+            {
+              "type": "dids",
+              "id": "88b0e9a1-5d8e-4737-8f31-43f0b2aa2861"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "8a581244-de83-4c46-ac0a-32659279169e",
+      "type": "shared_capacity_groups",
+      "attributes": {
+        "name": "Sample group 2",
+        "shared_channels_count": 0,
+        "created_at": "2018-06-20T08:48:47.811Z",
+        "metered_channels_count": 5
+      },
+      "relationships": {
+        "capacity_pool": {
+          "links": {
+            "self": "https://api.didww.com/v3/shared_capacity_groups/8a581244-de83-4c46-ac0a-32659279169e/relationships/capacity_pool",
+            "related": "https://api.didww.com/v3/shared_capacity_groups/8a581244-de83-4c46-ac0a-32659279169e/capacity_pool"
+          },
+          "data": {
+            "type": "capacity_pools",
+            "id": "ac62c8fc-886b-4477-8baf-0cc992e0ab1e"
+          }
+        },
+        "dids": {
+          "links": {
+            "self": "https://api.didww.com/v3/shared_capacity_groups/8a581244-de83-4c46-ac0a-32659279169e/relationships/dids",
+            "related": "https://api.didww.com/v3/shared_capacity_groups/8a581244-de83-4c46-ac0a-32659279169e/dids"
+          },
+          "data": [
+            {
+              "type": "dids",
+              "id": "0aece6c9-614a-43b4-8294-73e7fe50d7c6"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "included": [
+    {
+      "id": "71185c2a-fcc7-468b-87e3-85260fbc3b86",
+      "type": "capacity_pools",
+      "attributes": {
+        "name": "Extended Pool",
+        "renew_date": "2018-07-21",
+        "total_channels_count": 10,
+        "assigned_channels_count": 3,
+        "minimum_limit": 5,
+        "minimum_qty_per_order": 1,
+        "setup_price": "0.0",
+        "monthly_price": "25.0",
+        "metered_rate": "0.0025"
+      },
+      "relationships": {
+        "countries": {
+          "links": {
+            "self": "https://api.didww.com/v3/capacity_pools/71185c2a-fcc7-468b-87e3-85260fbc3b86/relationships/countries",
+            "related": "https://api.didww.com/v3/capacity_pools/71185c2a-fcc7-468b-87e3-85260fbc3b86/countries"
+          }
+        },
+        "shared_capacity_groups": {
+          "links": {
+            "self": "https://api.didww.com/v3/capacity_pools/71185c2a-fcc7-468b-87e3-85260fbc3b86/relationships/shared_capacity_groups",
+            "related": "https://api.didww.com/v3/capacity_pools/71185c2a-fcc7-468b-87e3-85260fbc3b86/shared_capacity_groups"
+          }
+        }
+      }
+    },
+    {
+      "id": "ac62c8fc-886b-4477-8baf-0cc992e0ab1e",
+      "type": "capacity_pools",
+      "attributes": {
+        "name": "Standard Pool",
+        "renew_date": "2018-07-21",
+        "total_channels_count": 1,
+        "assigned_channels_count": 0,
+        "minimum_limit": 0,
+        "minimum_qty_per_order": 1,
+        "setup_price": "0.0",
+        "monthly_price": "15.0",
+        "metered_rate": "0.01"
+      },
+      "relationships": {
+        "countries": {
+          "links": {
+            "self": "https://api.didww.com/v3/capacity_pools/ac62c8fc-886b-4477-8baf-0cc992e0ab1e/relationships/countries",
+            "related": "https://api.didww.com/v3/capacity_pools/ac62c8fc-886b-4477-8baf-0cc992e0ab1e/countries"
+          }
+        },
+        "shared_capacity_groups": {
+          "links": {
+            "self": "https://api.didww.com/v3/capacity_pools/ac62c8fc-886b-4477-8baf-0cc992e0ab1e/relationships/shared_capacity_groups",
+            "related": "https://api.didww.com/v3/capacity_pools/ac62c8fc-886b-4477-8baf-0cc992e0ab1e/shared_capacity_groups"
+          }
+        }
+      }
+    },
+    {
+      "id": "091b6984-07f7-4eca-a42c-f1856248d646",
+      "type": "dids",
+      "attributes": {
+        "blocked": false,
+        "capacity_limit": null,
+        "description": null,
+        "terminated": false,
+        "awaiting_registration": false,
+        "created_at": "2018-04-27T10:24:39.207Z",
+        "number": "12124727604",
+        "expires_at": "2018-07-27T10:25:01.913Z",
+        "channels_included_count": 2,
+        "pending_removal": false,
+        "dedicated_channels_count": 0
+      },
+      "relationships": {
+        "did_group": {
+          "links": {
+            "self": "https://api.didww.com/v3/dids/091b6984-07f7-4eca-a42c-f1856248d646/relationships/did_group",
+            "related": "https://api.didww.com/v3/dids/091b6984-07f7-4eca-a42c-f1856248d646/did_group"
+          }
+        },
+        "order": {
+          "links": {
+            "self": "https://api.didww.com/v3/dids/091b6984-07f7-4eca-a42c-f1856248d646/relationships/order",
+            "related": "https://api.didww.com/v3/dids/091b6984-07f7-4eca-a42c-f1856248d646/order"
+          }
+        },
+        "trunk": {
+          "links": {
+            "self": "https://api.didww.com/v3/dids/091b6984-07f7-4eca-a42c-f1856248d646/relationships/trunk",
+            "related": "https://api.didww.com/v3/dids/091b6984-07f7-4eca-a42c-f1856248d646/trunk"
+          }
+        },
+        "trunk_group": {
+          "links": {
+            "self": "https://api.didww.com/v3/dids/091b6984-07f7-4eca-a42c-f1856248d646/relationships/trunk_group",
+            "related": "https://api.didww.com/v3/dids/091b6984-07f7-4eca-a42c-f1856248d646/trunk_group"
+          }
+        },
+        "capacity_pool": {
+          "links": {
+            "self": "https://api.didww.com/v3/dids/091b6984-07f7-4eca-a42c-f1856248d646/relationships/capacity_pool",
+            "related": "https://api.didww.com/v3/dids/091b6984-07f7-4eca-a42c-f1856248d646/capacity_pool"
+          }
+        },
+        "shared_capacity_group": {
+          "links": {
+            "self": "https://api.didww.com/v3/dids/091b6984-07f7-4eca-a42c-f1856248d646/relationships/shared_capacity_group",
+            "related": "https://api.didww.com/v3/dids/091b6984-07f7-4eca-a42c-f1856248d646/shared_capacity_group"
+          }
+        }
+      }
+    },
+    {
+      "id": "88b0e9a1-5d8e-4737-8f31-43f0b2aa2861",
+      "type": "dids",
+      "attributes": {
+        "blocked": false,
+        "capacity_limit": 3,
+        "description": "wdfe",
+        "terminated": false,
+        "awaiting_registration": false,
+        "created_at": "2018-04-26T10:25:07.721Z",
+        "number": "13213556952",
+        "expires_at": "2018-07-26T10:26:05.996Z",
+        "channels_included_count": 0,
+        "pending_removal": false,
+        "dedicated_channels_count": 0
+      },
+      "relationships": {
+        "did_group": {
+          "links": {
+            "self": "https://api.didww.com/v3/dids/88b0e9a1-5d8e-4737-8f31-43f0b2aa2861/relationships/did_group",
+            "related": "https://api.didww.com/v3/dids/88b0e9a1-5d8e-4737-8f31-43f0b2aa2861/did_group"
+          }
+        },
+        "order": {
+          "links": {
+            "self": "https://api.didww.com/v3/dids/88b0e9a1-5d8e-4737-8f31-43f0b2aa2861/relationships/order",
+            "related": "https://api.didww.com/v3/dids/88b0e9a1-5d8e-4737-8f31-43f0b2aa2861/order"
+          }
+        },
+        "trunk": {
+          "links": {
+            "self": "https://api.didww.com/v3/dids/88b0e9a1-5d8e-4737-8f31-43f0b2aa2861/relationships/trunk",
+            "related": "https://api.didww.com/v3/dids/88b0e9a1-5d8e-4737-8f31-43f0b2aa2861/trunk"
+          }
+        },
+        "trunk_group": {
+          "links": {
+            "self": "https://api.didww.com/v3/dids/88b0e9a1-5d8e-4737-8f31-43f0b2aa2861/relationships/trunk_group",
+            "related": "https://api.didww.com/v3/dids/88b0e9a1-5d8e-4737-8f31-43f0b2aa2861/trunk_group"
+          }
+        },
+        "capacity_pool": {
+          "links": {
+            "self": "https://api.didww.com/v3/dids/88b0e9a1-5d8e-4737-8f31-43f0b2aa2861/relationships/capacity_pool",
+            "related": "https://api.didww.com/v3/dids/88b0e9a1-5d8e-4737-8f31-43f0b2aa2861/capacity_pool"
+          }
+        },
+        "shared_capacity_group": {
+          "links": {
+            "self": "https://api.didww.com/v3/dids/88b0e9a1-5d8e-4737-8f31-43f0b2aa2861/relationships/shared_capacity_group",
+            "related": "https://api.didww.com/v3/dids/88b0e9a1-5d8e-4737-8f31-43f0b2aa2861/shared_capacity_group"
+          }
+        }
+      }
+    },
+    {
+      "id": "0aece6c9-614a-43b4-8294-73e7fe50d7c6",
+      "type": "dids",
+      "attributes": {
+        "blocked": false,
+        "capacity_limit": null,
+        "description": null,
+        "terminated": false,
+        "awaiting_registration": false,
+        "created_at": "2018-06-20T08:47:46.665Z",
+        "number": "5712205211",
+        "expires_at": "2018-07-20T08:48:05.287Z",
+        "channels_included_count": 0,
+        "pending_removal": false,
+        "dedicated_channels_count": 0
+      },
+      "relationships": {
+        "did_group": {
+          "links": {
+            "self": "https://api.didww.com/v3/dids/0aece6c9-614a-43b4-8294-73e7fe50d7c6/relationships/did_group",
+            "related": "https://api.didww.com/v3/dids/0aece6c9-614a-43b4-8294-73e7fe50d7c6/did_group"
+          }
+        },
+        "order": {
+          "links": {
+            "self": "https://api.didww.com/v3/dids/0aece6c9-614a-43b4-8294-73e7fe50d7c6/relationships/order",
+            "related": "https://api.didww.com/v3/dids/0aece6c9-614a-43b4-8294-73e7fe50d7c6/order"
+          }
+        },
+        "trunk": {
+          "links": {
+            "self": "https://api.didww.com/v3/dids/0aece6c9-614a-43b4-8294-73e7fe50d7c6/relationships/trunk",
+            "related": "https://api.didww.com/v3/dids/0aece6c9-614a-43b4-8294-73e7fe50d7c6/trunk"
+          }
+        },
+        "trunk_group": {
+          "links": {
+            "self": "https://api.didww.com/v3/dids/0aece6c9-614a-43b4-8294-73e7fe50d7c6/relationships/trunk_group",
+            "related": "https://api.didww.com/v3/dids/0aece6c9-614a-43b4-8294-73e7fe50d7c6/trunk_group"
+          }
+        },
+        "capacity_pool": {
+          "links": {
+            "self": "https://api.didww.com/v3/dids/0aece6c9-614a-43b4-8294-73e7fe50d7c6/relationships/capacity_pool",
+            "related": "https://api.didww.com/v3/dids/0aece6c9-614a-43b4-8294-73e7fe50d7c6/capacity_pool"
+          }
+        },
+        "shared_capacity_group": {
+          "links": {
+            "self": "https://api.didww.com/v3/dids/0aece6c9-614a-43b4-8294-73e7fe50d7c6/relationships/shared_capacity_group",
+            "related": "https://api.didww.com/v3/dids/0aece6c9-614a-43b4-8294-73e7fe50d7c6/shared_capacity_group"
+          }
+        }
+      }
+    }
+  ],
+  "meta": {
+    "total_records": 2
+  },
+  "links": {
+    "first": "https://api.didww.com/v3/shared_capacity_groups?include=capacity_pool%2Cdids&page%5Bnumber%5D=1&page%5Bsize%5D=50",
+    "last": "https://api.didww.com/v3/shared_capacity_groups?include=capacity_pool%2Cdids&page%5Bnumber%5D=1&page%5Bsize%5D=50"
+  }
+}

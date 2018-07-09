@@ -37,8 +37,16 @@ module DIDWW
         Resource::Balance.all.first
       end
 
+      def capacity_pools
+        Resource::CapacityPool
+      end
+
       def cdr_exports
         Resource::CdrExport
+      end
+
+      def shared_capacity_groups
+        Resource::SharedCapacityGroup
       end
 
       def cities
@@ -114,7 +122,9 @@ module DIDWW
 
       def require_didww_resources
         require 'didww/resources/balance'
+        require 'didww/resources/capacity_pool'
         require 'didww/resources/cdr_export'
+        require 'didww/resources/shared_capacity_group'
         require 'didww/resources/city'
         require 'didww/resources/country'
         require 'didww/resources/did_group_type'

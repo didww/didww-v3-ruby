@@ -1,0 +1,91 @@
+{
+  "data": {
+    "id": "b8db1d7c-f415-4530-a340-c774bcc1c55f",
+    "type": "capacity_pools",
+    "attributes": {
+      "name": "Extended Pool",
+      "renew_date": "2018-07-21",
+      "total_channels_count": 10,
+      "assigned_channels_count": 6,
+      "minimum_limit": 5,
+      "minimum_qty_per_order": 1,
+      "setup_price": "0.0",
+      "monthly_price": "25.0",
+      "metered_rate": "0.0025"
+    },
+    "relationships": {
+      "countries": {
+        "links": {
+          "self": "https://api.didww.com/v3/capacity_pools/b8db1d7c-f415-4530-a340-c774bcc1c55f/relationships/countries",
+          "related": "https://api.didww.com/v3/capacity_pools/b8db1d7c-f415-4530-a340-c774bcc1c55f/countries"
+        },
+        "data": [
+          {
+            "type": "countries",
+            "id": "7eda11bb-0e66-4146-98e7-57a5281f56c8"
+          },
+          {
+            "type": "countries",
+            "id": "1f6fc2bd-f081-4202-9b1a-d9cb88d942b9"
+          }
+        ]
+      },
+      "shared_capacity_groups": {
+        "links": {
+          "self": "https://api.didww.com/v3/capacity_pools/b8db1d7c-f415-4530-a340-c774bcc1c55f/relationships/shared_capacity_groups",
+          "related": "https://api.didww.com/v3/capacity_pools/b8db1d7c-f415-4530-a340-c774bcc1c55f/shared_capacity_groups"
+        },
+        "data": [
+          {
+            "type": "shared_capacity_groups",
+            "id": "dd2e8844-6a79-4673-ba1c-c8a4913884cc"
+          }
+        ]
+      }
+    }
+  },
+  "included": [
+    {
+      "id": "7eda11bb-0e66-4146-98e7-57a5281f56c8",
+      "type": "countries",
+      "attributes": {
+        "name": "United Kingdom",
+        "prefix": "44",
+        "iso": "GB"
+      }
+    },
+    {
+      "id": "1f6fc2bd-f081-4202-9b1a-d9cb88d942b9",
+      "type": "countries",
+      "attributes": {
+        "name": "United States",
+        "prefix": "1",
+        "iso": "US"
+      }
+    },
+    {
+      "id": "dd2e8844-6a79-4673-ba1c-c8a4913884cc",
+      "type": "shared_capacity_groups",
+      "attributes": {
+        "name": "Sample group",
+        "shared_channels_count": 0,
+        "created_at": "2018-06-19T11:41:21.644Z",
+        "metered_channels_count": 30
+      },
+      "relationships": {
+        "capacity_pool": {
+          "links": {
+            "self": "https://api.didww.com/v3/shared_capacity_groups/dd2e8844-6a79-4673-ba1c-c8a4913884cc/relationships/capacity_pool",
+            "related": "https://api.didww.com/v3/shared_capacity_groups/dd2e8844-6a79-4673-ba1c-c8a4913884cc/capacity_pool"
+          }
+        },
+        "dids": {
+          "links": {
+            "self": "https://api.didww.com/v3/shared_capacity_groups/dd2e8844-6a79-4673-ba1c-c8a4913884cc/relationships/dids",
+            "related": "https://api.didww.com/v3/shared_capacity_groups/dd2e8844-6a79-4673-ba1c-c8a4913884cc/dids"
+          }
+        }
+      }
+    }
+  ]
+}
