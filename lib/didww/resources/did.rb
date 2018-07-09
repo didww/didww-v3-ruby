@@ -3,6 +3,8 @@ module DIDWW
     class Did < Base
       has_one :trunk
       has_one :trunk_group
+      has_one :capacity_pool
+      has_one :shared_capacity_group
 
       property :blocked, type: :boolean
       # Type: Boolean
@@ -33,6 +35,10 @@ module DIDWW
       # Description: The capacity limit (maximum number of simultaneous calls) for this DID.
 
       property :channels_included_count, type: :integer
+      # Type: Integer
+      # Description: The number of channels included with this DID.
+
+      property :dedicated_channels_count, type: :integer
       # Type: Integer
       # Description: The number of channels included with this DID.
 

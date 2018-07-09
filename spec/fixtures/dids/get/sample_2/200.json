@@ -13,7 +13,8 @@
         "expires_at": "2017-06-25T08:21:41.795Z",
         "channels_included_count": 2,
         "created_at": "2017-06-25T08:21:41.795Z",
-        "pending_removal": false
+        "pending_removal": false,
+        "dedicated_channels_count": 0
       },
       "relationships": {
         "did_group": {
@@ -43,6 +44,18 @@
             "self": "https://api.didww.com/v3/dids/96408625-df7d-400f-9615-6c365e71b2c2/relationships/trunk_group",
             "related": "https://api.didww.com/v3/dids/96408625-df7d-400f-9615-6c365e71b2c2/trunk_group"
           }
+        },
+        "capacity_pool": {
+          "links": {
+            "self": "https://api.didww.com/v3/dids/96408625-df7d-400f-9615-6c365e71b2c2/relationships/capacity_pool",
+            "related": "https://api.didww.com/v3/dids/96408625-df7d-400f-9615-6c365e71b2c2/capacity_pool"
+          }
+        },
+        "shared_capacity_group": {
+          "links": {
+            "self": "https://api.didww.com/v3/dids/96408625-df7d-400f-9615-6c365e71b2c2/relationships/shared_capacity_group",
+            "related": "https://api.didww.com/v3/dids/96408625-df7d-400f-9615-6c365e71b2c2/shared_capacity_group"
+          }
         }
       }
     },
@@ -59,7 +72,8 @@
         "expires_at": "2017-06-25T08:21:41.795Z",
         "channels_included_count": 2,
         "created_at": "2017-06-25T08:21:41.795Z",
-        "pending_removal": false
+        "pending_removal": false,
+        "dedicated_channels_count": 0
       },
       "relationships": {
         "did_group": {
@@ -88,6 +102,18 @@
           "links": {
             "self": "https://api.didww.com/v3/dids/187e6d79-3e12-446e-a471-359bff8996d4/relationships/trunk_group",
             "related": "https://api.didww.com/v3/dids/187e6d79-3e12-446e-a471-359bff8996d4/trunk_group"
+          }
+        },
+        "capacity_pool": {
+          "links": {
+            "self": "https://api.didww.com/v3/dids/187e6d79-3e12-446e-a471-359bff8996d4/relationships/capacity_pool",
+            "related": "https://api.didww.com/v3/dids/187e6d79-3e12-446e-a471-359bff8996d4/capacity_pool"
+          }
+        },
+        "shared_capacity_group": {
+          "links": {
+            "self": "https://api.didww.com/v3/dids/187e6d79-3e12-446e-a471-359bff8996d4/relationships/shared_capacity_group",
+            "related": "https://api.didww.com/v3/dids/187e6d79-3e12-446e-a471-359bff8996d4/shared_capacity_group"
           }
         }
       }
