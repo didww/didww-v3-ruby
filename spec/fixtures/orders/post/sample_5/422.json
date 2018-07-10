@@ -1,0 +1,13 @@
+{
+  "errors": [
+    {
+      "title": "should be at least 5",
+      "detail": "items/0/qty - should be at least 5",
+      "code": "100",
+      "source": {
+        "pointer": "/data/attributes/items/0/qty"
+      },
+      "status": "422"
+    }
+  ]
+}

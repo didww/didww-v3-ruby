@@ -100,6 +100,12 @@
             "self": "https://api.didww.com/v3/capacity_pools/71185c2a-fcc7-468b-87e3-85260fbc3b86/relationships/shared_capacity_groups",
             "related": "https://api.didww.com/v3/capacity_pools/71185c2a-fcc7-468b-87e3-85260fbc3b86/shared_capacity_groups"
           }
+        },
+        "qty_based_pricings": {
+          "links": {
+            "self": "https://api.didww.com/v3/capacity_pools/71185c2a-fcc7-468b-87e3-85260fbc3b86/relationships/qty_based_pricings",
+            "related": "https://api.didww.com/v3/capacity_pools/71185c2a-fcc7-468b-87e3-85260fbc3b86/qty_based_pricings"
+          }
         }
       }
     },
@@ -128,6 +134,12 @@
           "links": {
             "self": "https://api.didww.com/v3/capacity_pools/ac62c8fc-886b-4477-8baf-0cc992e0ab1e/relationships/shared_capacity_groups",
             "related": "https://api.didww.com/v3/capacity_pools/ac62c8fc-886b-4477-8baf-0cc992e0ab1e/shared_capacity_groups"
+          }
+        },
+        "qty_based_pricings": {
+          "links": {
+            "self": "https://api.didww.com/v3/capacity_pools/ac62c8fc-886b-4477-8baf-0cc992e0ab1e/relationships/qty_based_pricings",
+            "related": "https://api.didww.com/v3/capacity_pools/ac62c8fc-886b-4477-8baf-0cc992e0ab1e/qty_based_pricings"
           }
         }
       }

@@ -17,6 +17,11 @@
                 "qty": 1,
                 "setup_price": "0.0",
                 "monthly_price": "15.0",
+                "nrc": "0.0",
+                "mrc": "15.0",
+                "prorated_mrc": true,
+                "billed_from": "2018-08-15",
+                "billed_to": "2018-09-15",
                 "did_group_id": "0d941650-3812-4c2b-a660-f1c6bddc52c9"
               }
             }
@@ -41,6 +46,11 @@
                 "qty": 1,
                 "setup_price": "0.0",
                 "monthly_price": "15.0",
+                "nrc": "0.0",
+                "mrc": "15.0",
+                "prorated_mrc": true,
+                "billed_from": "2018-08-15",
+                "billed_to": "2018-09-15",
                 "did_group_id": "2eeff832-c47e-48fb-80d4-b5687e193884"
               }
             }

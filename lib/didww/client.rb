@@ -132,6 +132,7 @@ module DIDWW
         require 'didww/resources/did'
         require 'didww/resources/order'
         require 'didww/resources/pop'
+        require 'didww/resources/qty_based_pricing'
         require 'didww/resources/region'
         require 'didww/resources/stock_keeping_unit'
         require 'didww/resources/trunk_group'

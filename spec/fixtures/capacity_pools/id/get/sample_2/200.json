@@ -41,6 +41,22 @@
             "id": "dd2e8844-6a79-4673-ba1c-c8a4913884cc"
           }
         ]
+      },
+      "qty_based_pricings": {
+        "links": {
+          "self": "https://api.didww.com/v3/capacity_pools/b8db1d7c-f415-4530-a340-c774bcc1c55f/relationships/qty_based_pricings",
+          "related": "https://api.didww.com/v3/capacity_pools/b8db1d7c-f415-4530-a340-c774bcc1c55f/qty_based_pricings"
+        },
+        "data": [
+          {
+            "type": "qty_based_pricings",
+            "id": "2c6d907a-a160-40c8-b6d8-f5902487d405"
+          },
+          {
+            "type": "qty_based_pricings",
+            "id": "058fc92e-443c-4b34-954b-7270266a1d39"
+          }
+        ]
       }
     }
   },
@@ -85,6 +101,24 @@
             "related": "https://api.didww.com/v3/shared_capacity_groups/dd2e8844-6a79-4673-ba1c-c8a4913884cc/dids"
           }
         }
+      }
+    },
+    {
+      "id": "2c6d907a-a160-40c8-b6d8-f5902487d405",
+      "type": "qty_based_pricings",
+      "attributes": {
+        "qty": 5,
+        "monthly_price": "12.0",
+        "setup_price": "0.0"
+      }
+    },
+    {
+      "id": "058fc92e-443c-4b34-954b-7270266a1d39",
+      "type": "qty_based_pricings",
+      "attributes": {
+        "qty": 10,
+        "monthly_price": "10.0",
+        "setup_price": "0.0"
       }
     }
   ]
