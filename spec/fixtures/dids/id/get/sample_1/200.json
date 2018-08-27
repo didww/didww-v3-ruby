@@ -12,7 +12,8 @@
       "expires_at": "2017-06-25T08:21:41.795Z",
       "channels_included_count": 2,
       "created_at": "2017-06-25T08:21:41.795Z",
-      "pending_removal": false
+      "pending_removal": false,
+      "dedicated_channels_count": 0
     },
     "relationships": {
       "did_group": {
@@ -37,6 +38,18 @@
         "links": {
           "self": "https://api.didww.com/v3/dids/44957076-778a-4802-b60c-d22db0cda284/relationships/trunk_group",
           "related": "https://api.didww.com/v3/dids/44957076-778a-4802-b60c-d22db0cda284/trunk_group"
+        }
+      },
+      "capacity_pool": {
+        "links": {
+          "self": "https://api.didww.com/v3/dids/44957076-778a-4802-b60c-d22db0cda284/relationships/capacity_pool",
+          "related": "https://api.didww.com/v3/dids/44957076-778a-4802-b60c-d22db0cda284/capacity_pool"
+        }
+      },
+      "shared_capacity_group": {
+        "links": {
+          "self": "https://api.didww.com/v3/dids/44957076-778a-4802-b60c-d22db0cda284/relationships/shared_capacity_group",
+          "related": "https://api.didww.com/v3/dids/44957076-778a-4802-b60c-d22db0cda284/shared_capacity_group"
         }
       }
     }

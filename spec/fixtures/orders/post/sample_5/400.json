@@ -1,0 +1,10 @@
+{
+  "errors": [
+    {
+      "title": "Insufficient funds",
+      "detail": "Insufficient funds",
+      "code": "400",
+      "status": "400"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "errors": [
+    {
+      "title": "is not allowed for DID country",
+      "detail": "capacity_pool_id - is not allowed for DID country",
+      "code": "100",
+      "source": {
+        "pointer": "/data/attributes/capacity_pool_id"
+      },
+      "status": "422"
+    }
+  ]
+}

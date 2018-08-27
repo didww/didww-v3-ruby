@@ -212,6 +212,68 @@ RSpec.describe DIDWW::Resource::Did do
         expect(did.save)
         expect(did.errors).to be_empty
       end
+
+      it 'assigns a CapacityPool to Did' do
+        id = '3e3f57ec-0541-473a-af63-103216d19db3'
+        stub_didww_request(:patch, "/dids/#{id}").
+          with(body:
+            {
+              "data": {
+                "id": '3e3f57ec-0541-473a-af63-103216d19db3',
+                "type": 'dids',
+                "relationships": {
+                  "capacity_pool": {
+                    "data": {
+                      "type": 'capacity_pools',
+                      "id": '1e9e4362-bc5c-47f3-a2bb-c17afa66f3fa'
+                    }
+                  }
+                },
+                "attributes": {}
+              }
+            }.to_json).
+          to_return(
+            status: 200,
+            body: api_fixture('dids/id/patch/sample_4/200'),
+            headers: json_api_headers
+          )
+        did = DIDWW::Resource::Did.load(id: id)
+        did.relationships[:capacity_pool] = DIDWW::Resource::CapacityPool.load(id: '1e9e4362-bc5c-47f3-a2bb-c17afa66f3fa')
+
+        expect(did.save)
+        expect(did.errors).to be_empty
+      end
+
+      it 'assigns a SharedCapacityGroup to Did' do
+        id = '3e3f57ec-0541-473a-af63-103216d19db3'
+        stub_didww_request(:patch, "/dids/#{id}").
+          with(body:
+            {
+              "data": {
+                "id": '3e3f57ec-0541-473a-af63-103216d19db3',
+                "type": 'dids',
+                "relationships": {
+                  "shared_capacity_group": {
+                    "data": {
+                      "type": 'shared_capacity_groups',
+                      "id": '31e08e8f-f3c6-49dd-acb2-d9335828879e'
+                    }
+                  }
+                },
+                "attributes": {}
+              }
+            }.to_json).
+          to_return(
+            status: 200,
+            body: api_fixture('dids/id/patch/sample_5/200'),
+            headers: json_api_headers
+          )
+        did = DIDWW::Resource::Did.load(id: id)
+        did.relationships[:shared_capacity_group] = DIDWW::Resource::SharedCapacityGroup.load(id: '31e08e8f-f3c6-49dd-acb2-d9335828879e')
+
+        expect(did.save)
+        expect(did.errors).to be_empty
+      end
     end
 
     describe 'with incorerct attributes' do
@@ -247,6 +309,70 @@ RSpec.describe DIDWW::Resource::Did do
       end
     end
 
-  end
+    describe 'with incompatible CapacityPool' do
+      it 'returns a Did with errors' do
+        id = '3e3f57ec-0541-473a-af63-103216d19db3'
+        stub_didww_request(:patch, "/dids/#{id}").
+          with(body:
+            {
+              "data": {
+                "id": '3e3f57ec-0541-473a-af63-103216d19db3',
+                "type": 'dids',
+                "relationships": {
+                  "capacity_pool": {
+                    "data": {
+                      "type": 'capacity_pools',
+                      "id": '1e9e4362-bc5c-47f3-a2bb-c17afa66f3fa'
+                    }
+                  }
+                },
+                "attributes": {}
+              }
+            }.to_json).
+          to_return(
+            status: 422,
+            body: api_fixture('dids/id/patch/sample_4/422'),
+            headers: json_api_headers
+          )
+        did = DIDWW::Resource::Did.load(id: id)
+        did.relationships[:capacity_pool] = DIDWW::Resource::CapacityPool.load(id: '1e9e4362-bc5c-47f3-a2bb-c17afa66f3fa')
 
+        did.save
+        expect(did.errors).to have_at_least(1).item
+      end
+    end
+
+    describe 'with incompatible SharedCapacityGroup' do
+      it 'returns a Did with errors' do
+        id = '3e3f57ec-0541-473a-af63-103216d19db3'
+        stub_didww_request(:patch, "/dids/#{id}").
+          with(body:
+            {
+              "data": {
+                "id": '3e3f57ec-0541-473a-af63-103216d19db3',
+                "type": 'dids',
+                "relationships": {
+                  "shared_capacity_group": {
+                    "data": {
+                      "type": 'shared_capacity_groups',
+                      "id": '31e08e8f-f3c6-49dd-acb2-d9335828879e'
+                    }
+                  }
+                },
+                "attributes": {}
+              }
+            }.to_json).
+          to_return(
+            status: 422,
+            body: api_fixture('dids/id/patch/sample_5/422'),
+            headers: json_api_headers
+          )
+        did = DIDWW::Resource::Did.load(id: id)
+        did.relationships[:shared_capacity_group] = DIDWW::Resource::SharedCapacityGroup.load(id: '31e08e8f-f3c6-49dd-acb2-d9335828879e')
+
+        did.save
+        expect(did.errors).to have_at_least(1).item
+      end
+    end
+  end
 end

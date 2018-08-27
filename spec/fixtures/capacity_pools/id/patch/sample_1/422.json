@@ -1,0 +1,13 @@
+{
+  "errors": [
+    {
+      "title": "should be at least 2",
+      "detail": "total_channels_count - should be at least 2",
+      "code": "100",
+      "source": {
+        "pointer": "/data/attributes/total_channels_count"
+      },
+      "status": "422"
+    }
+  ]
+}

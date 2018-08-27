@@ -1,0 +1,27 @@
+{
+  "data": {
+    "id": "076d33b1-0634-4274-a5a8-9ecc036dc26b",
+    "type": "orders",
+    "attributes": {
+      "amount": "21.33",
+      "status": "Pending",
+      "created_at": "2018-07-10T08:35:17.452Z",
+      "description": "Capacity",
+      "reference": "BUW-660290",
+      "items": [
+        {
+          "type": "capacity_order_items",
+          "attributes": {
+            "qty": 5,
+            "nrc": "20.0",
+            "mrc": "1.33",
+            "prorated_mrc": true,
+            "billed_from": "2018-08-15",
+            "billed_to": "2018-09-15",
+            "capacity_pool_id": "034f98bf-704c-4497-be9a-1c9ab399a900"
+          }
+        }
+      ]
+    }
+  }
+}

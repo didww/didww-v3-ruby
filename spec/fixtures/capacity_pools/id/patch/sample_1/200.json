@@ -1,0 +1,37 @@
+{
+  "data": {
+    "id": "b8db1d7c-f415-4530-a340-c774bcc1c55f",
+    "type": "capacity_pools",
+    "attributes": {
+      "name": "Extended Pool",
+      "renew_date": "2018-07-21",
+      "total_channels_count": 7,
+      "assigned_channels_count": 6,
+      "minimum_limit": 5,
+      "minimum_qty_per_order": 1,
+      "setup_price": "0.0",
+      "monthly_price": "25.0",
+      "metered_rate": "0.0025"
+    },
+    "relationships": {
+      "countries": {
+        "links": {
+          "self": "https://api.didww.com/v3/capacity_pools/b8db1d7c-f415-4530-a340-c774bcc1c55f/relationships/countries",
+          "related": "https://api.didww.com/v3/capacity_pools/b8db1d7c-f415-4530-a340-c774bcc1c55f/countries"
+        }
+      },
+      "shared_capacity_groups": {
+        "links": {
+          "self": "https://api.didww.com/v3/capacity_pools/b8db1d7c-f415-4530-a340-c774bcc1c55f/relationships/shared_capacity_groups",
+          "related": "https://api.didww.com/v3/capacity_pools/b8db1d7c-f415-4530-a340-c774bcc1c55f/shared_capacity_groups"
+        }
+      },
+      "qty_based_pricings": {
+        "links": {
+          "self": "https://api.didww.com/v3/capacity_pools/b8db1d7c-f415-4530-a340-c774bcc1c55f/relationships/qty_based_pricings",
+          "related": "https://api.didww.com/v3/capacity_pools/b8db1d7c-f415-4530-a340-c774bcc1c55f/qty_based_pricings"
+        }
+      }
+    }
+  }
+}

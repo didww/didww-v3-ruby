@@ -15,6 +15,11 @@
             "qty": 15,
             "setup_price": "5.00",
             "monthly_price": "5.00",
+            "nrc": "5.00",
+            "mrc": "5.00",
+            "prorated_mrc": true,
+            "billed_from": "2018-08-15",
+            "billed_to": "2018-09-15",
             "did_group_id": "d01704b0-6522-47d5-8865-3398c417ed1d"
           }
         }
