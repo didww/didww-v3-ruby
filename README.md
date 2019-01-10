@@ -1,5 +1,7 @@
 Ruby client for DIDWW API v3.
 
+[![Build Status](https://travis-ci.org/didww/didww-v3-ruby.svg?branch=master)](https://travis-ci.org/didww/didww-v3-ruby)
+
 About DIDWW API v3
 -----
 
