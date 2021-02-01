@@ -1,6 +1,6 @@
 Ruby client for DIDWW API v3.
 
-[![Build Status](https://github.com/didww/didww-v3-ruby/workflows/tests/badge.svg?branch=master)](https://github.com/didww/didww-v3-ruby/actions)
+![Tests](https://github.com/didww/didww-v3-ruby/workflows/Tests/badge.svg)
 
 About DIDWW API v3
 -----
