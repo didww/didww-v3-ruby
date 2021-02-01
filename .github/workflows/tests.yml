@@ -1,5 +1,5 @@
 name: Tests
-on: [ 'pull_request' ]
+on: [ 'push', 'pull_request' ]
 
 jobs:
   test:
@@ -14,5 +14,5 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
       - run: |
-          gem install bundler -v 2.27.0
+          gem install bundler -v 2.2.7
           bundle exec rake
