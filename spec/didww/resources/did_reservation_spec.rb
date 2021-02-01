@@ -135,7 +135,7 @@ RSpec.describe DIDWW::Resource::DidReservation do
       it 'returns did_group' do
         expect(subject.first.available_did).to be_kind_of(DIDWW::Resource::AvailableDid)
       end
-    end
+      end
 
   end
 

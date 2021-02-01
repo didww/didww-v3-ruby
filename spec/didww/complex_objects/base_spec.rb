@@ -1,5 +1,5 @@
 RSpec.describe DIDWW::ComplexObject::Base do
-  class self::TestComplexObject < described_class
+  class self::TestComplexObject < DIDWW::ComplexObject::Base
     property :known, type: :integer
   end
 
@@ -8,7 +8,7 @@ RSpec.describe DIDWW::ComplexObject::Base do
     let(:test_instance) { test_class.new(known: '42', unknown: 'bar') }
 
     it 'can have arbitrary properties' do
-      expect{ test_instance }.not_to raise_error
+      expect { test_instance }.not_to raise_error
       expect( test_instance[:unknown] ).to eq('bar')
     end
 

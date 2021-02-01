@@ -1,18 +1,18 @@
+require:
+  - rubocop-performance
+  - rubocop-rake
+  - rubocop-rspec
+
 AllCops:
-  TargetRubyVersion: 2.4
+  TargetRubyVersion: 2.5
   DisplayCopNames: true
   DisabledByDefault: true
 
   Exclude:
     - db/migrate/**/*
 
-  Include:
-    - "**/*.rake"
-    - "**/Gemfile"
-    - "**/Rakefile"
-
 ##################### Layout ##################################
-Layout/TrailingBlankLines:
+Layout/TrailingEmptyLines:
   Enabled: true
 
 Layout/TrailingWhitespace:
@@ -68,7 +68,7 @@ Performance/EndWith:
   Enabled: true
 
 # Use `strip` instead of `lstrip.rstrip`.
-Performance/LstripRstrip:
+Style/Strip:
   Enabled: true
 
 # Use `Range#cover?` instead of `Range#include?`.
@@ -91,7 +91,7 @@ Performance/RedundantMerge:
   Enabled: true
 
 # Use `sort` instead of `sort_by { |x| x }`.
-Performance/RedundantSortBy:
+Style/RedundantSortBy:
   Enabled: true
 
 # Use `start_with?` instead of a regex match anchored to the beginning of a
@@ -138,7 +138,7 @@ Lint/AssignmentInCondition:
   Enabled: true
 
 # Align block ends correctly.
-Lint/BlockAlignment:
+Layout/BlockAlignment:
   Enabled: true
 
 # Default values in optional keyword arguments and optional ordinal arguments
@@ -147,7 +147,7 @@ Lint/CircularArgumentReference:
   Enabled: true
 
 # Checks for condition placed in a confusing position relative to the keyword.
-Lint/ConditionPosition:
+Layout/ConditionPosition:
   Enabled: true
 
 # Check for debugger calls.
@@ -155,7 +155,7 @@ Lint/Debugger:
   Enabled: true
 
 # Align ends corresponding to defs correctly.
-Lint/DefEndAlignment:
+Layout/DefEndAlignment:
   Enabled: true
 
 # Check for deprecated class method calls.
@@ -179,11 +179,11 @@ Lint/EmptyWhen:
   Enabled: true
 
 # Align ends correctly.
-Lint/EndAlignment:
+Layout/EndAlignment:
   Enabled: true
 
 # END blocks should not be placed inside method definitions.
-Lint/EndInMethod:
+Style/EndBlock:
   Enabled: true
 
 # Do not use return in an ensure block.
@@ -199,7 +199,7 @@ Lint/FormatParameterMismatch:
   Enabled: true
 
 # This cop checks for *rescue* blocks with no body.
-Lint/HandleExceptions:
+Lint/SuppressedException:
   Enabled: true
 
 # Checks for adjacent string literals on the same line, which could better be
@@ -255,7 +255,7 @@ Lint/ShadowingOuterLocalVariable:
   Enabled: false
 
 # Checks for Object#to_s usage in string interpolation.
-Lint/StringConversionInInterpolation:
+Lint/RedundantStringCoercion:
   Enabled: false
 
 # Do not use prefix `_` for a variable that is used.
@@ -269,11 +269,11 @@ Lint/UnifiedInteger:
 # Checks for rubocop:disable comments that can be removed.
 # Note: this cop is not disabled when disabling all cops.
 # It must be explicitly disabled.
-Lint/UnneededDisable:
+Lint/RedundantCopDisableDirective:
   Enabled: false
 
 # This cop checks for unneeded usages of splat expansion
-Lint/UnneededSplatExpansion:
+Lint/RedundantSplatExpansion:
   Enabled: false
 
 # Unreachable code.
@@ -297,7 +297,7 @@ Lint/UselessAssignment:
   Enabled: false
 
 # Checks for comparison of something with itself.
-Lint/UselessComparison:
+Lint/BinaryOperatorWithIdenticalOperands:
   Enabled: false
 
 # Checks for useless `else` in `begin..end` without `rescue`.

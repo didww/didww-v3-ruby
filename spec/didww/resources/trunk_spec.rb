@@ -492,25 +492,25 @@ RSpec.describe DIDWW::Resource::Trunk do
           with(body:
             {
               "data": {
-                "type": "trunks",
+                "type": 'trunks',
                 "relationships": {
                   "pop": {
                     "data": {
-                      "type": "pops",
-                      "id": "240416e4-aeb2-4ca5-9df2-f37f01e930cf"
+                      "type": 'pops',
+                      "id": '240416e4-aeb2-4ca5-9df2-f37f01e930cf'
                     }
                   }
                 },
                 "attributes": {
-                  "name": "Office SIP",
+                  "name": 'Office SIP',
                   "capacity_limit": 18,
-                  "cli_format": "e164",
-                  "cli_prefix": "+1",
+                  "cli_format": 'e164',
+                  "cli_prefix": '+1',
                   "configuration": {
-                    "type": "sip_configurations",
+                    "type": 'sip_configurations',
                     "attributes": {
-                      "username": "username",
-                      "host": "example.com",
+                      "username": 'username',
+                      "host": 'example.com',
                       "codec_ids": [
                         9,
                         7
@@ -519,10 +519,10 @@ RSpec.describe DIDWW::Resource::Trunk do
                       "tx_dtmf_format_id": 1,
                       "resolve_ruri": true,
                       "auth_enabled": true,
-                      "auth_user": "username",
-                      "auth_password": "password",
-                      "auth_from_user": "Office",
-                      "auth_from_domain": "example.com",
+                      "auth_user": 'username',
+                      "auth_password": 'password',
+                      "auth_from_user": 'Office',
+                      "auth_from_domain": 'example.com',
                       "sst_enabled": false,
                       "sst_min_timer": 600,
                       "sst_max_timer": 900,
@@ -553,10 +553,10 @@ RSpec.describe DIDWW::Resource::Trunk do
             headers: json_api_headers
           )
         trunk = client.trunks.new(
-                    name: "Office SIP",
+                    name: 'Office SIP',
                     capacity_limit: 18,
-                    cli_format: "e164",
-                    cli_prefix: "+1",
+                    cli_format: 'e164',
+                    cli_prefix: '+1',
                   )
         trunk.configuration = DIDWW::ComplexObject::SipConfiguration.new.tap do |c|
           c.username = 'username'
@@ -842,7 +842,7 @@ RSpec.describe DIDWW::Resource::Trunk do
             headers: json_api_headers
           )
         trunk = DIDWW::Resource::Trunk.load(id: id)
-        trunk.name = "New trunk"
+        trunk.name = 'New trunk'
         trunk.relationships.pop = DIDWW::Resource::Pop.load(id: 'cb5ea690-e3a3-4781-a4f3-3bd0123284dd')
         trunk.save
         expect(trunk.errors).to be_empty
