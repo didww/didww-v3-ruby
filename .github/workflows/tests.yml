@@ -13,6 +13,8 @@ jobs:
       - uses: actions/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-      - run: |
-          gem install bundler -v 2.27.0
+      - name: Run tests
+        run: |
+          gem install bundler -v 2.2.7
+          bundle install
           bundle exec rake
