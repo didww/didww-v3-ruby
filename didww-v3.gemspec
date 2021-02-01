@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'activesupport'
   spec.add_dependency 'faraday'
-  spec.add_dependency 'json_api_client', '1.5.3'
+  spec.add_dependency 'json_api_client', '1.18.0'
   spec.add_dependency 'http'
   spec.add_dependency 'down'
 end

@@ -316,10 +316,8 @@ RSpec.describe DIDWW::Resource::Order do
             qty: 5,
             capacity_pool_id: '034f98bf-704c-4497-be9a-1c9ab399a900'
         )
-        order.save
+        expect { order.save }.to raise_error(JsonApiClient::Errors::ClientError, 'Insufficient funds')
         expect(order).to_not be_persisted
-        expect(order.errors).to have_at_least(1).item
-        expect(order.errors.full_messages.to_sentence).to eq('Insufficient funds')
       end
     end
 
