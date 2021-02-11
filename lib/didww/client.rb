@@ -97,6 +97,10 @@ module DIDWW
         Resource::DidReservation
       end
 
+      def requirements
+        Resource::Requirement
+      end
+
       def api_mode=(arg)
         unless BASE_URLS.keys.include?(arg)
           raise ArgumentError.new("Mode should be in #{BASE_URLS.keys} (given '#{arg}').")
@@ -139,6 +143,7 @@ module DIDWW
         require 'didww/resources/trunk'
         require 'didww/resources/available_did'
         require 'didww/resources/did_reservation'
+        require 'didww/resources/requirement'
       end
 
     end
