@@ -156,6 +156,8 @@ module DIDWW
         require 'didww/resources/available_did'
         require 'didww/resources/did_reservation'
         require 'didww/resources/requirement'
+        require 'didww/resources/proof_type'
+        require 'didww/resources/supporting_document_template'
       end
 
     end
