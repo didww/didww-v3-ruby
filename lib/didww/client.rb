@@ -11,7 +11,7 @@ module DIDWW
     }.freeze
     DEFAULT_MODE = :sandbox
 
-    mattr_accessor :api_key, :api_mode, :http_verbose
+    mattr_accessor :api_key, :api_mode, :http_verbose, :api_version
 
     class << self
       def configure
@@ -27,6 +27,18 @@ module DIDWW
 
       def api_key
         @@api_key
+      end
+
+      def api_version
+        @@api_version
+      end
+
+      def with_api_version(api_version)
+        old_api_version = self.api_version
+        self.api_version = api_version
+        yield
+      ensure
+        self.api_version = old_api_version
       end
 
       def api_base_url
