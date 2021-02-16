@@ -8,9 +8,9 @@ module DIDWW
       has_one :business_permanent_document, class_name: 'SupportingDocumentTemplate'
       has_one :personal_onetime_document, class_name: 'SupportingDocumentTemplate'
       has_one :business_onetime_document, class_name: 'SupportingDocumentTemplate'
-      has_many :personal_proof_types, class_name: 'Regulation::ProofType'
-      has_many :business_proof_types, class_name: 'Regulation::ProofType'
-      has_many :address_proof_types, class_name: 'Regulation::ProofType'
+      has_many :personal_proof_types, class_name: 'ProofType'
+      has_many :business_proof_types, class_name: 'ProofType'
+      has_many :address_proof_types, class_name: 'ProofType'
 
       property :identity_type, type: :integer
       # Type: Integer
