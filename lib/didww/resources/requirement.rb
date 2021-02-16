@@ -40,11 +40,11 @@ module DIDWW
       # Type: Integer
       # Description:
 
-      property :personal_mandatory_fields, type: :string, array: true
+      property :personal_mandatory_fields, type: :array
       # Type: String[]
       # Description:
 
-      property :business_mandatory_fields, type: :string, array: true
+      property :business_mandatory_fields, type: :array
       # Type: String[]
       # Description:
 
