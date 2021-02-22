@@ -113,6 +113,22 @@ module DIDWW
         Resource::Requirement
       end
 
+      def identities
+        Resource::Identity
+      end
+
+      def proofs
+        Resource::Proof
+      end
+
+      def addresses
+        Resource::Address
+      end
+
+      def permanent_supporting_documents
+        Resource::PermanentSupportingDocument
+      end
+
       def api_mode=(arg)
         unless BASE_URLS.keys.include?(arg)
           raise ArgumentError.new("Mode should be in #{BASE_URLS.keys} (given '#{arg}').")
@@ -158,6 +174,10 @@ module DIDWW
         require 'didww/resources/requirement'
         require 'didww/resources/proof_type'
         require 'didww/resources/supporting_document_template'
+        require 'didww/resources/identity'
+        require 'didww/resources/proof'
+        require 'didww/resources/address'
+        require 'didww/resources/permanent_supporting_document'
       end
 
     end
