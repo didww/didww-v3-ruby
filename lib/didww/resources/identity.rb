@@ -47,8 +47,12 @@ module DIDWW
       # Type: String
       # Description:
 
-      property :identity_type, type: :integer
-      # Type: Integer
+      property :identity_type, type: :string
+      # Type: String
+      # Description:
+
+      property :created_at, type: :date
+      # Type: Date
       # Description:
     end
   end

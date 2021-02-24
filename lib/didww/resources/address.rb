@@ -21,6 +21,10 @@ module DIDWW
       property :description, type: :string
       # Type: String
       # Description:
+
+      property :created_at, type: :date
+      # Type: Date
+      # Description:
     end
   end
 end
