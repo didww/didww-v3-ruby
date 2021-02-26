@@ -190,6 +190,7 @@ module DIDWW
         require 'didww/resources/permanent_supporting_document'
         require 'didww/resources/encrypted_file'
         require 'didww/resources/address_verification'
+        require 'didww/resources/public_key'
       end
 
     end
