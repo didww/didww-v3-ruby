@@ -129,6 +129,10 @@ module DIDWW
         Resource::PermanentSupportingDocument
       end
 
+      def files
+        Resource::EncryptedFile
+      end
+
       def api_mode=(arg)
         unless BASE_URLS.keys.include?(arg)
           raise ArgumentError.new("Mode should be in #{BASE_URLS.keys} (given '#{arg}').")
@@ -178,6 +182,7 @@ module DIDWW
         require 'didww/resources/proof'
         require 'didww/resources/address'
         require 'didww/resources/permanent_supporting_document'
+        require 'didww/resources/file'
       end
 
     end
