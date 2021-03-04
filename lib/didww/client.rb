@@ -129,7 +129,7 @@ module DIDWW
         Resource::PermanentSupportingDocument
       end
 
-      def files
+      def encrypted_file
         Resource::EncryptedFile
       end
 
@@ -182,7 +182,7 @@ module DIDWW
         require 'didww/resources/proof'
         require 'didww/resources/address'
         require 'didww/resources/permanent_supporting_document'
-        require 'didww/resources/file'
+        require 'didww/resources/encrypted_file'
       end
 
     end
