@@ -1,4 +1,5 @@
 require 'didww/version'
 require 'didww/client'
-require 'didww/middleware'
+require 'didww/base_middleware'
+require 'didww/jsonapi_middleware'
 require 'didww/callback/request_validator'

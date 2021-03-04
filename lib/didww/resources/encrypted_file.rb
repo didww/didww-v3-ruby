@@ -10,7 +10,7 @@ module DIDWW
       # Description:
 
       # @return [Array<String>]
-      def self.upload(files, fingerprint)
+      def self.upload(files = [], fingerprint)
         conn = Faraday.new(url: 'http://127.0.0.1:4000') do |faraday|
           faraday.request :multipart #make sure this is set before url_encoded
           faraday.request :url_encoded
@@ -21,7 +21,7 @@ module DIDWW
         payload = {
           encrypted_files: {
             encryption_fingerprint: fingerprint,
-            items: files.map do |file|
+            items: files&.map do |file|
               {
                 file: Faraday::UploadIO.new(file.tempfile, file.content_type),
                 description: file.original_filename

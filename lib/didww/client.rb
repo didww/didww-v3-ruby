@@ -150,7 +150,7 @@ module DIDWW
         DIDWW::Resource::Base.site = api_base_url
         DIDWW::Resource::Base.connection do |connection|
           connection.use Faraday::Response::Logger if http_verbose?
-          connection.use DIDWW::Middleware
+          connection.use DIDWW::JsonapiMiddleware
         end
         JsonApiClient::Paginating::Paginator.page_param = 'number'
         JsonApiClient::Paginating::Paginator.per_page_param = 'size'
