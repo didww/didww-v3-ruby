@@ -11,7 +11,7 @@ module DIDWW
     }.freeze
     DEFAULT_MODE = :sandbox
 
-    mattr_accessor :api_key, :api_mode, :http_verbose
+    mattr_accessor :api_key, :api_mode, :http_verbose, :api_version
 
     class << self
       def configure
@@ -27,6 +27,18 @@ module DIDWW
 
       def api_key
         @@api_key
+      end
+
+      def api_version
+        @@api_version
+      end
+
+      def with_api_version(api_version)
+        old_api_version = self.api_version
+        self.api_version = api_version
+        yield
+      ensure
+        self.api_version = old_api_version
       end
 
       def api_base_url
@@ -97,6 +109,30 @@ module DIDWW
         Resource::DidReservation
       end
 
+      def requirements
+        Resource::Requirement
+      end
+
+      def identities
+        Resource::Identity
+      end
+
+      def proofs
+        Resource::Proof
+      end
+
+      def addresses
+        Resource::Address
+      end
+
+      def permanent_supporting_documents
+        Resource::PermanentSupportingDocument
+      end
+
+      def encrypted_file
+        Resource::EncryptedFile
+      end
+
       def api_mode=(arg)
         unless BASE_URLS.keys.include?(arg)
           raise ArgumentError.new("Mode should be in #{BASE_URLS.keys} (given '#{arg}').")
@@ -114,7 +150,7 @@ module DIDWW
         DIDWW::Resource::Base.site = api_base_url
         DIDWW::Resource::Base.connection do |connection|
           connection.use Faraday::Response::Logger if http_verbose?
-          connection.use DIDWW::Middleware
+          connection.use DIDWW::JsonapiMiddleware
         end
         JsonApiClient::Paginating::Paginator.page_param = 'number'
         JsonApiClient::Paginating::Paginator.per_page_param = 'size'
@@ -139,6 +175,14 @@ module DIDWW
         require 'didww/resources/trunk'
         require 'didww/resources/available_did'
         require 'didww/resources/did_reservation'
+        require 'didww/resources/requirement'
+        require 'didww/resources/proof_type'
+        require 'didww/resources/supporting_document_template'
+        require 'didww/resources/identity'
+        require 'didww/resources/proof'
+        require 'didww/resources/address'
+        require 'didww/resources/permanent_supporting_document'
+        require 'didww/resources/encrypted_file'
       end
 
     end
