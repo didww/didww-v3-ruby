@@ -1,4 +1,5 @@
 require 'active_support/core_ext/module/attribute_accessors'
+require 'active_support/core_ext/object/blank'
 require 'json_api_client'
 
 require 'didww/resources/base'
@@ -42,7 +43,7 @@ module DIDWW
       end
 
       def api_base_url
-        BASE_URLS[api_mode]
+        ENV['DIDWW_API_URL'].presence || BASE_URLS[api_mode]
       end
 
       def balance
