@@ -18,7 +18,7 @@ module DIDWW
       # Type: Boolean
       # Description: Identifier for terminated DIDs that will be removed from service at the end of the billing cycle.
 
-      property :pending_removal, type: :boolean
+      property :billing_cycles_count, type: :integer
       # Type: Boolean
       # Description: Identifier for DIDs that are pending removal from your account.
 

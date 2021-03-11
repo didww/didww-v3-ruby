@@ -86,7 +86,7 @@
         "number": "12124727604",
         "expires_at": "2018-07-27T10:25:01.913Z",
         "channels_included_count": 2,
-        "pending_removal": false,
+        "billing_cycles_count": 1,
         "dedicated_channels_count": 0
       },
       "relationships": {
@@ -141,7 +141,7 @@
         "number": "13213556952",
         "expires_at": "2018-07-26T10:26:05.996Z",
         "channels_included_count": 0,
-        "pending_removal": false,
+        "billing_cycles_count": 1,
         "dedicated_channels_count": 0
       },
       "relationships": {
