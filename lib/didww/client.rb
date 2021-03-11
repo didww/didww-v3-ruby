@@ -134,6 +134,10 @@ module DIDWW
         Resource::EncryptedFile
       end
 
+      def address_verifications
+        Resource::AddressVerification
+      end
+
       def api_mode=(arg)
         unless BASE_URLS.keys.include?(arg)
           raise ArgumentError.new("Mode should be in #{BASE_URLS.keys} (given '#{arg}').")
@@ -184,6 +188,7 @@ module DIDWW
         require 'didww/resources/address'
         require 'didww/resources/permanent_supporting_document'
         require 'didww/resources/encrypted_file'
+        require 'didww/resources/address_verification'
       end
 
     end
