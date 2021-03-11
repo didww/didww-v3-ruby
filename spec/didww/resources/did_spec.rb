@@ -29,8 +29,8 @@ RSpec.describe DIDWW::Resource::Did do
         it '"terminated", type: Boolean' do
           expect(did.terminated).to be_in([true, false])
         end
-        it '"pending_removal", type: Boolean' do
-          expect(did.pending_removal).to be_in([true, false])
+        it '"billing_cycles_count", type: Integer' do
+          expect(did.billing_cycles_count).to be_kind_of(Integer)
         end
         it '"description", type: String' do
           expect(did.description).to be_kind_of(String)
@@ -127,7 +127,7 @@ RSpec.describe DIDWW::Resource::Did do
                 "type": 'dids',
                 "attributes": {
                   "terminated": false,
-                  "pending_removal": false,
+                  "billing_cycles_count": 1,
                   "description": 'string',
                   "capacity_limit": 1
                 }
@@ -140,14 +140,14 @@ RSpec.describe DIDWW::Resource::Did do
           )
         did = DIDWW::Resource::Did.load(id: id).tap do |d|
           d.terminated = false
-          d.pending_removal = false
+          d.billing_cycles_count = 1
           d.description = 'string'
           d.capacity_limit = 1
         end
         expect(did.save)
         expect(did.errors).to be_empty
         expect(did.terminated).to eq(false)
-        expect(did.pending_removal).to eq(false)
+        expect(did.billing_cycles_count).to eq(1)
         expect(did.description).to eq('string')
         expect(did.capacity_limit).to eq(1)
       end
@@ -287,7 +287,7 @@ RSpec.describe DIDWW::Resource::Did do
                 "type": 'dids',
                 "attributes": {
                   "terminated": false,
-                  "pending_removal": false,
+                  "billing_cycles_count": 1,
                   "description": 'string',
                   "capacity_limit": 1
                 }
@@ -300,7 +300,7 @@ RSpec.describe DIDWW::Resource::Did do
           )
         did = DIDWW::Resource::Did.load(id: id).tap do |d|
           d.terminated = false
-          d.pending_removal = false
+          d.billing_cycles_count = 1
           d.description = 'string'
           d.capacity_limit = 1
         end
