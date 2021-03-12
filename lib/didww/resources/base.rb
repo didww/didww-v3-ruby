@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'didww/jsonapi_middleware'
 require 'didww/complex_objects/base'
 

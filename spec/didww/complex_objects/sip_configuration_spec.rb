@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe DIDWW::ComplexObject::SipConfiguration do
   let (:sip_configuration) {
       DIDWW::ComplexObject::SipConfiguration.new.tap do |c|

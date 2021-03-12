@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe DIDWW::Callback::RequestValidator, '#validate' do
   subject do
     validator = DIDWW::Callback::RequestValidator.new(api_key)

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'didww/complex_objects/did_order_item'
 require 'didww/complex_objects/capacity_order_item'
 

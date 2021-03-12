@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe DIDWW::ComplexObject::Base do
   class self::TestComplexObject < DIDWW::ComplexObject::Base
     property :known, type: :integer

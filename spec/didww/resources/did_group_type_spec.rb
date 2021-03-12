@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe DIDWW::Resource::DidGroupType do
   let (:client) { DIDWW::Client }
 

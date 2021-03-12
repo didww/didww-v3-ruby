@@ -52,6 +52,9 @@ Style/StringLiterals:
 Style/StringLiteralsInInterpolation:
   Enabled: true
 
+Style/FrozenStringLiteralComment:
+  Enabled: true
+
 ##################### Performance ############################
 
 # Use `casecmp` rather than `downcase ==`.

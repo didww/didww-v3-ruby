@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'forwardable'
 require 'didww/complex_objects/cdr_export_filter'
 require 'down/http'

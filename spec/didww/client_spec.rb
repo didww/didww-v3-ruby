@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe DIDWW::Client do
   let(:api_key) { 'f02c46006f6fa4746cd019abffb0a949' }
   let(:sandbox_uri) { 'https://sandbox-api.didww.com/v3/' }
