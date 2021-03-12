@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module DIDWW
   module Resource
     class DidGroupType < Base

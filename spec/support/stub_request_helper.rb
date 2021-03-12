@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module StubRequestHelper
   # stub_request shortcut
   def stub_didww_request(method, uri)

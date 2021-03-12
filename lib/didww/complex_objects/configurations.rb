@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'didww/complex_objects/configurations/base'
 require 'didww/complex_objects/configurations/sip_configuration'
 require 'didww/complex_objects/configurations/iax2_configuration'

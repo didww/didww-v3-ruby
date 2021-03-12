@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'didww/version'
 require 'didww/client'
 require 'didww/base_middleware'
