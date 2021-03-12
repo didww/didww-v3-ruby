@@ -1,6 +1,8 @@
 module DIDWW
   module Resource
     class Identity < Base
+      IDENTITY_TYPE_PERSONAL = 'Personal'
+      IDENTITY_TYPE_BUSINESS = 'Business'
 
       has_one :country, class_name: 'Country'
       has_many :proofs, class_name: 'Proof'
@@ -54,6 +56,14 @@ module DIDWW
       property :created_at, type: :date
       # Type: Date
       # Description:
+
+      def personal?
+        identity_type == IDENTITY_TYPE_PERSONAL
+      end
+
+      def business?
+        identity_type == IDENTITY_TYPE_BUSINESS
+      end
     end
   end
 end

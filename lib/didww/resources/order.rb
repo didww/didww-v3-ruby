@@ -46,6 +46,14 @@ module DIDWW
       # Type: Boolean
       # Description: Allowing back ordering
 
+      property :callback_url, type: :string
+      # Type: String
+      # Description: valid URI for callbacks
+
+      property :callback_method, type: :string
+      # Type: String
+      # Description: GET or POST
+
       def initialize(*args)
         super
         self.items ||= []

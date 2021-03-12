@@ -7,6 +7,8 @@ module DIDWW
     class CdrExport < Base
       extend Forwardable
 
+      STATUS_COMPLETED = 'Completed'
+
       property :filters, type: :cdr_export_filter
       # Type: CDR Export Filters Object
       # Nullable: No
@@ -27,6 +29,14 @@ module DIDWW
       # Nullable: true
       # Description: url of csv file for downloading. available only when status is "Completed"
 
+      property :callback_url, type: :string
+      # Type: String
+      # Description: valid URI for callbacks
+
+      property :callback_method, type: :string
+      # Type: String
+      # Description: GET or POST
+
       def_delegators :filters, :year, :month, :did_number, :year=, :month=, :did_number=
 
       def initialize(params = {})
@@ -39,7 +49,7 @@ module DIDWW
       end
 
       def complete?
-        status == 'Completed'
+        status == STATUS_COMPLETED
       end
       alias_method :completed?, :complete?
     end
