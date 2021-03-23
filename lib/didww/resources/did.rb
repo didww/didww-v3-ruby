@@ -6,6 +6,7 @@ module DIDWW
       has_one :trunk_group
       has_one :capacity_pool
       has_one :shared_capacity_group
+      has_one :address_verification
 
       property :blocked, type: :boolean
       # Type: Boolean
