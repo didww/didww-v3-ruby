@@ -27,4 +27,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'json_api_client', '1.18.0'
   spec.add_dependency 'http'
   spec.add_dependency 'down'
+  spec.add_dependency 'openssl-oaep'
 end
