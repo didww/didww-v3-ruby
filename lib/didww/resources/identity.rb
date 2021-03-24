@@ -58,6 +58,10 @@ module DIDWW
       # Type: Date
       # Description:
 
+      property :external_reference_id, type: :string
+      # Type: String
+      # Description:
+
       def personal?
         identity_type == IDENTITY_TYPE_PERSONAL
       end
