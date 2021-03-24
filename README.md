@@ -59,7 +59,7 @@ base64_encode(str) { ... }
 
 # parameter size - integer number of bytes.
 # returns array of random bytes.
-generate_random_bytes(size)
+generate_random_bytes(size) { ... }
 
 # parameter size - AES algorithm size (128, 256, 512, ...).
 # parameter mode - AES algorighm mode (ECB, CBC, CFP, ...).
@@ -68,7 +68,7 @@ generate_random_bytes(size)
 # parameter data - string that we want to encrypt.
 # returns encrypted binary string.
 # https://tools.ietf.org/html/rfc3602
-encrypt_aes(size, mode, key, iv, data)
+encrypt_aes(size, mode, key, iv, data) { ... }
 
 # parameter bytes - array of bytes.
 # returns converted bytes array to hex string, each byte represents by 2 chars.
@@ -79,9 +79,9 @@ bytes_to_hex(bytes)
 # parameter data - string that we want to encrypt.
 # returns encrypted binary string by RSA algorithm with OAEP padding.
 # https://tools.ietf.org/html/rfc8017
-encrypt_rsa_oeap(digest, label, public_key, data)
+encrypt_rsa_oeap(digest, label, public_key, data) { ... }
 
-function encrypt (file) {
+function encrypt (file, public_keys) {
   binary = file_binary_content(file)
   binary_base64 = base64_encode(binary)
   aes_key = generate_random_bytes(32)
@@ -95,6 +95,27 @@ function encrypt (file) {
   encrypted_rsa_a_base64 = base64_encode(encrypted_rsa_a)
   encrypted_rsa_b_base64 = base64_encode(encrypted_rsa_b)
   return "#{encrypted_rsa_a_base64}:::#{encrypted_rsa_b_base64}:::#{encrypted_aes}"
+}
+```
+
+## Fingerprint generation
+pseudocode
+```
+# parameter pem - RSA public key in pem format.
+# returns RSA public key as bynary string (remove header/footer and decode from base64).
+function pubkey_pem_to_bin(pem) { ... }
+
+# parameter algo - string algorithm name (SHA1, SHA2, MD5, ...).
+# parameter data - string content for digest.
+# returns digest string for data.
+function digest(algo, data) { ... }
+      
+function fingerprint (public_keys) {
+  pubkey_bin_0 = pubkey_pem_to_bin(public_keys[0])
+  pubkey_bin_1 = pubkey_pem_to_bin(public_keys[1])
+  digest_0 = digest('SHA1', pubkey_bin_0)
+  digest_1 = digest('SHA1', pubkey_bin_1)
+  return "#{digest_0}:::#{digest_1}"
 }
 ```
 
