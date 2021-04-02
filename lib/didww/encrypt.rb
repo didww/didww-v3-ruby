@@ -21,6 +21,8 @@ module DIDWW
     AES_ALGO = [256, :CBC]
     AES_KEY_LEN = 32
     AES_IV_LEN = 16
+    SALT_LEN = 16
+    DATA_URI_PREFIX = 'data:application/octet-stream;base64,'
     LABEL = ''
     SEPARATOR = ':::'
 
@@ -39,9 +41,10 @@ module DIDWW
     end
 
     def encrypt(binary)
-      binary_base64 = Base64.encode64(binary)
+      binary_base64 = "#{DATA_URI_PREFIX}#{Base64.encode64(binary)}"
       aes_key = SecureRandom.random_bytes(AES_KEY_LEN)
       aes_iv = SecureRandom.random_bytes(AES_IV_LEN)
+      salt = SecureRandom.random_bytes(SALT_LEN)
       encrypted_aes = encrypt_aes(aes_key, aes_iv, binary_base64)
       aes_credentials = build_aes_credentials(aes_key, aes_iv)
       encrypted_rsa_a = encrypt_rsa_oaep(public_keys[0], aes_credentials)
@@ -50,7 +53,7 @@ module DIDWW
       [
         Base64.encode64(encrypted_rsa_a),
         Base64.encode64(encrypted_rsa_b),
-        Base64.encode64(encrypted_aes)
+        Base64.encode64("#{salt}#{encrypted_aes}")
       ].join(SEPARATOR)
     end
 
