@@ -8,15 +8,16 @@ module DIDWW
   # @example
   #   file_content_1 = File.read('file_to_send_1.jpg', mode: 'rb')
   #   file_content_2 = File.read('file_to_send_1.pdf', mode: 'rb')
-  #   encryptor = DIDWW::Encrypt.new
-  #   encrypted_data_1 = encryptor.encrypt(file_content_1)
-  #   encrypted_data_2 = encryptor.encrypt(file_content_2)
-  #   encryption_fingerprint = encryptor.encryption_fingerprint
-  #   DIDWW::Resources::EncryptedFile.upload(
-  #     encryption_fingerprint: encryption_fingerprint,
+  #   enc = DIDWW::Encrypt.new
+  #   enc_data_1 = enc.encrypt(file_content_1)
+  #   enc_data_2 = enc.encrypt(file_content_2)
+  #   enc_io_1 = Faraday::UploadIO.new(StringIO.new(enc_data_1), 'application/octet-stream')
+  #   enc_io_2 = Faraday::UploadIO.new(StringIO.new(enc_data_2), 'application/octet-stream')
+  #   DIDWW::Resource::EncryptedFile.upload(
+  #     encryption_fingerprint: enc.encryption_fingerprint,
   #     items: [
-  #       { file: StringIO.new(encrypted_data_1), description: 'file_to_send_1.jpg' },
-  #       { file: StringIO.new(encrypted_data_2), description: 'file_to_send_2.pdf' }
+  #       { file: enc_io_1, description: 'file_to_send_1.jpg' },
+  #       { file: enc_io_2, description: 'file_to_send_2.pdf' }
   #     ]
   #   ) # => Array if IDs
   #
