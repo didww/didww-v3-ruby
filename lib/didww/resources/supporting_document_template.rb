@@ -6,10 +6,6 @@ module DIDWW
       # Type: String
       # Description:
 
-      property :template_typem, type: :integer
-      # Type: Integer
-      # Description:
-
       property :url, type: :string
       # Type: String
       # Description:

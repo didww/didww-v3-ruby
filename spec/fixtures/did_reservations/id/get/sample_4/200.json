@@ -55,8 +55,7 @@
       "meta": {
         "available_dids_enabled": true,
         "is_available": true,
-        "needs_registration": false,
-        "restrictions": null
+        "needs_registration": false
       },
       "relationships": {
         "city": {

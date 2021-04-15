@@ -139,8 +139,8 @@ module DIDWW
         Resource::AddressVerification
       end
 
-      def address_validation
-        Resource::AddressValidation
+      def requirement_validation
+        Resource::RequirementValidation
       end
 
       def api_mode=(arg)
@@ -194,7 +194,7 @@ module DIDWW
         require 'didww/resources/permanent_supporting_document'
         require 'didww/resources/encrypted_file'
         require 'didww/resources/address_verification'
-        require 'didww/resources/address_validation'
+        require 'didww/resources/requirement_validation'
         require 'didww/resources/public_key'
       end
 
