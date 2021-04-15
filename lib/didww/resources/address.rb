@@ -26,6 +26,10 @@ module DIDWW
       property :created_at, type: :date
       # Type: Date
       # Description:
+
+      property :verified, type: :boolean
+      # Type: Boolean
+      # Description:
     end
   end
 end

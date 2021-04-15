@@ -62,6 +62,10 @@ module DIDWW
       # Type: String
       # Description:
 
+      property :verified, type: :boolean
+      # Type: Boolean
+      # Description:
+
       def personal?
         identity_type == IDENTITY_TYPE_PERSONAL
       end
