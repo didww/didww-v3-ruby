@@ -6,6 +6,8 @@ module DIDWW
       has_one :identity, class_name: 'Identity'
       has_one :country, class_name: 'Country'
       has_many :proofs, class_name: 'Proof'
+      has_many :city, class_name: 'City'
+      has_many :area, class_name: 'Area'
 
       property :city_name, type: :string
       # Type: String

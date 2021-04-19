@@ -196,6 +196,7 @@ module DIDWW
         require 'didww/resources/address_verification'
         require 'didww/resources/requirement_validation'
         require 'didww/resources/public_key'
+        require 'didww/resources/area'
       end
 
     end
