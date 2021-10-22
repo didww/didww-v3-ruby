@@ -44,7 +44,10 @@ module DIDWW
 
         # Returns a ComplexObject class if given JSON API type matches any
         def class_for_type(type)
-          "#{parent.name}::#{type.classify}".safe_constantize
+          # activesupport 6 has breaking change - parent* methods renamed to module_parent*.
+          # see https://github.com/rails/rails/pull/34051
+          name = respond_to?(:module_parent_name) ? module_parent_name : parent_name
+          "#{name}::#{type.classify}".safe_constantize
         end
       end
 
