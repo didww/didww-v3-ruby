@@ -6,6 +6,10 @@ git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 # Specify your gem's dependencies in didww-v3.gemspec
 gemspec
 
+if ENV['RAILS_VERSION']
+  gem 'activesupport', ENV['RAILS_VERSION'], require: false
+end
+
 gem 'rake', '~> 12.0'
 gem 'rspec', '~> 3.0'
 gem 'pry'
