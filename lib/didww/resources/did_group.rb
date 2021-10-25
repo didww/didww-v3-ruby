@@ -61,10 +61,6 @@ module DIDWW
       # is_available
       # Type: Boolean
       # Description: Defines if numbers in this DID Group are currently in stock.
-      #
-      # restrictions
-      # Type: String
-      # Description: Describes possible restrictions for the DID Group, such as "End User Registration is Required".
 
     end
   end

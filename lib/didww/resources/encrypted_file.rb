@@ -23,25 +23,30 @@ module DIDWW
         end
       end
 
+      # @param files [Rack::Multipart::UploadedFile,(#tempfile,#content_type,#original_filename)]
       # @return [Array<String>]
       # @raise [DIDWW::Resource::EncryptedFile::UploadError]
-      def self.upload(files, fingerprint)
-        connection = upload_connection
-
+      def self.upload_files(files, fingerprint)
         items = files.map do |file|
           {
             file: Faraday::UploadIO.new(file.tempfile, file.content_type),
             description: file.original_filename
           }
         end
-        payload = {
-          encrypted_files: {
-            encryption_fingerprint: fingerprint,
-            items: items
-          }
-        }
+        payload = { encryption_fingerprint: fingerprint, items: items }
+        upload(payload)
+      end
 
-        response = connection.post('/v3/encrypted_files', payload)
+      # @param payload [Hash]
+      #   encryption_fingerprint [String] DIDWW::Encrypt#encryption_fingerprint
+      #   items [Array]
+      #     file [Faraday::UploadIO] upload io
+      #     description [String,nil] optional description
+      # @return [Array<String>]
+      # @raise [DIDWW::Resource::EncryptedFile::UploadError]
+      def self.upload(payload)
+        connection = upload_connection
+        response = connection.post('/v3/encrypted_files', encrypted_files: payload)
         if response.status == 201
           JSON.parse(response.body, symbolize_names: true)[:ids]
         else

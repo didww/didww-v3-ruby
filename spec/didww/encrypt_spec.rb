@@ -8,6 +8,21 @@ RSpec.describe DIDWW::Encrypt do
         body: api_fixture('public_keys')
       )
   end
+  let(:private_keys_data) do
+    JSON.parse(api_fixture('private_keys'), symbolize_names: true)
+  end
+
+  def decrypt(encrypted_binary, private_key, key_index)
+    encrypted_aes_credentials = key_index == 0 ? encrypted_binary[0...512] : encrypted_binary[512...1024] # 512 bytes
+    encrypted_aes_data = encrypted_binary[1024..-1] # from 1025 byte to the end
+    rsa = OpenSSL::PKey::RSA.new(private_key)
+    aes_credentials = rsa.private_decrypt_oaep(encrypted_aes_credentials, '', OpenSSL::Digest::SHA256)
+    cipher = OpenSSL::Cipher::AES.new(256, :CBC)
+    cipher.decrypt
+    cipher.key = aes_credentials[0...32] # 32 bytes
+    cipher.iv = aes_credentials[32..-1] # 16 bytes
+    return cipher.update(encrypted_aes_data) + cipher.final
+  end
 
   describe '#encrypt' do
     subject do
@@ -26,6 +41,16 @@ RSpec.describe DIDWW::Encrypt do
     it 'encrypts successfully' do
       expect(subject).to be_present
       expect(stub_public_keys_fetch).to have_been_made.once
+    end
+
+    it 'decrypts successfully with first key' do
+      decrypted = decrypt(subject, private_keys_data[:private_key_a], 0)
+      expect(decrypted).to eq(text)
+    end
+
+    it 'decrypts successfully with second key' do
+      decrypted = decrypt(subject, private_keys_data[:private_key_b], 1)
+      expect(decrypted).to eq(text)
     end
 
     it 'fetch private keys only once' do

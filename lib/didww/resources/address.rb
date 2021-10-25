@@ -6,6 +6,8 @@ module DIDWW
       has_one :identity, class_name: 'Identity'
       has_one :country, class_name: 'Country'
       has_many :proofs, class_name: 'Proof'
+      has_many :city, class_name: 'City'
+      has_many :area, class_name: 'Area'
 
       property :city_name, type: :string
       # Type: String
@@ -25,6 +27,10 @@ module DIDWW
 
       property :created_at, type: :date
       # Type: Date
+      # Description:
+
+      property :verified, type: :boolean
+      # Type: Boolean
       # Description:
     end
   end

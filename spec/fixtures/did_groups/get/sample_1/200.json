@@ -51,8 +51,7 @@
       },
       "meta": {
         "needs_registration": false,
-        "is_available": true,
-        "restrictions": null
+        "is_available": true
       }
     },
     {
@@ -105,8 +104,7 @@
       },
       "meta": {
         "needs_registration": false,
-        "is_available": true,
-        "restrictions": null
+        "is_available": true
       }
     }
   ],

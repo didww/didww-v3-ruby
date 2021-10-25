@@ -6,14 +6,18 @@ require 'net/http'
 module DIDWW
   # Allows to encrypt file on Ruby-side before uploading to `/v3/encrypted_files`.
   # @example
-  #   encryptor = DIDWW::Encrypt.new
-  #   encrypted_data = encryptor.encrypt(file.read)
-  #   encryption_fingerprint = encryptor.encryption_fingerprint
-  #   DIDWW::Resources::EncryptedFile.upload(
-  #     encryption_fingerprint: encryption_fingerprint,
+  #   file_content_1 = File.read('file_to_send_1.jpg', mode: 'rb')
+  #   file_content_2 = File.read('file_to_send_1.pdf', mode: 'rb')
+  #   enc = DIDWW::Encrypt.new
+  #   enc_data_1 = enc.encrypt(file_content_1)
+  #   enc_data_2 = enc.encrypt(file_content_2)
+  #   enc_io_1 = Faraday::UploadIO.new(StringIO.new(enc_data_1), 'application/octet-stream')
+  #   enc_io_2 = Faraday::UploadIO.new(StringIO.new(enc_data_2), 'application/octet-stream')
+  #   DIDWW::Resource::EncryptedFile.upload(
+  #     encryption_fingerprint: enc.encryption_fingerprint,
   #     items: [
-  #       file: StringIO.new(encrypted_data),
-  #       description: file.original_filename
+  #       { file: enc_io_1, description: 'file_to_send_1.jpg' },
+  #       { file: enc_io_2, description: 'file_to_send_2.pdf' }
   #     ]
   #   ) # => Array if IDs
   #
@@ -38,20 +42,14 @@ module DIDWW
       reset!
     end
 
+    # @param binary [String] binary content of a file.
+    # @return [String] binary content of an encrypted file.
     def encrypt(binary)
-      binary_base64 = Base64.encode64(binary)
-      aes_key = SecureRandom.random_bytes(AES_KEY_LEN)
-      aes_iv = SecureRandom.random_bytes(AES_IV_LEN)
-      encrypted_aes = encrypt_aes(aes_key, aes_iv, binary_base64)
-      aes_credentials = build_aes_credentials(aes_key, aes_iv)
+      aes_key, aes_iv, encrypted_aes = encrypt_aes(binary)
+      aes_credentials = aes_key + aes_iv
       encrypted_rsa_a = encrypt_rsa_oaep(public_keys[0], aes_credentials)
       encrypted_rsa_b = encrypt_rsa_oaep(public_keys[1], aes_credentials)
-
-      [
-        Base64.encode64(encrypted_rsa_a),
-        Base64.encode64(encrypted_rsa_b),
-        Base64.encode64(encrypted_aes)
-      ].join(SEPARATOR)
+      encrypted_rsa_a + encrypted_rsa_b + encrypted_aes
     end
 
     # Resets public keys and fingerprint.
@@ -62,7 +60,7 @@ module DIDWW
 
     private
 
-    # @return [Array<String>] public keys.
+    # @return [Array(String,String)] public keys.
     def fetch_public_keys
       DIDWW::Resource::PublicKey.find.map(&:key)
     end
@@ -71,23 +69,13 @@ module DIDWW
       public_keys.map { |pub_key| fingerprint_for(pub_key) }.join(SEPARATOR)
     end
 
+    # @param public_key [String] PEM public key.
+    # @return [String] hexstring digest SHA1 for public key binary.
     def fingerprint_for(public_key)
       public_key += "\n" unless public_key[-1] == "\n"
       public_key_base64 = public_key.split("\n")[1..-2].join
       public_key_bin = Base64.decode64(public_key_base64)
-      digest = OpenSSL::Digest::SHA1.digest(public_key_bin)
-
-      # Binary to hex string
-      binary_to_hex(digest)
-    end
-
-    # @param key [String] binary AES key.
-    # @param iv [String] binary AES iv.
-    # @return [String]
-    def build_aes_credentials(key, iv)
-      key_hex = binary_to_hex(key)
-      iv_hex = binary_to_hex(iv)
-      [key_hex, iv_hex].join(SEPARATOR)
+      OpenSSL::Digest::SHA1.hexdigest(public_key_bin)
     end
 
     # @param public_key [String]
@@ -97,26 +85,17 @@ module DIDWW
       rsa.public_encrypt_oaep(text, LABEL, OpenSSL::Digest::SHA256)
     end
 
-    # @param key [String] binary AES key.
-    # @param iv [String] binary AES iv.
-    # @param text [String]
-    # @return [String]
-    def encrypt_aes(key, iv, text)
+    # @param binary [String]
+    # @return [Array(String,String,String)] binaries key, vector, encrypted data.
+    def encrypt_aes(binary)
+      key = SecureRandom.random_bytes(AES_KEY_LEN)
+      iv = SecureRandom.random_bytes(AES_IV_LEN)
       cipher = OpenSSL::Cipher::AES.new(*AES_ALGO)
       cipher.encrypt
       cipher.key = key
       cipher.iv = iv
-
-      cipher.update(text) + cipher.final
-    end
-
-    # Transforms binary string to hex string.
-    # reversed operation:
-    #   `hex.scan(/.{1,2}/).map { |byte| byte.to_i(16) }.pack('c*')`
-    # param binary [String] binary string.
-    # @return [String] hex string.
-    def binary_to_hex(binary)
-      binary.bytes.map { |byte| '%02x' % byte }.join
+      encrypted = cipher.update(binary) + cipher.final
+      [key, iv, encrypted]
     end
   end
 end
