@@ -3,6 +3,16 @@ require 'json_api_client'
 
 require 'didww/resources/base'
 
+# Fixes BigDecimal 2 support for ruby 2.7+ without introducing json_api_client breaking changes.
+# https://github.com/JsonApiClient/json_api_client/commit/ac372b8bab3b71bb0aa5c4dcc6ced1d9c3fe8d14
+class JsonApiClient::Schema::Types::FixedDecimal
+  def self.cast(value, _)
+    BigDecimal(value)
+  end
+end
+
+JsonApiClient::Schema.register decimal: JsonApiClient::Schema::Types::FixedDecimal
+
 module DIDWW
   module Client
     BASE_URLS = {
