@@ -4,15 +4,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [2.0.0] - 2021-10-26
 ### Breaking Changes
 - upgrade `json_api_client` version to `1.18.0` [#9](https://github.com/didww/didww-v3-ruby/pull/9)  
     Handling of 4XX responses was changed - it now raises JsonApiClient::Errors::ClientError with `detail` as error message instead of adding it into base errors.
+- /v3/dids in request and response attributes pending_removal being removed in favor of billing_cycles_count.
+- /v3/did_groups restriction message removed in favor of requirements relationship.
   
 ### Changes
 - replace travis with github actions [#7](https://github.com/didww/didww-v3-ruby/pull/7) [#9](https://github.com/didww/didww-v3-ruby/pull/9)
 - use rubocop 1.9.X version [#7](https://github.com/didww/didww-v3-ruby/pull/7)
 - add bundle-audit [#7](https://github.com/didww/didww-v3-ruby/pull/7)
+- /v3/orders request attribute items of type DID Order Item Attributes can have billing_cycles_count.
+- /v3/dids added address_verification relationship.
+- callbacks attributes added to /v3/orders, /v3/cdr_exports.
+- /v3/proof_types read endpoints being added.
+- /v3/supporting_document_templates read endpoints being added.
+- /v3/requirements read endpoints being added.
+- /v3/identities read, write, and delete endpoints being added.
+- /v3/addresses read, write, and delete endpoints being added.
+- /v3/encrypted_files read, write, and delete endpoints being added.
+- /v3/proofs write, delete endpoint being added.
+- /v3/permanent_supporting_documents write, delete endpoint being added.
+- /v3/address_verifications read and write endpoints being added.
+- /v3/requirement_validations write endpoint being added.
+
+### Bugfixes
+- fix order purchase when activesupport 6.X.X is used.
 
 ## [1.3.0] - 2018-09-03
 ### Changes

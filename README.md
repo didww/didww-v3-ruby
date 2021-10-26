@@ -11,6 +11,10 @@ The DIDWW API v3 is a fully compliant implementation of the [JSON API specificat
 
 Read more https://doc.didww.com/api
 
+Gem Versions **2.X.X** are intended to use with DIDWW API 3 version [2021-04-19](https://doc.didww.com/api3/2021-04-19/index.html).
+
+Gem Versions **1.X.X** are intended to use with DIDWW API 3 version [2017-09-18](https://doc.didww.com/api3/2017-09-18/index.html).
+
 ## Installation
 
 Add this line to your application's Gemfile:
