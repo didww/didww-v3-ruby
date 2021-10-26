@@ -1,6 +1,7 @@
 Ruby client for DIDWW API v3.
 
 ![Tests](https://github.com/didww/didww-v3-ruby/workflows/Tests/badge.svg)
+[![Gem Version](https://badge.fury.io/rb/didww-v3.svg)](https://badge.fury.io/rb/didww-v3)
 
 About DIDWW API v3
 -----
