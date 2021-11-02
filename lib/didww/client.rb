@@ -103,6 +103,10 @@ module DIDWW
         Resource::VoiceInTrunk
       end
 
+      def voice_out_trunks
+        Resource::VoiceOutTrunk
+      end
+
       def available_dids
         Resource::AvailableDid
       end
@@ -197,6 +201,8 @@ module DIDWW
         require 'didww/resource/requirement_validation'
         require 'didww/resource/public_key'
         require 'didww/resource/area'
+        require 'didww/resource/voice_out_trunk'
+        require 'didww/resource/voice_out_trunk_regenerate_credential'
       end
 
     end
