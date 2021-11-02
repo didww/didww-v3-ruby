@@ -2,23 +2,15 @@
 module DIDWW
   module Resource
     class DidGroup < Base
-      module CONST
-        # Possible values for did_group.features array
-        FEATURE_VOICE    = 'voice'                           .freeze
-        FEATURE_T38      = 't38'                             .freeze
-        FEATURE_SMS      = 'sms'                             .freeze
-        FEATURES = {
-          FEATURE_VOICE => 'Voice'                           .freeze,
-          FEATURE_T38   => 'T.38 Fax'                        .freeze,
-          FEATURE_SMS   => 'SMS'                             .freeze
-        }.freeze
-
-        def features_human
-          Array.wrap(features).map { |f| FEATURES[f] }
-        end
-      end
-
-      include CONST
+      # Possible values for did_group.features array
+      FEATURE_VOICE    = 'voice'                           .freeze
+      FEATURE_T38      = 't38'                             .freeze
+      FEATURE_SMS      = 'sms'                             .freeze
+      FEATURES = {
+                   FEATURE_VOICE => 'Voice'                           .freeze,
+                   FEATURE_T38   => 'T.38 Fax'                        .freeze,
+                   FEATURE_SMS   => 'SMS'                             .freeze
+                 }.freeze
 
       has_one :country, class: Country
       has_one :city,    class: City
@@ -62,6 +54,9 @@ module DIDWW
       # Type: Boolean
       # Description: Defines if numbers in this DID Group are currently in stock.
 
+      def features_human
+        Array.wrap(features).map { |f| FEATURES[f] }
+      end
     end
   end
 end

@@ -88,5 +88,3 @@ module DIDWW
     end
   end
 end
-
-JsonApiClient::Schema.register complex_object: DIDWW::ComplexObject::Base

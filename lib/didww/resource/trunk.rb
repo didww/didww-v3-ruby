@@ -1,11 +1,39 @@
 # frozen_string_literal: true
 require 'didww/complex_objects/configurations'
-require 'didww/resources/trunk/const'
 
 module DIDWW
   module Resource
     class Trunk < Base
-      include CONST
+      # Allowed values for trunk.cli_format
+      CLI_FORMAT_RAW     = 'raw'
+      CLI_FORMAT_E164    = 'e164'
+      CLI_FORMAT_LOCAL   = 'local'
+
+      CLI_FORMATS = {
+                      CLI_FORMAT_RAW   => 'Raw',
+                      CLI_FORMAT_E164  => 'E.164',
+                      CLI_FORMAT_LOCAL => 'Local'
+                    }.freeze
+
+      # Configuration types
+      CONF_TYPE_SIP     = 'sip_configurations'
+      CONF_TYPE_H323    = 'h323_configurations'
+      CONF_TYPE_IAX2    = 'iax2_configurations'
+      CONF_TYPE_PSTN    = 'pstn_configurations'
+
+      CONF_TYPES = {
+                     CONF_TYPE_SIP   => 'SIP',
+                     CONF_TYPE_H323  => 'H323',
+                     CONF_TYPE_IAX2  => 'IAX2',
+                     CONF_TYPE_PSTN  => 'PSTN'
+                   }.freeze
+
+      CONF_TYPE_CLASSES = {
+                            CONF_TYPE_SIP   => DIDWW::ComplexObject::SipConfiguration,
+                            CONF_TYPE_H323  => DIDWW::ComplexObject::H323Configuration,
+                            CONF_TYPE_IAX2  => DIDWW::ComplexObject::Iax2Configuration,
+                            CONF_TYPE_PSTN  => DIDWW::ComplexObject::PstnConfiguration
+                          }.freeze
 
       has_one :pop
       has_one :trunk_group
@@ -63,6 +91,13 @@ module DIDWW
         attribute_will_change!(:configuration) if configuration
       end
 
+      def cli_format_human
+        CLI_FORMATS[cli_format]
+      end
+
+      def configuration_type_human
+        CONF_TYPES[configuration.type] if configuration
+      end
     end
   end
 end

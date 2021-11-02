@@ -14,7 +14,7 @@ RSpec.describe DIDWW::Resource::Trunk do
   end
 
   it 'can be initialized with given configuration type' do
-    DIDWW::Resource::Trunk::CONST::CONF_TYPE_CLASSES.each do |type, klass|
+    DIDWW::Resource::Trunk::CONF_TYPE_CLASSES.each do |type, klass|
       expect(described_class.new(configuration: { type: type }).configuration).to be_kind_of(klass)
     end
   end

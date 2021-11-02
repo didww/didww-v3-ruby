@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 require 'forwardable'
 require 'didww/complex_objects/cdr_export_filter'
+require 'didww/callback/const'
 require 'down/http'
 
 module DIDWW
   module Resource
     class CdrExport < Base
+      include DIDWW::Callback::CONST
       extend Forwardable
 
       STATUS_COMPLETED = 'Completed'

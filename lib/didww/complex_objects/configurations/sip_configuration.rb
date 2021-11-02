@@ -177,7 +177,7 @@ module DIDWW
             transport_protocol_id: 1
         }.freeze
 
-        RECOMMENDED = DEFAULTS.merge({
+        RECOMMENDED = DEFAULTS.merge(
             #-- Authentication
             auth_user: '',
             auth_password: '',
@@ -191,7 +191,7 @@ module DIDWW
             #-- Advanced Signalling Settings
             sst_enabled: false,
             sst_session_expires: '',
-        }).freeze
+        ).freeze
 
         def sst_refresh_method
           SST_REFRESH_METHODS[sst_refresh_method_id]

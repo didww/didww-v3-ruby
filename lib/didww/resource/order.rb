@@ -1,23 +1,22 @@
 # frozen_string_literal: true
 require 'didww/complex_objects/did_order_item'
 require 'didww/complex_objects/capacity_order_item'
+require 'didww/callback/const'
 
 module DIDWW
   module Resource
     class Order < Base
-      module CONST
-        # Possible values for order.status
-        STATUS_PENDING      = 'Pending'                       .freeze
-        STATUS_COMPLETED    = 'Completed'                     .freeze
-        STATUS_CANCELLED    = 'Canceled'                      .freeze
-        STATUSES = [
-          STATUS_PENDING,
-          STATUS_COMPLETED,
-          STATUS_CANCELLED
-        ].freeze
-      end
+      include DIDWW::Callback::CONST
 
-      include CONST
+      # Possible values for order.status
+      STATUS_PENDING      = 'Pending'
+      STATUS_COMPLETED    = 'Completed'
+      STATUS_CANCELLED    = 'Canceled'
+      STATUSES = [
+                   STATUS_PENDING,
+                   STATUS_COMPLETED,
+                   STATUS_CANCELLED
+                 ].freeze
 
       property :reference, type: :string
       # Type: String
