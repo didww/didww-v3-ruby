@@ -148,7 +148,7 @@ module DIDWW
         property :transport_protocol_id, type: :integer
         # Type: Integer
         # Nullable: No
-        # Description: The transport layer that will be responsible for the actual transmission of SIP requests and responses (1 - UDP, 2 - TCP)
+        # Description: The transport layer that will be responsible for the actual transmission of SIP requests and responses. See TRANSPORT_PROTOCOLS for available values.
 
         property :max_transfers, type: :integer
         # Nullable: No
@@ -157,6 +157,31 @@ module DIDWW
         property :max_30x_redirects, type: :integer
         # Nullable: No
         # Description: Max count of 301/302 redirects
+
+        property :media_encryption_mode_id, type: :integer
+        # Type: Integer
+        # Nullable: No
+        # Description: The Media encryption mode for RTP traffic. See MEDIA_ENCRYPTION_MODES for available values.
+
+        property :stir_shaken_mode_id, type: :integer
+        # Type: Integer
+        # Nullable: No
+        # Description: The STIR/SHAKEN mode for sending identity via SIP. See STIR_SHAKEN_MODES for available values.
+
+        MEDIA_ENCRYPTION_MODES = {
+                                   0 => 'Disable',
+                                   1 => 'SRTP SDES',
+                                   2 => 'SRTP DTLS',
+                                   3 => 'ZRTP'
+                                 }.freeze
+
+        STIR_SHAKEN_MODES = {
+                              0 => 'Do not send identity',
+                              1 => 'Transit Identity header as is',
+                              2 => 'Add PAI, P-Attestation-Indicator, P-Origination-ID',
+                              3 => 'Transit Identity header as is + Add PAI, P-Attestation-Indicator, P-Origination-ID',
+                              4 => 'Add P-Stir-Verstat, P-Attestation-Indicator, P-Origination-ID'
+                            }.freeze
 
         DEFAULTS = {
             username: DID_PLACEHOLDER,
@@ -207,6 +232,14 @@ module DIDWW
 
         def transport_protocol
           TRANSPORT_PROTOCOLS[transport_protocol_id]
+        end
+
+        def media_encryption_mode
+          MEDIA_ENCRYPTION_MODES[media_encryption_mode_id]
+        end
+
+        def stir_shaken_mode
+          STIR_SHAKEN_MODES[stir_shaken_mode_id]
         end
       end
     end

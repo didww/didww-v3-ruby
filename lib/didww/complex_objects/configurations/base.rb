@@ -25,7 +25,8 @@ module DIDWW
 
         TRANSPORT_PROTOCOLS = {
                                 1 => 'UDP',
-                                2 => 'TCP'
+                                2 => 'TCP',
+                                3 => 'TLS'
                               }.freeze
 
         REROUTING_DISCONNECT_CODES = {
