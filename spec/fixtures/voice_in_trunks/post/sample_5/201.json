@@ -1,0 +1,72 @@
+{
+  "data": {
+    "id": "389deacb-5be5-46d7-8cbd-aba11f66d6c2",
+    "type": "voice_in_trunks",
+    "attributes": {
+      "priority": 1,
+      "capacity_limit": 18,
+      "weight": 65535,
+      "name": "Office H323",
+      "cli_format": "e164",
+      "cli_prefix": "+1",
+      "description": null,
+      "ringing_timeout": null,
+      "configuration": {
+        "type": "h323_configurations",
+        "attributes": {
+          "dst": "1xxxxxxxxx",
+          "host": "example.com",
+          "port": null,
+          "codec_ids": [
+            9,
+            6
+          ]
+        }
+      }
+    },
+    "relationships": {
+      "voice_in_trunk_group": {
+        "links": {
+          "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/389deacb-5be5-46d7-8cbd-aba11f66d6c2/relationships/voice_in_trunk_group",
+          "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/389deacb-5be5-46d7-8cbd-aba11f66d6c2/voice_in_trunk_group"
+        },
+        "data": {
+          "type": "voice_in_trunk_groups",
+          "id": "86c9f271-0206-4906-833e-d4c09164468c"
+        }
+      },
+      "pop": {
+        "links": {
+          "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/389deacb-5be5-46d7-8cbd-aba11f66d6c2/relationships/pop",
+          "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/389deacb-5be5-46d7-8cbd-aba11f66d6c2/pop"
+        }
+      }
+    }
+  },
+  "included": [
+    {
+      "id": "86c9f271-0206-4906-833e-d4c09164468c",
+      "type": "voice_in_trunk_groups",
+      "links": {
+        "self": "https://sandbox-api.didww.com/v3/voice_in_trunk_groups/86c9f271-0206-4906-833e-d4c09164468c"
+      },
+      "attributes": {
+        "created_at": "2017-08-16T14:04:36.013Z",
+        "updated_at": "2017-08-16T14:04:36.013Z",
+        "name": "Main group",
+        "capacity_limit": 100
+      },
+      "relationships": {
+        "voice_in_trunks": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/voice_in_trunk_groups/86c9f271-0206-4906-833e-d4c09164468c/relationships/voice_in_trunks",
+            "related": "https://sandbox-api.didww.com/v3/voice_in_trunk_groups/86c9f271-0206-4906-833e-d4c09164468c/voice_in_trunks"
+          }
+        }
+      },
+      "meta": {
+        "trunks_count": 1
+      }
+    }
+  ]
+}

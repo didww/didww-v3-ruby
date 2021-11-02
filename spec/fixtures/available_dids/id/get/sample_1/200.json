@@ -3,7 +3,7 @@
     "id": "dd13cdb2-48ab-4374-94b3-56e162a659cd",
     "type": "available_dids",
     "links": {
-      "self": "https://api.didww.com/v3/available_dids/dd13cdb2-48ab-4374-94b3-56e162a659cd"
+      "self": "https://sandbox-api.didww.com/v3/available_dids/dd13cdb2-48ab-4374-94b3-56e162a659cd"
     },
     "attributes": {
       "number": "771232341231"
@@ -11,8 +11,8 @@
     "relationships": {
       "did_group": {
         "links": {
-          "self": "https://api.didww.com/v3/available_dids/dd13cdb2-48ab-4374-94b3-56e162a659cd/relationships/did_group",
-          "related": "https://api.didww.com/v3/available_dids/dd13cdb2-48ab-4374-94b3-56e162a659cd/did_group"
+          "self": "https://sandbox-api.didww.com/v3/available_dids/dd13cdb2-48ab-4374-94b3-56e162a659cd/relationships/did_group",
+          "related": "https://sandbox-api.didww.com/v3/available_dids/dd13cdb2-48ab-4374-94b3-56e162a659cd/did_group"
         }
       }
     }

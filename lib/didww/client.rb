@@ -9,7 +9,7 @@ module DIDWW
   module Client
     BASE_URLS = {
       sandbox:    'https://sandbox-api.didww.com/v3/'         .freeze,
-      production: 'https://api.didww.com/v3/'                 .freeze
+      production: 'https://sandbox-api.didww.com/v3/'                 .freeze
     }.freeze
     DEFAULT_MODE = :sandbox
 
@@ -95,12 +95,12 @@ module DIDWW
         Resource::Region
       end
 
-      def trunk_groups
-        Resource::TrunkGroup
+      def voice_in_trunk_groups
+        Resource::VoiceInTrunkGroup
       end
 
-      def trunks
-        Resource::Trunk
+      def voice_in_trunks
+        Resource::VoiceInTrunk
       end
 
       def available_dids
@@ -181,8 +181,8 @@ module DIDWW
         require 'didww/resource/qty_based_pricing'
         require 'didww/resource/region'
         require 'didww/resource/stock_keeping_unit'
-        require 'didww/resource/trunk_group'
-        require 'didww/resource/trunk'
+        require 'didww/resource/voice_in_trunk_group'
+        require 'didww/resource/voice_in_trunk'
         require 'didww/resource/available_did'
         require 'didww/resource/did_reservation'
         require 'didww/resource/requirement'

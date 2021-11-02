@@ -19,7 +19,7 @@
     "total_records":2
   },
   "links": {
-    "first":"https://api.didww.com/v3/pops?&page%5Bnumber%5D=1&page%5Bsize%5D=1000",
-    "next":"https://api.didww.com/v3/pops?&page%5Bnumber%5D=1&page%5Bsize%5D=1000"
+    "first":"https://sandbox-api.didww.com/v3/pops?&page%5Bnumber%5D=1&page%5Bsize%5D=1000",
+    "next":"https://sandbox-api.didww.com/v3/pops?&page%5Bnumber%5D=1&page%5Bsize%5D=1000"
   }
 }

@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Breaking Changes
+- rename /v3/trunks to /v3/voice_in_trunks
+- rename /v3/trunk_groups to /v3/voice_in_trunk_groups
+- /v3/voice_in_trunks rename relationship trunk_group to voice_in_trunk_group
+- /v3/voice_in_trunk_groups relationship trunks to voice_in_trunks
+- /v3/dids rename relationships trunk and trunk_group to voice_in_trunk and voice_in_trunk_group
+- replace DIDWW::Client methods #trunks and #trunk_groups to #voice_in_trunks and #voice_in_trunk_groups
+
 ## [2.0.0] - 2021-10-26
 ### Breaking Changes
 - upgrade `json_api_client` version to `1.18.0` [#9](https://github.com/didww/didww-v3-ruby/pull/9)  

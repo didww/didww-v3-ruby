@@ -2,7 +2,7 @@
 RSpec.describe DIDWW::Client do
   let(:api_key) { 'f02c46006f6fa4746cd019abffb0a949' }
   let(:sandbox_uri) { 'https://sandbox-api.didww.com/v3/' }
-  let(:prod_uri) { 'https://api.didww.com/v3/' }
+  let(:prod_uri) { 'https://sandbox-api.didww.com/v3/' }
 
   before(:each) do
     DIDWW.send(:remove_const, :Client)

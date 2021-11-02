@@ -1,0 +1,85 @@
+{
+  "data": {
+    "id": "7adfab4e-83bc-45e2-84e6-60342a505713",
+    "type": "voice_in_trunks",
+    "attributes": {
+      "priority": 1,
+      "capacity_limit": 18,
+      "weight": 65535,
+      "name": "Office SIP",
+      "cli_format": "e164",
+      "cli_prefix": "+1",
+      "description": null,
+      "ringing_timeout": null,
+      "configuration": {
+        "type": "sip_configurations",
+        "attributes": {
+          "username": "username",
+          "host": "example.com",
+          "port": 5060,
+          "codec_ids": [
+            9,
+            7
+          ],
+          "rx_dtmf_format_id": 1,
+          "tx_dtmf_format_id": 1,
+          "resolve_ruri": true,
+          "auth_enabled": true,
+          "auth_user": "username",
+          "auth_password": "password",
+          "auth_from_user": "Office",
+          "auth_from_domain": "example.com",
+          "sst_enabled": false,
+          "sst_min_timer": 600,
+          "sst_max_timer": 900,
+          "sst_accept_501": true,
+          "sip_timer_b": 8000,
+          "dns_srv_failover_timer": 2000,
+          "rtp_ping": false,
+          "rtp_timeout": 30,
+          "force_symmetric_rtp": false,
+          "symmetric_rtp_ignore_rtcp": false,
+          "rerouting_disconnect_code_ids": [
+            58,
+            59
+          ],
+          "sst_session_expires": null,
+          "sst_refresh_method_id": 1,
+          "transport_protocol_id": 2,
+          "max_transfers": 0,
+          "max_30x_redirects": 0
+        }
+      }
+    },
+    "relationships": {
+      "voice_in_trunk_group": {
+        "links": {
+          "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/389deacb-5be5-46d7-8cbd-aba11f66d6c2/relationships/voice_in_trunk_group",
+          "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/389deacb-5be5-46d7-8cbd-aba11f66d6c2/voice_in_trunk_group"
+        }
+      },
+      "pop": {
+        "links": {
+          "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/389deacb-5be5-46d7-8cbd-aba11f66d6c2/relationships/pop",
+          "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/389deacb-5be5-46d7-8cbd-aba11f66d6c2/pop"
+        },
+        "data": {
+          "type": "pops",
+          "id": "240416e4-aeb2-4ca5-9df2-f37f01e930cf"
+        }
+      }
+    }
+  },
+  "included": [
+    {
+      "id": "240416e4-aeb2-4ca5-9df2-f37f01e930cf",
+      "type": "pops",
+      "links": {
+        "self": "https://sandbox-api.didww.com/v3/pops/240416e4-aeb2-4ca5-9df2-f37f01e930cf"
+      },
+      "attributes": {
+        "name": "USA, NY"
+      }
+    }
+  ]
+}

@@ -9,8 +9,8 @@
       "relationships": {
         "country": {
           "links": {
-            "self": "https://api.didww.com/v3/regions/753c7b45-2b31-4832-bc5a-9a337d6ebf12/relationships/country",
-            "related": "https://api.didww.com/v3/regions/753c7b45-2b31-4832-bc5a-9a337d6ebf12/country"
+            "self": "https://sandbox-api.didww.com/v3/regions/753c7b45-2b31-4832-bc5a-9a337d6ebf12/relationships/country",
+            "related": "https://sandbox-api.didww.com/v3/regions/753c7b45-2b31-4832-bc5a-9a337d6ebf12/country"
           }
         }
       }
@@ -24,8 +24,8 @@
       "relationships": {
         "country": {
           "links": {
-            "self": "https://api.didww.com/v3/regions/b5226d4f-0d99-4a0f-8630-3756c29d1c1a/relationships/country",
-            "related": "https://api.didww.com/v3/regions/b5226d4f-0d99-4a0f-8630-3756c29d1c1a/country"
+            "self": "https://sandbox-api.didww.com/v3/regions/b5226d4f-0d99-4a0f-8630-3756c29d1c1a/relationships/country",
+            "related": "https://sandbox-api.didww.com/v3/regions/b5226d4f-0d99-4a0f-8630-3756c29d1c1a/country"
           }
         }
       }

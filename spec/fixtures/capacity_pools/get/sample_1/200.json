@@ -17,20 +17,20 @@
       "relationships": {
         "countries": {
           "links": {
-            "self": "https://api.didww.com/v3/capacity_pools/ca1315c5-1915-4fc7-9441-de78e1f38ef9/relationships/countries",
-            "related": "https://api.didww.com/v3/capacity_pools/ca1315c5-1915-4fc7-9441-de78e1f38ef9/countries"
+            "self": "https://sandbox-api.didww.com/v3/capacity_pools/ca1315c5-1915-4fc7-9441-de78e1f38ef9/relationships/countries",
+            "related": "https://sandbox-api.didww.com/v3/capacity_pools/ca1315c5-1915-4fc7-9441-de78e1f38ef9/countries"
           }
         },
         "shared_capacity_groups": {
           "links": {
-            "self": "https://api.didww.com/v3/capacity_pools/ca1315c5-1915-4fc7-9441-de78e1f38ef9/relationships/shared_capacity_groups",
-            "related": "https://api.didww.com/v3/capacity_pools/ca1315c5-1915-4fc7-9441-de78e1f38ef9/shared_capacity_groups"
+            "self": "https://sandbox-api.didww.com/v3/capacity_pools/ca1315c5-1915-4fc7-9441-de78e1f38ef9/relationships/shared_capacity_groups",
+            "related": "https://sandbox-api.didww.com/v3/capacity_pools/ca1315c5-1915-4fc7-9441-de78e1f38ef9/shared_capacity_groups"
           }
         },
         "qty_based_pricings": {
           "links": {
-            "self": "https://api.didww.com/v3/capacity_pools/ca1315c5-1915-4fc7-9441-de78e1f38ef9/relationships/qty_based_pricings",
-            "related": "https://api.didww.com/v3/capacity_pools/ca1315c5-1915-4fc7-9441-de78e1f38ef9/qty_based_pricings"
+            "self": "https://sandbox-api.didww.com/v3/capacity_pools/ca1315c5-1915-4fc7-9441-de78e1f38ef9/relationships/qty_based_pricings",
+            "related": "https://sandbox-api.didww.com/v3/capacity_pools/ca1315c5-1915-4fc7-9441-de78e1f38ef9/qty_based_pricings"
           }
         }
       }
@@ -52,20 +52,20 @@
       "relationships": {
         "countries": {
           "links": {
-            "self": "https://api.didww.com/v3/capacity_pools/daae37a3-c4fc-40a7-b5e6-6ec9d08ed74d/relationships/countries",
-            "related": "https://api.didww.com/v3/capacity_pools/daae37a3-c4fc-40a7-b5e6-6ec9d08ed74d/countries"
+            "self": "https://sandbox-api.didww.com/v3/capacity_pools/daae37a3-c4fc-40a7-b5e6-6ec9d08ed74d/relationships/countries",
+            "related": "https://sandbox-api.didww.com/v3/capacity_pools/daae37a3-c4fc-40a7-b5e6-6ec9d08ed74d/countries"
           }
         },
         "shared_capacity_groups": {
           "links": {
-            "self": "https://api.didww.com/v3/capacity_pools/daae37a3-c4fc-40a7-b5e6-6ec9d08ed74d/relationships/shared_capacity_groups",
-            "related": "https://api.didww.com/v3/capacity_pools/daae37a3-c4fc-40a7-b5e6-6ec9d08ed74d/shared_capacity_groups"
+            "self": "https://sandbox-api.didww.com/v3/capacity_pools/daae37a3-c4fc-40a7-b5e6-6ec9d08ed74d/relationships/shared_capacity_groups",
+            "related": "https://sandbox-api.didww.com/v3/capacity_pools/daae37a3-c4fc-40a7-b5e6-6ec9d08ed74d/shared_capacity_groups"
           }
         },
         "qty_based_pricings": {
           "links": {
-            "self": "https://api.didww.com/v3/capacity_pools/daae37a3-c4fc-40a7-b5e6-6ec9d08ed74d/relationships/qty_based_pricings",
-            "related": "https://api.didww.com/v3/capacity_pools/daae37a3-c4fc-40a7-b5e6-6ec9d08ed74d/qty_based_pricings"
+            "self": "https://sandbox-api.didww.com/v3/capacity_pools/daae37a3-c4fc-40a7-b5e6-6ec9d08ed74d/relationships/qty_based_pricings",
+            "related": "https://sandbox-api.didww.com/v3/capacity_pools/daae37a3-c4fc-40a7-b5e6-6ec9d08ed74d/qty_based_pricings"
           }
         }
       }
@@ -75,7 +75,7 @@
     "total_records": 2
   },
   "links": {
-    "first": "https://api.didww.com/v3/capacity_pools?page%5Bnumber%5D=1&page%5Bsize%5D=50",
-    "last": "https://api.didww.com/v3/capacity_pools?page%5Bnumber%5D=1&page%5Bsize%5D=50"
+    "first": "https://sandbox-api.didww.com/v3/capacity_pools?page%5Bnumber%5D=1&page%5Bsize%5D=50",
+    "last": "https://sandbox-api.didww.com/v3/capacity_pools?page%5Bnumber%5D=1&page%5Bsize%5D=50"
   }
 }

@@ -3,7 +3,7 @@
     "id": "80167e78-62a1-4720-bf00-229fa7e1935d",
     "type": "did_reservations",
     "links": {
-      "self": "https://api.didww.com/v3/did_reservations/80167e78-62a1-4720-bf00-229fa7e1935d"
+      "self": "https://sandbox-api.didww.com/v3/did_reservations/80167e78-62a1-4720-bf00-229fa7e1935d"
     },
     "attributes": {
       "expire_at": "2018-03-15 12:34:56",
@@ -13,8 +13,8 @@
     "relationships": {
       "available_did": {
         "links": {
-          "self": "https://api.didww.com/v3/did_reservations/80167e78-62a1-4720-bf00-229fa7e1935d/relationships/available_did",
-          "related": "https://api.didww.com/v3/did_reservations/80167e78-62a1-4720-bf00-229fa7e1935d/available_did"
+          "self": "https://sandbox-api.didww.com/v3/did_reservations/80167e78-62a1-4720-bf00-229fa7e1935d/relationships/available_did",
+          "related": "https://sandbox-api.didww.com/v3/did_reservations/80167e78-62a1-4720-bf00-229fa7e1935d/available_did"
         }
       }
     }

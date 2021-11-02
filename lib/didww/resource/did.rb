@@ -2,8 +2,8 @@
 module DIDWW
   module Resource
     class Did < Base
-      has_one :trunk
-      has_one :trunk_group
+      has_one :voice_in_trunk
+      has_one :voice_in_trunk_group
       has_one :capacity_pool
       has_one :shared_capacity_group
       has_one :address_verification

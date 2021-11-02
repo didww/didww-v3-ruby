@@ -12,14 +12,14 @@
       "relationships": {
         "capacity_pool": {
           "links": {
-            "self": "https://api.didww.com/v3/shared_capacity_groups/8a581244-de83-4c46-ac0a-32659279169e/relationships/capacity_pool",
-            "related": "https://api.didww.com/v3/shared_capacity_groups/8a581244-de83-4c46-ac0a-32659279169e/capacity_pool"
+            "self": "https://sandbox-api.didww.com/v3/shared_capacity_groups/8a581244-de83-4c46-ac0a-32659279169e/relationships/capacity_pool",
+            "related": "https://sandbox-api.didww.com/v3/shared_capacity_groups/8a581244-de83-4c46-ac0a-32659279169e/capacity_pool"
           }
         },
         "dids": {
           "links": {
-            "self": "https://api.didww.com/v3/shared_capacity_groups/8a581244-de83-4c46-ac0a-32659279169e/relationships/dids",
-            "related": "https://api.didww.com/v3/shared_capacity_groups/8a581244-de83-4c46-ac0a-32659279169e/dids"
+            "self": "https://sandbox-api.didww.com/v3/shared_capacity_groups/8a581244-de83-4c46-ac0a-32659279169e/relationships/dids",
+            "related": "https://sandbox-api.didww.com/v3/shared_capacity_groups/8a581244-de83-4c46-ac0a-32659279169e/dids"
           }
         }
       }
@@ -36,14 +36,14 @@
       "relationships": {
         "capacity_pool": {
           "links": {
-            "self": "https://api.didww.com/v3/shared_capacity_groups/dd2e8844-6a79-4673-ba1c-c8a4913884cc/relationships/capacity_pool",
-            "related": "https://api.didww.com/v3/shared_capacity_groups/dd2e8844-6a79-4673-ba1c-c8a4913884cc/capacity_pool"
+            "self": "https://sandbox-api.didww.com/v3/shared_capacity_groups/dd2e8844-6a79-4673-ba1c-c8a4913884cc/relationships/capacity_pool",
+            "related": "https://sandbox-api.didww.com/v3/shared_capacity_groups/dd2e8844-6a79-4673-ba1c-c8a4913884cc/capacity_pool"
           }
         },
         "dids": {
           "links": {
-            "self": "https://api.didww.com/v3/shared_capacity_groups/dd2e8844-6a79-4673-ba1c-c8a4913884cc/relationships/dids",
-            "related": "https://api.didww.com/v3/shared_capacity_groups/dd2e8844-6a79-4673-ba1c-c8a4913884cc/dids"
+            "self": "https://sandbox-api.didww.com/v3/shared_capacity_groups/dd2e8844-6a79-4673-ba1c-c8a4913884cc/relationships/dids",
+            "related": "https://sandbox-api.didww.com/v3/shared_capacity_groups/dd2e8844-6a79-4673-ba1c-c8a4913884cc/dids"
           }
         }
       }
@@ -53,7 +53,7 @@
     "total_records": 2
   },
   "links": {
-    "first": "https://api.didww.com/v3/shared_capacity_groups?page%5Bnumber%5D=1&page%5Bsize%5D=50",
-    "last": "https://api.didww.com/v3/shared_capacity_groups?page%5Bnumber%5D=1&page%5Bsize%5D=50"
+    "first": "https://sandbox-api.didww.com/v3/shared_capacity_groups?page%5Bnumber%5D=1&page%5Bsize%5D=50",
+    "last": "https://sandbox-api.didww.com/v3/shared_capacity_groups?page%5Bnumber%5D=1&page%5Bsize%5D=50"
   }
 }

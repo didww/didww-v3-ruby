@@ -11,14 +11,14 @@
     "relationships": {
       "capacity_pool": {
         "links": {
-          "self": "https://api.didww.com/v3/shared_capacity_groups/71afa2e2-8d46-4ea3-988d-aa112ed98b5e/relationships/capacity_pool",
-          "related": "https://api.didww.com/v3/shared_capacity_groups/71afa2e2-8d46-4ea3-988d-aa112ed98b5e/capacity_pool"
+          "self": "https://sandbox-api.didww.com/v3/shared_capacity_groups/71afa2e2-8d46-4ea3-988d-aa112ed98b5e/relationships/capacity_pool",
+          "related": "https://sandbox-api.didww.com/v3/shared_capacity_groups/71afa2e2-8d46-4ea3-988d-aa112ed98b5e/capacity_pool"
         }
       },
       "dids": {
         "links": {
-          "self": "https://api.didww.com/v3/shared_capacity_groups/71afa2e2-8d46-4ea3-988d-aa112ed98b5e/relationships/dids",
-          "related": "https://api.didww.com/v3/shared_capacity_groups/71afa2e2-8d46-4ea3-988d-aa112ed98b5e/dids"
+          "self": "https://sandbox-api.didww.com/v3/shared_capacity_groups/71afa2e2-8d46-4ea3-988d-aa112ed98b5e/relationships/dids",
+          "related": "https://sandbox-api.didww.com/v3/shared_capacity_groups/71afa2e2-8d46-4ea3-988d-aa112ed98b5e/dids"
         }
       }
     }
