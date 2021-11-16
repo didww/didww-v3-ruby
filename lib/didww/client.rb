@@ -55,8 +55,8 @@ module DIDWW
         Resource::CapacityPool
       end
 
-      def cdr_exports
-        Resource::CdrExport
+      def exports
+        Resource::Export
       end
 
       def shared_capacity_groups
@@ -173,7 +173,7 @@ module DIDWW
       def require_didww_resources
         require 'didww/resource/balance'
         require 'didww/resource/capacity_pool'
-        require 'didww/resource/cdr_export'
+        require 'didww/resource/export'
         require 'didww/resource/shared_capacity_group'
         require 'didww/resource/city'
         require 'didww/resource/country'

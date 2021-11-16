@@ -2,25 +2,19 @@
   "data": [
     {
       "id": "47b08cb8-497a-491c-8263-323498d8bca3",
-      "type": "cdr_exports",
+      "type": "exports",
       "attributes": {
-        "filters": {
-          "year": "2017",
-          "month": "3"
-        },
+        "export_type": "cdr_in",
         "status": "Completed",
         "created_at": "2017-06-25T14:56:31.513Z",
-        "url": "https://sandbox-api.didww.com/v3/cdr_exports/a4f6b765-f20c-45c7-98d2-80c2f3a41517.csv"
+        "url": "https://sandbox-api.didww.com/v3/exports/a4f6b765-f20c-45c7-98d2-80c2f3a41517.csv"
       }
     },
     {
       "id": "62b9a23f-4f54-4da1-9b29-c0f6e1b68a3e",
-      "type": "cdr_exports",
+      "type": "exports",
       "attributes": {
-        "filters": {
-          "year": "2017",
-          "month": "4"
-        },
+        "export_type": "cdr_in",
         "status": "Processing",
         "created_at": "2017-06-26T14:56:31.513Z",
         "url": null
@@ -28,12 +22,9 @@
     },
     {
       "id": "77d59bda-33e5-441b-8d38-cc3f0045c673",
-      "type": "cdr_exports",
+      "type": "exports",
       "attributes": {
-        "filters": {
-          "year": "2017",
-          "month": "5"
-        },
+        "export_type": "cdr_out",
         "status": "Pending",
         "created_at": "2017-06-26T14:56:31.513Z",
         "url": null

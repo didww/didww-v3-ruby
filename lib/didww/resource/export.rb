@@ -1,18 +1,24 @@
 # frozen_string_literal: true
 require 'forwardable'
-require 'didww/complex_objects/cdr_export_filter'
-require 'didww/callback/const'
 require 'down/http'
+require 'didww/callback/const'
 
 module DIDWW
   module Resource
-    class CdrExport < Base
+    class Export < Base
       include DIDWW::Callback::CONST
       extend Forwardable
 
       STATUS_COMPLETED = 'Completed'
 
-      property :filters, type: :cdr_export_filter
+      EXPORT_TYPE_CDR_IN = 'cdr_in'
+      EXPORT_TYPE_CDR_OUT = 'cdr_out'
+      EXPORT_TYPES = [
+        EXPORT_TYPE_CDR_IN,
+        EXPORT_TYPE_CDR_OUT
+      ].freeze
+
+      property :filters, type: :export_filters
       # Type: CDR Export Filters Object
       # Nullable: No
       # Description: Filters
@@ -40,7 +46,7 @@ module DIDWW
       # Type: String
       # Description: GET or POST
 
-      def_delegators :filters, :year, :month, :did_number, :year=, :month=, :did_number=
+      property :export_type, type: :string
 
       def initialize(params = {})
         super params.reverse_merge(filters: {})
