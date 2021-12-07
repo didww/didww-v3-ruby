@@ -12,7 +12,7 @@ module DIDWW
         end
 
         def property(name, options = {})
-          property = schema.add(name, options)
+          schema.add(name, options)
           define_method(name.to_sym) { self[name] }
           define_method("#{name}=".to_sym) { |val| self[name] = val }
         end

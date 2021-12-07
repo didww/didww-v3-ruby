@@ -168,6 +168,11 @@ module DIDWW
         # Nullable: No
         # Description: The STIR/SHAKEN mode for sending identity via SIP. See STIR_SHAKEN_MODES for available values.
 
+        property :rtp_ips, type: :ip_addresses
+        # Type: Array of strings
+        # Nullable: Yes
+        # Description: Allowed IP addresses for RTP connection.
+
         MEDIA_ENCRYPTION_MODES = {
                                    0 => 'Disable',
                                    1 => 'SRTP SDES',
