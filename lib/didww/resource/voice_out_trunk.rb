@@ -46,7 +46,7 @@ module DIDWW
                                ].freeze
 
       property :name, type: :string
-      property :allowed_ips, type: :ip_addresses
+      property :allowed_sip_ips, type: :ip_addresses
       property :on_cli_mismatch_action, type: :string
       property :capacity_limit, type: :integer
       property :username, type: :string
@@ -59,14 +59,16 @@ module DIDWW
       property :default_dst_action, type: :string
       property :dst_prefixes, type: :strings
       property :media_encryption_mode, type: :string
-      property :callback_method, type: :string
       property :callback_url, type: :string
+      property :force_symmetric_rtp, type: :boolean
+      property :allowed_rtp_ips, type: :boolean
+      property :rtp_ips, type: :ip_addresses
 
       has_many :dids
 
       def regenerate_credentials
         resource = DIDWW::Resource::VoiceOutTrunkRegenerateCredential.new
-        resource.relationships[:voice_in_trunk] = self
+        resource.relationships[:voice_out_trunk] = self
         resource.save
       end
     end
