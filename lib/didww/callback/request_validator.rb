@@ -37,12 +37,21 @@ module DIDWW
       private
 
       # @param url [String]
-      # @param payload [Hash]
+      # @param payload [Hash,Array]
       # @return [String] generated signature in URL safe format.
       def valid_signature(url, payload)
-        normalized_url = normalize_url(url)
-        data = normalized_url + payload.sort.join
+        data = normalize_url(url) + normalize_payload(payload)
         OpenSSL::HMAC.hexdigest(DIGEST_ALGO, @api_key, data)
+      end
+
+      # @param payload [Hash,Array]
+      # @return [String] normalized payload.
+      def normalize_payload(payload)
+        if payload.is_a?(Hash)
+          payload.sort.join
+        else
+          payload.map { |item| item.sort.join }.join
+        end
       end
 
       # @return [String] normalized URL.
