@@ -16,7 +16,7 @@ module DIDWW
       property :voice_out_trunk_id, type: :string # only for CDR Out
 
       def as_json(*)
-        result = attributes.as_json
+        result = attributes.as_json.with_indifferent_access
         result[:'voice_out_trunk.id'] = result.delete(:voice_out_trunk_id) if result.key?(:voice_out_trunk_id)
         result
       end
