@@ -158,35 +158,35 @@ module DIDWW
         # Nullable: No
         # Description: Max count of 301/302 redirects
 
-        property :media_encryption_mode_id, type: :integer
-        # Type: Integer
+        property :media_encryption_mode, type: :string
+        # Type: String
         # Nullable: No
         # Description: The Media encryption mode for RTP traffic. See MEDIA_ENCRYPTION_MODES for available values.
 
-        property :stir_shaken_mode_id, type: :integer
-        # Type: Integer
+        property :stir_shaken_mode, type: :string
+        # Type: String
         # Nullable: No
         # Description: The STIR/SHAKEN mode for sending identity via SIP. See STIR_SHAKEN_MODES for available values.
 
-        property :rtp_ips, type: :ip_addresses
+        property :allowed_rtp_ips, type: :ip_addresses
         # Type: Array of strings
         # Nullable: Yes
         # Description: Allowed IP addresses for RTP connection.
 
-        MEDIA_ENCRYPTION_MODES = {
-                                   0 => 'Disable',
-                                   1 => 'SRTP SDES',
-                                   2 => 'SRTP DTLS',
-                                   3 => 'ZRTP'
-                                 }.freeze
+        MEDIA_ENCRYPTION_MODES = [
+                                   'disabled',
+                                   'srtp_sdes',
+                                   'srtp_dtls',
+                                   'zrtp'
+                                 ].freeze
 
-        STIR_SHAKEN_MODES = {
-                              0 => 'Do not send identity',
-                              1 => 'Transit Identity header as is',
-                              2 => 'Add PAI, P-Attestation-Indicator, P-Origination-ID',
-                              3 => 'Transit Identity header as is + Add PAI, P-Attestation-Indicator, P-Origination-ID',
-                              4 => 'Add P-Stir-Verstat, P-Attestation-Indicator, P-Origination-ID'
-                            }.freeze
+        STIR_SHAKEN_MODES = [
+                              'disabled',
+                              'original',
+                              'pai',
+                              'original_pai',
+                              'verstat'
+                            ].freeze
 
         DEFAULTS = {
             username: DID_PLACEHOLDER,
@@ -237,14 +237,6 @@ module DIDWW
 
         def transport_protocol
           TRANSPORT_PROTOCOLS[transport_protocol_id]
-        end
-
-        def media_encryption_mode
-          MEDIA_ENCRYPTION_MODES[media_encryption_mode_id]
-        end
-
-        def stir_shaken_mode
-          STIR_SHAKEN_MODES[stir_shaken_mode_id]
         end
       end
     end

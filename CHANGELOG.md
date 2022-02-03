@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - /v3/voice_in_trunk_groups relationship trunks to voice_in_trunks
 - /v3/dids rename relationships trunk and trunk_group to voice_in_trunk and voice_in_trunk_group
 - replace DIDWW::Client methods #trunks and #trunk_groups to #voice_in_trunks and #voice_in_trunk_groups
-- v3/trunks sip configuration add media_encryption_mode_id and stir_shaken_mode_id attributes
+- v3/trunks sip configuration add media_encryption_mode, stir_shaken_mode, and allowed_rtp_ips attributes
 
 ## [2.0.0] - 2021-10-26
 ### Breaking Changes
