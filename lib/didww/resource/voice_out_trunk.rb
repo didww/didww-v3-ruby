@@ -62,7 +62,6 @@ module DIDWW
       property :callback_url, type: :string
       property :force_symmetric_rtp, type: :boolean
       property :allowed_rtp_ips, type: :ip_addresses
-      property :rtp_ips, type: :ip_addresses
 
       has_many :dids
 
