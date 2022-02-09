@@ -4,15 +4,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [3.0.0]
 ### Breaking Changes
-- rename /v3/trunks to /v3/voice_in_trunks
-- rename /v3/trunk_groups to /v3/voice_in_trunk_groups
-- /v3/voice_in_trunks rename relationship trunk_group to voice_in_trunk_group
-- /v3/voice_in_trunk_groups relationship trunks to voice_in_trunks
-- /v3/dids rename relationships trunk and trunk_group to voice_in_trunk and voice_in_trunk_group
-- replace DIDWW::Client methods #trunks and #trunk_groups to #voice_in_trunks and #voice_in_trunk_groups
-- v3/trunks sip configuration add media_encryption_mode, stir_shaken_mode, and allowed_rtp_ips attributes
+- /v3/trunks being moved to /v3/voice_in_trunks.
+- /v3/trunk_groups being moved to /v3/voice_in_trunk_groups.
+- /v3/cdr_exports being moved to /v3/exports. Endpoint now allows generating both inbound and outbound CDRs export.
+- /v3/exports result file will be CSV archived in GZIP.
+- Callbacks payload for exports being changed: value of type attribute is changed to exports.
+- /v3/exports export_type required attribute being added to request and response with possible values: cdr_in, cdr_out.
+- /v3/exports filters attribute being removed from response.
+- /v3/did_groups filter features allowed values to be changed to sms_in, sms_out, voice_in, voice_out, t38.
+- /v3/did_groups response value of features attribute to be changed to sms_in, sms_out, voice_in, voice_out, t38.
+- /v3/available_dids filter did_group.features allowed values being changed to sms_in, sms_out, voice_in, voice_out, t38.
+- /v3/dids rename trunk_group relationship to voice_in_trunk_group with type voice_in_trunk_groups.
+- /v3/dids rename trunks relationship to voice_in_trunks with type voice_in_trunks.
+
+### Changes
+- /v3/voice_out_trunks endpoints being added.
+- /v3/voice_out_trunk_regenerate_credentials endpoint being added.
+- /v3/voice_in_trunks SIP configuration additional attributes being added to request and response: media_encryption_mode, stir_shaken_mode, allowed_rtp_ips.
+- /v3/dids filter add filter did_group.features with allowed values: sms_in, sms_out, voice_in, voice_out, t38.
+- Callbacks allow receiving events about /v3/voice_out_trunks status change.
 
 ## [2.0.0] - 2021-10-26
 ### Breaking Changes
