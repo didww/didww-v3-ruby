@@ -1,0 +1,66 @@
+{
+  "data": {
+    "id": "6de72e61-9b7b-40e8-a690-dd8e62017acb",
+    "type": "voice_in_trunks",
+    "attributes": {
+      "priority": 1,
+      "capacity_limit": 5,
+      "weight": 65535,
+      "name": "Office Mobile",
+      "cli_format": "e164",
+      "cli_prefix": null,
+      "description": null,
+      "ringing_timeout": null,
+      "created_at": "2017-06-25T08:21:41.795Z",
+      "configuration": {
+        "type": "pstn_configurations",
+        "attributes": {
+          "dst": "1xxxxxxxxx"
+        }
+      }
+    },
+    "relationships": {
+      "voice_in_trunk_group": {
+        "links": {
+          "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/6de72e61-9b7b-40e8-a690-dd8e62017acb/relationships/voice_in_trunk_group",
+          "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/6de72e61-9b7b-40e8-a690-dd8e62017acb/voice_in_trunk_group"
+        },
+        "data": {
+          "type": "voice_in_trunk_groups",
+          "id": "6c5fbe50-1384-4de0-9d88-67b68aa12607"
+        }
+      },
+      "pop": {
+        "links": {
+          "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/6de72e61-9b7b-40e8-a690-dd8e62017acb/relationships/pop",
+          "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/6de72e61-9b7b-40e8-a690-dd8e62017acb/pop"
+        }
+      }
+    }
+  },
+  "included": [
+    {
+      "id": "6c5fbe50-1384-4de0-9d88-67b68aa12607",
+      "type": "voice_in_trunk_groups",
+      "links": {
+        "self": "https://sandbox-api.didww.com/v3/voice_in_trunk_groups/6c5fbe50-1384-4de0-9d88-67b68aa12607"
+      },
+      "attributes": {
+        "created_at": "2017-06-25T14:56:31.513Z",
+        "name": "Common Group",
+        "capacity_limit": 69
+      },
+      "relationships": {
+        "voice_in_trunks": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/voice_in_trunk_groups/6c5fbe50-1384-4de0-9d88-67b68aa12607/relationships/voice_in_trunks",
+            "related": "https://sandbox-api.didww.com/v3/voice_in_trunk_groups/6c5fbe50-1384-4de0-9d88-67b68aa12607/voice_in_trunks"
+          }
+        }
+      },
+      "meta": {
+        "trunks_count": 1
+      }
+    }
+  ]
+}

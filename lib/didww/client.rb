@@ -3,13 +3,13 @@ require 'active_support/core_ext/module/attribute_accessors'
 require 'active_support/core_ext/object/blank'
 require 'json_api_client'
 
-require 'didww/resources/base'
+require 'didww/resource/base'
 
 module DIDWW
   module Client
     BASE_URLS = {
       sandbox:    'https://sandbox-api.didww.com/v3/'         .freeze,
-      production: 'https://api.didww.com/v3/'                 .freeze
+      production: 'https://sandbox-api.didww.com/v3/'                 .freeze
     }.freeze
     DEFAULT_MODE = :sandbox
 
@@ -55,8 +55,8 @@ module DIDWW
         Resource::CapacityPool
       end
 
-      def cdr_exports
-        Resource::CdrExport
+      def exports
+        Resource::Export
       end
 
       def shared_capacity_groups
@@ -95,12 +95,16 @@ module DIDWW
         Resource::Region
       end
 
-      def trunk_groups
-        Resource::TrunkGroup
+      def voice_in_trunk_groups
+        Resource::VoiceInTrunkGroup
       end
 
-      def trunks
-        Resource::Trunk
+      def voice_in_trunks
+        Resource::VoiceInTrunk
+      end
+
+      def voice_out_trunks
+        Resource::VoiceOutTrunk
       end
 
       def available_dids
@@ -167,36 +171,38 @@ module DIDWW
       end
 
       def require_didww_resources
-        require 'didww/resources/balance'
-        require 'didww/resources/capacity_pool'
-        require 'didww/resources/cdr_export'
-        require 'didww/resources/shared_capacity_group'
-        require 'didww/resources/city'
-        require 'didww/resources/country'
-        require 'didww/resources/did_group_type'
-        require 'didww/resources/did_group'
-        require 'didww/resources/did'
-        require 'didww/resources/order'
-        require 'didww/resources/pop'
-        require 'didww/resources/qty_based_pricing'
-        require 'didww/resources/region'
-        require 'didww/resources/stock_keeping_unit'
-        require 'didww/resources/trunk_group'
-        require 'didww/resources/trunk'
-        require 'didww/resources/available_did'
-        require 'didww/resources/did_reservation'
-        require 'didww/resources/requirement'
-        require 'didww/resources/proof_type'
-        require 'didww/resources/supporting_document_template'
-        require 'didww/resources/identity'
-        require 'didww/resources/proof'
-        require 'didww/resources/address'
-        require 'didww/resources/permanent_supporting_document'
-        require 'didww/resources/encrypted_file'
-        require 'didww/resources/address_verification'
-        require 'didww/resources/requirement_validation'
-        require 'didww/resources/public_key'
-        require 'didww/resources/area'
+        require 'didww/resource/balance'
+        require 'didww/resource/capacity_pool'
+        require 'didww/resource/export'
+        require 'didww/resource/shared_capacity_group'
+        require 'didww/resource/city'
+        require 'didww/resource/country'
+        require 'didww/resource/did_group_type'
+        require 'didww/resource/did_group'
+        require 'didww/resource/did'
+        require 'didww/resource/order'
+        require 'didww/resource/pop'
+        require 'didww/resource/qty_based_pricing'
+        require 'didww/resource/region'
+        require 'didww/resource/stock_keeping_unit'
+        require 'didww/resource/voice_in_trunk_group'
+        require 'didww/resource/voice_in_trunk'
+        require 'didww/resource/available_did'
+        require 'didww/resource/did_reservation'
+        require 'didww/resource/requirement'
+        require 'didww/resource/proof_type'
+        require 'didww/resource/supporting_document_template'
+        require 'didww/resource/identity'
+        require 'didww/resource/proof'
+        require 'didww/resource/address'
+        require 'didww/resource/permanent_supporting_document'
+        require 'didww/resource/encrypted_file'
+        require 'didww/resource/address_verification'
+        require 'didww/resource/requirement_validation'
+        require 'didww/resource/public_key'
+        require 'didww/resource/area'
+        require 'didww/resource/voice_out_trunk'
+        require 'didww/resource/voice_out_trunk_regenerate_credential'
       end
 
     end

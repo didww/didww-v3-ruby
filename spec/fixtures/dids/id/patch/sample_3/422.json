@@ -5,7 +5,7 @@
       "detail": "trunk_group_id - is invalid",
       "code": "100",
       "source": {
-        "pointer": "/data/attributes/trunk_group_id"
+        "pointer": "/data/attributes/voice_in_trunk_group_id"
       },
       "status": "422"
     }

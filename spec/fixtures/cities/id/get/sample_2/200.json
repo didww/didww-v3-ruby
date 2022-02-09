@@ -8,8 +8,8 @@
     "relationships": {
       "country": {
         "links": {
-          "self": "https://api.didww.com/v3/cities/498f2880-591f-436d-aacd-46ad3a7d8be8/relationships/country",
-          "related": "https://api.didww.com/v3/cities/498f2880-591f-436d-aacd-46ad3a7d8be8/country"
+          "self": "https://sandbox-api.didww.com/v3/cities/498f2880-591f-436d-aacd-46ad3a7d8be8/relationships/country",
+          "related": "https://sandbox-api.didww.com/v3/cities/498f2880-591f-436d-aacd-46ad3a7d8be8/country"
         },
         "data": {
           "type": "countries",
@@ -18,8 +18,8 @@
       },
       "region": {
         "links": {
-          "self": "https://api.didww.com/v3/cities/498f2880-591f-436d-aacd-46ad3a7d8be8/relationships/region",
-          "related": "https://api.didww.com/v3/cities/498f2880-591f-436d-aacd-46ad3a7d8be8/region"
+          "self": "https://sandbox-api.didww.com/v3/cities/498f2880-591f-436d-aacd-46ad3a7d8be8/relationships/region",
+          "related": "https://sandbox-api.didww.com/v3/cities/498f2880-591f-436d-aacd-46ad3a7d8be8/region"
         }
       }
     }

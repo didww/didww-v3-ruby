@@ -1,0 +1,37 @@
+{
+  "data": {
+    "id": "989d8259-9c4f-4449-97b7-a3480b1cffff",
+    "type": "voice_in_trunks",
+    "attributes": {
+      "priority": 1,
+      "capacity_limit": 5,
+      "weight": 65535,
+      "name": "Office Mobile",
+      "cli_format": "e164",
+      "cli_prefix": null,
+      "description": null,
+      "ringing_timeout": null,
+      "created_at": "2017-06-25T08:21:41.795Z",
+      "configuration": {
+        "type": "pstn_configurations",
+        "attributes": {
+          "dst": "7xxxxxxxx"
+        }
+      }
+    },
+    "relationships": {
+      "voice_in_trunk_group": {
+        "links": {
+          "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/989d8259-9c4f-4449-97b7-a3480b1cffff/relationships/voice_in_trunk_group",
+          "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/989d8259-9c4f-4449-97b7-a3480b1cffff/voice_in_trunk_group"
+        }
+      },
+      "pop": {
+        "links": {
+          "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/989d8259-9c4f-4449-97b7-a3480b1cffff/relationships/pop",
+          "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/989d8259-9c4f-4449-97b7-a3480b1cffff/pop"
+        }
+      }
+    }
+  }
+}

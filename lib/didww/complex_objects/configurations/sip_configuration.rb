@@ -148,7 +148,7 @@ module DIDWW
         property :transport_protocol_id, type: :integer
         # Type: Integer
         # Nullable: No
-        # Description: The transport layer that will be responsible for the actual transmission of SIP requests and responses (1 - UDP, 2 - TCP)
+        # Description: The transport layer that will be responsible for the actual transmission of SIP requests and responses. See TRANSPORT_PROTOCOLS for available values.
 
         property :max_transfers, type: :integer
         # Nullable: No
@@ -157,6 +157,36 @@ module DIDWW
         property :max_30x_redirects, type: :integer
         # Nullable: No
         # Description: Max count of 301/302 redirects
+
+        property :media_encryption_mode, type: :string
+        # Type: String
+        # Nullable: No
+        # Description: The Media encryption mode for RTP traffic. See MEDIA_ENCRYPTION_MODES for available values.
+
+        property :stir_shaken_mode, type: :string
+        # Type: String
+        # Nullable: No
+        # Description: The STIR/SHAKEN mode for sending identity via SIP. See STIR_SHAKEN_MODES for available values.
+
+        property :allowed_rtp_ips, type: :ip_addresses
+        # Type: Array of strings
+        # Nullable: Yes
+        # Description: Allowed IP addresses for RTP connection.
+
+        MEDIA_ENCRYPTION_MODES = [
+                                   'disabled',
+                                   'srtp_sdes',
+                                   'srtp_dtls',
+                                   'zrtp'
+                                 ].freeze
+
+        STIR_SHAKEN_MODES = [
+                              'disabled',
+                              'original',
+                              'pai',
+                              'original_pai',
+                              'verstat'
+                            ].freeze
 
         DEFAULTS = {
             username: DID_PLACEHOLDER,
@@ -177,7 +207,7 @@ module DIDWW
             transport_protocol_id: 1
         }.freeze
 
-        RECOMMENDED = DEFAULTS.merge({
+        RECOMMENDED = DEFAULTS.merge(
             #-- Authentication
             auth_user: '',
             auth_password: '',
@@ -191,7 +221,7 @@ module DIDWW
             #-- Advanced Signalling Settings
             sst_enabled: false,
             sst_session_expires: '',
-        }).freeze
+        ).freeze
 
         def sst_refresh_method
           SST_REFRESH_METHODS[sst_refresh_method_id]

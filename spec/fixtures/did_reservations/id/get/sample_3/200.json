@@ -13,8 +13,8 @@
           "type": "available_dids"
         },
         "links": {
-          "related": "https://api.didww.com/v3/did_reservations/a807b5c3-71cd-479b-81af-e80a9d77f67e/available_did",
-          "self": "https://api.didww.com/v3/did_reservations/a807b5c3-71cd-479b-81af-e80a9d77f67e/relationships/available_did"
+          "related": "https://sandbox-api.didww.com/v3/did_reservations/a807b5c3-71cd-479b-81af-e80a9d77f67e/available_did",
+          "self": "https://sandbox-api.didww.com/v3/did_reservations/a807b5c3-71cd-479b-81af-e80a9d77f67e/relationships/available_did"
         }
       }
     },
@@ -33,8 +33,8 @@
             "type": "did_groups"
           },
           "links": {
-            "related": "https://api.didww.com/v3/available_dids/1b8a6517-a4f5-4851-b534-4e3fddb15c2b/did_group",
-            "self": "https://api.didww.com/v3/available_dids/1b8a6517-a4f5-4851-b534-4e3fddb15c2b/relationships/did_group"
+            "related": "https://sandbox-api.didww.com/v3/available_dids/1b8a6517-a4f5-4851-b534-4e3fddb15c2b/did_group",
+            "self": "https://sandbox-api.didww.com/v3/available_dids/1b8a6517-a4f5-4851-b534-4e3fddb15c2b/relationships/did_group"
           }
         }
       },
@@ -60,26 +60,26 @@
       "relationships": {
         "city": {
           "links": {
-            "related": "https://api.didww.com/v3/did_groups/fe6cde1e-d68b-41e9-b1a0-8a617c65f3db/city",
-            "self": "https://api.didww.com/v3/did_groups/fe6cde1e-d68b-41e9-b1a0-8a617c65f3db/relationships/city"
+            "related": "https://sandbox-api.didww.com/v3/did_groups/fe6cde1e-d68b-41e9-b1a0-8a617c65f3db/city",
+            "self": "https://sandbox-api.didww.com/v3/did_groups/fe6cde1e-d68b-41e9-b1a0-8a617c65f3db/relationships/city"
           }
         },
         "country": {
           "links": {
-            "related": "https://api.didww.com/v3/did_groups/fe6cde1e-d68b-41e9-b1a0-8a617c65f3db/country",
-            "self": "https://api.didww.com/v3/did_groups/fe6cde1e-d68b-41e9-b1a0-8a617c65f3db/relationships/country"
+            "related": "https://sandbox-api.didww.com/v3/did_groups/fe6cde1e-d68b-41e9-b1a0-8a617c65f3db/country",
+            "self": "https://sandbox-api.didww.com/v3/did_groups/fe6cde1e-d68b-41e9-b1a0-8a617c65f3db/relationships/country"
           }
         },
         "did_group_type": {
           "links": {
-            "related": "https://api.didww.com/v3/did_groups/fe6cde1e-d68b-41e9-b1a0-8a617c65f3db/did_group_type",
-            "self": "https://api.didww.com/v3/did_groups/fe6cde1e-d68b-41e9-b1a0-8a617c65f3db/relationships/did_group_type"
+            "related": "https://sandbox-api.didww.com/v3/did_groups/fe6cde1e-d68b-41e9-b1a0-8a617c65f3db/did_group_type",
+            "self": "https://sandbox-api.didww.com/v3/did_groups/fe6cde1e-d68b-41e9-b1a0-8a617c65f3db/relationships/did_group_type"
           }
         },
         "region": {
           "links": {
-            "related": "https://api.didww.com/v3/did_groups/fe6cde1e-d68b-41e9-b1a0-8a617c65f3db/region",
-            "self": "https://api.didww.com/v3/did_groups/fe6cde1e-d68b-41e9-b1a0-8a617c65f3db/relationships/region"
+            "related": "https://sandbox-api.didww.com/v3/did_groups/fe6cde1e-d68b-41e9-b1a0-8a617c65f3db/region",
+            "self": "https://sandbox-api.didww.com/v3/did_groups/fe6cde1e-d68b-41e9-b1a0-8a617c65f3db/relationships/region"
           }
         }
       },

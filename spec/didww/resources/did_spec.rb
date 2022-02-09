@@ -54,22 +54,22 @@ RSpec.describe DIDWW::Resource::Did do
       end
 
       it 'lazily fetches Trunk' do
-        request = stub_request(:get, did.relationships.trunk[:links][:related]).to_return(
+        request = stub_request(:get, did.relationships.voice_in_trunk[:links][:related]).to_return(
             status: 200,
-            body: api_fixture('trunks/id/get/sample_1/200'),
+            body: api_fixture('voice_in_trunks/id/get/sample_1/200'),
             headers: json_api_headers
           )
-        expect(did.trunk).to be_kind_of(DIDWW::Resource::Trunk)
+        expect(did.voice_in_trunk).to be_kind_of(DIDWW::Resource::VoiceInTrunk)
         expect(request).to have_been_made.once
       end
 
       it 'lazily fetches TrunkGroup' do
-        request = stub_request(:get, did.relationships.trunk_group[:links][:related]).to_return(
+        request = stub_request(:get, did.relationships.voice_in_trunk_group[:links][:related]).to_return(
             status: 200,
-            body: api_fixture('trunk_groups/id/get/sample_1/200'),
+            body: api_fixture('voice_in_trunk_groups/id/get/sample_1/200'),
             headers: json_api_headers
           )
-        expect(did.trunk_group).to be_kind_of(DIDWW::Resource::TrunkGroup)
+        expect(did.voice_in_trunk_group).to be_kind_of(DIDWW::Resource::VoiceInTrunkGroup)
         expect(request).to have_been_made.once
       end
 
@@ -162,9 +162,9 @@ RSpec.describe DIDWW::Resource::Did do
                 "id": '3505b18a-3019-47bc-95d1-0f9ec7766fd5',
                 "type": 'dids',
                 "relationships": {
-                  "trunk": {
+                  "voice_in_trunk": {
                     "data": {
-                      "type": 'trunks',
+                      "type": 'voice_in_trunks',
                       "id": 'c80d096a-c8cf-4449-aa6d-8bac39130fe0'
                     }
                   }
@@ -178,7 +178,7 @@ RSpec.describe DIDWW::Resource::Did do
             headers: json_api_headers
           )
         did = DIDWW::Resource::Did.load(id: id)
-        did.relationships[:trunk] = DIDWW::Resource::Trunk.load(id: 'c80d096a-c8cf-4449-aa6d-8bac39130fe0')
+        did.relationships[:voice_in_trunk] = DIDWW::Resource::VoiceInTrunk.load(id: 'c80d096a-c8cf-4449-aa6d-8bac39130fe0')
         expect(did.save)
         expect(did.errors).to be_empty
       end
@@ -192,9 +192,9 @@ RSpec.describe DIDWW::Resource::Did do
                 "id": '3e3f57ec-0541-473a-af63-103216d19db3',
                 "type": 'dids',
                 "relationships": {
-                  "trunk_group": {
+                  "voice_in_trunk_group": {
                     "data": {
-                      "type": 'trunk_groups',
+                      "type": 'voice_in_trunk_groups',
                       "id": '1dc6e448-d9d8-4da8-a34b-21459b03112f'
                     }
                   }
@@ -208,7 +208,7 @@ RSpec.describe DIDWW::Resource::Did do
             headers: json_api_headers
           )
         did = DIDWW::Resource::Did.load(id: id)
-        did.relationships[:trunk_group] = DIDWW::Resource::TrunkGroup.load(id: '1dc6e448-d9d8-4da8-a34b-21459b03112f')
+        did.relationships[:voice_in_trunk_group] = DIDWW::Resource::VoiceInTrunkGroup.load(id: '1dc6e448-d9d8-4da8-a34b-21459b03112f')
 
         expect(did.save)
         expect(did.errors).to be_empty

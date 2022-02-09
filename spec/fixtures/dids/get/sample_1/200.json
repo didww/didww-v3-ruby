@@ -19,38 +19,38 @@
       "relationships": {
         "did_group": {
           "links": {
-            "self": "https://api.didww.com/v3/dids/ac40fb08-ac14-4a6c-8f20-fe650870c266/relationships/did_group",
-            "related": "https://api.didww.com/v3/dids/ac40fb08-ac14-4a6c-8f20-fe650870c266/did_group"
+            "self": "https://sandbox-api.didww.com/v3/dids/ac40fb08-ac14-4a6c-8f20-fe650870c266/relationships/did_group",
+            "related": "https://sandbox-api.didww.com/v3/dids/ac40fb08-ac14-4a6c-8f20-fe650870c266/did_group"
           }
         },
         "order": {
           "links": {
-            "self": "https://api.didww.com/v3/dids/ac40fb08-ac14-4a6c-8f20-fe650870c266/relationships/order",
-            "related": "https://api.didww.com/v3/dids/ac40fb08-ac14-4a6c-8f20-fe650870c266/order"
+            "self": "https://sandbox-api.didww.com/v3/dids/ac40fb08-ac14-4a6c-8f20-fe650870c266/relationships/order",
+            "related": "https://sandbox-api.didww.com/v3/dids/ac40fb08-ac14-4a6c-8f20-fe650870c266/order"
           }
         },
-        "trunk": {
+        "voice_in_trunk": {
           "links": {
-            "self": "https://api.didww.com/v3/dids/ac40fb08-ac14-4a6c-8f20-fe650870c266/relationships/trunk",
-            "related": "https://api.didww.com/v3/dids/ac40fb08-ac14-4a6c-8f20-fe650870c266/trunk"
+            "self": "https://sandbox-api.didww.com/v3/dids/ac40fb08-ac14-4a6c-8f20-fe650870c266/relationships/voice_in_trunk",
+            "related": "https://sandbox-api.didww.com/v3/dids/ac40fb08-ac14-4a6c-8f20-fe650870c266/voice_in_trunk"
           }
         },
-        "trunk_group": {
+        "voice_in_trunk_group": {
           "links": {
-            "self": "https://api.didww.com/v3/dids/ac40fb08-ac14-4a6c-8f20-fe650870c266/relationships/trunk_group",
-            "related": "https://api.didww.com/v3/dids/ac40fb08-ac14-4a6c-8f20-fe650870c266/trunk_group"
+            "self": "https://sandbox-api.didww.com/v3/dids/ac40fb08-ac14-4a6c-8f20-fe650870c266/relationships/voice_in_trunk_group",
+            "related": "https://sandbox-api.didww.com/v3/dids/ac40fb08-ac14-4a6c-8f20-fe650870c266/voice_in_trunk_group"
           }
         },
         "capacity_pool": {
           "links": {
-            "self": "https://api.didww.com/v3/dids/ac40fb08-ac14-4a6c-8f20-fe650870c266/relationships/capacity_pool",
-            "related": "https://api.didww.com/v3/dids/ac40fb08-ac14-4a6c-8f20-fe650870c266/capacity_pool"
+            "self": "https://sandbox-api.didww.com/v3/dids/ac40fb08-ac14-4a6c-8f20-fe650870c266/relationships/capacity_pool",
+            "related": "https://sandbox-api.didww.com/v3/dids/ac40fb08-ac14-4a6c-8f20-fe650870c266/capacity_pool"
           }
         },
         "shared_capacity_group": {
           "links": {
-            "self": "https://api.didww.com/v3/dids/ac40fb08-ac14-4a6c-8f20-fe650870c266/relationships/shared_capacity_group",
-            "related": "https://api.didww.com/v3/dids/ac40fb08-ac14-4a6c-8f20-fe650870c266/shared_capacity_group"
+            "self": "https://sandbox-api.didww.com/v3/dids/ac40fb08-ac14-4a6c-8f20-fe650870c266/relationships/shared_capacity_group",
+            "related": "https://sandbox-api.didww.com/v3/dids/ac40fb08-ac14-4a6c-8f20-fe650870c266/shared_capacity_group"
           }
         }
       }
@@ -74,38 +74,38 @@
       "relationships": {
         "did_group": {
           "links": {
-            "self": "https://api.didww.com/v3/dids/b37f0fcf-24d0-4799-8e81-a69bcc889f2e/relationships/did_group",
-            "related": "https://api.didww.com/v3/dids/b37f0fcf-24d0-4799-8e81-a69bcc889f2e/did_group"
+            "self": "https://sandbox-api.didww.com/v3/dids/b37f0fcf-24d0-4799-8e81-a69bcc889f2e/relationships/did_group",
+            "related": "https://sandbox-api.didww.com/v3/dids/b37f0fcf-24d0-4799-8e81-a69bcc889f2e/did_group"
           }
         },
         "order": {
           "links": {
-            "self": "https://api.didww.com/v3/dids/b37f0fcf-24d0-4799-8e81-a69bcc889f2e/relationships/order",
-            "related": "https://api.didww.com/v3/dids/b37f0fcf-24d0-4799-8e81-a69bcc889f2e/order"
+            "self": "https://sandbox-api.didww.com/v3/dids/b37f0fcf-24d0-4799-8e81-a69bcc889f2e/relationships/order",
+            "related": "https://sandbox-api.didww.com/v3/dids/b37f0fcf-24d0-4799-8e81-a69bcc889f2e/order"
           }
         },
-        "trunk": {
+        "voice_in_trunk": {
           "links": {
-            "self": "https://api.didww.com/v3/dids/b37f0fcf-24d0-4799-8e81-a69bcc889f2e/relationships/trunk",
-            "related": "https://api.didww.com/v3/dids/b37f0fcf-24d0-4799-8e81-a69bcc889f2e/trunk"
+            "self": "https://sandbox-api.didww.com/v3/dids/b37f0fcf-24d0-4799-8e81-a69bcc889f2e/relationships/voice_in_trunk",
+            "related": "https://sandbox-api.didww.com/v3/dids/b37f0fcf-24d0-4799-8e81-a69bcc889f2e/voice_in_trunk"
           }
         },
-        "trunk_group": {
+        "voice_in_trunk_group": {
           "links": {
-            "self": "https://api.didww.com/v3/dids/b37f0fcf-24d0-4799-8e81-a69bcc889f2e/relationships/trunk_group",
-            "related": "https://api.didww.com/v3/dids/b37f0fcf-24d0-4799-8e81-a69bcc889f2e/trunk_group"
+            "self": "https://sandbox-api.didww.com/v3/dids/b37f0fcf-24d0-4799-8e81-a69bcc889f2e/relationships/voice_in_trunk_group",
+            "related": "https://sandbox-api.didww.com/v3/dids/b37f0fcf-24d0-4799-8e81-a69bcc889f2e/voice_in_trunk_group"
           }
         },
         "capacity_pool": {
           "links": {
-            "self": "https://api.didww.com/v3/dids/b37f0fcf-24d0-4799-8e81-a69bcc889f2e/relationships/capacity_pool",
-            "related": "https://api.didww.com/v3/dids/b37f0fcf-24d0-4799-8e81-a69bcc889f2e/capacity_pool"
+            "self": "https://sandbox-api.didww.com/v3/dids/b37f0fcf-24d0-4799-8e81-a69bcc889f2e/relationships/capacity_pool",
+            "related": "https://sandbox-api.didww.com/v3/dids/b37f0fcf-24d0-4799-8e81-a69bcc889f2e/capacity_pool"
           }
         },
         "shared_capacity_group": {
           "links": {
-            "self": "https://api.didww.com/v3/dids/b37f0fcf-24d0-4799-8e81-a69bcc889f2e/relationships/shared_capacity_group",
-            "related": "https://api.didww.com/v3/dids/b37f0fcf-24d0-4799-8e81-a69bcc889f2e/shared_capacity_group"
+            "self": "https://sandbox-api.didww.com/v3/dids/b37f0fcf-24d0-4799-8e81-a69bcc889f2e/relationships/shared_capacity_group",
+            "related": "https://sandbox-api.didww.com/v3/dids/b37f0fcf-24d0-4799-8e81-a69bcc889f2e/shared_capacity_group"
           }
         }
       }
@@ -115,7 +115,7 @@
     "total_records": 2
   },
   "links": {
-    "first": "https://api.didww.com/v3/dids&page%5Bnumber%5D=1&page%5Bsize%5D=50",
-    "last": "https://api.didww.com/v3/dids&page%5Bnumber%5D=1&page%5Bsize%5D=50"
+    "first": "https://sandbox-api.didww.com/v3/dids&page%5Bnumber%5D=1&page%5Bsize%5D=50",
+    "last": "https://sandbox-api.didww.com/v3/dids&page%5Bnumber%5D=1&page%5Bsize%5D=50"
   }
 }

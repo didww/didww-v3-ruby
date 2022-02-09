@@ -4,7 +4,7 @@
       "id": "d0163fe0-001f-4a03-87ea-84224822708e",
       "type": "available_dids",
       "links": {
-        "self": "https://api.didww.com/v3/available_dids/d0163fe0-001f-4a03-87ea-84224822708e"
+        "self": "https://sandbox-api.didww.com/v3/available_dids/d0163fe0-001f-4a03-87ea-84224822708e"
       },
       "attributes": {
         "number": "771232341231"
@@ -12,8 +12,8 @@
       "relationships": {
         "did_group": {
           "links": {
-            "self": "https://api.didww.com/v3/available_dids/80167e78-62a1-4720-bf00-229fa7e1935d/relationships/did_group",
-            "related": "https://api.didww.com/v3/available_dids/80167e78-62a1-4720-bf00-229fa7e1935d/did_group"
+            "self": "https://sandbox-api.didww.com/v3/available_dids/80167e78-62a1-4720-bf00-229fa7e1935d/relationships/did_group",
+            "related": "https://sandbox-api.didww.com/v3/available_dids/80167e78-62a1-4720-bf00-229fa7e1935d/did_group"
           },
           "data": {
             "type": "did_groups",
@@ -26,7 +26,7 @@
       "id": "952b0724-45bc-4f87-b31b-ff04579357ef",
       "type": "available_dids",
       "links": {
-        "self": "https://api.didww.com/v3/available_dids/952b0724-45bc-4f87-b31b-ff04579357ef"
+        "self": "https://sandbox-api.didww.com/v3/available_dids/952b0724-45bc-4f87-b31b-ff04579357ef"
       },
       "attributes": {
         "number": "771232341232"
@@ -34,8 +34,8 @@
       "relationships": {
         "did_group": {
           "links": {
-            "self": "https://api.didww.com/v3/available_dids/80167e78-62a1-4720-bf00-229fa7e1935d/relationships/did_group",
-            "related": "https://api.didww.com/v3/available_dids/80167e78-62a1-4720-bf00-229fa7e1935d/did_group"
+            "self": "https://sandbox-api.didww.com/v3/available_dids/80167e78-62a1-4720-bf00-229fa7e1935d/relationships/did_group",
+            "related": "https://sandbox-api.didww.com/v3/available_dids/80167e78-62a1-4720-bf00-229fa7e1935d/did_group"
           },
           "data": {
             "type": "did_groups",

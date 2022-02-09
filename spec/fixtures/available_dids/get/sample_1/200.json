@@ -4,7 +4,7 @@
       "id": "d35148e7-8858-446e-ae53-2f5ae17501ef",
       "type": "available_dids",
       "links": {
-        "self": "https://api.didww.com/v3/available_dids/d35148e7-8858-446e-ae53-2f5ae17501ef"
+        "self": "https://sandbox-api.didww.com/v3/available_dids/d35148e7-8858-446e-ae53-2f5ae17501ef"
       },
       "attributes": {
         "number": "771232341231"
@@ -12,8 +12,8 @@
       "relationships": {
         "did_group": {
           "links": {
-            "self": "https://api.didww.com/v3/available_dids/dd13cdb2-48ab-4374-94b3-56e162a659cd/relationships/did_group",
-            "related": "https://api.didww.com/v3/available_dids/dd13cdb2-48ab-4374-94b3-56e162a659cd/did_group"
+            "self": "https://sandbox-api.didww.com/v3/available_dids/dd13cdb2-48ab-4374-94b3-56e162a659cd/relationships/did_group",
+            "related": "https://sandbox-api.didww.com/v3/available_dids/dd13cdb2-48ab-4374-94b3-56e162a659cd/did_group"
           }
         }
       }
@@ -22,7 +22,7 @@
       "id": "9e31a4a5-38ef-4e1e-8a83-f6ae10d61d51",
       "type": "available_dids",
       "links": {
-        "self": "https://api.didww.com/v3/available_dids/9e31a4a5-38ef-4e1e-8a83-f6ae10d61d51"
+        "self": "https://sandbox-api.didww.com/v3/available_dids/9e31a4a5-38ef-4e1e-8a83-f6ae10d61d51"
       },
       "attributes": {
         "number": "771232341232"
@@ -30,8 +30,8 @@
       "relationships": {
         "did_group": {
           "links": {
-            "self": "https://api.didww.com/v3/available_dids/dd13cdb2-48ab-4374-94b3-56e162a659cd/relationships/did_group",
-            "related": "https://api.didww.com/v3/available_dids/dd13cdb2-48ab-4374-94b3-56e162a659cd/did_group"
+            "self": "https://sandbox-api.didww.com/v3/available_dids/dd13cdb2-48ab-4374-94b3-56e162a659cd/relationships/did_group",
+            "related": "https://sandbox-api.didww.com/v3/available_dids/dd13cdb2-48ab-4374-94b3-56e162a659cd/did_group"
           }
         }
       }

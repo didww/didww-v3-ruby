@@ -1,0 +1,12 @@
+{
+  "data": {
+    "id": "9cccd228-2c1a-435f-b7eb-77ce6fc00a86",
+    "type": "exports",
+    "attributes": {
+      "export_type": "cdr_in",
+      "status": "Pending",
+      "created_at": "2017-06-25T14:56:31.513Z",
+      "url": null
+    }
+  }
+}

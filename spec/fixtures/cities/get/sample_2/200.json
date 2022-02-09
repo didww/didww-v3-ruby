@@ -9,8 +9,8 @@
       "relationships": {
         "country": {
           "links": {
-            "self": "https://api.didww.com/v3/cities/950159ac-225a-421a-a4a6-03708f6bd475/relationships/country",
-            "related": "https://api.didww.com/v3/cities/950159ac-225a-421a-a4a6-03708f6bd475/country"
+            "self": "https://sandbox-api.didww.com/v3/cities/950159ac-225a-421a-a4a6-03708f6bd475/relationships/country",
+            "related": "https://sandbox-api.didww.com/v3/cities/950159ac-225a-421a-a4a6-03708f6bd475/country"
           },
           "data": {
             "type": "countries",
@@ -19,8 +19,8 @@
         },
         "region": {
           "links": {
-            "self": "https://api.didww.com/v3/cities/950159ac-225a-421a-a4a6-03708f6bd475/relationships/region",
-            "related": "https://api.didww.com/v3/cities/950159ac-225a-421a-a4a6-03708f6bd475/region"
+            "self": "https://sandbox-api.didww.com/v3/cities/950159ac-225a-421a-a4a6-03708f6bd475/relationships/region",
+            "related": "https://sandbox-api.didww.com/v3/cities/950159ac-225a-421a-a4a6-03708f6bd475/region"
           }
         }
       }
@@ -34,8 +34,8 @@
       "relationships": {
         "country": {
           "links": {
-            "self": "https://api.didww.com/v3/cities/5116f8c2-fc8d-4193-8d32-df8367e4a600/relationships/country",
-            "related": "https://api.didww.com/v3/cities/5116f8c2-fc8d-4193-8d32-df8367e4a600/country"
+            "self": "https://sandbox-api.didww.com/v3/cities/5116f8c2-fc8d-4193-8d32-df8367e4a600/relationships/country",
+            "related": "https://sandbox-api.didww.com/v3/cities/5116f8c2-fc8d-4193-8d32-df8367e4a600/country"
           },
           "data": {
             "type": "countries",
@@ -44,8 +44,8 @@
         },
         "region": {
           "links": {
-            "self": "https://api.didww.com/v3/cities/5116f8c2-fc8d-4193-8d32-df8367e4a600/relationships/region",
-            "related": "https://api.didww.com/v3/cities/5116f8c2-fc8d-4193-8d32-df8367e4a600/region"
+            "self": "https://sandbox-api.didww.com/v3/cities/5116f8c2-fc8d-4193-8d32-df8367e4a600/relationships/region",
+            "related": "https://sandbox-api.didww.com/v3/cities/5116f8c2-fc8d-4193-8d32-df8367e4a600/region"
           }
         }
       }
@@ -75,7 +75,7 @@
     "total_records": 2
   },
   "links": {
-    "first": "https://api.didww.com/v3/cities?include=country&page%5Bnumber%5D=1&page%5Bsize%5D=1000",
-    "next": "https://api.didww.com/v3/cities?include=country&page%5Bnumber%5D=1&page%5Bsize%5D=1000"
+    "first": "https://sandbox-api.didww.com/v3/cities?include=country&page%5Bnumber%5D=1&page%5Bsize%5D=1000",
+    "next": "https://sandbox-api.didww.com/v3/cities?include=country&page%5Bnumber%5D=1&page%5Bsize%5D=1000"
   }
 }

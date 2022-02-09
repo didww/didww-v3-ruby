@@ -16,8 +16,8 @@
     "relationships": {
       "countries": {
         "links": {
-          "self": "https://api.didww.com/v3/capacity_pools/b8db1d7c-f415-4530-a340-c774bcc1c55f/relationships/countries",
-          "related": "https://api.didww.com/v3/capacity_pools/b8db1d7c-f415-4530-a340-c774bcc1c55f/countries"
+          "self": "https://sandbox-api.didww.com/v3/capacity_pools/b8db1d7c-f415-4530-a340-c774bcc1c55f/relationships/countries",
+          "related": "https://sandbox-api.didww.com/v3/capacity_pools/b8db1d7c-f415-4530-a340-c774bcc1c55f/countries"
         },
         "data": [
           {
@@ -32,8 +32,8 @@
       },
       "shared_capacity_groups": {
         "links": {
-          "self": "https://api.didww.com/v3/capacity_pools/b8db1d7c-f415-4530-a340-c774bcc1c55f/relationships/shared_capacity_groups",
-          "related": "https://api.didww.com/v3/capacity_pools/b8db1d7c-f415-4530-a340-c774bcc1c55f/shared_capacity_groups"
+          "self": "https://sandbox-api.didww.com/v3/capacity_pools/b8db1d7c-f415-4530-a340-c774bcc1c55f/relationships/shared_capacity_groups",
+          "related": "https://sandbox-api.didww.com/v3/capacity_pools/b8db1d7c-f415-4530-a340-c774bcc1c55f/shared_capacity_groups"
         },
         "data": [
           {
@@ -44,8 +44,8 @@
       },
       "qty_based_pricings": {
         "links": {
-          "self": "https://api.didww.com/v3/capacity_pools/b8db1d7c-f415-4530-a340-c774bcc1c55f/relationships/qty_based_pricings",
-          "related": "https://api.didww.com/v3/capacity_pools/b8db1d7c-f415-4530-a340-c774bcc1c55f/qty_based_pricings"
+          "self": "https://sandbox-api.didww.com/v3/capacity_pools/b8db1d7c-f415-4530-a340-c774bcc1c55f/relationships/qty_based_pricings",
+          "related": "https://sandbox-api.didww.com/v3/capacity_pools/b8db1d7c-f415-4530-a340-c774bcc1c55f/qty_based_pricings"
         },
         "data": [
           {
@@ -91,14 +91,14 @@
       "relationships": {
         "capacity_pool": {
           "links": {
-            "self": "https://api.didww.com/v3/shared_capacity_groups/dd2e8844-6a79-4673-ba1c-c8a4913884cc/relationships/capacity_pool",
-            "related": "https://api.didww.com/v3/shared_capacity_groups/dd2e8844-6a79-4673-ba1c-c8a4913884cc/capacity_pool"
+            "self": "https://sandbox-api.didww.com/v3/shared_capacity_groups/dd2e8844-6a79-4673-ba1c-c8a4913884cc/relationships/capacity_pool",
+            "related": "https://sandbox-api.didww.com/v3/shared_capacity_groups/dd2e8844-6a79-4673-ba1c-c8a4913884cc/capacity_pool"
           }
         },
         "dids": {
           "links": {
-            "self": "https://api.didww.com/v3/shared_capacity_groups/dd2e8844-6a79-4673-ba1c-c8a4913884cc/relationships/dids",
-            "related": "https://api.didww.com/v3/shared_capacity_groups/dd2e8844-6a79-4673-ba1c-c8a4913884cc/dids"
+            "self": "https://sandbox-api.didww.com/v3/shared_capacity_groups/dd2e8844-6a79-4673-ba1c-c8a4913884cc/relationships/dids",
+            "related": "https://sandbox-api.didww.com/v3/shared_capacity_groups/dd2e8844-6a79-4673-ba1c-c8a4913884cc/dids"
           }
         }
       }

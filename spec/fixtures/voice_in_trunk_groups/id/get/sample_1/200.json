@@ -1,0 +1,25 @@
+{
+  "data": {
+    "id": "418fe352-04b8-4e03-a7ce-cb57efd8c664",
+    "type": "voice_in_trunk_groups",
+    "links": {
+      "self": "https://sandbox-api.didww.com/v3/voice_in_trunk_groups/418fe352-04b8-4e03-a7ce-cb57efd8c664"
+    },
+    "attributes": {
+      "created_at": "2017-06-25T14:56:31.513Z",
+      "name": "Common Group",
+      "capacity_limit": 69
+    },
+    "relationships": {
+      "voice_in_trunks": {
+        "links": {
+          "self": "https://sandbox-api.didww.com/v3/voice_in_trunk_groups/418fe352-04b8-4e03-a7ce-cb57efd8c664/relationships/voice_in_trunks",
+          "related": "https://sandbox-api.didww.com/v3/voice_in_trunk_groups/418fe352-04b8-4e03-a7ce-cb57efd8c664/voice_in_trunks"
+        }
+      }
+    },
+    "meta": {
+      "trunks_count": 1
+    }
+  }
+}

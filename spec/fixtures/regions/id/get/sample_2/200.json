@@ -8,8 +8,8 @@
     "relationships": {
       "country": {
         "links": {
-          "self": "https://api.didww.com/v3/regions/e2f3f115-11f1-43cf-8279-08b29d94403d/relationships/country",
-          "related": "https://api.didww.com/v3/regions/e2f3f115-11f1-43cf-8279-08b29d94403d/country"
+          "self": "https://sandbox-api.didww.com/v3/regions/e2f3f115-11f1-43cf-8279-08b29d94403d/relationships/country",
+          "related": "https://sandbox-api.didww.com/v3/regions/e2f3f115-11f1-43cf-8279-08b29d94403d/country"
         },
         "data": {
           "type": "countries",
