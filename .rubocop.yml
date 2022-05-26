@@ -303,10 +303,6 @@ Lint/UselessAssignment:
 Lint/BinaryOperatorWithIdenticalOperands:
   Enabled: false
 
-# Checks for useless `else` in `begin..end` without `rescue`.
-Lint/UselessElseWithoutRescue:
-  Enabled: false
-
 # Checks for useless setter call to a local variable.
 Lint/UselessSetterCall:
   Enabled: false
