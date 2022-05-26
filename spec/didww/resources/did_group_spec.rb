@@ -93,4 +93,21 @@ RSpec.describe DIDWW::Resource::DidGroup do
     end
   end
 
+  describe 'GET /did_group?filter[nanpa_prefix.id]={id}' do
+    context 'when DID group within NANPA prefix exists' do
+      let(:nanpa_prefix_id) { SecureRandom.uuid }
+
+      before do
+        stub_didww_request(:get, "/did_groups?filter[nanpa_prefix.id]=#{nanpa_prefix_id}").to_return(
+          status: 200,
+          body: api_fixture('did_groups/get/sample_1/200'),
+          headers: json_api_headers
+        )
+      end
+
+      it 'returns a collection of DidGroups' do
+        expect(client.did_groups.where('nanpa_prefix.id': nanpa_prefix_id).all).to be_a_list_of(DIDWW::Resource::DidGroup)
+      end
+    end
+  end
 end

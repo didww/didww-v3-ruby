@@ -154,6 +154,10 @@ module DIDWW
         @@api_mode = arg
       end
 
+      def nanpa_prefixes
+        Resource::NanpaPrefix
+      end
+
       private
 
       def http_verbose?
@@ -203,6 +207,7 @@ module DIDWW
         require 'didww/resource/area'
         require 'didww/resource/voice_out_trunk'
         require 'didww/resource/voice_out_trunk_regenerate_credential'
+        require 'didww/resource/nanpa_prefix'
       end
 
     end
