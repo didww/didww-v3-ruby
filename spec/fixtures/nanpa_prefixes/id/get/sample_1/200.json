@@ -1,0 +1,27 @@
+{
+  "data": {
+    "id": "a1ad26e5-1413-4edc-862b-1075378b6034",
+    "type": "nanpa_prefixes",
+    "attributes": {
+      "npa": "864",
+      "nxx": "920"
+    },
+    "relationships": {
+      "country": {
+        "links": {
+          "self": "https://sandbox-api.didww.com/v3/nanpa_prefixes/a1ad26e5-1413-4edc-862b-1075378b6034/relationships/country",
+          "related": "https://sandbox-api.didww.com/v3/nanpa_prefixes/a1ad26e5-1413-4edc-862b-1075378b6034/country"
+        }
+      },
+      "region": {
+        "links": {
+          "self": "https://sandbox-api.didww.com/v3/nanpa_prefixes/a1ad26e5-1413-4edc-862b-1075378b6034/relationships/region",
+          "related": "https://sandbox-api.didww.com/v3/nanpa_prefixes/a1ad26e5-1413-4edc-862b-1075378b6034/region"
+        }
+      }
+    }
+  },
+  "meta": {
+    "api_version": "2022-05-09"
+  }
+}
