@@ -1,0 +1,69 @@
+{
+  "data": [
+    {
+      "id": "f69196cc-2b00-4310-a550-3c433c350d35",
+      "type": "did_groups",
+      "attributes": {
+        "prefix": "864",
+        "features": [
+          "voice_in"
+        ],
+        "is_metered": false,
+        "area_name": "Anderson",
+        "allow_additional_channels": true
+      },
+      "relationships": {
+        "country": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/did_groups/f69196cc-2b00-4310-a550-3c433c350d35/relationships/country",
+            "related": "https://sandbox-api.didww.com/v3/did_groups/f69196cc-2b00-4310-a550-3c433c350d35/country"
+          }
+        },
+        "city": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/did_groups/f69196cc-2b00-4310-a550-3c433c350d35/relationships/city",
+            "related": "https://sandbox-api.didww.com/v3/did_groups/f69196cc-2b00-4310-a550-3c433c350d35/city"
+          }
+        },
+        "did_group_type": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/did_groups/f69196cc-2b00-4310-a550-3c433c350d35/relationships/did_group_type",
+            "related": "https://sandbox-api.didww.com/v3/did_groups/f69196cc-2b00-4310-a550-3c433c350d35/did_group_type"
+          }
+        },
+        "region": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/did_groups/f69196cc-2b00-4310-a550-3c433c350d35/relationships/region",
+            "related": "https://sandbox-api.didww.com/v3/did_groups/f69196cc-2b00-4310-a550-3c433c350d35/region"
+          }
+        },
+        "stock_keeping_units": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/did_groups/f69196cc-2b00-4310-a550-3c433c350d35/relationships/stock_keeping_units",
+            "related": "https://sandbox-api.didww.com/v3/did_groups/f69196cc-2b00-4310-a550-3c433c350d35/stock_keeping_units"
+          }
+        },
+        "requirement": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/did_groups/f69196cc-2b00-4310-a550-3c433c350d35/relationships/requirement",
+            "related": "https://sandbox-api.didww.com/v3/did_groups/f69196cc-2b00-4310-a550-3c433c350d35/requirement"
+          }
+        }
+      },
+      "meta": {
+        "available_dids_enabled": true,
+        "needs_registration": false,
+        "is_available": true,
+        "total_count": 2
+      }
+    }
+  ],
+  "meta": {
+    "total_records": 1,
+    "api_version": "2022-05-09"
+  },
+  "links": {
+    "first": "https://sandbox-api.didww.com/v3/did_groups?filter%5Bnanpa_prefix.npanxx%5D=864920&page%5Bnumber%5D=1&page%5Bsize%5D=50",
+    "last": "https://sandbox-api.didww.com/v3/did_groups?filter%5Bnanpa_prefix.npanxx%5D=864920&page%5Bnumber%5D=1&page%5Bsize%5D=50"
+  }
+}
