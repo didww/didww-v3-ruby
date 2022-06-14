@@ -23,10 +23,6 @@ module DIDWW
       # Type: String
       # Description: DID Group prefix (city or area calling code)
 
-      property :local_prefix, type: :string
-      # Type: String
-      # Description: DID Group local prefix
-
       property :features, type: :complex_object  # TODO implement array of strings?
       # Type: Array of strings
       # Description: Features available for the DID Group, including voice, sms and t38. A DID Group may have multiple features.
