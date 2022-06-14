@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - /v3/nanpa_prefixes endpoints being added.
 
+### Changes
+- /v3/orders endpoints being updated. Added nanpa_prefix_id attribute for DID order item.
+
 ## [3.0.0]
 ### Breaking Changes
 - /v3/trunks being moved to /v3/voice_in_trunks.

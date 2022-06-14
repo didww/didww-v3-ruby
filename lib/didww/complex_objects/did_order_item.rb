@@ -8,6 +8,7 @@ module DIDWW
       property :did_reservation_id,   type: :string
       property :sku_id,               type: :string
       property :billing_cycles_count, type: :string
+      property :nanpa_prefix_id,      type: :string
 
       # returned
       property :setup_price,          type: :decimal
