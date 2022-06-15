@@ -110,4 +110,31 @@ RSpec.describe DIDWW::Resource::DidGroup do
       end
     end
   end
+
+  describe 'GET /did_group?filter[nanpa_prefix.npanxx]={npanxx}' do
+    subject { client.did_groups.where('nanpa_prefix.npanxx': npa_nxx).all }
+
+    let(:npa_nxx) { %w[864 920].join }
+
+    context 'when DID group within 864920 NANPA prefix exists' do
+      let!(:mock_get_record_request) do
+        stub_didww_request(:get, "/did_groups?filter[nanpa_prefix.npanxx]=#{npa_nxx}").to_return(
+          status: 200,
+          body: api_fixture('did_groups/get/filter_by_npa_nxx/200'),
+          headers: json_api_headers
+        )
+      end
+
+      it 'returns a collection of DidGroups' do
+        expect(subject).to be_a_list_of(DIDWW::Resource::DidGroup)
+        expect(subject.count).to eq 1
+        expect(subject.sample.type).to eq described_class.type
+      end
+
+      it 'request should be performed properly' do
+        subject
+        expect(mock_get_record_request).to have_been_requested.at_least_once
+      end
+    end
+  end
 end
