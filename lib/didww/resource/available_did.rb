@@ -3,6 +3,7 @@ module DIDWW
   module Resource
     class AvailableDid < Base
       has_one :did_group
+      has_one :nanpa_prefix
 
       property :number, type: :string
       # Type: String

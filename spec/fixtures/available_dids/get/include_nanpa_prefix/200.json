@@ -1,0 +1,82 @@
+{
+  "data": [
+    {
+      "id": "73d5ac10-95cc-413d-9c75-66d5fa6b3461",
+      "type": "available_dids",
+      "attributes": {
+        "number": "1864920445"
+      },
+      "relationships": {
+        "did_group": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/available_dids/73d5ac10-95cc-413d-9c75-66d5fa6b3461/relationships/did_group",
+            "related": "https://sandbox-api.didww.com/v3/available_dids/73d5ac10-95cc-413d-9c75-66d5fa6b3461/did_group"
+          }
+        },
+        "nanpa_prefix": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/available_dids/73d5ac10-95cc-413d-9c75-66d5fa6b3461/relationships/nanpa_prefix",
+            "related": "https://sandbox-api.didww.com/v3/available_dids/73d5ac10-95cc-413d-9c75-66d5fa6b3461/nanpa_prefix"
+          },
+          "data": {
+            "type": "nanpa_prefixes",
+            "id": "e4c36c29-e0e2-4d4f-bd0f-341613e14bc3"
+          }
+        }
+      }
+    },
+    {
+      "id": "34056b89-5b6e-4261-9dc5-948b474f2043",
+      "type": "available_dids",
+      "attributes": {
+        "number": "1864920444"
+      },
+      "relationships": {
+        "did_group": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/available_dids/34056b89-5b6e-4261-9dc5-948b474f2043/relationships/did_group",
+            "related": "https://sandbox-api.didww.com/v3/available_dids/34056b89-5b6e-4261-9dc5-948b474f2043/did_group"
+          }
+        },
+        "nanpa_prefix": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/available_dids/34056b89-5b6e-4261-9dc5-948b474f2043/relationships/nanpa_prefix",
+            "related": "https://sandbox-api.didww.com/v3/available_dids/34056b89-5b6e-4261-9dc5-948b474f2043/nanpa_prefix"
+          },
+          "data": {
+            "type": "nanpa_prefixes",
+            "id": "e4c36c29-e0e2-4d4f-bd0f-341613e14bc3"
+          }
+        }
+      }
+    }
+  ],
+  "included": [
+    {
+      "id": "e4c36c29-e0e2-4d4f-bd0f-341613e14bc3",
+      "type": "nanpa_prefixes",
+      "attributes": {
+        "npa": "864",
+        "nxx": "920"
+      },
+      "relationships": {
+        "country": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/nanpa_prefixes/e4c36c29-e0e2-4d4f-bd0f-341613e14bc3/relationships/country",
+            "related": "https://sandbox-api.didww.com/v3/nanpa_prefixes/e4c36c29-e0e2-4d4f-bd0f-341613e14bc3/country"
+          }
+        },
+        "region": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/nanpa_prefixes/e4c36c29-e0e2-4d4f-bd0f-341613e14bc3/relationships/region",
+            "related": "https://sandbox-api.didww.com/v3/nanpa_prefixes/e4c36c29-e0e2-4d4f-bd0f-341613e14bc3/region"
+          }
+        }
+      }
+    }
+  ],
+  "meta": {
+    "total_count": 3,
+    "api_version": "2022-05-09"
+  }
+}
