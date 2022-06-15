@@ -8,7 +8,6 @@
       },
       "attributes": {
         "prefix": "77",
-        "local_prefix": "",
         "features": [
           "voice",
           "sms"
@@ -62,7 +61,6 @@
       },
       "attributes": {
         "prefix": "3",
-        "local_prefix": "",
         "features": [
           "voice"
         ],

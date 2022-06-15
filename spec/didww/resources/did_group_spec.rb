@@ -37,9 +37,6 @@ RSpec.describe DIDWW::Resource::DidGroup do
       it 'the DidGroup has "prefix", type: String' do
         expect(did_group.prefix).to be_kind_of(String)
       end
-      it 'the DidGroup has "local_prefix", type: String' do
-        expect(did_group.local_prefix).to be_kind_of(String)
-      end
       it 'the DidGroup has "is_metered", type: Boolean' do
         expect(did_group.is_metered).to be_in([true, false])
       end
