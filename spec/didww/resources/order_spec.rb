@@ -113,7 +113,7 @@ RSpec.describe DIDWW::Resource::Order do
           expect(order).to be_persisted
           expect(order[:reference]).to be_kind_of(String)
         end
-        it 'with allow_back_ordering equal "false" creates an Order without a reference' do
+        it 'with allow_back_ordering equal "false" creates an Order' do
           stub_didww_request(:post, '/orders').
             with(body:
               {
@@ -142,7 +142,7 @@ RSpec.describe DIDWW::Resource::Order do
           order.items << DIDWW::ComplexObject::DidOrderItem.new(qty: 15, sku_id: 'b6d9d793-578d-42d3-bc33-73dd8155e615')
           order.save
           expect(order).to be_persisted
-          expect(order[:reference]).to be_nil
+          expect(order.reference).to be_kind_of(String)
         end
         it 'with available_did_id' do
           stub_didww_request(:post, '/orders').
@@ -210,7 +210,54 @@ RSpec.describe DIDWW::Resource::Order do
           )
           order.save
           expect(order).to be_persisted
-          expect(order[:reference]).to be_nil
+          expect(order.reference).to be_kind_of(String)
+        end
+
+        context 'with nanpa_prefix_id attribute' do
+          subject { order.save }
+
+          let(:nanpa_prefix_id) { '3a33892b-bd4d-4411-b669-5eba6cc13807' }
+          let(:sku_id) { 'b6d9d793-578d-42d3-bc33-73dd8155e615' }
+          let!(:mock_post_create_order_request) do
+            stub_didww_request(:post, '/orders')
+              .with(body: {
+                       "data": {
+                         "type": 'orders',
+                         "attributes": {
+                           "allow_back_ordering": false,
+                           "items": [
+                             {
+                               "type": 'did_order_items',
+                               "attributes": {
+                                 "sku_id": 'b6d9d793-578d-42d3-bc33-73dd8155e615',
+                                 "nanpa_prefix_id": nanpa_prefix_id
+                               }
+                             }
+                           ]
+                         }
+                       }
+                }.to_json)
+              .to_return(
+                status: 201,
+                body: api_fixture('orders/post/sample_2/201'),
+                headers: json_api_headers
+              )
+          end
+          let(:did_order_item) { DIDWW::ComplexObject::DidOrderItem.new(sku_id: sku_id, nanpa_prefix_id: nanpa_prefix_id) }
+          let(:order) { client.orders.new(allow_back_ordering: false, items: [did_order_item]) }
+
+          it 'should create DID Order' do
+            subject
+            expect(order).to be_persisted
+            expect(order.status).to eq 'Pending'
+            expect(order.items).to be_one
+            expect(order.reference).to be_kind_of(String)
+          end
+
+          it 'request should be performed properly' do
+            subject
+            expect(mock_post_create_order_request).to have_been_requested.at_least_once
+          end
         end
       end
       context 'capacity order type' do
