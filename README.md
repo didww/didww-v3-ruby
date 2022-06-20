@@ -14,9 +14,9 @@ Read more https://doc.didww.com/api
 
 Gem Versions **4.X.X** and branch [master](https://github.com/didww/didww-v3-ruby) are intended to use with DIDWW API 3 version [2022-05-10](https://doc.didww.com/api3/2022-05-10/index.html).
 
-Gem Versions **3.X.X** and branch [release-3](https://github.com/didww/didww-v3-ruby) are intended to use with DIDWW API 3 version [2021-12-15](https://doc.didww.com/api3/2021-12-15/index.html).
+Gem Versions **3.X.X** and branch [release-3](https://github.com/didww/didww-v3-ruby/tree/release-3) are intended to use with DIDWW API 3 version [2021-12-15](https://doc.didww.com/api3/2021-12-15/index.html).
 
-Gem Versions **2.X.X** and branch [release-2](https://github.com/didww/didww-v3-ruby) are intended to use with DIDWW API 3 version [2021-04-19](https://doc.didww.com/api3/2021-04-19/index.html).
+Gem Versions **2.X.X** and branch [release-2](https://github.com/didww/didww-v3-ruby/tree/release-2) are intended to use with DIDWW API 3 version [2021-04-19](https://doc.didww.com/api3/2021-04-19/index.html).
 
 Gem Versions **1.X.X** and branch [release-1](https://github.com/didww/didww-v3-ruby/tree/release-1) are intended to use with DIDWW API 3 version [2017-09-18](https://doc.didww.com/api3/2017-09-18/index.html).
 
