@@ -8,8 +8,8 @@ require 'didww/resource/base'
 module DIDWW
   module Client
     BASE_URLS = {
-      sandbox:    'https://sandbox-api.didww.com/v3/'         .freeze,
-      production: 'https://sandbox-api.didww.com/v3/'                 .freeze
+      sandbox: 'https://sandbox-api.didww.com/v3/'.freeze,
+      production: 'https://api.didww.com/v3/'.freeze
     }.freeze
     DEFAULT_MODE = :sandbox
 
