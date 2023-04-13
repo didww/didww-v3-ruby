@@ -1,16 +1,21 @@
 # frozen_string_literal: true
+
 module DIDWW
   module Resource
     class DidGroup < Base
       # Possible values for did_group.features array
-      FEATURE_VOICE    = 'voice'                           .freeze
-      FEATURE_T38      = 't38'                             .freeze
-      FEATURE_SMS      = 'sms'                             .freeze
+      FEATURE_VOICE_IN = 'voice_in'
+      FEATURE_VOICE_OUT = 'voice_out'
+      FEATURE_T38 = 't38'
+      FEATURE_SMS_IN = 'sms_in'
+      FEATURE_SMS_OUT = 'sms_out'
       FEATURES = {
-                   FEATURE_VOICE => 'Voice'                           .freeze,
-                   FEATURE_T38   => 'T.38 Fax'                        .freeze,
-                   FEATURE_SMS   => 'SMS'                             .freeze
-                 }.freeze
+        FEATURE_VOICE_IN => 'Voice IN',
+        FEATURE_VOICE_OUT => 'Voice OUT',
+        FEATURE_T38   => 'T.38 Fax',
+        FEATURE_SMS_IN   => 'SMS IN',
+        FEATURE_SMS_OUT   => 'SMS OUT'
+      }.freeze
 
       has_one :country, class: Country
       has_one :city,    class: City

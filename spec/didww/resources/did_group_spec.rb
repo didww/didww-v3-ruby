@@ -3,14 +3,14 @@ RSpec.describe DIDWW::Resource::DidGroup do
   let (:client) { DIDWW::Client }
 
   it 'has FEATURES constant' do
-    expect(described_class::FEATURES).to include('t38', 'voice', 'sms')
+    expect(described_class::FEATURES).to include('t38', 'voice_in', 'sms_in', 'voice_out', 'sms_out')
   end
 
   describe '#features_human' do
-    it 'humanizes features array attribute' do
+    it 'should return array of humanized feature names' do
       expect(subject.features_human).to eq([])
-      subject.features = ['t38', 'voice']
-      expect(subject.features_human).to eq(['T.38 Fax', 'Voice'])
+      subject.features = %w[t38 voice_in voice_out sms_in sms_out]
+      expect(subject.features_human).to eq(['T.38 Fax', 'Voice IN', 'Voice OUT', 'SMS IN', 'SMS OUT'])
     end
   end
 
