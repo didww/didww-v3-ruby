@@ -21,8 +21,19 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
+      - name: bundle exec rake bundle:audit
+        if: matrix.rails != '~> 5.0'
+        run: |
+          gem install bundler -v 2.2.7
+          bundle install
+          bundle exec rake bundle:audit
+      - name: Rubocop
+        run: |
+          gem install bundler -v 2.2.7
+          bundle install
+          bundle exec rubocop
       - name: Run tests
         run: |
           gem install bundler -v 2.2.7
           bundle install
-          bundle exec rake
+          bundle exec rspec --format=progress
