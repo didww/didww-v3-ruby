@@ -10,18 +10,17 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby: [ '2.5', '2.6', '2.7' ]
-        rails: [ '~> 5.0', '~> 6.0' ]
+        ruby: [ '2.7' ]
+        rails: [ '~> 6.0' ]
     name: Tests with Ruby ${{ matrix.ruby }} Activesupport ${{ matrix.rails }}
     env:
       RAILS_VERSION: ${{ matrix.rails }}
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-ruby@v1
+      - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
       - name: Run tests
         run: |
-          gem install bundler -v 2.2.7
           bundle install
           bundle exec rake
