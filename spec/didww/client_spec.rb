@@ -2,11 +2,14 @@
 RSpec.describe DIDWW::Client do
   let(:api_key) { 'f02c46006f6fa4746cd019abffb0a949' }
   let(:sandbox_uri) { 'https://sandbox-api.didww.com/v3/' }
-  let(:prod_uri) { 'https://sandbox-api.didww.com/v3/' }
+  let(:prod_uri) { 'https://api.didww.com/v3/' }
 
-  before(:each) do
-    DIDWW.send(:remove_const, :Client)
-    load 'didww/client.rb'
+  after do
+    # restore DIDWW client configuration
+    DIDWW::Client.configure do |client|
+      client.api_key  = nil
+      client.api_mode = :sandbox
+    end
   end
 
   it 'configures' do
