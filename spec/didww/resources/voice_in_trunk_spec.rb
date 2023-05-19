@@ -8,8 +8,8 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
   end
 
   it 'has CONF_TYPES constant' do
-    expect(described_class::CONF_TYPES).to include('sip_configurations', 'pstn_configurations').and have(4).items
-    expect(described_class::CONF_TYPES.values).to include('SIP', 'PSTN')
+    expect(described_class::CONF_TYPES.keys).to contain_exactly('sip_configurations', 'h323_configurations', 'iax2_configurations', 'pstn_configurations')
+    expect(described_class::CONF_TYPES.values).to contain_exactly('SIP', 'H323', 'IAX2', 'PSTN')
     expect(described_class::CONF_TYPE_CLASSES.values).to all(be < DIDWW::ComplexObject::Base)
   end
 
@@ -188,7 +188,8 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
         body: api_fixture('voice_in_trunks/get/sample_1/200'),
         headers: json_api_headers
       )
-      expect(client.voice_in_trunks.all).to be_a_list_of(DIDWW::Resource::VoiceInTrunk)
+      expect(client.voice_in_trunks.all.count).to eq 2
+      expect(client.voice_in_trunks.all).to all be_an_instance_of(described_class)
     end
   end
 
@@ -599,7 +600,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
 
     end
 
-    describe 'with incorerct attributes' do
+    describe 'when name attribute already been taken' do
       it 'returns an Trunk with errors' do
         stub_didww_request(:post, '/voice_in_trunks').
           with(body:
@@ -632,7 +633,8 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
         end
         trunk.save
         expect(trunk).not_to be_persisted
-        expect(trunk.errors).to have_at_least(1).item
+        expect(trunk.errors.count).to eq 1
+        expect(trunk.errors[:name]).to contain_exactly('has already been taken')
       end
     end
   end
@@ -855,7 +857,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
 
     end
 
-    describe 'with incorerct attributes' do
+    describe 'when name attribute already been taken' do
       it 'returns a Trunk with errors' do
         id = '57a939dd-1600-41a6-80b1-f624e22a1f4c'
         stub_didww_request(:patch, "/voice_in_trunks/#{id}").
@@ -884,7 +886,8 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
           config.username = 'new_username'
         end
         trunk.save
-        expect(trunk.errors).to have_at_least(1).item
+        expect(trunk.errors.count).to eq 1
+        expect(trunk.errors[:name]).to contain_exactly('has already been taken')
       end
     end
   end

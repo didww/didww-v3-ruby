@@ -4,7 +4,6 @@ SimpleCov.start
 
 require 'bundler/setup'
 require 'webmock/rspec'
-require 'smart_rspec'
 require 'byebug'
 
 require 'didww'

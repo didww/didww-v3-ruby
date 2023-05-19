@@ -49,7 +49,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunkGroup do
             body: api_fixture('voice_in_trunks/get/sample_1/200'),
             headers: json_api_headers
           )
-        expect(trunk_group.voice_in_trunks).to be_a_list_of(DIDWW::Resource::VoiceInTrunk)
+        expect(trunk_group.voice_in_trunks).to all be_an_instance_of(DIDWW::Resource::VoiceInTrunk)
         expect(request).to have_been_made.once
       end
 
@@ -73,7 +73,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunkGroup do
         headers: json_api_headers
       )
       trunk_group = client.voice_in_trunk_groups.includes(:voice_in_trunks).find(id).first
-      expect(trunk_group.voice_in_trunks).to be_a_list_of(DIDWW::Resource::VoiceInTrunk)
+      expect(trunk_group.voice_in_trunks).to all be_an_instance_of(DIDWW::Resource::VoiceInTrunk)
     end
   end
 
@@ -84,7 +84,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunkGroup do
         body: api_fixture('voice_in_trunk_groups/get/sample_1/200'),
         headers: json_api_headers
       )
-      expect(client.voice_in_trunk_groups.all).to be_a_list_of(DIDWW::Resource::VoiceInTrunkGroup)
+      expect(client.voice_in_trunk_groups.all).to all be_an_instance_of(DIDWW::Resource::VoiceInTrunkGroup)
     end
     it 'optionally includes VoiceInTrunks' do
       stub_didww_request(:get, '/voice_in_trunk_groups?include=voice_in_trunks').to_return(
@@ -92,7 +92,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunkGroup do
         body: api_fixture('voice_in_trunk_groups/get/sample_2/200'),
         headers: json_api_headers
       )
-      expect(client.voice_in_trunk_groups.includes(:voice_in_trunks).all.first.voice_in_trunks).to be_a_list_of(DIDWW::Resource::VoiceInTrunk)
+      expect(client.voice_in_trunk_groups.includes(:voice_in_trunks).all.first.voice_in_trunks).to all be_an_instance_of(DIDWW::Resource::VoiceInTrunk)
     end
 
   end
@@ -168,7 +168,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunkGroup do
       xit 'creates a TrunkGroup, assign Trunks and include them in response'
     end
 
-    describe 'with incorerct attributes' do
+    describe 'with incorrect attributes' do
       it 'returns a TrunkGroup with errors' do
         stub_didww_request(:post, '/voice_in_trunk_groups').
           with(body:
@@ -187,7 +187,8 @@ RSpec.describe DIDWW::Resource::VoiceInTrunkGroup do
             headers: json_api_headers
           )
         trunk_group = client.voice_in_trunk_groups.create(name: 'Main group', capacity_limit: 100)
-        expect(trunk_group.errors).to have_at_least(1).item
+        expect(trunk_group.errors.count).to eq 1
+        expect(trunk_group.errors[:name]).to contain_exactly('has already been taken')
       end
     end
   end
@@ -247,7 +248,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunkGroup do
       end
     end
 
-    describe 'with incorerct attributes' do
+    describe 'with incorrect attributes' do
       it 'returns a TrunkGroup with errors' do
         id = '43deb3aa-674a-465e-ac16-fb3084325ec7'
         stub_didww_request(:patch, "/voice_in_trunk_groups/#{id}").
@@ -269,7 +270,8 @@ RSpec.describe DIDWW::Resource::VoiceInTrunkGroup do
           )
         trunk_group = DIDWW::Resource::VoiceInTrunkGroup.load(id: id)
         trunk_group.update(name: 'Renamed group', capacity_limit: 1)
-        expect(trunk_group.errors).to have_at_least(1).item
+        expect(trunk_group.errors.count).to eq 1
+        expect(trunk_group.errors[:name]).to contain_exactly('has already been taken')
       end
     end
   end

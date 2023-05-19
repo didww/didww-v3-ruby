@@ -51,7 +51,7 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
             body: api_fixture('dids/get/sample_1/200'),
             headers: json_api_headers
           )
-        expect(shared_capacity_group.dids).to be_a_list_of(DIDWW::Resource::Did)
+        expect(shared_capacity_group.dids).to all be_an_instance_of(DIDWW::Resource::Did)
         expect(request).to have_been_made.once
       end
     end
@@ -75,7 +75,7 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
       )
       shared_capacity_group = client.shared_capacity_groups.includes(:capacity_pool, :dids).find(id).first
       expect(shared_capacity_group.capacity_pool).to be_kind_of(DIDWW::Resource::CapacityPool)
-      expect(shared_capacity_group.dids).to be_a_list_of(DIDWW::Resource::Did)
+      expect(shared_capacity_group.dids).to all be_an_instance_of(DIDWW::Resource::Did)
     end
   end
 
@@ -86,7 +86,7 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
         body: api_fixture('shared_capacity_groups/get/sample_1/200'),
         headers: json_api_headers
       )
-      expect(client.shared_capacity_groups.all).to be_a_list_of(DIDWW::Resource::SharedCapacityGroup)
+      expect(client.shared_capacity_groups.all).to all be_an_instance_of(DIDWW::Resource::SharedCapacityGroup)
     end
     it 'optionally includes Capacity Pool, Dids' do
       stub_didww_request(:get, '/shared_capacity_groups?include=capacity_pool,dids').to_return(
@@ -96,7 +96,7 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
       )
       shared_capacity_groups = client.shared_capacity_groups.includes(:capacity_pool, :dids).all
       expect(shared_capacity_groups.first.capacity_pool).to be_kind_of(DIDWW::Resource::CapacityPool)
-      expect(shared_capacity_groups.first.dids).to be_a_list_of(DIDWW::Resource::Did)
+      expect(shared_capacity_groups.first.dids).to all be_an_instance_of(DIDWW::Resource::Did)
     end
   end
 
@@ -211,12 +211,13 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
         shared_capacity_group = client.shared_capacity_groups.new(name: 'Sample Capacity Group', shared_channels_count: 3, metered_channels_count: 5)
         shared_capacity_group.relationships[:capacity_pool] = DIDWW::Resource::CapacityPool.load(id: '71185c2a-fcc7-468b-87e3-85260fbc3b86')
         shared_capacity_group.save
-        expect(shared_capacity_group.errors).to have_at_least(1).item
+        expect(shared_capacity_group.errors.count).to eq 1
+        expect(shared_capacity_group.errors[:name]).to contain_exactly('has already been taken')
       end
     end
 
-    describe 'with incorrect DIDs' do
-      it 'returns a SharedCapacityGroup with errors' do
+    context 'when some of DID cannot be applied to shared capacity group' do
+      it 'returns a validation error' do
         stub_post_shared_capacity_group_with_capacity_pool_and_dids.to_return(
           status: 422,
           body: api_fixture('shared_capacity_groups/post/sample_2/422'),
@@ -230,7 +231,8 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
           DIDWW::Resource::Did.load(id:'46aa9cac-a8dd-4a06-82db-cb0731e53ba0')
         ]
         shared_capacity_group.save
-        expect(shared_capacity_group.errors).to have_at_least(1).item
+        expect(shared_capacity_group.errors.count).to eq 1
+        expect(shared_capacity_group.errors['0']).to contain_exactly('cannot be applied to shared capacity group')
       end
     end
   end
@@ -331,7 +333,7 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
       end
     end
 
-    describe 'with incorerct attributes' do
+    describe 'with incorrect attributes' do
       it 'returns a SharedCapacityGroup with errors' do
         stub_didww_request(:patch, "/shared_capacity_groups/#{id}").
           with(body:
@@ -351,12 +353,13 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
           )
         shared_capacity_group = DIDWW::Resource::SharedCapacityGroup.load(id: id)
         shared_capacity_group.update(name: 'Renamed group')
-        expect(shared_capacity_group.errors).to have_at_least(1).item
+        expect(shared_capacity_group.errors.count).to eq 1
+        expect(shared_capacity_group.errors[:name]).to contain_exactly('has already been taken')
       end
     end
 
-    describe 'with incorerct DIDs' do
-      it 'returns a SharedCapacityGroup with errors' do
+    context 'when some of DID cannot be applied to shared capacity group' do
+      it 'returns a validation error' do
         stub_didww_request(:patch, "/shared_capacity_groups/#{id}").
           with(body:
             {
@@ -386,7 +389,8 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
           DIDWW::Resource::Did.load(id:'b7a9d1ce-6a89-4071-bc0d-486ee223787d')
         ]
         shared_capacity_group.save
-        expect(shared_capacity_group.errors).to have_at_least(1).item
+        expect(shared_capacity_group.errors.count).to eq 1
+        expect(shared_capacity_group.errors['0']).to contain_exactly('cannot be applied to shared capacity group')
       end
     end
   end
@@ -429,7 +433,8 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
         )
         shared_capacity_group = DIDWW::Resource::SharedCapacityGroup.load(id: id)
         expect(shared_capacity_group.destroy).to eq(false)
-        expect(shared_capacity_group.errors).to have_at_least(1).item
+        expect(shared_capacity_group.errors.count).to eq 1
+        expect(shared_capacity_group.errors[:base]).to contain_exactly('The capacity group cannot be removed while active numbers are assigned to it')
         expect(WebMock).to have_requested(:delete, api_uri("/shared_capacity_groups/#{id}"))
       end
     end

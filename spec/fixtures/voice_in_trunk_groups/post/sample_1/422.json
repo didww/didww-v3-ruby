@@ -1,8 +1,8 @@
 {
   "errors": [
     {
-      "title": "should exist",
-      "detail": "name - already exist",
+      "title": "has already been taken",
+      "detail": "name - has already been taken",
       "code": "100",
       "source": {
         "pointer": "/data/attributes/name"

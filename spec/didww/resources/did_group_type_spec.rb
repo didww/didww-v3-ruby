@@ -43,7 +43,7 @@ RSpec.describe DIDWW::Resource::DidGroupType do
         body: api_fixture('did_group_types/get/sample_1/200'),
         headers: json_api_headers
       )
-      expect(client.did_group_types.all).to be_a_list_of(DIDWW::Resource::DidGroupType)
+      expect(client.did_group_types.all).to all be_an_instance_of(DIDWW::Resource::DidGroupType)
     end
   end
 

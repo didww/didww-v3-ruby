@@ -53,7 +53,7 @@ RSpec.describe DIDWW::Resource::Region do
         body: api_fixture('regions/get/sample_1/200'),
         headers: json_api_headers
       )
-      expect(client.regions.all).to be_a_list_of(DIDWW::Resource::Region)
+      expect(client.regions.all).to all be_an_instance_of(DIDWW::Resource::Region)
     end
     it 'optionally includes Countries' do
       stub_didww_request(:get, '/regions?include=country').to_return(

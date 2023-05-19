@@ -100,7 +100,7 @@ RSpec.describe DIDWW::Resource::Export do
         body: api_fixture('exports/get/sample_1/200'),
         headers: json_api_headers
       )
-      expect(client.exports.all).to be_a_list_of(DIDWW::Resource::Export)
+      expect(client.exports.all).to all be_an_instance_of(DIDWW::Resource::Export)
     end
   end
 

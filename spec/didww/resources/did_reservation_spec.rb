@@ -95,7 +95,7 @@ RSpec.describe DIDWW::Resource::DidReservation do
 
       it 'has stock_keeping_units' do
         subject
-        expect(record.available_did.did_group.stock_keeping_units).to be_a_list_of(DIDWW::Resource::StockKeepingUnit)
+        expect(record.available_did.did_group.stock_keeping_units).to all be_an_instance_of(DIDWW::Resource::StockKeepingUnit)
       end
     end
 
@@ -116,7 +116,7 @@ RSpec.describe DIDWW::Resource::DidReservation do
       end
 
       it 'returns did_reservations' do
-        expect(subject).to be_a_list_of(DIDWW::Resource::DidReservation)
+        expect(subject).to all be_an_instance_of(described_class)
       end
     end
 

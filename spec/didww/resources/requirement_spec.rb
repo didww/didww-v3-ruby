@@ -102,7 +102,7 @@ RSpec.describe DIDWW::Resource::Requirement do
           body: api_fixture('proof_types/id/get/200'),
           headers: json_api_headers
         )
-        expect(requirement.personal_proof_types).to be_a_list_of(DIDWW::Resource::ProofType)
+        expect(requirement.personal_proof_types).to all be_an_instance_of(DIDWW::Resource::ProofType)
         expect(request).to have_been_made.once
       end
     end
@@ -137,15 +137,15 @@ RSpec.describe DIDWW::Resource::Requirement do
         :address_proof_types
       ).find(id).first
 
-      expect(requirement.country).to be_kind_of(DIDWW::Resource::Country)
-      expect(requirement.did_group_type).to be_kind_of(DIDWW::Resource::DidGroupType)
-      expect(requirement.personal_permanent_document).to be_kind_of(DIDWW::Resource::SupportingDocumentTemplate).or be_nil
-      expect(requirement.business_permanent_document).to be_kind_of(DIDWW::Resource::SupportingDocumentTemplate).or be_nil
-      expect(requirement.personal_onetime_document).to be_kind_of(DIDWW::Resource::SupportingDocumentTemplate).or be_nil
-      expect(requirement.business_onetime_document).to be_kind_of(DIDWW::Resource::SupportingDocumentTemplate).or be_nil
-      expect(requirement.personal_proof_types).to be_a_list_of(DIDWW::Resource::ProofType)
-      expect(requirement.business_proof_types).to be_a_list_of(DIDWW::Resource::ProofType)
-      expect(requirement.address_proof_types).to be_a_list_of(DIDWW::Resource::ProofType)
+      expect(requirement.country).to be_an_instance_of(DIDWW::Resource::Country)
+      expect(requirement.did_group_type).to be_an_instance_of(DIDWW::Resource::DidGroupType)
+      expect(requirement.personal_permanent_document).to eq nil
+      expect(requirement.business_permanent_document).to eq nil
+      expect(requirement.personal_onetime_document).to eq nil
+      expect(requirement.business_onetime_document).to eq nil
+      expect(requirement.personal_proof_types).to all be_an_instance_of(DIDWW::Resource::ProofType)
+      expect(requirement.business_proof_types).to all be_an_instance_of(DIDWW::Resource::ProofType)
+      expect(requirement.address_proof_types).to all be_an_instance_of(DIDWW::Resource::ProofType)
     end
   end
 
@@ -156,8 +156,9 @@ RSpec.describe DIDWW::Resource::Requirement do
         body: api_fixture('requirements/get/sample_1/200'),
         headers: json_api_headers
       )
-      expect(client.requirements.all).to be_a_list_of(DIDWW::Resource::Requirement)
+      expect(client.requirements.all).to all be_an_instance_of(DIDWW::Resource::Requirement)
     end
+
     it 'optionally includes Country, Did group type, Supporting documents and Proof types' do
       path_with_included = '/requirements?include=country,did_group_type,personal_permanent_document,business_permanent_document,personal_onetime_document,business_onetime_document,personal_proof_types,business_proof_types,address_proof_types'
       stub_didww_request(:get, path_with_included).to_return(
@@ -177,15 +178,15 @@ RSpec.describe DIDWW::Resource::Requirement do
         :address_proof_types
       ).all
 
-      expect(requirements.first.country).to be_kind_of(DIDWW::Resource::Country)
-      expect(requirements.first.did_group_type).to be_kind_of(DIDWW::Resource::DidGroupType)
-      expect(requirements.first.personal_permanent_document).to be_kind_of(DIDWW::Resource::SupportingDocumentTemplate).or be_nil
-      expect(requirements.first.business_permanent_document).to be_kind_of(DIDWW::Resource::SupportingDocumentTemplate).or be_nil
-      expect(requirements.first.personal_onetime_document).to be_kind_of(DIDWW::Resource::SupportingDocumentTemplate).or be_nil
-      expect(requirements.first.business_onetime_document).to be_kind_of(DIDWW::Resource::SupportingDocumentTemplate).or be_nil
-      expect(requirements.first.personal_proof_types).to be_a_list_of(DIDWW::Resource::ProofType)
-      expect(requirements.first.business_proof_types).to be_a_list_of(DIDWW::Resource::ProofType)
-      expect(requirements.first.address_proof_types).to be_a_list_of(DIDWW::Resource::ProofType)
+      expect(requirements.first.country).to be_an_instance_of(DIDWW::Resource::Country)
+      expect(requirements.first.did_group_type).to be_an_instance_of(DIDWW::Resource::DidGroupType)
+      expect(requirements.first.personal_permanent_document).to eq nil
+      expect(requirements.first.business_permanent_document).to eq nil
+      expect(requirements.first.personal_onetime_document).to eq nil
+      expect(requirements.first.business_onetime_document).to eq nil
+      expect(requirements.first.personal_proof_types).to all be_an_instance_of(DIDWW::Resource::ProofType)
+      expect(requirements.first.business_proof_types).to all be_an_instance_of(DIDWW::Resource::ProofType)
+      expect(requirements.first.address_proof_types).to all be_an_instance_of(DIDWW::Resource::ProofType)
     end
   end
 end
