@@ -14,7 +14,7 @@ RSpec.describe DIDWW::ComplexObject::Base do
     end
 
     it 'uses type casting for defined properties' do
-      expect( test_instance.known ).to be_kind_of(Fixnum)
+      expect( test_instance.known ).to be_kind_of(Integer)
     end
   end
 end
