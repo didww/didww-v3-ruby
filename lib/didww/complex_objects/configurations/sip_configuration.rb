@@ -56,7 +56,7 @@ module DIDWW
         property :rtp_ping, type: :boolean
         # Type: Boolean
         # Nullable: No
-        # Description: Use RTP PING when connecting a call. After establishing the call, DIDWW will send empty RTP packet "RTP PING". It is neccessary if both parties operate in Symmetric RTP / Comedia mode and expect the other party to start sending RTP first.
+        # Description: Use RTP PING when connecting a call. After establishing the call, DIDWW will send empty RTP packet "RTP PING". It is necessary if both parties operate in Symmetric RTP / Comedia mode and expect the other party to start sending RTP first.
 
         property :rtp_timeout, type: :integer
         # Type: Integer

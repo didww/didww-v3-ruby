@@ -6,7 +6,7 @@ module DIDWW
 
       property :qty, type: :integer
       # Type: Integer
-      # Description: A treshold starting at which provided prices per channel apply
+      # Description: A threshold starting at which provided prices per channel apply
 
       property :setup_price, type: :decimal
       # Type: String
