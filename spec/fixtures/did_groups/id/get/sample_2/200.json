@@ -8,8 +8,8 @@
     "attributes": {
       "prefix": "77",
       "features": [
-        "voice",
-        "sms"
+        "voice_in",
+        "sms_in"
       ],
       "is_metered": false,
       "area_name": "National",

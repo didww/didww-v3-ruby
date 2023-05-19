@@ -24,7 +24,7 @@
         "allow_additional_channels": true,
         "area_name": "Washington",
         "features": [
-          "voice"
+          "voice_in"
         ],
         "is_metered": false,
         "local_prefix": "",

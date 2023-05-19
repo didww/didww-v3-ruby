@@ -53,8 +53,8 @@
         "prefix": "77",
         "local_prefix": "",
         "features": [
-          "voice",
-          "sms"
+          "voice_in",
+          "sms_in"
         ],
         "is_metered": false,
         "area_name": "National",
