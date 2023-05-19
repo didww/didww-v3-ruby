@@ -1,0 +1,4 @@
+[codespell]
+skip = *.png,*.jpg,*.jpeg,*.gif,*.svg,.git
+quiet-level = 23
+ignore-words = codespell_ignore_words.txt
