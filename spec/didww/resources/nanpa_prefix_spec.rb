@@ -32,7 +32,7 @@ RSpec.describe DIDWW::Resource::NanpaPrefix do
       end
 
       it 'returns a collection of NANPA prefixes' do
-        expect(client.nanpa_prefixes.all).to be_a_list_of(DIDWW::Resource::NanpaPrefix)
+        expect(client.nanpa_prefixes.all).to all be_an_instance_of(DIDWW::Resource::NanpaPrefix)
       end
     end
 

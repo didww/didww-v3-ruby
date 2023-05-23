@@ -50,7 +50,7 @@ RSpec.describe DIDWW::Resource::Order do
           expect(order.created_at).to be_kind_of(Time)
         end
         it '"items", type: Array of DidOrderItem' do
-          expect(order.items).to be_a_list_of(DIDWW::ComplexObject::DidOrderItem)
+          expect(order.items).to all be_an_instance_of(DIDWW::ComplexObject::DidOrderItem)
         end
       end
     end
@@ -74,7 +74,7 @@ RSpec.describe DIDWW::Resource::Order do
         body: api_fixture('orders/get/sample_1/200'),
         headers: json_api_headers
       )
-      expect(client.orders.all).to be_a_list_of(DIDWW::Resource::Order)
+      expect(client.orders.all).to all be_an_instance_of(DIDWW::Resource::Order)
     end
   end
 
@@ -329,7 +329,8 @@ RSpec.describe DIDWW::Resource::Order do
         order.items << DIDWW::ComplexObject::DidOrderItem.new(qty: 15, sku_id: 'a78bb6d8-b05e-4e12-afe6-ad84ac979088')
         order.save
         expect(order).not_to be_persisted
-        expect(order.errors).to have_at_least(1).item
+        expect(order.errors.count).to eq 1
+        expect(order.errors[:sku_id]).to contain_exactly('is invalid')
       end
     end
 
@@ -402,7 +403,7 @@ RSpec.describe DIDWW::Resource::Order do
         )
         order.save
         expect(order).to_not be_persisted
-        expect(order.errors).to have_at_least(1).item
+        expect(order.errors.count).to eq 1
         expect(order.errors.full_messages.to_sentence).to eq('Qty should be at least 5')
       end
     end
@@ -447,7 +448,8 @@ RSpec.describe DIDWW::Resource::Order do
         )
         order = DIDWW::Resource::Order.load(id: id)
         expect(order.destroy).to be false
-        expect(order.errors).to have_at_least(1).item
+        expect(order.errors.count).to eq 1
+        expect(order.errors[:base]).to contain_exactly('Order not pending')
         expect(WebMock).to have_requested(:delete, api_uri("/orders/#{id}"))
       end
     end

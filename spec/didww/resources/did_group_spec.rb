@@ -67,7 +67,7 @@ RSpec.describe DIDWW::Resource::DidGroup do
       expect(did_group.city).to be_kind_of(DIDWW::Resource::City).or be_nil
       expect(did_group.region).to be_kind_of(DIDWW::Resource::Region).or be_nil
       expect(did_group.did_group_type).to be_kind_of(DIDWW::Resource::DidGroupType)
-      expect(did_group.stock_keeping_units).to be_a_list_of(DIDWW::Resource::StockKeepingUnit)
+      expect(did_group.stock_keeping_units).to all be_an_instance_of(DIDWW::Resource::StockKeepingUnit)
     end
   end
 
@@ -78,7 +78,7 @@ RSpec.describe DIDWW::Resource::DidGroup do
         body: api_fixture('did_groups/get/sample_1/200'),
         headers: json_api_headers
       )
-      expect(client.did_groups.all).to be_a_list_of(DIDWW::Resource::DidGroup)
+      expect(client.did_groups.all).to all be_an_instance_of(DIDWW::Resource::DidGroup)
     end
     it 'optionally includes Countries' do
       stub_didww_request(:get, '/did_groups?include=country').to_return(
@@ -103,7 +103,7 @@ RSpec.describe DIDWW::Resource::DidGroup do
       end
 
       it 'returns a collection of DidGroups' do
-        expect(client.did_groups.where('nanpa_prefix.id': nanpa_prefix_id).all).to be_a_list_of(DIDWW::Resource::DidGroup)
+        expect(client.did_groups.where('nanpa_prefix.id': nanpa_prefix_id).all).to all be_an_instance_of(DIDWW::Resource::DidGroup)
       end
     end
   end
@@ -123,7 +123,7 @@ RSpec.describe DIDWW::Resource::DidGroup do
       end
 
       it 'returns a collection of DidGroups' do
-        expect(subject).to be_a_list_of(DIDWW::Resource::DidGroup)
+        expect(subject).to all be_an_instance_of(DIDWW::Resource::DidGroup)
         expect(subject.count).to eq 1
         expect(subject.sample.type).to eq described_class.type
       end

@@ -16,7 +16,7 @@ RSpec.describe DIDWW::Resource::CapacityPool do
       end
 
       it 'returns a single CapacityPool' do
-        expect(capacity_pool).to be_kind_of(DIDWW::Resource::CapacityPool)
+        expect(capacity_pool).to be_an_instance_of(described_class)
         expect(capacity_pool.id).to eq(id)
       end
 
@@ -56,7 +56,7 @@ RSpec.describe DIDWW::Resource::CapacityPool do
             body: api_fixture('countries/get/sample_1/200'),
             headers: json_api_headers
           )
-        expect(capacity_pool.countries).to be_a_list_of(DIDWW::Resource::Country)
+        expect(capacity_pool.countries).to all be_an_instance_of(DIDWW::Resource::Country)
         expect(request).to have_been_made.once
       end
 
@@ -66,7 +66,7 @@ RSpec.describe DIDWW::Resource::CapacityPool do
             body: api_fixture('shared_capacity_groups/get/sample_1/200'),
             headers: json_api_headers
           )
-        expect(capacity_pool.shared_capacity_groups).to be_a_list_of(DIDWW::Resource::SharedCapacityGroup)
+        expect(capacity_pool.shared_capacity_groups).to all be_an_instance_of(DIDWW::Resource::SharedCapacityGroup)
         expect(request).to have_been_made.once
       end
     end
@@ -89,9 +89,9 @@ RSpec.describe DIDWW::Resource::CapacityPool do
         headers: json_api_headers
       )
       capacity_pool = client.capacity_pools.includes(:countries, :shared_capacity_groups, :qty_based_pricings).find(id).first
-      expect(capacity_pool.countries).to be_a_list_of(DIDWW::Resource::Country)
-      expect(capacity_pool.shared_capacity_groups).to be_a_list_of(DIDWW::Resource::SharedCapacityGroup)
-      expect(capacity_pool.qty_based_pricings).to be_a_list_of(DIDWW::Resource::QtyBasedPricing)
+      expect(capacity_pool.countries).to all be_an_instance_of(DIDWW::Resource::Country)
+      expect(capacity_pool.shared_capacity_groups).to all be_an_instance_of(DIDWW::Resource::SharedCapacityGroup)
+      expect(capacity_pool.qty_based_pricings).to all be_an_instance_of(DIDWW::Resource::QtyBasedPricing)
     end
   end
 
@@ -102,7 +102,7 @@ RSpec.describe DIDWW::Resource::CapacityPool do
         body: api_fixture('capacity_pools/get/sample_1/200'),
         headers: json_api_headers
       )
-      expect(client.capacity_pools.all).to be_a_list_of(DIDWW::Resource::CapacityPool)
+      expect(client.capacity_pools.all).to all be_an_instance_of(DIDWW::Resource::CapacityPool)
     end
     it 'optionally includes Countries, Shared capacity groups and Quantity Based Pricings' do
       stub_didww_request(:get, '/capacity_pools?include=countries,shared_capacity_groups,qty_based_pricings').to_return(
@@ -111,9 +111,9 @@ RSpec.describe DIDWW::Resource::CapacityPool do
         headers: json_api_headers
       )
       capacity_pools = client.capacity_pools.includes(:countries, :shared_capacity_groups, :qty_based_pricings).all
-      expect(capacity_pools.first.countries).to be_a_list_of(DIDWW::Resource::Country)
-      expect(capacity_pools.first.shared_capacity_groups).to be_a_list_of(DIDWW::Resource::SharedCapacityGroup)
-      expect(capacity_pools.first.qty_based_pricings).to be_a_list_of(DIDWW::Resource::QtyBasedPricing)
+      expect(capacity_pools.first.countries).to all be_an_instance_of(DIDWW::Resource::Country)
+      expect(capacity_pools.first.shared_capacity_groups).to all be_an_instance_of(DIDWW::Resource::SharedCapacityGroup)
+      expect(capacity_pools.first.qty_based_pricings).to all be_an_instance_of(DIDWW::Resource::QtyBasedPricing)
     end
   end
 
@@ -169,7 +169,8 @@ RSpec.describe DIDWW::Resource::CapacityPool do
           cp.total_channels_count = 1
         end
         capacity_pool.save
-        expect(capacity_pool.errors).to have_at_least(1).item
+        expect(capacity_pool.errors.count).to eq 1
+        expect(capacity_pool.errors[:total_channels_count]).to contain_exactly('should be at least 2')
       end
     end
 

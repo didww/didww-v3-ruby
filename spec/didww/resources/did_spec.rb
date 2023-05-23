@@ -104,7 +104,7 @@ RSpec.describe DIDWW::Resource::Did do
         body: api_fixture('dids/get/sample_1/200'),
         headers: json_api_headers
       )
-      expect(client.dids.all).to be_a_list_of(DIDWW::Resource::Did)
+      expect(client.dids.all).to all be_an_instance_of(DIDWW::Resource::Did)
     end
     it 'optionally includes DidGroup' do
       stub_didww_request(:get, '/dids?include=did_group').to_return(
@@ -277,7 +277,7 @@ RSpec.describe DIDWW::Resource::Did do
       end
     end
 
-    describe 'with incorerct attributes' do
+    describe 'with incorrect attributes' do
       it 'returns a Did with errors' do
         id = '46e129f1-deaa-44db-8915-2646de4d4c70'
         stub_didww_request(:patch, "/dids/#{id}").
@@ -306,7 +306,8 @@ RSpec.describe DIDWW::Resource::Did do
           d.capacity_limit = 1
         end
         did.save
-        expect(did.errors).to have_at_least(1).item
+        expect(did.errors.count).to eq 1
+        expect(did.errors[:capacity_limit]).to contain_exactly 'must be less than or equal to 32767'
       end
     end
 
@@ -339,7 +340,8 @@ RSpec.describe DIDWW::Resource::Did do
         did.relationships[:capacity_pool] = DIDWW::Resource::CapacityPool.load(id: '1e9e4362-bc5c-47f3-a2bb-c17afa66f3fa')
 
         did.save
-        expect(did.errors).to have_at_least(1).item
+        expect(did.errors.count).to eq 1
+        expect(did.errors[:capacity_pool_id]).to contain_exactly('is not allowed for DID country')
       end
     end
 
@@ -372,7 +374,8 @@ RSpec.describe DIDWW::Resource::Did do
         did.relationships[:shared_capacity_group] = DIDWW::Resource::SharedCapacityGroup.load(id: '31e08e8f-f3c6-49dd-acb2-d9335828879e')
 
         did.save
-        expect(did.errors).to have_at_least(1).item
+        expect(did.errors.count).to eq 1
+        expect(did.errors[:shared_capacity_group_id]).to contain_exactly('is not allowed for DID country')
       end
     end
   end

@@ -9,7 +9,7 @@ RSpec.describe DIDWW::Resource::Pop do
         body: api_fixture('pops/get/sample_1/200'),
         headers: json_api_headers
       )
-      expect(client.pops.all).to be_a_list_of(DIDWW::Resource::Pop)
+      expect(client.pops.all).to all be_an_instance_of(DIDWW::Resource::Pop)
     end
   end
 

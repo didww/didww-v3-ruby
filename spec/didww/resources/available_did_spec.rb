@@ -101,7 +101,7 @@ RSpec.describe DIDWW::Resource::AvailableDid do
 
       it 'optionally includes DidGroup' do
         subject
-        expect(available_did.did_group.stock_keeping_units).to be_a_list_of(DIDWW::Resource::StockKeepingUnit)
+        expect(available_did.did_group.stock_keeping_units).to all be_an_instance_of(DIDWW::Resource::StockKeepingUnit)
       end
     end
 
@@ -122,7 +122,7 @@ RSpec.describe DIDWW::Resource::AvailableDid do
       end
 
       it 'returns a collection of Dids' do
-        expect(subject).to be_a_list_of(DIDWW::Resource::AvailableDid)
+        expect(subject).to all be_an_instance_of(described_class)
       end
     end
 
@@ -159,7 +159,7 @@ RSpec.describe DIDWW::Resource::AvailableDid do
         end
 
         it 'returns a collection of Available Dids' do
-          expect(subject).to be_a_list_of(DIDWW::Resource::AvailableDid)
+          expect(subject).to all be_an_instance_of(described_class)
           expect(subject.count).to eq 2
           expect(subject.sample.type).to eq described_class.type
         end
