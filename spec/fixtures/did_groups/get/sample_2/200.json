@@ -9,8 +9,8 @@
       "attributes": {
         "prefix": "77",
         "features": [
-          "voice",
-          "sms"
+          "voice_in",
+          "sms_in"
         ],
         "is_metered": false,
         "area_name": "National",
@@ -82,7 +82,7 @@
       "attributes": {
         "prefix": "3",
         "features": [
-          "voice"
+          "voice_in"
         ],
         "is_metered": false,
         "area_name": "Tel Aviv",

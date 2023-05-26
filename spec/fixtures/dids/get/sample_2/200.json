@@ -130,7 +130,7 @@
         "prefix": "720",
         "local_prefix": "",
         "features": [
-          "voice"
+          "voice_in"
         ],
         "is_metered": false,
         "area_name": "National",
@@ -179,7 +179,7 @@
         "prefix": "11",
         "local_prefix": "",
         "features": [
-          "voice"
+          "voice_in"
         ],
         "is_metered": false,
         "area_name": "Mobile",

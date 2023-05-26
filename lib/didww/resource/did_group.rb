@@ -3,14 +3,19 @@ module DIDWW
   module Resource
     class DidGroup < Base
       # Possible values for did_group.features array
-      FEATURE_VOICE    = 'voice'                           .freeze
-      FEATURE_T38      = 't38'                             .freeze
-      FEATURE_SMS      = 'sms'                             .freeze
+      FEATURE_VOICE_IN = 'voice_in'
+      FEATURE_VOICE_OUT = 'voice_out'
+      FEATURE_T38 = 't38'
+      FEATURE_IN_SMS = 'sms_in'
+      FEATURE_OUT_SMS = 'sms_out'
+
       FEATURES = {
-                   FEATURE_VOICE => 'Voice'                           .freeze,
-                   FEATURE_T38   => 'T.38 Fax'                        .freeze,
-                   FEATURE_SMS   => 'SMS'                             .freeze
-                 }.freeze
+        FEATURE_VOICE_IN => 'Voice IN',
+        FEATURE_VOICE_OUT => 'Voice OUT',
+        FEATURE_T38 => 'T.38 Fax',
+        FEATURE_IN_SMS => 'SMS IN',
+        FEATURE_OUT_SMS => 'SMS OUT'
+      }.freeze
 
       has_one :country, class: Country
       has_one :city,    class: City
