@@ -8,8 +8,8 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
   end
 
   it 'has CONF_TYPES constant' do
-    expect(described_class::CONF_TYPES.keys).to contain_exactly('sip_configurations', 'h323_configurations', 'iax2_configurations', 'pstn_configurations')
-    expect(described_class::CONF_TYPES.values).to contain_exactly('SIP', 'H323', 'IAX2', 'PSTN')
+    expect(described_class::CONF_TYPES.keys).to contain_exactly('sip_configurations', 'pstn_configurations')
+    expect(described_class::CONF_TYPES.values).to contain_exactly('SIP', 'PSTN')
     expect(described_class::CONF_TYPE_CLASSES.values).to all(be < DIDWW::ComplexObject::Base)
   end
 
@@ -30,8 +30,8 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
   describe '#configuration_type_human' do
     it 'humanizes configuration type' do
       expect(subject.configuration_type_human).to be_nil
-      subject.configuration = { type: 'iax2_configurations' }
-      expect(subject.configuration_type_human).to eq('IAX2')
+      subject.configuration = { type: 'sip_configurations' }
+      expect(subject.configuration_type_human).to eq('SIP')
     end
   end
 
@@ -150,35 +150,6 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
       end
     end
 
-    describe 'IAX2 trunk' do
-      let (:id) { 'a393cbf8-a63c-42d4-8f64-93559f00fe38' }
-      let (:trunk) do
-        stub_didww_request(:get, "/voice_in_trunks/#{id}").to_return(
-          status: 200,
-          body: api_fixture('voice_in_trunks/id/get/sample_3/200'),
-          headers: json_api_headers
-        )
-        client.voice_in_trunks.find(id).first
-      end
-      it 'has Iax2Configuration' do
-        expect(trunk.configuration).to be_kind_of(DIDWW::ComplexObject::Iax2Configuration)
-      end
-    end
-
-    describe 'H323 trunk' do
-      let (:id) { 'f9bf1d5c-bbd4-4739-9fd3-8ae162f2bc2b' }
-      let (:trunk) do
-        stub_didww_request(:get, "/voice_in_trunks/#{id}").to_return(
-          status: 200,
-          body: api_fixture('voice_in_trunks/id/get/sample_4/200'),
-          headers: json_api_headers
-        )
-        client.voice_in_trunks.find(id).first
-      end
-      it 'has H323Configuration' do
-        expect(trunk.configuration).to be_kind_of(DIDWW::ComplexObject::H323Configuration)
-      end
-    end
   end
 
   describe 'GET /voice_in_trunks' do
@@ -334,160 +305,6 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
         expect(trunk).to be_persisted
         expect(trunk.configuration).to be_kind_of(DIDWW::ComplexObject::PstnConfiguration)
       end
-
-      it 'creates a IAX2 Trunk' do
-        stub_didww_request(:post, '/voice_in_trunks').
-          with(body:
-            {
-              "data": {
-                "type": 'voice_in_trunks',
-                "attributes": {
-                  "name": 'Office IAX2',
-                  "capacity_limit": 9,
-                  "cli_format": 'e164',
-                  "cli_prefix": '+1',
-                  "configuration": {
-                    "type": 'iax2_configurations',
-                    "attributes": {
-                      "dst": '1xxxxxxxxx',
-                      "host": 'example.com',
-                      "auth_user": 'username',
-                      "auth_password": 'password',
-                      "codec_ids": [
-                        9,
-                        6
-                      ]
-                    }
-                  }
-                }
-              }
-            }.to_json).
-          to_return(
-            status: 201,
-            body: api_fixture('voice_in_trunks/post/sample_3/201'),
-            headers: json_api_headers
-          )
-        trunk = client.voice_in_trunks.new(
-                    name: 'Office IAX2',
-                    capacity_limit: 9,
-                    cli_format: 'e164',
-                    cli_prefix: '+1'
-                  )
-        trunk.configuration = DIDWW::ComplexObject::Iax2Configuration.new.tap do |c|
-          c.dst = '1xxxxxxxxx'
-          c.host = 'example.com'
-          c.auth_user = 'username'
-          c.auth_password = 'password'
-          c.codec_ids = [ 9, 6 ]
-        end
-        trunk.save
-        expect(trunk).to be_persisted
-        expect(trunk.configuration).to be_kind_of(DIDWW::ComplexObject::Iax2Configuration)
-      end
-
-      it 'creates a H323 Trunk' do
-        stub_didww_request(:post, '/voice_in_trunks').
-          with(body:
-            {
-              "data": {
-                "type": 'voice_in_trunks',
-                "attributes": {
-                  "name": 'Office H323',
-                  "capacity_limit": 18,
-                  "cli_format": 'e164',
-                  "cli_prefix": '+1',
-                  "configuration": {
-                    "type": 'h323_configurations',
-                    "attributes": {
-                      "dst": '1xxxxxxxxx',
-                      "host": 'example.com',
-                      "codec_ids": [
-                        9,
-                        6
-                      ]
-                    }
-                  }
-                }
-              }
-            }.to_json).
-          to_return(
-            status: 201,
-            body: api_fixture('voice_in_trunks/post/sample_4/201'),
-            headers: json_api_headers
-          )
-        trunk = client.voice_in_trunks.new(
-                    name: 'Office H323',
-                    capacity_limit: 18,
-                    cli_format: 'e164',
-                    cli_prefix: '+1'
-                  )
-        trunk.configuration = DIDWW::ComplexObject::H323Configuration.new.tap do |c|
-          c.dst = '1xxxxxxxxx'
-          c.host = 'example.com'
-          c.codec_ids = [ 9, 6 ]
-        end
-        trunk.save
-        expect(trunk).to be_persisted
-        expect(trunk.configuration).to be_kind_of(DIDWW::ComplexObject::H323Configuration)
-      end
-
-      it 'creates a H323 Trunk with assign to trunk group' do
-        stub_didww_request(:post, '/voice_in_trunks').
-          with(body:
-            {
-              "data": {
-                "type": 'voice_in_trunks',
-                "relationships": {
-                  "voice_in_trunk_group": {
-                    "data": {
-                      "type": 'voice_in_trunk_groups',
-                      "id": '86c9f271-0206-4906-833e-d4c09164468c'
-                    }
-                  }
-                },
-                "attributes": {
-                  "name": 'Office H323',
-                  "capacity_limit": 18,
-                  "cli_format": 'e164',
-                  "cli_prefix": '+1',
-                  "configuration": {
-                    "type": 'h323_configurations',
-                    "attributes": {
-                      "dst": '1xxxxxxxxx',
-                      "host": 'example.com',
-                      "codec_ids": [
-                        9,
-                        6
-                      ]
-                    }
-                  }
-                }
-              }
-            }.to_json).
-          to_return(
-            status: 201,
-            body: api_fixture('voice_in_trunks/post/sample_5/201'),
-            headers: json_api_headers
-          )
-        trunk = client.voice_in_trunks.new(
-                    name: 'Office H323',
-                    capacity_limit: 18,
-                    cli_format: 'e164',
-                    cli_prefix: '+1'
-                  )
-        trunk.configuration = DIDWW::ComplexObject::H323Configuration.new.tap do |c|
-          c.dst = '1xxxxxxxxx'
-          c.host = 'example.com'
-          c.codec_ids = [ 9, 6 ]
-        end
-        trunk.relationships[:voice_in_trunk_group] = DIDWW::Resource::VoiceInTrunkGroup.load(id: '86c9f271-0206-4906-833e-d4c09164468c')
-        trunk.save
-        expect(trunk).to be_persisted
-        expect(trunk.configuration).to be_kind_of(DIDWW::ComplexObject::H323Configuration)
-        expect(trunk.voice_in_trunk_group).to be_kind_of(DIDWW::Resource::VoiceInTrunkGroup)
-      end
-
-      xit 'creates a H323 Trunk, assign it to trunk group and include it in response'
 
       it 'creates a SIP trunk with assigning to pop' do
         stub_didww_request(:post, '/voice_in_trunks').
@@ -706,117 +523,6 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
         expect(trunk.configuration).to be_kind_of(DIDWW::ComplexObject::PstnConfiguration)
         expect(trunk.configuration.dst).to eq('7xxxxxxxx')
       end
-
-      it 'updates a IAX2 Trunk' do
-        id = '86c9f271-0206-4906-833e-d4c09164468c'
-        stub_didww_request(:patch, "/voice_in_trunks/#{id}").
-          with(body:
-            {
-              "data": {
-                "id": '86c9f271-0206-4906-833e-d4c09164468c',
-                "type": 'voice_in_trunks',
-                "attributes": {
-                  "configuration": {
-                    "type": 'iax2_configurations',
-                    "attributes": {
-                      "dst": '7xxxxxxxx'
-                    }
-                  }
-                }
-              }
-            }.to_json).
-          to_return(
-            status: 200,
-            body: api_fixture('voice_in_trunks/id/patch/sample_3/200'),
-            headers: json_api_headers
-          )
-        trunk = DIDWW::Resource::VoiceInTrunk.load(id: id)
-        trunk.configuration = DIDWW::ComplexObject::Iax2Configuration.new.tap do |config|
-          config.dst = '7xxxxxxxx'
-        end
-        trunk.save
-        expect(trunk.errors).to be_empty
-        expect(trunk.configuration).to be_kind_of(DIDWW::ComplexObject::Iax2Configuration)
-        expect(trunk.configuration.dst).to eq('7xxxxxxxx')
-      end
-
-      it 'updates a H323 Trunk' do
-        id = '389deacb-5be5-46d7-8cbd-aba11f66d6c2'
-        stub_didww_request(:patch, "/voice_in_trunks/#{id}").
-          with(body:
-            {
-              "data": {
-                "id": '389deacb-5be5-46d7-8cbd-aba11f66d6c2',
-                "type": 'voice_in_trunks',
-                "attributes": {
-                  "configuration": {
-                    "type": 'h323_configurations',
-                    "attributes": {
-                      "dst": '7xxxxxxxx'
-                    }
-                  }
-                }
-              }
-            }.to_json).
-          to_return(
-            status: 200,
-            body: api_fixture('voice_in_trunks/id/patch/sample_4/200'),
-            headers: json_api_headers
-          )
-        trunk = DIDWW::Resource::VoiceInTrunk.load(id: id)
-        trunk.configuration = DIDWW::ComplexObject::H323Configuration.new.tap do |config|
-          config.dst = '7xxxxxxxx'
-        end
-        trunk.save
-        expect(trunk.errors).to be_empty
-        expect(trunk.configuration).to be_kind_of(DIDWW::ComplexObject::H323Configuration)
-        expect(trunk.configuration.dst).to eq('7xxxxxxxx')
-      end
-
-      it 'updates a H323 Trunk with assign to trunk group' do
-        id = '389deacb-5be5-46d7-8cbd-aba11f66d6c2'
-        stub_didww_request(:patch, "/voice_in_trunks/#{id}").
-          with(body:
-            {
-              "data": {
-                "id": '389deacb-5be5-46d7-8cbd-aba11f66d6c2',
-                "type": 'voice_in_trunks',
-                "relationships": {
-                  "voice_in_trunk_group": {
-                    "data": {
-                      "type": 'voice_in_trunk_groups',
-                      "id": '86c9f271-0206-4906-833e-d4c09164468c'
-                    }
-                  }
-                },
-                "attributes": {
-                  "configuration": {
-                    "type": 'h323_configurations',
-                    "attributes": {
-                      "dst": '7xxxxxxxx'
-                    }
-                  }
-                }
-              }
-            }.to_json).
-          to_return(
-            status: 200,
-            body: api_fixture('voice_in_trunks/id/patch/sample_5/200'),
-            headers: json_api_headers
-          )
-        trunk = DIDWW::Resource::VoiceInTrunk.load(id: id)
-        trunk.configuration = DIDWW::ComplexObject::H323Configuration.new.tap do |config|
-          config.dst = '7xxxxxxxx'
-        end
-        trunk.relationships[:voice_in_trunk_group] = DIDWW::Resource::VoiceInTrunkGroup.load(id: '86c9f271-0206-4906-833e-d4c09164468c')
-        trunk.save
-        expect(trunk.errors).to be_empty
-        expect(trunk.configuration).to be_kind_of(DIDWW::ComplexObject::H323Configuration)
-        expect(trunk.configuration.dst).to eq('7xxxxxxxx')
-        expect(trunk.voice_in_trunk_group).to be_kind_of(DIDWW::Resource::VoiceInTrunkGroup)
-      end
-
-      xit 'updates a H323 Trunk, assign it to trunk group and include it in response'
 
       it 'updates a SIP Trunk with assigning to pop' do
         id = '081ad751-d790-4e70-9c92-7c18f6b50a6d'
