@@ -22,9 +22,11 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
+  spec.required_ruby_version = '>= 3.3'
+
   spec.add_dependency 'activesupport'
   spec.add_dependency 'faraday'
-  spec.add_dependency 'json_api_client', '1.18.0'
+  spec.add_dependency 'json_api_client', '1.23.0'
   spec.add_dependency 'http'
   spec.add_dependency 'down'
   spec.add_dependency 'openssl-oaep'

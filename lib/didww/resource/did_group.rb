@@ -17,8 +17,8 @@ module DIDWW
         FEATURE_OUT_SMS => 'SMS OUT'
       }.freeze
 
-      has_one :country, class: Country
-      has_one :city,    class: City
+      has_one :country, class_name: 'Country'
+      has_one :city,    class_name: 'City'
 
       property :area_name, type: :string
       # Type: String
