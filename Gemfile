@@ -10,13 +10,13 @@ if ENV['RAILS_VERSION']
   gem 'activesupport', ENV['RAILS_VERSION'], require: false
 end
 
-gem 'rake', '~> 12.0'
+gem 'rake', '~> 13.0'
 gem 'rspec', '~> 3.0'
 gem 'pry'
-gem 'byebug'
+gem 'debug'
 gem 'awesome_print'
 gem 'http_logger'
-gem 'rubocop', '~> 1.28.2'
+gem 'rubocop', '~> 1.50'
 gem 'rubocop-performance'
 gem 'rubocop-rake'
 gem 'rubocop-rspec'
