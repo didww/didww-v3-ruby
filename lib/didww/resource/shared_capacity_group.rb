@@ -2,9 +2,9 @@
 module DIDWW
   module Resource
     class SharedCapacityGroup < Base
-      has_one :capacity_pool, class: 'CapacityPool'
+      has_one :capacity_pool, class_name: 'CapacityPool'
 
-      has_many :dids, class: 'Did'
+      has_many :dids, class_name: 'Did'
 
       property :name, type: :string
       # Type: String

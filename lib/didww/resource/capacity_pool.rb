@@ -2,9 +2,9 @@
 module DIDWW
   module Resource
     class CapacityPool < Base
-      has_many :countries, class: 'Country'
-      has_many :shared_capacity_groups, class: 'SharedCapacityGroup'
-      has_many :qty_based_pricings, class: 'QtyBasedPricing'
+      has_many :countries, class_name: 'Country'
+      has_many :shared_capacity_groups, class_name: 'SharedCapacityGroup'
+      has_many :qty_based_pricings, class_name: 'QtyBasedPricing'
 
       property :name, type: :string
       # Type: String
