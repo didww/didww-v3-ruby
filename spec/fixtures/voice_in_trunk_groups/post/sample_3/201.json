@@ -41,23 +41,48 @@
           "priority": 1,
           "capacity_limit": 9,
           "weight": 65535,
-          "name": "Office IAX2",
+          "name": "Office SIP",
           "cli_format": "e164",
           "cli_prefix": "+1",
           "description": null,
           "ringing_timeout": null,
           "configuration": {
-            "type": "iax2_configurations",
+            "type": "sip_configurations",
             "attributes": {
-              "dst": "1xxxxxxxxx",
+              "username": "username",
               "host": "example.com",
-              "port": null,
-              "auth_user": "username",
-              "auth_password": "password",
+              "port": 5060,
               "codec_ids": [
                 9,
                 6
-              ]
+              ],
+              "rx_dtmf_format_id": 1,
+              "tx_dtmf_format_id": 1,
+              "resolve_ruri": true,
+              "auth_enabled": true,
+              "auth_user": "username",
+              "auth_password": "password",
+              "auth_from_user": "Office",
+              "auth_from_domain": "example.com",
+              "sst_enabled": false,
+              "sst_min_timer": 600,
+              "sst_max_timer": 900,
+              "sst_accept_501": true,
+              "sip_timer_b": 8000,
+              "dns_srv_failover_timer": 2000,
+              "rtp_ping": false,
+              "rtp_timeout": 30,
+              "force_symmetric_rtp": false,
+              "symmetric_rtp_ignore_rtcp": false,
+              "rerouting_disconnect_code_ids": [
+                58,
+                59
+              ],
+              "sst_session_expires": null,
+              "sst_refresh_method_id": 1,
+              "transport_protocol_id": 1,
+              "max_transfers": 0,
+              "max_30x_redirects": 0
             }
           }
         },
@@ -79,21 +104,15 @@
           "priority": 1,
           "capacity_limit": 18,
           "weight": 65535,
-          "name": "Office H323",
+          "name": "Office PSTN",
           "cli_format": "e164",
           "cli_prefix": "+1",
           "description": null,
           "ringing_timeout": null,
           "configuration": {
-            "type": "h323_configurations",
+            "type": "pstn_configurations",
             "attributes": {
-              "dst": "1xxxxxxxxx",
-              "host": "example.com",
-              "port": null,
-              "codec_ids": [
-                9,
-                6
-              ]
+              "dst": "1xxxxxxxxx"
             }
           }
         },

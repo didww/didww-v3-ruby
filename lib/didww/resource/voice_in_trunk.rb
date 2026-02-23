@@ -17,21 +17,15 @@ module DIDWW
 
       # Configuration types
       CONF_TYPE_SIP     = 'sip_configurations'
-      CONF_TYPE_H323    = 'h323_configurations'
-      CONF_TYPE_IAX2    = 'iax2_configurations'
       CONF_TYPE_PSTN    = 'pstn_configurations'
 
       CONF_TYPES = {
                      CONF_TYPE_SIP   => 'SIP',
-                     CONF_TYPE_H323  => 'H323',
-                     CONF_TYPE_IAX2  => 'IAX2',
                      CONF_TYPE_PSTN  => 'PSTN'
                    }.freeze
 
       CONF_TYPE_CLASSES = {
                             CONF_TYPE_SIP   => DIDWW::ComplexObject::SipConfiguration,
-                            CONF_TYPE_H323  => DIDWW::ComplexObject::H323Configuration,
-                            CONF_TYPE_IAX2  => DIDWW::ComplexObject::Iax2Configuration,
                             CONF_TYPE_PSTN  => DIDWW::ComplexObject::PstnConfiguration
                           }.freeze
 
@@ -78,8 +72,6 @@ module DIDWW
       # Type: one of
       # sip_configurations
       # pstn_configurations
-      # iax2_configurations
-      # h323_configurations
       # Description: Trunk configuration complex object
 
       property :created_at, type: :time
