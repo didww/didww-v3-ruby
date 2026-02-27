@@ -95,6 +95,17 @@ RSpec.describe DIDWW::Resource::Did do
       did = client.dids.includes(:did_group).find(id).first
       expect(did.did_group).to be_kind_of(DIDWW::Resource::DidGroup)
     end
+
+    it 'optionally includes AddressVerification and DidGroup' do
+      stub_didww_request(:get, "/dids/#{id}?include=address_verification,did_group").to_return(
+        status: 200,
+        body: api_fixture('dids/id/get/sample_3/200'),
+        headers: json_api_headers
+      )
+      did = client.dids.includes(:address_verification, :did_group).find(id).first
+      expect(did.address_verification).to be_kind_of(DIDWW::Resource::AddressVerification)
+      expect(did.did_group).to be_kind_of(DIDWW::Resource::DidGroup)
+    end
   end
 
   describe 'GET /dids' do

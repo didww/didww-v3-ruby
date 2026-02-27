@@ -30,6 +30,17 @@ RSpec.describe DIDWW::Resource::Country do
       end
     end
 
+    it 'optionally includes Regions' do
+      stub_didww_request(:get, "/countries/#{id}?include=regions").to_return(
+        status: 200,
+        body: api_fixture('countries/id/get/sample_2/200'),
+        headers: json_api_headers
+      )
+      country = client.countries.includes(:regions).find(id).first
+      expect(country.regions).to all be_an_instance_of(DIDWW::Resource::Region)
+      expect(country.regions.length).to eq(10)
+    end
+
     context 'when Country does not exist' do
       it 'raises a NotFound error' do
         stub_didww_request(:get, "/countries/#{id}").to_return(

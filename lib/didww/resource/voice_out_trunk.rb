@@ -63,6 +63,7 @@ module DIDWW
       property :force_symmetric_rtp, type: :boolean
       property :allowed_rtp_ips, type: :ip_addresses
 
+      has_one :default_did, class_name: 'Did'
       has_many :dids
 
       def regenerate_credentials

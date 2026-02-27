@@ -2,6 +2,8 @@
 module DIDWW
   module Resource
     class Country < Base
+      has_many :regions, class_name: 'Region'
+
       property :name, type: :string
       # Type: String
       # Description: Country name
