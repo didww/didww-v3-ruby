@@ -53,6 +53,10 @@ For details on obtaining your API key please visit https://doc.didww.com/api#int
 
 See integration example at https://github.com/didww/didww-v3-rails-sample
 
+## Resource Relationships
+
+See [docs/resource_relationships.md](docs/resource_relationships.md) for a Mermaid ER diagram showing all `has_one`, `has_many`, and `belongs_to` relationships between resources.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
