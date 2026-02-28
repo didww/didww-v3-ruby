@@ -1,0 +1,75 @@
+{
+  "data": {
+    "id": "dd13cdb2-48ab-4374-94b3-56e162a659cd",
+    "type": "available_dids",
+    "links": {
+      "self": "https://sandbox-api.didww.com/v3/available_dids/dd13cdb2-48ab-4374-94b3-56e162a659cd"
+    },
+    "attributes": {
+      "number": "771232341231"
+    },
+    "relationships": {
+      "did_group": {
+        "links": {
+          "self": "https://sandbox-api.didww.com/v3/available_dids/dd13cdb2-48ab-4374-94b3-56e162a659cd/relationships/did_group",
+          "related": "https://sandbox-api.didww.com/v3/available_dids/dd13cdb2-48ab-4374-94b3-56e162a659cd/did_group"
+        },
+        "data": {
+          "type": "did_groups",
+          "id": "d04b6466-3d98-4be1-aac5-93ee241f57ca"
+        }
+      }
+    }
+  },
+  "included": [
+    {
+      "id": "d04b6466-3d98-4be1-aac5-93ee241f57ca",
+      "type": "did_groups",
+      "links": {
+        "self": "https://sandbox-api.didww.com/v3/did_groups/d04b6466-3d98-4be1-aac5-93ee241f57ca"
+      },
+      "attributes": {
+        "prefix": "721",
+        "local_prefix": "",
+        "features": [
+          "voice_in"
+        ],
+        "is_metered": false,
+        "area_name": "National",
+        "allow_additional_channels": true
+      },
+      "relationships": {
+        "country": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/did_groups/d04b6466-3d98-4be1-aac5-93ee241f57ca/relationships/country",
+            "related": "https://sandbox-api.didww.com/v3/did_groups/d04b6466-3d98-4be1-aac5-93ee241f57ca/country"
+          }
+        },
+        "city": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/did_groups/d04b6466-3d98-4be1-aac5-93ee241f57ca/relationships/city",
+            "related": "https://sandbox-api.didww.com/v3/did_groups/d04b6466-3d98-4be1-aac5-93ee241f57ca/city"
+          }
+        },
+        "did_group_type": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/did_groups/d04b6466-3d98-4be1-aac5-93ee241f57ca/relationships/did_group_type",
+            "related": "https://sandbox-api.didww.com/v3/did_groups/d04b6466-3d98-4be1-aac5-93ee241f57ca/did_group_type"
+          }
+        },
+        "region": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/did_groups/d04b6466-3d98-4be1-aac5-93ee241f57ca/relationships/region",
+            "related": "https://sandbox-api.didww.com/v3/did_groups/d04b6466-3d98-4be1-aac5-93ee241f57ca/region"
+          }
+        },
+        "stock_keeping_units": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/did_groups/d04b6466-3d98-4be1-aac5-93ee241f57ca/relationships/stock_keeping_units",
+            "related": "https://sandbox-api.didww.com/v3/did_groups/d04b6466-3d98-4be1-aac5-93ee241f57ca/stock_keeping_units"
+          }
+        }
+      }
+    }
+  ]
+}

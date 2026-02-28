@@ -10,7 +10,7 @@ RSpec.describe DIDWW::Resource::NanpaPrefix do
       before do
         stub_didww_request(:get, "/nanpa_prefixes/#{id}").to_return(
           status: 200,
-          body: api_fixture('nanpa_prefixes/id/get/sample_1/200'),
+          body: api_fixture('nanpa_prefixes/id/get/without_includes/200'),
           headers: json_api_headers
         )
       end
@@ -26,7 +26,7 @@ RSpec.describe DIDWW::Resource::NanpaPrefix do
       before do
         stub_didww_request(:get, '/nanpa_prefixes').to_return(
           status: 200,
-          body: api_fixture('nanpa_prefixes/get/sample_1/200'),
+          body: api_fixture('nanpa_prefixes/get/without_includes/200'),
           headers: json_api_headers
         )
       end

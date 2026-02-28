@@ -9,7 +9,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunkGroup do
       let (:trunk_group) do
         stub_didww_request(:get, "/voice_in_trunk_groups/#{id}").to_return(
           status: 200,
-          body: api_fixture('voice_in_trunk_groups/id/get/sample_1/200'),
+          body: api_fixture('voice_in_trunk_groups/id/get/without_includes/200'),
           headers: json_api_headers
         )
         client.voice_in_trunk_groups.find(id).first
@@ -46,7 +46,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunkGroup do
       it 'lazily fetches Trunks' do
         request = stub_request(:get, trunk_group.relationships.voice_in_trunks[:links][:related]).to_return(
             status: 200,
-            body: api_fixture('voice_in_trunks/get/sample_1/200'),
+            body: api_fixture('voice_in_trunks/get/without_includes/200'),
             headers: json_api_headers
           )
         expect(trunk_group.voice_in_trunks).to all be_an_instance_of(DIDWW::Resource::VoiceInTrunk)
@@ -59,7 +59,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunkGroup do
       it 'raises a NotFound error' do
         stub_didww_request(:get, "/voice_in_trunk_groups/#{id}").to_return(
           status: 404,
-          body: api_fixture('voice_in_trunk_groups/id/get/sample_1/404'),
+          body: api_fixture('voice_in_trunk_groups/id/get/without_includes/404'),
           headers: json_api_headers
         )
         expect { client.voice_in_trunk_groups.find(id) }.to raise_error(JsonApiClient::Errors::NotFound)
@@ -69,7 +69,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunkGroup do
     it 'optionally includes VoiceInTrunk' do
       stub_didww_request(:get, "/voice_in_trunk_groups/#{id}?include=voice_in_trunks").to_return(
         status: 200,
-        body: api_fixture('voice_in_trunk_groups/id/get/sample_2/200'),
+        body: api_fixture('voice_in_trunk_groups/id/get/with_included_voice_in_trunks/200'),
         headers: json_api_headers
       )
       trunk_group = client.voice_in_trunk_groups.includes(:voice_in_trunks).find(id).first
@@ -81,7 +81,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunkGroup do
     it 'returns a collection of TrunkGroups' do
       stub_didww_request(:get, '/voice_in_trunk_groups').to_return(
         status: 200,
-        body: api_fixture('voice_in_trunk_groups/get/sample_1/200'),
+        body: api_fixture('voice_in_trunk_groups/get/without_includes/200'),
         headers: json_api_headers
       )
       expect(client.voice_in_trunk_groups.all).to all be_an_instance_of(DIDWW::Resource::VoiceInTrunkGroup)
@@ -89,7 +89,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunkGroup do
     it 'optionally includes VoiceInTrunks' do
       stub_didww_request(:get, '/voice_in_trunk_groups?include=voice_in_trunks').to_return(
         status: 200,
-        body: api_fixture('voice_in_trunk_groups/get/sample_2/200'),
+        body: api_fixture('voice_in_trunk_groups/get/with_included_voice_in_trunks/200'),
         headers: json_api_headers
       )
       expect(client.voice_in_trunk_groups.includes(:voice_in_trunks).all.first.voice_in_trunks).to all be_an_instance_of(DIDWW::Resource::VoiceInTrunk)
@@ -113,7 +113,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunkGroup do
             }.to_json).
           to_return(
             status: 201,
-            body: api_fixture('voice_in_trunk_groups/post/sample_1/201'),
+            body: api_fixture('voice_in_trunk_groups/post/create_without_trunks/201'),
             headers: json_api_headers
           )
         trunk_group = client.voice_in_trunk_groups.create(name: 'Main group', capacity_limit: 100)
@@ -152,7 +152,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunkGroup do
             }.to_json).
           to_return(
             status: 201,
-            body: api_fixture('voice_in_trunk_groups/post/sample_2/201'),
+            body: api_fixture('voice_in_trunk_groups/post/create_with_trunks/201'),
             headers: json_api_headers
           )
         trunk_group = client.voice_in_trunk_groups.new(name: 'Main group', capacity_limit: 100)
@@ -183,7 +183,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunkGroup do
             }.to_json).
           to_return(
             status: 422,
-            body: api_fixture('voice_in_trunk_groups/post/sample_1/422'),
+            body: api_fixture('voice_in_trunk_groups/post/create_without_trunks/422'),
             headers: json_api_headers
           )
         trunk_group = client.voice_in_trunk_groups.create(name: 'Main group', capacity_limit: 100)
@@ -211,7 +211,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunkGroup do
             }.to_json).
           to_return(
             status: 200,
-            body: api_fixture('voice_in_trunk_groups/id/patch/sample_1/200'),
+            body: api_fixture('voice_in_trunk_groups/id/patch/update_attributes/200'),
             headers: json_api_headers
           )
         trunk_group = DIDWW::Resource::VoiceInTrunkGroup.load(id: id)
@@ -239,7 +239,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunkGroup do
             }.to_json).
           to_return(
             status: 200,
-            body: api_fixture('voice_in_trunk_groups/id/patch/sample_2/200'),
+            body: api_fixture('voice_in_trunk_groups/id/patch/remove_trunks/200'),
             headers: json_api_headers
           )
         trunk_group = DIDWW::Resource::VoiceInTrunkGroup.load(id: id)
@@ -265,7 +265,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunkGroup do
             }.to_json).
           to_return(
             status: 422,
-            body: api_fixture('voice_in_trunk_groups/id/patch/sample_1/422'),
+            body: api_fixture('voice_in_trunk_groups/id/patch/update_attributes/422'),
             headers: json_api_headers
           )
         trunk_group = DIDWW::Resource::VoiceInTrunkGroup.load(id: id)
@@ -282,7 +282,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunkGroup do
       stub_didww_request(:delete, "/voice_in_trunk_groups/#{id}").
         to_return(
           status: 202,
-          body: api_fixture('voice_in_trunk_groups/id/delete/sample_1/202'),
+          body: api_fixture('voice_in_trunk_groups/id/delete/delete_group/202'),
           headers: json_api_headers
         )
       trunk_group = DIDWW::Resource::VoiceInTrunkGroup.load(id: id)
@@ -295,7 +295,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunkGroup do
         stub_didww_request(:delete, "/voice_in_trunk_groups/#{id}").
         to_return(
           status: 404,
-          body: api_fixture('voice_in_trunk_groups/id/delete/sample_1/404'),
+          body: api_fixture('voice_in_trunk_groups/id/delete/delete_group/404'),
           headers: json_api_headers
         )
         trunk_group = DIDWW::Resource::VoiceInTrunkGroup.load(id: id)

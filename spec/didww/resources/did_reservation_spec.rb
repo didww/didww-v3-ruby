@@ -14,7 +14,7 @@ RSpec.describe DIDWW::Resource::DidReservation do
       before do
         stub_didww_request(:get, "/did_reservations/#{id}").to_return(
             status: 200,
-            body: api_fixture('did_reservations/id/get/sample_1/200'),
+            body: api_fixture('did_reservations/id/get/without_includes/200'),
             headers: json_api_headers
         )
       end
@@ -31,7 +31,7 @@ RSpec.describe DIDWW::Resource::DidReservation do
       before do
         stub_didww_request(:get, "/did_reservations/#{id}").to_return(
             status: 404,
-            body: api_fixture('did_reservations/id/get/sample_1/404'),
+            body: api_fixture('did_reservations/id/get/without_includes/404'),
             headers: json_api_headers
         )
       end
@@ -49,7 +49,7 @@ RSpec.describe DIDWW::Resource::DidReservation do
       before do
         stub_didww_request(:get, "/did_reservations/#{id}?include=available_did").to_return(
             status: 200,
-            body: api_fixture('did_reservations/id/get/sample_2/200'),
+            body: api_fixture('did_reservations/id/get/with_included_available_did/200'),
             headers: json_api_headers
         )
       end
@@ -68,7 +68,7 @@ RSpec.describe DIDWW::Resource::DidReservation do
       before do
         stub_didww_request(:get, "/did_reservations/#{id}?include=available_did.did_group").to_return(
             status: 200,
-            body: api_fixture('did_reservations/id/get/sample_3/200'),
+            body: api_fixture('did_reservations/id/get/with_included_available_did_and_did_group/200'),
             headers: json_api_headers
         )
       end
@@ -88,7 +88,7 @@ RSpec.describe DIDWW::Resource::DidReservation do
         stub_didww_request(:get, "/did_reservations/#{id}?include=available_did.did_group.stock_keeping_units").
             to_return(
                 status: 200,
-                body: api_fixture('did_reservations/id/get/sample_4/200'),
+                body: api_fixture('did_reservations/id/get/with_included_available_did_did_group_and_skus/200'),
                 headers: json_api_headers
             )
       end
@@ -110,7 +110,7 @@ RSpec.describe DIDWW::Resource::DidReservation do
       before do
         stub_didww_request(:get, '/did_reservations').to_return(
             status: 200,
-            body: api_fixture('did_reservations/get/sample_1/200'),
+            body: api_fixture('did_reservations/get/without_includes/200'),
             headers: json_api_headers
         )
       end
@@ -128,7 +128,7 @@ RSpec.describe DIDWW::Resource::DidReservation do
       before do
         stub_didww_request(:get, '/did_reservations?include=available_did').to_return(
             status: 200,
-            body: api_fixture('did_reservations/get/sample_2/200'),
+            body: api_fixture('did_reservations/get/with_included_available_did/200'),
             headers: json_api_headers
         )
       end
@@ -176,7 +176,7 @@ RSpec.describe DIDWW::Resource::DidReservation do
             with(body: request_body.to_json).
             to_return(
                 status: 201,
-                body: api_fixture('did_reservations/post/sample_1/201'),
+                body: api_fixture('did_reservations/post/create_success/201'),
                 headers: json_api_headers
             )
       end
@@ -194,7 +194,7 @@ RSpec.describe DIDWW::Resource::DidReservation do
             with(body: request_body.to_json).
             to_return(
                 status: 422,
-                body: api_fixture('did_reservations/post/sample_1/422'),
+                body: api_fixture('did_reservations/post/create_success/422'),
                 headers: json_api_headers
             )
       end

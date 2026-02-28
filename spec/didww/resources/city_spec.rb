@@ -9,7 +9,7 @@ RSpec.describe DIDWW::Resource::City do
       let (:city) do
         stub_didww_request(:get, "/cities/#{id}").to_return(
           status: 200,
-          body: api_fixture('cities/id/get/sample_1/200'),
+          body: api_fixture('cities/id/get/without_includes/200'),
           headers: json_api_headers
         )
         client.cities.find(id).first
@@ -28,7 +28,7 @@ RSpec.describe DIDWW::Resource::City do
       it 'raises a NotFound error' do
         stub_didww_request(:get, "/cities/#{id}").to_return(
           status: 404,
-          body: api_fixture('cities/id/get/sample_1/404'),
+          body: api_fixture('cities/id/get/without_includes/404'),
           headers: json_api_headers
         )
         expect { client.cities.find(id) }.to raise_error(JsonApiClient::Errors::NotFound)
@@ -38,7 +38,7 @@ RSpec.describe DIDWW::Resource::City do
     it 'optionally includes Country' do
       stub_didww_request(:get, "/cities/#{id}?include=country").to_return(
         status: 200,
-        body: api_fixture('cities/id/get/sample_2/200'),
+        body: api_fixture('cities/id/get/with_included_country/200'),
         headers: json_api_headers
       )
       city = client.cities.includes(:country).find(id).first
@@ -50,7 +50,7 @@ RSpec.describe DIDWW::Resource::City do
     it 'returns a collection of Cities' do
       stub_didww_request(:get, '/cities').to_return(
         status: 200,
-        body: api_fixture('cities/get/sample_1/200'),
+        body: api_fixture('cities/get/without_includes/200'),
         headers: json_api_headers
       )
       expect(client.cities.all).to all be_an_instance_of(DIDWW::Resource::City)
@@ -58,7 +58,7 @@ RSpec.describe DIDWW::Resource::City do
     it 'optionally includes Countries' do
       stub_didww_request(:get, '/cities?include=country').to_return(
         status: 200,
-        body: api_fixture('cities/get/sample_2/200'),
+        body: api_fixture('cities/get/with_included_country/200'),
         headers: json_api_headers
       )
       expect(client.cities.includes(:country).all.first.country).to be_kind_of(DIDWW::Resource::Country)

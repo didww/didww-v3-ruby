@@ -22,7 +22,7 @@ RSpec.describe DIDWW::Resource::Order do
       let (:order) do
         stub_didww_request(:get, "/orders/#{id}").to_return(
           status: 200,
-          body: api_fixture('orders/id/get/sample_1/200'),
+          body: api_fixture('orders/id/get/without_includes/200'),
           headers: json_api_headers
         )
         client.orders.find(id).first
@@ -59,7 +59,7 @@ RSpec.describe DIDWW::Resource::Order do
       it 'raises a NotFound error' do
         stub_didww_request(:get, "/orders/#{id}").to_return(
           status: 404,
-          body: api_fixture('orders/id/get/sample_1/404'),
+          body: api_fixture('orders/id/get/without_includes/404'),
           headers: json_api_headers
         )
         expect { client.orders.find(id) }.to raise_error(JsonApiClient::Errors::NotFound)
@@ -71,7 +71,7 @@ RSpec.describe DIDWW::Resource::Order do
     it 'returns a collection of Orders' do
       stub_didww_request(:get, '/orders').to_return(
         status: 200,
-        body: api_fixture('orders/get/sample_1/200'),
+        body: api_fixture('orders/get/without_includes/200'),
         headers: json_api_headers
       )
       expect(client.orders.all).to all be_an_instance_of(DIDWW::Resource::Order)
@@ -104,7 +104,7 @@ RSpec.describe DIDWW::Resource::Order do
               }.to_json).
             to_return(
               status: 201,
-              body: api_fixture('orders/post/sample_1/201'),
+              body: api_fixture('orders/post/did_order_with_back_ordering/201'),
               headers: json_api_headers
             )
           order = client.orders.new(allow_back_ordering: true)
@@ -135,7 +135,7 @@ RSpec.describe DIDWW::Resource::Order do
               }.to_json).
             to_return(
               status: 201,
-              body: api_fixture('orders/post/sample_2/201'),
+              body: api_fixture('orders/post/did_order_without_back_ordering/201'),
               headers: json_api_headers
             )
           order = client.orders.new(allow_back_ordering: false)
@@ -166,7 +166,7 @@ RSpec.describe DIDWW::Resource::Order do
                        }.to_json).
               to_return(
                   status: 201,
-                  body: api_fixture('orders/post/sample_3/201'),
+                  body: api_fixture('orders/post/did_order_with_available_did/201'),
                   headers: json_api_headers
               )
           order = client.orders.new(allow_back_ordering: false)
@@ -200,7 +200,7 @@ RSpec.describe DIDWW::Resource::Order do
                        }.to_json).
               to_return(
                   status: 201,
-                  body: api_fixture('orders/post/sample_2/201'),
+                  body: api_fixture('orders/post/did_order_without_back_ordering/201'),
                   headers: json_api_headers
               )
           order = client.orders.new(allow_back_ordering: false)
@@ -239,7 +239,7 @@ RSpec.describe DIDWW::Resource::Order do
                 }.to_json)
               .to_return(
                 status: 201,
-                body: api_fixture('orders/post/sample_2/201'),
+                body: api_fixture('orders/post/did_order_without_back_ordering/201'),
                 headers: json_api_headers
               )
           end
@@ -283,7 +283,7 @@ RSpec.describe DIDWW::Resource::Order do
                       }.to_json).
               to_return(
                   status: 201,
-                  body: api_fixture('orders/post/sample_5/201'),
+                  body: api_fixture('orders/post/capacity_order/201'),
                   headers: json_api_headers
               )
           order = client.orders.new(allow_back_ordering: true)
@@ -322,7 +322,7 @@ RSpec.describe DIDWW::Resource::Order do
             }.to_json).
           to_return(
             status: 422,
-            body: api_fixture('orders/post/sample_1/422'),
+            body: api_fixture('orders/post/did_order_with_back_ordering/422'),
             headers: json_api_headers
           )
         order = client.orders.new(allow_back_ordering: true)
@@ -357,7 +357,7 @@ RSpec.describe DIDWW::Resource::Order do
                     }.to_json).
             to_return(
                 status: 400,
-                body: api_fixture('orders/post/sample_5/400'),
+                body: api_fixture('orders/post/capacity_order/400'),
                 headers: json_api_headers
             )
         order = client.orders.new(allow_back_ordering: true)
@@ -393,7 +393,7 @@ RSpec.describe DIDWW::Resource::Order do
                     }.to_json).
             to_return(
                 status: 422,
-                body: api_fixture('orders/post/sample_5/422'),
+                body: api_fixture('orders/post/capacity_order/422'),
                 headers: json_api_headers
             )
         order = client.orders.new(allow_back_ordering: true)
@@ -416,7 +416,7 @@ RSpec.describe DIDWW::Resource::Order do
       stub_didww_request(:delete, "/orders/#{id}").
         to_return(
           status: 202,
-          body: api_fixture('orders/id/delete/sample_1/202'),
+          body: api_fixture('orders/id/delete/delete_order/202'),
           headers: json_api_headers
         )
       order = DIDWW::Resource::Order.load(id: id)
@@ -429,7 +429,7 @@ RSpec.describe DIDWW::Resource::Order do
         stub_didww_request(:delete, "/orders/#{id}").
         to_return(
           status: 404,
-          body: api_fixture('orders/id/delete/sample_1/404'),
+          body: api_fixture('orders/id/delete/delete_order/404'),
           headers: json_api_headers
         )
         order = DIDWW::Resource::Order.load(id: id)
@@ -443,7 +443,7 @@ RSpec.describe DIDWW::Resource::Order do
         stub_didww_request(:delete, "/orders/#{id}").
         to_return(
           status: 422,
-          body: api_fixture('orders/id/delete/sample_1/422'),
+          body: api_fixture('orders/id/delete/delete_order/422'),
           headers: json_api_headers
         )
         order = DIDWW::Resource::Order.load(id: id)

@@ -9,7 +9,7 @@ RSpec.describe DIDWW::Resource::Region do
       let (:region) do
         stub_didww_request(:get, "/regions/#{id}").to_return(
           status: 200,
-          body: api_fixture('regions/id/get/sample_1/200'),
+          body: api_fixture('regions/id/get/without_includes/200'),
           headers: json_api_headers
         )
         client.regions.find(id).first
@@ -28,7 +28,7 @@ RSpec.describe DIDWW::Resource::Region do
       it 'raises a NotFound error' do
         stub_didww_request(:get, "/regions/#{id}").to_return(
           status: 404,
-          body: api_fixture('regions/id/get/sample_1/404'),
+          body: api_fixture('regions/id/get/without_includes/404'),
           headers: json_api_headers
         )
         expect { client.regions.find(id) }.to raise_error(JsonApiClient::Errors::NotFound)
@@ -38,7 +38,7 @@ RSpec.describe DIDWW::Resource::Region do
     it 'optionally includes Country' do
       stub_didww_request(:get, "/regions/#{id}?include=country").to_return(
         status: 200,
-        body: api_fixture('regions/id/get/sample_2/200'),
+        body: api_fixture('regions/id/get/with_included_country/200'),
         headers: json_api_headers
       )
       region = client.regions.includes(:country).find(id).first
@@ -50,7 +50,7 @@ RSpec.describe DIDWW::Resource::Region do
     it 'returns a collection of Regions' do
       stub_didww_request(:get, '/regions').to_return(
         status: 200,
-        body: api_fixture('regions/get/sample_1/200'),
+        body: api_fixture('regions/get/without_includes/200'),
         headers: json_api_headers
       )
       expect(client.regions.all).to all be_an_instance_of(DIDWW::Resource::Region)
@@ -58,7 +58,7 @@ RSpec.describe DIDWW::Resource::Region do
     it 'optionally includes Countries' do
       stub_didww_request(:get, '/regions?include=country').to_return(
         status: 200,
-        body: api_fixture('regions/get/sample_2/200'),
+        body: api_fixture('regions/get/with_included_country/200'),
         headers: json_api_headers
       )
       expect(client.regions.includes(:country).all.first.country).to be_kind_of(DIDWW::Resource::Country)

@@ -1,0 +1,155 @@
+{
+  "data": [
+    {
+      "id": "d35148e7-8858-446e-ae53-2f5ae17501ef",
+      "type": "available_dids",
+      "links": {
+        "self": "https://sandbox-api.didww.com/v3/available_dids/d35148e7-8858-446e-ae53-2f5ae17501ef"
+      },
+      "attributes": {
+        "number": "771232341231"
+      },
+      "relationships": {
+        "did_group": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/available_dids/d35148e7-8858-446e-ae53-2f5ae17501ef/relationships/did_group",
+            "related": "https://sandbox-api.didww.com/v3/available_dids/d35148e7-8858-446e-ae53-2f5ae17501ef/did_group"
+          },
+          "data": {
+            "type": "did_groups",
+            "id": "6ff883bd-8e86-48ee-bed3-99adce779499"
+          }
+        }
+      }
+    },
+    {
+      "id": "9e31a4a5-38ef-4e1e-8a83-f6ae10d61d51",
+      "type": "available_dids",
+      "links": {
+        "self": "https://sandbox-api.didww.com/v3/available_dids/9e31a4a5-38ef-4e1e-8a83-f6ae10d61d51"
+      },
+      "attributes": {
+        "number": "771232341232"
+      },
+      "relationships": {
+        "did_group": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/available_dids/9e31a4a5-38ef-4e1e-8a83-f6ae10d61d51/relationships/did_group",
+            "related": "https://sandbox-api.didww.com/v3/available_dids/9e31a4a5-38ef-4e1e-8a83-f6ae10d61d51/did_group"
+          },
+          "data": {
+            "type": "did_groups",
+            "id": "396c3eac-a0ac-4811-a248-d15252ab5a19"
+          }
+        }
+      }
+    }
+  ],
+  "included": [
+    {
+      "id": "6ff883bd-8e86-48ee-bed3-99adce779499",
+      "type": "did_groups",
+      "links": {
+        "self": "https://sandbox-api.didww.com/v3/did_groups/6ff883bd-8e86-48ee-bed3-99adce779499"
+      },
+      "attributes": {
+        "prefix": "720",
+        "local_prefix": "",
+        "features": [
+          "voice_in"
+        ],
+        "is_metered": false,
+        "area_name": "National",
+        "allow_additional_channels": true
+      },
+      "relationships": {
+        "country": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/did_groups/6ff883bd-8e86-48ee-bed3-99adce779499/relationships/country",
+            "related": "https://sandbox-api.didww.com/v3/did_groups/6ff883bd-8e86-48ee-bed3-99adce779499/country"
+          }
+        },
+        "city": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/did_groups/6ff883bd-8e86-48ee-bed3-99adce779499/relationships/city",
+            "related": "https://sandbox-api.didww.com/v3/did_groups/6ff883bd-8e86-48ee-bed3-99adce779499/city"
+          }
+        },
+        "did_group_type": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/did_groups/6ff883bd-8e86-48ee-bed3-99adce779499/relationships/did_group_type",
+            "related": "https://sandbox-api.didww.com/v3/did_groups/6ff883bd-8e86-48ee-bed3-99adce779499/did_group_type"
+          }
+        },
+        "region": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/did_groups/6ff883bd-8e86-48ee-bed3-99adce779499/relationships/region",
+            "related": "https://sandbox-api.didww.com/v3/did_groups/6ff883bd-8e86-48ee-bed3-99adce779499/region"
+          }
+        },
+        "stock_keeping_units": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/did_groups/6ff883bd-8e86-48ee-bed3-99adce779499/relationships/stock_keeping_units",
+            "related": "https://sandbox-api.didww.com/v3/did_groups/6ff883bd-8e86-48ee-bed3-99adce779499/stock_keeping_units"
+          }
+        }
+      }
+    },
+    {
+      "id": "396c3eac-a0ac-4811-a248-d15252ab5a19",
+      "type": "did_groups",
+      "links": {
+        "self": "https://sandbox-api.didww.com/v3/did_groups/396c3eac-a0ac-4811-a248-d15252ab5a19"
+      },
+      "attributes": {
+        "prefix": "11",
+        "local_prefix": "",
+        "features": [
+          "voice_in"
+        ],
+        "is_metered": false,
+        "area_name": "Mobile",
+        "allow_additional_channels": true
+      },
+      "relationships": {
+        "country": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/did_groups/396c3eac-a0ac-4811-a248-d15252ab5a19/relationships/country",
+            "related": "https://sandbox-api.didww.com/v3/did_groups/396c3eac-a0ac-4811-a248-d15252ab5a19/country"
+          }
+        },
+        "city": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/did_groups/396c3eac-a0ac-4811-a248-d15252ab5a19/relationships/city",
+            "related": "https://sandbox-api.didww.com/v3/did_groups/396c3eac-a0ac-4811-a248-d15252ab5a19/city"
+          }
+        },
+        "did_group_type": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/did_groups/396c3eac-a0ac-4811-a248-d15252ab5a19/relationships/did_group_type",
+            "related": "https://sandbox-api.didww.com/v3/did_groups/396c3eac-a0ac-4811-a248-d15252ab5a19/did_group_type"
+          }
+        },
+        "region": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/did_groups/396c3eac-a0ac-4811-a248-d15252ab5a19/relationships/region",
+            "related": "https://sandbox-api.didww.com/v3/did_groups/396c3eac-a0ac-4811-a248-d15252ab5a19/region"
+          }
+        },
+        "stock_keeping_units": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/did_groups/396c3eac-a0ac-4811-a248-d15252ab5a19/relationships/stock_keeping_units",
+            "related": "https://sandbox-api.didww.com/v3/did_groups/396c3eac-a0ac-4811-a248-d15252ab5a19/stock_keeping_units"
+          }
+        }
+      }
+    }
+  ],
+  "meta": {
+    "total_records": 2
+  },
+  "links": {
+    "first": "https://sandbox-api.didww.com/v3/available_dids?include=did_group&page%5Bnumber%5D=1&page%5Bsize%5D=50",
+    "last": "https://sandbox-api.didww.com/v3/available_dids?include=did_group&page%5Bnumber%5D=1&page%5Bsize%5D=50"
+  }
+}
