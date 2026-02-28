@@ -9,7 +9,7 @@ RSpec.describe DIDWW::Resource::Did do
       let (:did) do
         stub_didww_request(:get, "/dids/#{id}").to_return(
           status: 200,
-          body: api_fixture('dids/id/get/sample_1/200'),
+          body: api_fixture('dids/id/get/without_includes/200'),
           headers: json_api_headers
         )
         client.dids.find(id).first
@@ -56,7 +56,7 @@ RSpec.describe DIDWW::Resource::Did do
       it 'lazily fetches Trunk' do
         request = stub_request(:get, did.relationships.voice_in_trunk[:links][:related]).to_return(
             status: 200,
-            body: api_fixture('voice_in_trunks/id/get/sample_1/200'),
+            body: api_fixture('voice_in_trunks/id/get/sip_trunk/200'),
             headers: json_api_headers
           )
         expect(did.voice_in_trunk).to be_kind_of(DIDWW::Resource::VoiceInTrunk)
@@ -66,7 +66,7 @@ RSpec.describe DIDWW::Resource::Did do
       it 'lazily fetches TrunkGroup' do
         request = stub_request(:get, did.relationships.voice_in_trunk_group[:links][:related]).to_return(
             status: 200,
-            body: api_fixture('voice_in_trunk_groups/id/get/sample_1/200'),
+            body: api_fixture('voice_in_trunk_groups/id/get/without_includes/200'),
             headers: json_api_headers
           )
         expect(did.voice_in_trunk_group).to be_kind_of(DIDWW::Resource::VoiceInTrunkGroup)
@@ -79,7 +79,7 @@ RSpec.describe DIDWW::Resource::Did do
       it 'raises a NotFound error' do
         stub_didww_request(:get, "/dids/#{id}").to_return(
           status: 404,
-          body: api_fixture('dids/id/get/sample_1/404'),
+          body: api_fixture('dids/id/get/without_includes/404'),
           headers: json_api_headers
         )
         expect { client.dids.find(id) }.to raise_error(JsonApiClient::Errors::NotFound)
@@ -89,7 +89,7 @@ RSpec.describe DIDWW::Resource::Did do
     it 'optionally includes DidGroup' do
       stub_didww_request(:get, "/dids/#{id}?include=did_group").to_return(
         status: 200,
-        body: api_fixture('dids/id/get/sample_2/200'),
+        body: api_fixture('dids/id/get/with_included_did_group/200'),
         headers: json_api_headers
       )
       did = client.dids.includes(:did_group).find(id).first
@@ -99,7 +99,7 @@ RSpec.describe DIDWW::Resource::Did do
     it 'optionally includes AddressVerification and DidGroup' do
       stub_didww_request(:get, "/dids/#{id}?include=address_verification,did_group").to_return(
         status: 200,
-        body: api_fixture('dids/id/get/sample_3/200'),
+        body: api_fixture('dids/id/get/with_included_address_verification_and_did_group/200'),
         headers: json_api_headers
       )
       did = client.dids.includes(:address_verification, :did_group).find(id).first
@@ -112,7 +112,7 @@ RSpec.describe DIDWW::Resource::Did do
     it 'returns a collection of Dids' do
       stub_didww_request(:get, '/dids').to_return(
         status: 200,
-        body: api_fixture('dids/get/sample_1/200'),
+        body: api_fixture('dids/get/without_includes/200'),
         headers: json_api_headers
       )
       expect(client.dids.all).to all be_an_instance_of(DIDWW::Resource::Did)
@@ -120,7 +120,7 @@ RSpec.describe DIDWW::Resource::Did do
     it 'optionally includes DidGroup' do
       stub_didww_request(:get, '/dids?include=did_group').to_return(
         status: 200,
-        body: api_fixture('dids/get/sample_2/200'),
+        body: api_fixture('dids/get/with_included_did_group/200'),
         headers: json_api_headers
       )
       expect(client.dids.includes(:did_group).all.first.did_group).to be_kind_of(DIDWW::Resource::DidGroup)
@@ -147,7 +147,7 @@ RSpec.describe DIDWW::Resource::Did do
             }.to_json).
           to_return(
             status: 200,
-            body: api_fixture('dids/id/patch/sample_1/200'),
+            body: api_fixture('dids/id/patch/update_attributes/200'),
             headers: json_api_headers
           )
         did = DIDWW::Resource::Did.load(id: id).tap do |d|
@@ -185,7 +185,7 @@ RSpec.describe DIDWW::Resource::Did do
             }.to_json).
           to_return(
             status: 200,
-            body: api_fixture('dids/id/patch/sample_2/200'),
+            body: api_fixture('dids/id/patch/assign_voice_in_trunk/200'),
             headers: json_api_headers
           )
         did = DIDWW::Resource::Did.load(id: id)
@@ -215,7 +215,7 @@ RSpec.describe DIDWW::Resource::Did do
             }.to_json).
           to_return(
             status: 200,
-            body: api_fixture('dids/id/patch/sample_3/200'),
+            body: api_fixture('dids/id/patch/assign_voice_in_trunk_group/200'),
             headers: json_api_headers
           )
         did = DIDWW::Resource::Did.load(id: id)
@@ -246,7 +246,7 @@ RSpec.describe DIDWW::Resource::Did do
             }.to_json).
           to_return(
             status: 200,
-            body: api_fixture('dids/id/patch/sample_4/200'),
+            body: api_fixture('dids/id/patch/assign_capacity_pool/200'),
             headers: json_api_headers
           )
         did = DIDWW::Resource::Did.load(id: id)
@@ -277,7 +277,7 @@ RSpec.describe DIDWW::Resource::Did do
             }.to_json).
           to_return(
             status: 200,
-            body: api_fixture('dids/id/patch/sample_5/200'),
+            body: api_fixture('dids/id/patch/assign_shared_capacity_group/200'),
             headers: json_api_headers
           )
         did = DIDWW::Resource::Did.load(id: id)
@@ -307,7 +307,7 @@ RSpec.describe DIDWW::Resource::Did do
             }.to_json).
           to_return(
             status: 422,
-            body: api_fixture('dids/id/patch/sample_1/422'),
+            body: api_fixture('dids/id/patch/update_attributes/422'),
             headers: json_api_headers
           )
         did = DIDWW::Resource::Did.load(id: id).tap do |d|
@@ -344,7 +344,7 @@ RSpec.describe DIDWW::Resource::Did do
             }.to_json).
           to_return(
             status: 422,
-            body: api_fixture('dids/id/patch/sample_4/422'),
+            body: api_fixture('dids/id/patch/assign_capacity_pool/422'),
             headers: json_api_headers
           )
         did = DIDWW::Resource::Did.load(id: id)
@@ -378,7 +378,7 @@ RSpec.describe DIDWW::Resource::Did do
             }.to_json).
           to_return(
             status: 422,
-            body: api_fixture('dids/id/patch/sample_5/422'),
+            body: api_fixture('dids/id/patch/assign_shared_capacity_group/422'),
             headers: json_api_headers
           )
         did = DIDWW::Resource::Did.load(id: id)

@@ -9,7 +9,7 @@ RSpec.describe DIDWW::Resource::Export do
       let (:export) do
         stub_didww_request(:get, "/exports/#{id}").to_return(
           status: 200,
-          body: api_fixture('exports/id/get/sample_1/200'),
+          body: api_fixture('exports/id/get/without_includes/200'),
           headers: json_api_headers
         )
         client.exports.find(id).first
@@ -39,7 +39,7 @@ RSpec.describe DIDWW::Resource::Export do
           before do
             stub_request(:get, export.url).to_return(
               status: 200,
-              body: api_fixture('exports/id/get/sample_2/200', ext: :csv),
+              body: api_fixture('exports/id/get/csv_download/200', ext: :csv),
               headers: { 'Content-Type' => 'text/csv' }
             )
           end
@@ -85,7 +85,7 @@ RSpec.describe DIDWW::Resource::Export do
       it 'raises a NotFound error' do
         stub_didww_request(:get, "/exports/#{id}").to_return(
           status: 404,
-          body: api_fixture('exports/id/get/sample_1/404'),
+          body: api_fixture('exports/id/get/without_includes/404'),
           headers: json_api_headers
         )
         expect { client.exports.find(id) }.to raise_error(JsonApiClient::Errors::NotFound)
@@ -97,7 +97,7 @@ RSpec.describe DIDWW::Resource::Export do
     it 'returns a collection of Exports' do
       stub_didww_request(:get, '/exports').to_return(
         status: 200,
-        body: api_fixture('exports/get/sample_1/200'),
+        body: api_fixture('exports/get/without_includes/200'),
         headers: json_api_headers
       )
       expect(client.exports.all).to all be_an_instance_of(DIDWW::Resource::Export)
@@ -118,7 +118,7 @@ RSpec.describe DIDWW::Resource::Export do
           .with(body: request_body.to_json)
           .to_return(
             status: 201,
-            body: api_fixture('exports/post/sample_1/201'),
+            body: api_fixture('exports/post/create_success/201'),
             headers: json_api_headers
           )
       end

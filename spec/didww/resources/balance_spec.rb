@@ -6,7 +6,7 @@ RSpec.describe DIDWW::Resource::Balance do
     let (:balance) do
       stub_didww_request(:get, '/balance').to_return(
         status: 200,
-        body: api_fixture('balance/get/sample_1/200'),
+        body: api_fixture('balance/get/without_includes/200'),
         headers: json_api_headers
       )
       client.balance

@@ -9,7 +9,7 @@ RSpec.describe DIDWW::Resource::CapacityPool do
       let (:capacity_pool) do
         stub_didww_request(:get, "/capacity_pools/#{id}").to_return(
           status: 200,
-          body: api_fixture('capacity_pools/id/get/sample_1/200'),
+          body: api_fixture('capacity_pools/id/get/without_includes/200'),
           headers: json_api_headers
         )
         client.capacity_pools.find(id).first
@@ -53,7 +53,7 @@ RSpec.describe DIDWW::Resource::CapacityPool do
       it 'lazily fetches Countries' do
         request = stub_request(:get, capacity_pool.relationships.countries[:links][:related]).to_return(
             status: 200,
-            body: api_fixture('countries/get/sample_1/200'),
+            body: api_fixture('countries/get/without_includes/200'),
             headers: json_api_headers
           )
         expect(capacity_pool.countries).to all be_an_instance_of(DIDWW::Resource::Country)
@@ -63,7 +63,7 @@ RSpec.describe DIDWW::Resource::CapacityPool do
       it 'lazily fetches SharedCapacityGroups' do
         request = stub_request(:get, capacity_pool.relationships.shared_capacity_groups[:links][:related]).to_return(
             status: 200,
-            body: api_fixture('shared_capacity_groups/get/sample_1/200'),
+            body: api_fixture('shared_capacity_groups/get/without_includes/200'),
             headers: json_api_headers
           )
         expect(capacity_pool.shared_capacity_groups).to all be_an_instance_of(DIDWW::Resource::SharedCapacityGroup)
@@ -75,7 +75,7 @@ RSpec.describe DIDWW::Resource::CapacityPool do
       it 'raises a NotFound error' do
         stub_didww_request(:get, "/capacity_pools/#{id}").to_return(
           status: 404,
-          body: api_fixture('dids/id/get/sample_1/404'),
+          body: api_fixture('capacity_pools/id/get/without_includes/404'),
           headers: json_api_headers
         )
         expect { client.capacity_pools.find(id) }.to raise_error(JsonApiClient::Errors::NotFound)
@@ -85,7 +85,7 @@ RSpec.describe DIDWW::Resource::CapacityPool do
     it 'optionally includes Countries, Shared capacity groups and Quantity Based Pricings' do
       stub_didww_request(:get, "/capacity_pools/#{id}?include=countries,shared_capacity_groups,qty_based_pricings").to_return(
         status: 200,
-        body: api_fixture('capacity_pools/id/get/sample_2/200'),
+        body: api_fixture('capacity_pools/id/get/with_included_relationships/200'),
         headers: json_api_headers
       )
       capacity_pool = client.capacity_pools.includes(:countries, :shared_capacity_groups, :qty_based_pricings).find(id).first
@@ -99,7 +99,7 @@ RSpec.describe DIDWW::Resource::CapacityPool do
     it 'returns a collection of CapacityPools' do
       stub_didww_request(:get, '/capacity_pools').to_return(
         status: 200,
-        body: api_fixture('capacity_pools/get/sample_1/200'),
+        body: api_fixture('capacity_pools/get/without_includes/200'),
         headers: json_api_headers
       )
       expect(client.capacity_pools.all).to all be_an_instance_of(DIDWW::Resource::CapacityPool)
@@ -107,7 +107,7 @@ RSpec.describe DIDWW::Resource::CapacityPool do
     it 'optionally includes Countries, Shared capacity groups and Quantity Based Pricings' do
       stub_didww_request(:get, '/capacity_pools?include=countries,shared_capacity_groups,qty_based_pricings').to_return(
         status: 200,
-        body: api_fixture('capacity_pools/get/sample_2/200'),
+        body: api_fixture('capacity_pools/get/with_included_relationships/200'),
         headers: json_api_headers
       )
       capacity_pools = client.capacity_pools.includes(:countries, :shared_capacity_groups, :qty_based_pricings).all
@@ -134,7 +134,7 @@ RSpec.describe DIDWW::Resource::CapacityPool do
             }.to_json).
           to_return(
             status: 200,
-            body: api_fixture('capacity_pools/id/patch/sample_1/200'),
+            body: api_fixture('capacity_pools/id/patch/update_attributes/200'),
             headers: json_api_headers
           )
         capacity_pool = DIDWW::Resource::CapacityPool.load(id: id).tap do |cp|
@@ -162,7 +162,7 @@ RSpec.describe DIDWW::Resource::CapacityPool do
             }.to_json).
           to_return(
             status: 422,
-            body: api_fixture('capacity_pools/id/patch/sample_1/422'),
+            body: api_fixture('capacity_pools/id/patch/update_attributes/422'),
             headers: json_api_headers
           )
         capacity_pool = DIDWW::Resource::CapacityPool.load(id: id).tap do |cp|

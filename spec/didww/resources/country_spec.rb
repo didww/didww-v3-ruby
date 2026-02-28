@@ -9,7 +9,7 @@ RSpec.describe DIDWW::Resource::Country do
       let (:country) do
         stub_didww_request(:get, "/countries/#{id}").to_return(
           status: 200,
-          body: api_fixture('countries/id/get/sample_1/200'),
+          body: api_fixture('countries/id/get/without_includes/200'),
           headers: json_api_headers
         )
         client.countries.find(id).first
@@ -33,7 +33,7 @@ RSpec.describe DIDWW::Resource::Country do
     it 'optionally includes Regions' do
       stub_didww_request(:get, "/countries/#{id}?include=regions").to_return(
         status: 200,
-        body: api_fixture('countries/id/get/sample_2/200'),
+        body: api_fixture('countries/id/get/with_included_regions/200'),
         headers: json_api_headers
       )
       country = client.countries.includes(:regions).find(id).first
@@ -45,7 +45,7 @@ RSpec.describe DIDWW::Resource::Country do
       it 'raises a NotFound error' do
         stub_didww_request(:get, "/countries/#{id}").to_return(
           status: 404,
-          body: api_fixture('countries/id/get/sample_1/404'),
+          body: api_fixture('countries/id/get/without_includes/404'),
           headers: json_api_headers
         )
         expect { client.countries.find(id) }.to raise_error(JsonApiClient::Errors::NotFound)
@@ -57,7 +57,7 @@ RSpec.describe DIDWW::Resource::Country do
     it 'returns a collection of Countries' do
       stub_didww_request(:get, '/countries').to_return(
         status: 200,
-        body: api_fixture('countries/get/sample_1/200'),
+        body: api_fixture('countries/get/without_includes/200'),
         headers: json_api_headers
       )
       expect(client.countries.all).to all be_an_instance_of(DIDWW::Resource::Country)

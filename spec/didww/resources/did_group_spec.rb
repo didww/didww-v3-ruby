@@ -29,7 +29,7 @@ RSpec.describe DIDWW::Resource::DidGroup do
       let (:did_group) do
         stub_didww_request(:get, "/did_groups/#{id}").to_return(
           status: 200,
-          body: api_fixture('did_groups/id/get/sample_1/200'),
+          body: api_fixture('did_groups/id/get/without_includes/200'),
           headers: json_api_headers
         )
         client.did_groups.find(id).first
@@ -57,7 +57,7 @@ RSpec.describe DIDWW::Resource::DidGroup do
       it 'raises a NotFound error' do
         stub_didww_request(:get, "/did_groups/#{id}").to_return(
           status: 404,
-          body: api_fixture('did_groups/id/get/sample_1/404'),
+          body: api_fixture('did_groups/id/get/without_includes/404'),
           headers: json_api_headers
         )
         expect { client.did_groups.find(id) }.to raise_error(JsonApiClient::Errors::NotFound)
@@ -67,7 +67,7 @@ RSpec.describe DIDWW::Resource::DidGroup do
     it 'optionally includes Country, City, Region, DidGroupType and a collection of StockKeepingUnits' do
       stub_didww_request(:get, "/did_groups/#{id}?include=country,city,region,did_group_type,stock_keeping_units").to_return(
         status: 200,
-        body: api_fixture('did_groups/id/get/sample_2/200'),
+        body: api_fixture('did_groups/id/get/with_included_relationships/200'),
         headers: json_api_headers
       )
       did_group = client.did_groups.includes(:country, :city, :region, :did_group_type, :stock_keeping_units).find(id).first
@@ -83,7 +83,7 @@ RSpec.describe DIDWW::Resource::DidGroup do
     it 'returns a collection of DidGroups' do
       stub_didww_request(:get, '/did_groups').to_return(
         status: 200,
-        body: api_fixture('did_groups/get/sample_1/200'),
+        body: api_fixture('did_groups/get/without_includes/200'),
         headers: json_api_headers
       )
       expect(client.did_groups.all).to all be_an_instance_of(DIDWW::Resource::DidGroup)
@@ -91,7 +91,7 @@ RSpec.describe DIDWW::Resource::DidGroup do
     it 'optionally includes Countries' do
       stub_didww_request(:get, '/did_groups?include=country').to_return(
         status: 200,
-        body: api_fixture('did_groups/get/sample_2/200'),
+        body: api_fixture('did_groups/get/with_included_relationships/200'),
         headers: json_api_headers
       )
       expect(client.did_groups.includes(:country).all.first.country).to be_kind_of(DIDWW::Resource::Country)
@@ -105,7 +105,7 @@ RSpec.describe DIDWW::Resource::DidGroup do
       before do
         stub_didww_request(:get, "/did_groups?filter[nanpa_prefix.id]=#{nanpa_prefix_id}").to_return(
           status: 200,
-          body: api_fixture('did_groups/get/sample_1/200'),
+          body: api_fixture('did_groups/get/without_includes/200'),
           headers: json_api_headers
         )
       end

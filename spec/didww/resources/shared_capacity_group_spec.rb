@@ -9,7 +9,7 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
       let (:shared_capacity_group) do
         stub_didww_request(:get, "/shared_capacity_groups/#{id}").to_return(
           status: 200,
-          body: api_fixture('shared_capacity_groups/id/get/sample_1/200'),
+          body: api_fixture('shared_capacity_groups/id/get/without_includes/200'),
           headers: json_api_headers
         )
         client.shared_capacity_groups.find(id).first
@@ -38,7 +38,7 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
       it 'lazily fetches CapacityPool' do
         request = stub_request(:get, shared_capacity_group.relationships.capacity_pool[:links][:related]).to_return(
             status: 200,
-            body: api_fixture('capacity_pools/id/get/sample_1/200'),
+            body: api_fixture('capacity_pools/id/get/without_includes/200'),
             headers: json_api_headers
           )
         expect(shared_capacity_group.capacity_pool).to be_kind_of(DIDWW::Resource::CapacityPool)
@@ -48,7 +48,7 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
       it 'lazily fetches Dids' do
         request = stub_request(:get, shared_capacity_group.relationships.dids[:links][:related]).to_return(
             status: 200,
-            body: api_fixture('dids/get/sample_1/200'),
+            body: api_fixture('dids/get/without_includes/200'),
             headers: json_api_headers
           )
         expect(shared_capacity_group.dids).to all be_an_instance_of(DIDWW::Resource::Did)
@@ -60,7 +60,7 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
       it 'raises a NotFound error' do
         stub_didww_request(:get, "/shared_capacity_groups/#{id}").to_return(
           status: 404,
-          body: api_fixture('shared_capacity_groups/id/get/sample_1/404'),
+          body: api_fixture('shared_capacity_groups/id/get/without_includes/404'),
           headers: json_api_headers
         )
         expect { client.shared_capacity_groups.find(id) }.to raise_error(JsonApiClient::Errors::NotFound)
@@ -70,7 +70,7 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
     it 'optionally includes CapacityPool and Dids' do
       stub_didww_request(:get, "/shared_capacity_groups/#{id}?include=capacity_pool,dids").to_return(
         status: 200,
-        body: api_fixture('shared_capacity_groups/id/get/sample_2/200'),
+        body: api_fixture('shared_capacity_groups/id/get/with_included_capacity_pool_and_dids/200'),
         headers: json_api_headers
       )
       shared_capacity_group = client.shared_capacity_groups.includes(:capacity_pool, :dids).find(id).first
@@ -83,7 +83,7 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
     it 'returns a collection of SharedCapacityGroups' do
       stub_didww_request(:get, '/shared_capacity_groups').to_return(
         status: 200,
-        body: api_fixture('shared_capacity_groups/get/sample_1/200'),
+        body: api_fixture('shared_capacity_groups/get/without_includes/200'),
         headers: json_api_headers
       )
       expect(client.shared_capacity_groups.all).to all be_an_instance_of(DIDWW::Resource::SharedCapacityGroup)
@@ -91,7 +91,7 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
     it 'optionally includes Capacity Pool, Dids' do
       stub_didww_request(:get, '/shared_capacity_groups?include=capacity_pool,dids').to_return(
         status: 200,
-        body: api_fixture('shared_capacity_groups/get/sample_2/200'),
+        body: api_fixture('shared_capacity_groups/get/with_included_relationships/200'),
         headers: json_api_headers
       )
       shared_capacity_groups = client.shared_capacity_groups.includes(:capacity_pool, :dids).all
@@ -169,7 +169,7 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
       it 'creates a SharedCapacityGroup' do
         stub_post_shared_capacity_group_with_capacity_pool.to_return(
           status: 201,
-          body: api_fixture('shared_capacity_groups/post/sample_1/201'),
+          body: api_fixture('shared_capacity_groups/post/create_without_dids/201'),
           headers: json_api_headers
         )
 
@@ -182,7 +182,7 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
       it 'creates a SharedCapacityGroup and assign DIDs' do
         stub_post_shared_capacity_group_with_capacity_pool_and_dids.to_return(
           status: 201,
-          body: api_fixture('shared_capacity_groups/post/sample_2/201'),
+          body: api_fixture('shared_capacity_groups/post/create_with_dids/201'),
           headers: json_api_headers
         )
 
@@ -204,7 +204,7 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
       it 'returns a SharedCapacityGroup with errors' do
         stub_post_shared_capacity_group_with_capacity_pool.to_return(
           status: 422,
-          body: api_fixture('shared_capacity_groups/post/sample_1/422'),
+          body: api_fixture('shared_capacity_groups/post/create_without_dids/422'),
           headers: json_api_headers
         )
 
@@ -220,7 +220,7 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
       it 'returns a validation error' do
         stub_post_shared_capacity_group_with_capacity_pool_and_dids.to_return(
           status: 422,
-          body: api_fixture('shared_capacity_groups/post/sample_2/422'),
+          body: api_fixture('shared_capacity_groups/post/create_with_dids/422'),
           headers: json_api_headers
         )
         shared_capacity_group = client.shared_capacity_groups.new(name: 'Sample Capacity Group', shared_channels_count: 3, metered_channels_count: 5)
@@ -256,7 +256,7 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
             }.to_json).
           to_return(
             status: 200,
-            body: api_fixture('shared_capacity_groups/id/patch/sample_1/200'),
+            body: api_fixture('shared_capacity_groups/id/patch/update_attributes/200'),
             headers: json_api_headers
           )
         shared_capacity_group = DIDWW::Resource::SharedCapacityGroup.load(id: id)
@@ -282,7 +282,7 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
             }.to_json).
           to_return(
             status: 200,
-            body: api_fixture('shared_capacity_groups/id/patch/sample_2/200'),
+            body: api_fixture('shared_capacity_groups/id/patch/remove_dids/200'),
             headers: json_api_headers
           )
         shared_capacity_group = DIDWW::Resource::SharedCapacityGroup.load(id: id)
@@ -320,7 +320,7 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
             }.to_json).
           to_return(
             status: 200,
-            body: api_fixture('shared_capacity_groups/id/patch/sample_3/200'),
+            body: api_fixture('shared_capacity_groups/id/patch/replace_dids/200'),
             headers: json_api_headers
           )
         shared_capacity_group = DIDWW::Resource::SharedCapacityGroup.load(id: id)
@@ -348,7 +348,7 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
             }.to_json).
           to_return(
             status: 422,
-            body: api_fixture('shared_capacity_groups/id/patch/sample_1/422'),
+            body: api_fixture('shared_capacity_groups/id/patch/update_attributes/422'),
             headers: json_api_headers
           )
         shared_capacity_group = DIDWW::Resource::SharedCapacityGroup.load(id: id)
@@ -381,7 +381,7 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
             }.to_json).
           to_return(
             status: 422,
-            body: api_fixture('shared_capacity_groups/id/patch/sample_3/422'),
+            body: api_fixture('shared_capacity_groups/id/patch/replace_dids/422'),
             headers: json_api_headers
           )
         shared_capacity_group = DIDWW::Resource::SharedCapacityGroup.load(id: id)
@@ -401,7 +401,7 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
       stub_didww_request(:delete, "/shared_capacity_groups/#{id}").
         to_return(
           status: 202,
-          body: api_fixture('shared_capacity_groups/id/delete/sample_1/202'),
+          body: api_fixture('shared_capacity_groups/id/delete/delete_group/202'),
           headers: json_api_headers
         )
       shared_capacity_group = DIDWW::Resource::SharedCapacityGroup.load(id: id)
@@ -414,7 +414,7 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
         stub_didww_request(:delete, "/shared_capacity_groups/#{id}").
         to_return(
           status: 404,
-          body: api_fixture('shared_capacity_groups/id/delete/sample_1/404'),
+          body: api_fixture('shared_capacity_groups/id/delete/delete_group/404'),
           headers: json_api_headers
         )
         shared_capacity_group = DIDWW::Resource::SharedCapacityGroup.load(id: id)
@@ -428,7 +428,7 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
         stub_didww_request(:delete, "/shared_capacity_groups/#{id}").
         to_return(
           status: 422,
-          body: api_fixture('shared_capacity_groups/id/delete/sample_1/422'),
+          body: api_fixture('shared_capacity_groups/id/delete/delete_group/422'),
           headers: json_api_headers
         )
         shared_capacity_group = DIDWW::Resource::SharedCapacityGroup.load(id: id)

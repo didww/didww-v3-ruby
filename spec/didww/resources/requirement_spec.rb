@@ -9,7 +9,7 @@ RSpec.describe DIDWW::Resource::Requirement do
       let (:requirement) do
         stub_didww_request(:get, "/requirements/#{id}").to_return(
           status: 200,
-          body: api_fixture('requirements/id/get/sample_1/200'),
+          body: api_fixture('requirements/id/get/without_includes/200'),
           headers: json_api_headers
         )
         client.requirements.find(id).first
@@ -69,7 +69,7 @@ RSpec.describe DIDWW::Resource::Requirement do
       it 'lazily fetches Country' do
         request = stub_request(:get, requirement.relationships.country[:links][:related]).to_return(
           status: 200,
-          body: api_fixture('countries/id/get/sample_1/200'),
+          body: api_fixture('countries/id/get/without_includes/200'),
           headers: json_api_headers
         )
         expect(requirement.country).to be_kind_of(DIDWW::Resource::Country)
@@ -79,7 +79,7 @@ RSpec.describe DIDWW::Resource::Requirement do
       it 'lazily fetches DidGroupType' do
         request = stub_request(:get, requirement.relationships.did_group_type[:links][:related]).to_return(
           status: 200,
-          body: api_fixture('did_group_types/id/get/sample_1/200'),
+          body: api_fixture('did_group_types/id/get/without_includes/200'),
           headers: json_api_headers
         )
         expect(requirement.did_group_type).to be_kind_of(DIDWW::Resource::DidGroupType)
@@ -111,7 +111,7 @@ RSpec.describe DIDWW::Resource::Requirement do
       it 'raises a NotFound error' do
         stub_didww_request(:get, "/requirements/#{id}").to_return(
           status: 404,
-          body: api_fixture('requirements/id/get/sample_1/404'),
+          body: api_fixture('requirements/id/get/without_includes/404'),
           headers: json_api_headers
         )
         expect { client.requirements.find(id) }.to raise_error(JsonApiClient::Errors::NotFound)
@@ -122,7 +122,7 @@ RSpec.describe DIDWW::Resource::Requirement do
       path_with_included = "/requirements/#{id}?include=country,did_group_type,personal_permanent_document,business_permanent_document,personal_onetime_document,business_onetime_document,personal_proof_types,business_proof_types,address_proof_types"
       stub_didww_request(:get, path_with_included).to_return(
         status: 200,
-        body: api_fixture('requirements/id/get/sample_2/200'),
+        body: api_fixture('requirements/id/get/with_included_relationships/200'),
         headers: json_api_headers
       )
       requirement = client.requirements.includes(
@@ -153,7 +153,7 @@ RSpec.describe DIDWW::Resource::Requirement do
     it 'returns a collection of Requirements' do
       stub_didww_request(:get, '/requirements').to_return(
         status: 200,
-        body: api_fixture('requirements/get/sample_1/200'),
+        body: api_fixture('requirements/get/without_includes/200'),
         headers: json_api_headers
       )
       expect(client.requirements.all).to all be_an_instance_of(DIDWW::Resource::Requirement)
@@ -163,7 +163,7 @@ RSpec.describe DIDWW::Resource::Requirement do
       path_with_included = '/requirements?include=country,did_group_type,personal_permanent_document,business_permanent_document,personal_onetime_document,business_onetime_document,personal_proof_types,business_proof_types,address_proof_types'
       stub_didww_request(:get, path_with_included).to_return(
         status: 200,
-        body: api_fixture('requirements/get/sample_2/200'),
+        body: api_fixture('requirements/get/with_included_relationships/200'),
         headers: json_api_headers
       )
       requirements = client.requirements.includes(

@@ -9,7 +9,7 @@ RSpec.describe DIDWW::Resource::DidGroupType do
       let (:did_group_type) do
         stub_didww_request(:get, "/did_group_types/#{id}").to_return(
           status: 200,
-          body: api_fixture('did_group_types/id/get/sample_1/200'),
+          body: api_fixture('did_group_types/id/get/without_includes/200'),
           headers: json_api_headers
         )
         client.did_group_types.find(id).first
@@ -28,7 +28,7 @@ RSpec.describe DIDWW::Resource::DidGroupType do
       it 'raises a NotFound error' do
         stub_didww_request(:get, "/did_group_types/#{id}").to_return(
           status: 404,
-          body: api_fixture('did_group_types/id/get/sample_1/404'),
+          body: api_fixture('did_group_types/id/get/without_includes/404'),
           headers: json_api_headers
         )
         expect { client.did_group_types.find(id) }.to raise_error(JsonApiClient::Errors::NotFound)
@@ -40,7 +40,7 @@ RSpec.describe DIDWW::Resource::DidGroupType do
     it 'returns a collection of DidGroupTypes' do
       stub_didww_request(:get, '/did_group_types').to_return(
         status: 200,
-        body: api_fixture('did_group_types/get/sample_1/200'),
+        body: api_fixture('did_group_types/get/without_includes/200'),
         headers: json_api_headers
       )
       expect(client.did_group_types.all).to all be_an_instance_of(DIDWW::Resource::DidGroupType)

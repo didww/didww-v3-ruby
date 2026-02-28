@@ -14,7 +14,7 @@ RSpec.describe DIDWW::Resource::AvailableDid do
       before do
         stub_didww_request(:get, "/available_dids/#{id}").to_return(
             status: 200,
-            body: api_fixture('available_dids/id/get/sample_1/200'),
+            body: api_fixture('available_dids/id/get/without_includes/200'),
             headers: json_api_headers
         )
       end
@@ -32,7 +32,7 @@ RSpec.describe DIDWW::Resource::AvailableDid do
       before do
         stub_didww_request(:get, "/available_dids/#{id}").to_return(
             status: 404,
-            body: api_fixture('available_dids/id/get/sample_1/404'),
+            body: api_fixture('available_dids/id/get/without_includes/404'),
             headers: json_api_headers
         )
       end
@@ -50,7 +50,7 @@ RSpec.describe DIDWW::Resource::AvailableDid do
       before do
         stub_didww_request(:get, "/available_dids/#{id}?include=did_group").to_return(
             status: 200,
-            body: api_fixture('dids/id/get/sample_2/200'),
+            body: api_fixture('available_dids/id/get/with_included_did_group/200'),
             headers: json_api_headers
         )
       end
@@ -94,7 +94,7 @@ RSpec.describe DIDWW::Resource::AvailableDid do
       before do
         stub_didww_request(:get, "/available_dids/#{id}?include=did_group.stock_keeping_units").to_return(
             status: 200,
-            body: api_fixture('available_dids/id/get/sample_3/200'),
+            body: api_fixture('available_dids/id/get/with_included_did_group_and_skus/200'),
             headers: json_api_headers
         )
       end
@@ -116,7 +116,7 @@ RSpec.describe DIDWW::Resource::AvailableDid do
       before do
         stub_didww_request(:get, '/available_dids').to_return(
             status: 200,
-            body: api_fixture('dids/get/sample_1/200'),
+            body: api_fixture('available_dids/get/without_includes/200'),
             headers: json_api_headers
         )
       end
@@ -134,7 +134,7 @@ RSpec.describe DIDWW::Resource::AvailableDid do
       before do
         stub_didww_request(:get, '/available_dids?include=did_group').to_return(
             status: 200,
-            body: api_fixture('dids/get/sample_2/200'),
+            body: api_fixture('available_dids/get/with_included_did_group/200'),
             headers: json_api_headers
         )
       end
@@ -153,7 +153,7 @@ RSpec.describe DIDWW::Resource::AvailableDid do
         let!(:mock_get_available_dids_request) do
           stub_didww_request(:get, "/available_dids?filter[nanpa_prefix.id]=#{nanpa_prefix_id}").to_return(
             status: 200,
-            body: api_fixture('available_dids/get/sample_1/200'),
+            body: api_fixture('available_dids/get/without_includes/200'),
             headers: json_api_headers
           )
         end

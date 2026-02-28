@@ -42,7 +42,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
       let (:trunk) do
         stub_didww_request(:get, "/voice_in_trunks/#{id}").to_return(
           status: 200,
-          body: api_fixture('voice_in_trunks/id/get/sample_1/200'),
+          body: api_fixture('voice_in_trunks/id/get/sip_trunk/200'),
           headers: json_api_headers
         )
         client.voice_in_trunks.find(id).first
@@ -91,7 +91,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
       it 'lazily fetches VoiceInTrunkGroup' do
         request = stub_request(:get, trunk.relationships.voice_in_trunk_group[:links][:related]).to_return(
             status: 200,
-            body: api_fixture('voice_in_trunk_groups/id/get/sample_1/200'),
+            body: api_fixture('voice_in_trunk_groups/id/get/without_includes/200'),
             headers: json_api_headers
           )
         expect(trunk.voice_in_trunk_group).to be_kind_of(DIDWW::Resource::VoiceInTrunkGroup)
@@ -103,7 +103,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
       it 'raises a NotFound error' do
         stub_didww_request(:get, "/voice_in_trunks/#{id}").to_return(
           status: 404,
-          body: api_fixture('voice_in_trunks/id/get/sample_1/404'),
+          body: api_fixture('voice_in_trunks/id/get/sip_trunk/404'),
           headers: json_api_headers
         )
         expect { client.voice_in_trunks.find(id) }.to raise_error(JsonApiClient::Errors::NotFound)
@@ -113,7 +113,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
     it 'optionally includes VoiceInTrunkGroup' do
       stub_didww_request(:get, "/voice_in_trunks/#{id}?include=voice_in_trunk_group").to_return(
         status: 200,
-        body: api_fixture('voice_in_trunks/id/get/sample_5/200'),
+        body: api_fixture('voice_in_trunks/id/get/pstn_trunk_with_included_trunk_group/200'),
         headers: json_api_headers
       )
       trunk = client.voice_in_trunks.includes(:voice_in_trunk_group).find(id).first
@@ -125,7 +125,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
       let (:trunk) do
         stub_didww_request(:get, "/voice_in_trunks/#{id}").to_return(
           status: 200,
-          body: api_fixture('voice_in_trunks/id/get/sample_1/200'),
+          body: api_fixture('voice_in_trunks/id/get/sip_trunk/200'),
           headers: json_api_headers
         )
         client.voice_in_trunks.find(id).first
@@ -140,7 +140,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
       let (:trunk) do
         stub_didww_request(:get, "/voice_in_trunks/#{id}").to_return(
           status: 200,
-          body: api_fixture('voice_in_trunks/id/get/sample_2/200'),
+          body: api_fixture('voice_in_trunks/id/get/pstn_trunk/200'),
           headers: json_api_headers
         )
         client.voice_in_trunks.find(id).first
@@ -156,7 +156,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
     it 'returns a collection of Trunks' do
       stub_didww_request(:get, '/voice_in_trunks').to_return(
         status: 200,
-        body: api_fixture('voice_in_trunks/get/sample_1/200'),
+        body: api_fixture('voice_in_trunks/get/without_includes/200'),
         headers: json_api_headers
       )
       expect(client.voice_in_trunks.all.count).to eq 2
@@ -224,7 +224,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
             }.to_json).
           to_return(
             status: 201,
-            body: api_fixture('voice_in_trunks/post/sample_1/201'),
+            body: api_fixture('voice_in_trunks/post/create_sip_trunk/201'),
             headers: json_api_headers
           )
         trunk = client.voice_in_trunks.new(
@@ -291,7 +291,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
             }.to_json).
           to_return(
             status: 201,
-            body: api_fixture('voice_in_trunks/post/sample_2/201'),
+            body: api_fixture('voice_in_trunks/post/create_pstn_trunk/201'),
             headers: json_api_headers
           )
         trunk = client.voice_in_trunks.new(
@@ -368,7 +368,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
             }.to_json).
           to_return(
             status: 201,
-            body: api_fixture('voice_in_trunks/post/sample_6/201'),
+            body: api_fixture('voice_in_trunks/post/create_sip_trunk_with_pop/201'),
             headers: json_api_headers
           )
         trunk = client.voice_in_trunks.new(
@@ -438,7 +438,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
             }.to_json).
           to_return(
             status: 422,
-            body: api_fixture('voice_in_trunks/post/sample_1/422'),
+            body: api_fixture('voice_in_trunks/post/create_sip_trunk/422'),
             headers: json_api_headers
           )
         trunk = client.voice_in_trunks.new(
@@ -478,7 +478,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
             }.to_json).
           to_return(
             status: 200,
-            body: api_fixture('voice_in_trunks/id/patch/sample_1/200'),
+            body: api_fixture('voice_in_trunks/id/patch/update_sip_trunk/200'),
             headers: json_api_headers
           )
         trunk = DIDWW::Resource::VoiceInTrunk.load(id: id)
@@ -511,7 +511,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
             }.to_json).
           to_return(
             status: 200,
-            body: api_fixture('voice_in_trunks/id/patch/sample_2/200'),
+            body: api_fixture('voice_in_trunks/id/patch/update_pstn_trunk/200'),
             headers: json_api_headers
           )
         trunk = DIDWW::Resource::VoiceInTrunk.load(id: id)
@@ -547,7 +547,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
             }.to_json).
           to_return(
             status: 200,
-            body: api_fixture('voice_in_trunks/id/patch/sample_6/200'),
+            body: api_fixture('voice_in_trunks/id/patch/update_sip_trunk_with_pop/200'),
             headers: json_api_headers
           )
         trunk = DIDWW::Resource::VoiceInTrunk.load(id: id)
@@ -584,7 +584,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
             }.to_json).
           to_return(
             status: 422,
-            body: api_fixture('voice_in_trunks/id/patch/sample_1/422'),
+            body: api_fixture('voice_in_trunks/id/patch/update_sip_trunk/422'),
             headers: json_api_headers
           )
         trunk = DIDWW::Resource::VoiceInTrunk.load(id: id)
@@ -604,7 +604,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
       stub_didww_request(:delete, "/voice_in_trunks/#{id}").
         to_return(
           status: 202,
-          body: api_fixture('voice_in_trunks/id/delete/sample_1/202'),
+          body: api_fixture('voice_in_trunks/id/delete/delete_trunk/202'),
           headers: json_api_headers
         )
       trunk = DIDWW::Resource::VoiceInTrunk.load(id: id)
@@ -617,7 +617,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
         stub_didww_request(:delete, "/voice_in_trunks/#{id}").
         to_return(
           status: 404,
-          body: api_fixture('voice_in_trunks/id/delete/sample_1/404'),
+          body: api_fixture('voice_in_trunks/id/delete/delete_trunk/404'),
           headers: json_api_headers
         )
         trunk = DIDWW::Resource::VoiceInTrunk.load(id: id)
