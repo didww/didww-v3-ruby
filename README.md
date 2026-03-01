@@ -38,22 +38,155 @@ Or install it yourself as:
 
     $ gem install didww-v3
 
-## Usage
+## Requirements
+
+- Ruby 3.3+
+
+## Quick Start
 
 ```ruby
 require 'didww'
 
 client = DIDWW::Client.configure do |config|
-  config.api_key  = '34ffe988432b980f4ba19432539b704f'
+  config.api_key  = 'YOUR_API_KEY'
   config.api_mode = :sandbox
 end
 
-client.balance
+# Check balance
+balance = client.balance
+puts "Balance: #{balance.total_balance}"
+
+# List DID groups with stock keeping units
+did_groups = client.did_groups.all(
+  include: 'stock_keeping_units',
+  filter: { area_name: 'Acapulco' }
+)
+
+puts "DID groups: #{did_groups.count}"
 ```
+
+For more examples visit [examples](examples/).
 
 For details on obtaining your API key please visit https://doc.didww.com/api3/configuration.html
 
-See integration example at https://github.com/didww/didww-v3-rails-sample
+## Examples
+
+- Source code: [examples/](examples/)
+- How to run: [examples/README.md](examples/README.md)
+- Rails integration sample: https://github.com/didww/didww-v3-rails-sample
+
+## Configuration
+
+```ruby
+require 'didww'
+
+# Sandbox
+DIDWW::Client.configure do |config|
+  config.api_key  = 'YOUR_API_KEY'
+  config.api_mode = :sandbox
+end
+
+# Production
+DIDWW::Client.configure do |config|
+  config.api_key  = 'YOUR_API_KEY'
+  config.api_mode = :production
+end
+```
+
+### Environments
+
+| Environment | Base URL |
+|-------------|----------|
+| `:production` | `https://api.didww.com/v3/` |
+| `:sandbox` | `https://sandbox-api.didww.com/v3/` |
+
+### API Version
+
+The SDK sends `X-DIDWW-API-Version: 2022-05-10` by default. You can override it per block:
+
+```ruby
+DIDWW::Client.with_api_version('2022-05-10') do
+  DIDWW::Client.countries.all
+end
+```
+
+## Resources
+
+### Read-Only Resources
+
+```ruby
+# Countries
+countries = DIDWW::Client.countries.all
+country = DIDWW::Client.countries.find('uuid')
+
+# Regions, Cities, Areas, POPs
+regions = DIDWW::Client.regions.all
+cities = DIDWW::Client.cities.all
+areas = DIDWW::Client.areas.all
+pops = DIDWW::Client.pops.all
+
+# DID Group Types
+types = DIDWW::Client.did_group_types.all
+
+# DID Groups (with stock keeping units)
+did_groups = DIDWW::Client.did_groups.all(include: 'stock_keeping_units')
+
+# Available DIDs (with DID group and stock keeping units)
+available_dids = DIDWW::Client.available_dids.all(include: 'did_group.stock_keeping_units')
+
+# Public Keys
+public_keys = DIDWW::Client.public_keys.all
+
+# Requirements
+requirements = DIDWW::Client.requirements.all
+
+# Balance (singleton)
+balance = DIDWW::Client.balance
+```
+
+### DIDs
+
+```ruby
+# List DIDs
+dids = DIDWW::Client.dids.all
+
+# Update DID
+did = DIDWW::Client.dids.find('uuid')
+did.description = 'Updated'
+did.capacity_limit = 20
+did.save
+```
+
+### Voice In Trunks
+
+```ruby
+trunk = DIDWW::Client.voice_in_trunks.new(
+  name: 'My SIP Trunk',
+  configuration: {
+    type: 'sip_configurations',
+    host: 'sip.example.com',
+    port: 5060
+  }
+)
+
+trunk.save
+```
+
+### Orders
+
+```ruby
+order = DIDWW::Client.orders.new(
+  items: [
+    {
+      type: 'did_order_items',
+      sku_id: 'sku-uuid',
+      qty: 2
+    }
+  ]
+)
+
+order.save
+```
 
 ## Resource Relationships
 
