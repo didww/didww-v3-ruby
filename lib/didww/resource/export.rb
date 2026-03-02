@@ -54,7 +54,7 @@ module DIDWW
 
       def csv
         return unless url.present?
-        Down::Http.new(headers: { 'Api-Key' => DIDWW::Client.api_key }).open(url)
+        Down::Http.new(headers: { 'Api-Key' => DIDWW::Client.api_key, 'X-DIDWW-API-Version' => DIDWW::Client.api_version }).open(url)
       end
 
       def complete?

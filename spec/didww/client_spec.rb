@@ -31,6 +31,10 @@ RSpec.describe DIDWW::Client do
     expect(DIDWW::Client.api_base_url).to eq(sandbox_uri)
   end
 
+  it 'defaults api version to 2022-05-10' do
+    expect(DIDWW::Client.api_version).to eq('2022-05-10')
+  end
+
   it 'mode can only be :sandbox or :production' do
     DIDWW::Client.configure do |client|
       client.api_key = api_key

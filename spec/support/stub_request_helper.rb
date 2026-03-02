@@ -21,7 +21,8 @@ module StubRequestHelper
   def request_headers
     {
       'Content-Type' => 'application/vnd.api+json',
-      'User-Agent' => /didww-v3 Ruby gem v\d+\.\d+\.\d+/
+      'User-Agent' => /didww-v3 Ruby gem v\d+\.\d+\.\d+/,
+      'X-DIDWW-API-Version' => '2022-05-10'
     }
   end
 end
