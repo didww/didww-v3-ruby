@@ -178,6 +178,9 @@ RSpec.describe DIDWW::Resource::Did do
                       "type": 'voice_in_trunks',
                       "id": 'c80d096a-c8cf-4449-aa6d-8bac39130fe0'
                     }
+                  },
+                  "voice_in_trunk_group": {
+                    "data": nil
                   }
                 },
                 "attributes": {}
@@ -208,6 +211,9 @@ RSpec.describe DIDWW::Resource::Did do
                       "type": 'voice_in_trunk_groups',
                       "id": '1dc6e448-d9d8-4da8-a34b-21459b03112f'
                     }
+                  },
+                  "voice_in_trunk": {
+                    "data": nil
                   }
                 },
                 "attributes": {}

@@ -140,7 +140,7 @@ RSpec.describe 'Dirty tracking' do
       }
     end
 
-    it 'sends only the assigned voice_in_trunk relationship' do
+    it 'sends voice_in_trunk and auto-nullifies voice_in_trunk_group' do
       request = stub_didww_request(:patch, "/dids/#{did_id}").
         with(body: {
           data: {
@@ -152,6 +152,9 @@ RSpec.describe 'Dirty tracking' do
                   type: 'voice_in_trunks',
                   id: 'c80d096a-c8cf-4449-aa6d-8bac39130fe0'
                 }
+              },
+              voice_in_trunk_group: {
+                data: nil
               }
             },
             attributes: {}
@@ -166,7 +169,7 @@ RSpec.describe 'Dirty tracking' do
       expect(request).to have_been_made.once
     end
 
-    it 'sends only the assigned voice_in_trunk_group relationship' do
+    it 'sends voice_in_trunk_group and auto-nullifies voice_in_trunk' do
       request = stub_didww_request(:patch, "/dids/#{did_id}").
         with(body: {
           data: {
@@ -178,6 +181,9 @@ RSpec.describe 'Dirty tracking' do
                   type: 'voice_in_trunk_groups',
                   id: '1dc6e448-d9d8-4da8-a34b-21459b03112f'
                 }
+              },
+              voice_in_trunk: {
+                data: nil
               }
             },
             attributes: {}

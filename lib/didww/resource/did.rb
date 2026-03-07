@@ -54,6 +54,41 @@ module DIDWW
       # Type: DateTime
       # Description: DID created at DateTime
 
+      EXCLUSIVE_RELATIONSHIPS = {
+        'voice_in_trunk' => 'voice_in_trunk_group',
+        'voice_in_trunk_group' => 'voice_in_trunk',
+      }.freeze
+
+      class ExclusiveRelations < JsonApiClient::Relationships::Relations
+        def initialize(record_class, relations)
+          @_initializing = true
+          super
+          @_initializing = false
+        end
+
+        def set_attribute(name, value)
+          super
+          return if @_initializing
+          exclusive = Did::EXCLUSIVE_RELATIONSHIPS[name.to_s]
+          if exclusive && !value.nil?
+            super(exclusive, nil)
+          end
+        end
+      end
+
+      def relationships
+        @relationships ||= ExclusiveRelations.new(self.class, {})
+      end
+
+      def relationships=(rels)
+        attrs = case rels
+                when JsonApiClient::Relationships::Relations then rels.attributes
+                when Hash then rels
+                else rels || {}
+                end
+        @relationships = ExclusiveRelations.new(self.class, attrs)
+      end
+
     end
   end
 end
