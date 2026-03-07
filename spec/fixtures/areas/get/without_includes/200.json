@@ -1,0 +1,21 @@
+{
+  "data": [
+    {
+      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "type": "areas",
+      "attributes": {
+        "name": "New York"
+      },
+      "relationships": {
+        "country": {
+          "links": {
+            "related": "https://sandbox-api.didww.com/v3/countries/f5ffe21a-7b8f-4404-928f-88522d9bf153"
+          }
+        }
+      }
+    }
+  ],
+  "meta": {
+    "total_records": 1
+  }
+}

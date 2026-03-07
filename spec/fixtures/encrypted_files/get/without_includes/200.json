@@ -1,0 +1,15 @@
+{
+  "data": [
+    {
+      "id": "f6a7b890-1234-5678-9abc-def123456789",
+      "type": "encrypted_files",
+      "attributes": {
+        "description": "passport.pdf",
+        "expire_at": "2025-06-15"
+      }
+    }
+  ],
+  "meta": {
+    "total_records": 1
+  }
+}
