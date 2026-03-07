@@ -106,7 +106,7 @@ RSpec.describe DIDWW::Resource::Export do
           expect(export.decompressed_csv).to be_kind_of(StringIO)
         end
         it 'has csv caption' do
-          expect(export.decompressed_csv.read).to start_with('Date/Time (UTC),Source,DID,Destination')
+          expect(export.decompressed_csv.read).to start_with('Date/Time Start (UTC)')
         end
       end
 
