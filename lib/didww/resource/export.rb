@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 require 'forwardable'
 require 'down/http'
+require 'zlib'
+require 'stringio'
 require 'didww/callback/const'
 
 module DIDWW
@@ -55,6 +57,12 @@ module DIDWW
       def csv
         return unless url.present?
         Down::Http.new(headers: { 'Api-Key' => DIDWW::Client.api_key, 'X-DIDWW-API-Version' => DIDWW::Client.api_version }).open(url)
+      end
+
+      def decompressed_csv
+        file = csv
+        return unless file
+        StringIO.new(Zlib::GzipReader.new(file).read)
       end
 
       def complete?

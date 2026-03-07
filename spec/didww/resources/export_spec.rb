@@ -81,6 +81,45 @@ RSpec.describe DIDWW::Resource::Export do
       end
     end
 
+    describe '#decompressed_csv' do
+      let (:export) do
+        stub_didww_request(:get, "/exports/#{id}").to_return(
+          status: 200,
+          body: api_fixture('exports/id/get/without_includes/200'),
+          headers: json_api_headers
+        )
+        client.exports.find(id).first
+      end
+
+      describe 'when file is ready' do
+        before do
+          stub_request(:get, export.url).to_return(
+            status: 200,
+            body: File.binread(File.expand_path('../../fixtures/exports/id/get/csv_download/200.csv.gz', __dir__)),
+            headers: { 'Content-Type' => 'application/gzip' }
+          )
+        end
+        it 'does not raise an error' do
+          expect { export.decompressed_csv }.to_not raise_error
+        end
+        it 'returns a StringIO' do
+          expect(export.decompressed_csv).to be_kind_of(StringIO)
+        end
+        it 'has csv caption' do
+          expect(export.decompressed_csv.read).to start_with('Date/Time (UTC),Source,DID,Destination')
+        end
+      end
+
+      describe 'when url is empty' do
+        before do
+          export.url = nil
+        end
+        it 'returns nil' do
+          expect(export.decompressed_csv).to be_nil
+        end
+      end
+    end
+
     context 'when Export does not exist' do
       it 'raises a NotFound error' do
         stub_didww_request(:get, "/exports/#{id}").to_return(
