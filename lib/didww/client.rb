@@ -185,6 +185,7 @@ module DIDWW
         require 'didww/resource/country'
         require 'didww/resource/did_group_type'
         require 'didww/resource/did_group'
+        require 'didww/resource/exclusive_relationship'
         require 'didww/resource/did'
         require 'didww/resource/order'
         require 'didww/resource/pop'
