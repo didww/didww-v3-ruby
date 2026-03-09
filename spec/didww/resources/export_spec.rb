@@ -32,26 +32,27 @@ RSpec.describe DIDWW::Resource::Export do
         end
       end
 
-      describe '#csv' do
-        let (:csv_io) { export.csv }
+      describe '#download' do
+        let (:download_io) { export.download }
 
         describe 'when file is ready' do
           before do
             stub_request(:get, export.url).to_return(
               status: 200,
-              body: api_fixture('exports/id/get/csv_download/200', ext: :csv),
-              headers: { 'Content-Type' => 'text/csv' }
+              body: File.binread(File.expand_path('../../fixtures/exports/id/get/csv_download/200.csv.gz', __dir__)),
+              headers: { 'Content-Type' => 'application/octet-stream' }
             )
           end
           it 'does not raise an error' do
-            expect { export.csv }.to_not raise_error
+            expect { export.download }.to_not raise_error
           end
-          it 'returs a readable object' do
-            expect(csv_io).to be_kind_of(Down::ChunkedIO)
-            expect(csv_io.read).to be_kind_of(String)
+          it 'returns a readable object' do
+            expect(download_io).to be_kind_of(Down::ChunkedIO)
+            expect(download_io.read).to be_kind_of(String)
           end
-          it 'has csv caption' do
-            expect(csv_io.read).to start_with('Date/Time (UTC),Source,DID,Destination')
+          it 'returns gzip data' do
+            magic = download_io.read(2)
+            expect(magic.bytes).to eq([0x1f, 0x8b])
           end
         end
 
@@ -61,11 +62,11 @@ RSpec.describe DIDWW::Resource::Export do
           end
           it 'does not call the api' do
             WebMock.reset!
-            expect { export.csv }.to_not raise_error
+            expect { export.download }.to_not raise_error
             expect(a_request(:any, /.*/)).to_not have_been_made
           end
-          it 'returs nil' do
-            expect(csv_io).to be_nil
+          it 'returns nil' do
+            expect(download_io).to be_nil
           end
         end
 
@@ -74,10 +75,49 @@ RSpec.describe DIDWW::Resource::Export do
             stub_request(:get, export.url).to_return(status: 404, body: '')
           end
           it 'raises a NotFound error' do
-            expect { export.csv }.to raise_error(Down::ClientError)
+            expect { export.download }.to raise_error(Down::ClientError)
           end
         end
 
+      end
+    end
+
+    describe '#csv' do
+      let (:export) do
+        stub_didww_request(:get, "/exports/#{id}").to_return(
+          status: 200,
+          body: api_fixture('exports/id/get/without_includes/200'),
+          headers: json_api_headers
+        )
+        client.exports.find(id).first
+      end
+
+      describe 'when file is ready' do
+        before do
+          stub_request(:get, export.url).to_return(
+            status: 200,
+            body: File.binread(File.expand_path('../../fixtures/exports/id/get/csv_download/200.csv.gz', __dir__)),
+            headers: { 'Content-Type' => 'application/octet-stream' }
+          )
+        end
+        it 'does not raise an error' do
+          expect { export.csv }.to_not raise_error
+        end
+        it 'returns a StringIO' do
+          expect(export.csv).to be_kind_of(StringIO)
+        end
+        it 'has csv caption' do
+          expect(export.csv.read).to start_with('Date/Time Start (UTC)')
+        end
+      end
+
+      describe 'when url is empty' do
+        before do
+          export.url = nil
+        end
+        it 'returns nil' do
+          expect(export.csv).to be_nil
+        end
       end
     end
 

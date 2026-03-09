@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 require 'forwardable'
 require 'down/http'
+require 'zlib'
+require 'stringio'
 require 'didww/callback/const'
 
 module DIDWW
@@ -52,9 +54,21 @@ module DIDWW
         super params.reverse_merge(filters: {})
       end
 
-      def csv
+      def download
         return unless url.present?
         Down::Http.new(headers: { 'Api-Key' => DIDWW::Client.api_key, 'X-DIDWW-API-Version' => DIDWW::Client.api_version }).open(url)
+      end
+
+      def csv
+        file = download
+        return unless file
+        gz = Zlib::GzipReader.new(file)
+        begin
+          StringIO.new(gz.read)
+        ensure
+          gz.close unless gz.closed?
+          file.close if file.respond_to?(:close) && !file.closed?
+        end
       end
 
       def complete?
