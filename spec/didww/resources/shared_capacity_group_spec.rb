@@ -393,6 +393,35 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
         expect(shared_capacity_group.errors['0']).to contain_exactly('cannot be applied to shared capacity group')
       end
     end
+
+    describe 'when removing DIDs with name conflict' do
+      it 'returns a SharedCapacityGroup with errors' do
+        stub_didww_request(:patch, "/shared_capacity_groups/#{id}").
+          with(body:
+            {
+              "data": {
+                "id": 'dd2e8844-6a79-4673-ba1c-c8a4913884cc',
+                "type": 'shared_capacity_groups',
+                "relationships": {
+                  "dids": {
+                    "data": [ ]
+                  }
+                },
+                "attributes": {}
+              }
+            }.to_json).
+          to_return(
+            status: 422,
+            body: api_fixture('shared_capacity_groups/id/patch/remove_dids/422'),
+            headers: json_api_headers
+          )
+        shared_capacity_group = DIDWW::Resource::SharedCapacityGroup.load(id: id)
+        shared_capacity_group.relationships[:dids] = []
+        shared_capacity_group.save
+        expect(shared_capacity_group.errors.count).to eq 1
+        expect(shared_capacity_group.errors[:name]).to contain_exactly('has already been taken')
+      end
+    end
   end
 
   describe 'DELETE /shared_capacity_groups/{id}' do
@@ -400,8 +429,8 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
     it 'deletes a SharedCapacityGroup' do
       stub_didww_request(:delete, "/shared_capacity_groups/#{id}").
         to_return(
-          status: 202,
-          body: api_fixture('shared_capacity_groups/id/delete/delete_group/202'),
+          status: 204,
+          body: api_fixture('shared_capacity_groups/id/delete/delete_group/204'),
           headers: json_api_headers
         )
       shared_capacity_group = DIDWW::Resource::SharedCapacityGroup.load(id: id)

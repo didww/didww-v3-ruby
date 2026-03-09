@@ -415,8 +415,8 @@ RSpec.describe DIDWW::Resource::Order do
     it 'deletes an Order' do
       stub_didww_request(:delete, "/orders/#{id}").
         to_return(
-          status: 202,
-          body: api_fixture('orders/id/delete/delete_order/202'),
+          status: 204,
+          body: api_fixture('orders/id/delete/delete_order/204'),
           headers: json_api_headers
         )
       order = DIDWW::Resource::Order.load(id: id)
