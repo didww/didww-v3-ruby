@@ -148,6 +148,28 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
       it 'has PstnConfiguration' do
         expect(trunk.configuration).to be_kind_of(DIDWW::ComplexObject::PstnConfiguration)
       end
+
+      context 'when PSTN Trunk does not exist' do
+        it 'raises a NotFound error' do
+          stub_didww_request(:get, "/voice_in_trunks/#{id}").to_return(
+            status: 404,
+            body: api_fixture('voice_in_trunks/id/get/pstn_trunk/404'),
+            headers: json_api_headers
+          )
+          expect { client.voice_in_trunks.find(id) }.to raise_error(JsonApiClient::Errors::NotFound)
+        end
+      end
+    end
+
+    context 'when PSTN Trunk with included trunk group does not exist' do
+      it 'raises a NotFound error' do
+        stub_didww_request(:get, "/voice_in_trunks/#{id}?include=voice_in_trunk_group").to_return(
+          status: 404,
+          body: api_fixture('voice_in_trunks/id/get/pstn_trunk_with_included_trunk_group/404'),
+          headers: json_api_headers
+        )
+        expect { client.voice_in_trunks.includes(:voice_in_trunk_group).find(id) }.to raise_error(JsonApiClient::Errors::NotFound)
+      end
     end
 
   end
@@ -454,6 +476,97 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
         expect(trunk.errors[:name]).to contain_exactly('has already been taken')
       end
     end
+
+    describe 'when PSTN trunk name already been taken' do
+      it 'returns a Trunk with errors' do
+        stub_didww_request(:post, '/voice_in_trunks').
+          with(body:
+            {
+              "data": {
+                "type": 'voice_in_trunks',
+                "attributes": {
+                  "name": 'Office Mobile',
+                  "capacity_limit": 5,
+                  "configuration": {
+                    "type": 'pstn_configurations',
+                    "attributes": {
+                      "dst": '1xxxxxxxxx'
+                    }
+                  }
+                }
+              }
+            }.to_json).
+          to_return(
+            status: 422,
+            body: api_fixture('voice_in_trunks/post/create_pstn_trunk/422'),
+            headers: json_api_headers
+          )
+        trunk = client.voice_in_trunks.new(
+                    name: 'Office Mobile',
+                    capacity_limit: 5
+                  )
+        trunk.configuration = DIDWW::ComplexObject::PstnConfiguration.new.tap do |c|
+          c.dst = '1xxxxxxxxx'
+        end
+        trunk.save
+        expect(trunk).not_to be_persisted
+        expect(trunk.errors.count).to eq 1
+        expect(trunk.errors[:name]).to contain_exactly('has already been taken')
+      end
+    end
+
+    describe 'when SIP trunk with pop name already been taken' do
+      it 'returns a Trunk with errors' do
+        stub_didww_request(:post, '/voice_in_trunks').
+          with(body:
+            {
+              "data": {
+                "type": 'voice_in_trunks',
+                "relationships": {
+                  "pop": {
+                    "data": {
+                      "type": 'pops',
+                      "id": '240416e4-aeb2-4ca5-9df2-f37f01e930cf'
+                    }
+                  }
+                },
+                "attributes": {
+                  "name": 'Office SIP',
+                  "capacity_limit": 18,
+                  "cli_format": 'e164',
+                  "cli_prefix": '+1',
+                  "configuration": {
+                    "type": 'sip_configurations',
+                    "attributes": {
+                      "username": 'username',
+                      "host": 'example.com'
+                    }
+                  }
+                }
+              }
+            }.to_json).
+          to_return(
+            status: 422,
+            body: api_fixture('voice_in_trunks/post/create_sip_trunk_with_pop/422'),
+            headers: json_api_headers
+          )
+        trunk = client.voice_in_trunks.new(
+                    name: 'Office SIP',
+                    capacity_limit: 18,
+                    cli_format: 'e164',
+                    cli_prefix: '+1',
+                  )
+        trunk.configuration = DIDWW::ComplexObject::SipConfiguration.new.tap do |c|
+          c.username = 'username'
+          c.host = 'example.com'
+        end
+        trunk.relationships[:pop] = DIDWW::Resource::Pop.load(id: '240416e4-aeb2-4ca5-9df2-f37f01e930cf')
+        trunk.save
+        expect(trunk).not_to be_persisted
+        expect(trunk.errors.count).to eq 1
+        expect(trunk.errors[:name]).to contain_exactly('has already been taken')
+      end
+    end
   end
 
   describe 'PATCH /voice_in_trunks/{id}' do
@@ -596,6 +709,174 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
         expect(trunk.errors[:name]).to contain_exactly('has already been taken')
       end
     end
+
+    describe 'when PSTN Trunk name already been taken' do
+      it 'returns a Trunk with errors' do
+        id = '989d8259-9c4f-4449-97b7-a3480b1cffff'
+        stub_didww_request(:patch, "/voice_in_trunks/#{id}").
+          with(body:
+            {
+              "data": {
+                "id": '989d8259-9c4f-4449-97b7-a3480b1cffff',
+                "type": 'voice_in_trunks',
+                "attributes": {
+                  "configuration": {
+                    "type": 'pstn_configurations',
+                    "attributes": {
+                      "dst": '7xxxxxxxx'
+                    }
+                  }
+                }
+              }
+            }.to_json).
+          to_return(
+            status: 422,
+            body: api_fixture('voice_in_trunks/id/patch/update_pstn_trunk/422'),
+            headers: json_api_headers
+          )
+        trunk = DIDWW::Resource::VoiceInTrunk.load(id: id)
+        trunk.configuration = DIDWW::ComplexObject::PstnConfiguration.new.tap do |config|
+          config.dst = '7xxxxxxxx'
+        end
+        trunk.save
+        expect(trunk.errors.count).to eq 1
+        expect(trunk.errors[:name]).to contain_exactly('has already been taken')
+      end
+    end
+
+    describe 'when SIP Trunk with pop has invalid pop' do
+      it 'returns a Trunk with errors' do
+        id = '081ad751-d790-4e70-9c92-7c18f6b50a6d'
+        stub_didww_request(:patch, "/voice_in_trunks/#{id}").
+          with(body:
+            {
+              "data": {
+                "id": '081ad751-d790-4e70-9c92-7c18f6b50a6d',
+                "type": 'voice_in_trunks',
+                "relationships": {
+                  "pop": {
+                    "data": {
+                      "type": 'pops',
+                      "id": 'cb5ea690-e3a3-4781-a4f3-3bd0123284dd'
+                    }
+                  }
+                },
+                "attributes": {
+                  "name": 'New trunk'
+                }
+              }
+            }.to_json).
+          to_return(
+            status: 422,
+            body: api_fixture('voice_in_trunks/id/patch/update_sip_trunk_with_pop/422'),
+            headers: json_api_headers
+          )
+        trunk = DIDWW::Resource::VoiceInTrunk.load(id: id)
+        trunk.name = 'New trunk'
+        trunk.relationships.pop = DIDWW::Resource::Pop.load(id: 'cb5ea690-e3a3-4781-a4f3-3bd0123284dd')
+        trunk.save
+        expect(trunk.errors.count).to eq 1
+        expect(trunk.errors[:pop]).to contain_exactly('is invalid')
+      end
+    end
+
+    context 'when SIP Trunk does not exist' do
+      it 'raises a NotFound error' do
+        id = '57a939dd-1600-41a6-80b1-f624e22a1f4c'
+        stub_didww_request(:patch, "/voice_in_trunks/#{id}").
+          with(body:
+            {
+              "data": {
+                "id": '57a939dd-1600-41a6-80b1-f624e22a1f4c',
+                "type": 'voice_in_trunks',
+                "attributes": {
+                  "configuration": {
+                    "type": 'sip_configurations',
+                    "attributes": {
+                      "username": 'new_username'
+                    }
+                  }
+                }
+              }
+            }.to_json).
+          to_return(
+            status: 404,
+            body: api_fixture('voice_in_trunks/id/patch/update_sip_trunk/404'),
+            headers: json_api_headers
+          )
+        trunk = DIDWW::Resource::VoiceInTrunk.load(id: id)
+        trunk.configuration = DIDWW::ComplexObject::SipConfiguration.new.tap do |config|
+          config.username = 'new_username'
+        end
+        expect { trunk.save }.to raise_error(JsonApiClient::Errors::NotFound)
+      end
+    end
+
+    context 'when PSTN Trunk does not exist' do
+      it 'raises a NotFound error' do
+        id = '989d8259-9c4f-4449-97b7-a3480b1cffff'
+        stub_didww_request(:patch, "/voice_in_trunks/#{id}").
+          with(body:
+            {
+              "data": {
+                "id": '989d8259-9c4f-4449-97b7-a3480b1cffff',
+                "type": 'voice_in_trunks',
+                "attributes": {
+                  "configuration": {
+                    "type": 'pstn_configurations',
+                    "attributes": {
+                      "dst": '7xxxxxxxx'
+                    }
+                  }
+                }
+              }
+            }.to_json).
+          to_return(
+            status: 404,
+            body: api_fixture('voice_in_trunks/id/patch/update_pstn_trunk/404'),
+            headers: json_api_headers
+          )
+        trunk = DIDWW::Resource::VoiceInTrunk.load(id: id)
+        trunk.configuration = DIDWW::ComplexObject::PstnConfiguration.new.tap do |config|
+          config.dst = '7xxxxxxxx'
+        end
+        expect { trunk.save }.to raise_error(JsonApiClient::Errors::NotFound)
+      end
+    end
+
+    context 'when SIP Trunk with pop does not exist' do
+      it 'raises a NotFound error' do
+        id = '081ad751-d790-4e70-9c92-7c18f6b50a6d'
+        stub_didww_request(:patch, "/voice_in_trunks/#{id}").
+          with(body:
+            {
+              "data": {
+                "id": '081ad751-d790-4e70-9c92-7c18f6b50a6d',
+                "type": 'voice_in_trunks',
+                "relationships": {
+                  "pop": {
+                    "data": {
+                      "type": 'pops',
+                      "id": 'cb5ea690-e3a3-4781-a4f3-3bd0123284dd'
+                    }
+                  }
+                },
+                "attributes": {
+                  "name": 'New trunk'
+                }
+              }
+            }.to_json).
+          to_return(
+            status: 404,
+            body: api_fixture('voice_in_trunks/id/patch/update_sip_trunk_with_pop/404'),
+            headers: json_api_headers
+          )
+        trunk = DIDWW::Resource::VoiceInTrunk.load(id: id)
+        trunk.name = 'New trunk'
+        trunk.relationships.pop = DIDWW::Resource::Pop.load(id: 'cb5ea690-e3a3-4781-a4f3-3bd0123284dd')
+        expect { trunk.save }.to raise_error(JsonApiClient::Errors::NotFound)
+      end
+    end
   end
 
   describe 'DELETE /voice_in_trunks/{id}' do
@@ -603,8 +884,8 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
     it 'deletes a Trunk' do
       stub_didww_request(:delete, "/voice_in_trunks/#{id}").
         to_return(
-          status: 202,
-          body: api_fixture('voice_in_trunks/id/delete/delete_trunk/202'),
+          status: 204,
+          body: api_fixture('voice_in_trunks/id/delete/delete_trunk/204'),
           headers: json_api_headers
         )
       trunk = DIDWW::Resource::VoiceInTrunk.load(id: id)

@@ -1,0 +1,10 @@
+{
+  "errors": [
+    {
+      "title": "Record not found",
+      "detail": "The record identified by 01234567-89ab-cdef-0123-456789abcdef could not be found.",
+      "code": "404",
+      "status": "404"
+    }
+  ]
+}

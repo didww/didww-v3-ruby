@@ -395,5 +395,104 @@ RSpec.describe DIDWW::Resource::Did do
         expect(did.errors[:shared_capacity_group_id]).to contain_exactly('is not allowed for DID country')
       end
     end
+
+    describe 'with invalid VoiceInTrunk' do
+      it 'returns a Did with errors' do
+        id = '3505b18a-3019-47bc-95d1-0f9ec7766fd5'
+        stub_didww_request(:patch, "/dids/#{id}").
+          with(body:
+            {
+              "data": {
+                "id": '3505b18a-3019-47bc-95d1-0f9ec7766fd5',
+                "type": 'dids',
+                "relationships": {
+                  "voice_in_trunk": {
+                    "data": {
+                      "type": 'voice_in_trunks',
+                      "id": 'c80d096a-c8cf-4449-aa6d-8bac39130fe0'
+                    }
+                  },
+                  "voice_in_trunk_group": {
+                    "data": nil
+                  }
+                },
+                "attributes": {}
+              }
+            }.to_json).
+          to_return(
+            status: 422,
+            body: api_fixture('dids/id/patch/assign_voice_in_trunk/422'),
+            headers: json_api_headers
+          )
+        did = DIDWW::Resource::Did.load(id: id)
+        did.relationships[:voice_in_trunk] = DIDWW::Resource::VoiceInTrunk.load(id: 'c80d096a-c8cf-4449-aa6d-8bac39130fe0')
+
+        did.save
+        expect(did.errors.count).to eq 1
+        expect(did.errors[:voice_in_trunk_id]).to contain_exactly('should exist')
+      end
+    end
+
+    describe 'with invalid VoiceInTrunkGroup' do
+      it 'returns a Did with errors' do
+        id = '3e3f57ec-0541-473a-af63-103216d19db3'
+        stub_didww_request(:patch, "/dids/#{id}").
+          with(body:
+            {
+              "data": {
+                "id": '3e3f57ec-0541-473a-af63-103216d19db3',
+                "type": 'dids',
+                "relationships": {
+                  "voice_in_trunk_group": {
+                    "data": {
+                      "type": 'voice_in_trunk_groups',
+                      "id": '1dc6e448-d9d8-4da8-a34b-21459b03112f'
+                    }
+                  },
+                  "voice_in_trunk": {
+                    "data": nil
+                  }
+                },
+                "attributes": {}
+              }
+            }.to_json).
+          to_return(
+            status: 422,
+            body: api_fixture('dids/id/patch/assign_voice_in_trunk_group/422'),
+            headers: json_api_headers
+          )
+        did = DIDWW::Resource::Did.load(id: id)
+        did.relationships[:voice_in_trunk_group] = DIDWW::Resource::VoiceInTrunkGroup.load(id: '1dc6e448-d9d8-4da8-a34b-21459b03112f')
+
+        did.save
+        expect(did.errors.count).to eq 1
+        expect(did.errors[:voice_in_trunk_group_id]).to contain_exactly('should exist')
+      end
+    end
+
+    describe 'when Did does not exist for update' do
+      it 'raises a NotFound error' do
+        id = '46e129f1-deaa-44db-8915-2646de4d4c70'
+        stub_didww_request(:patch, "/dids/#{id}").
+          with(body:
+            {
+              "data": {
+                "id": '46e129f1-deaa-44db-8915-2646de4d4c70',
+                "type": 'dids',
+                "attributes": {
+                  "description": 'test'
+                }
+              }
+            }.to_json).
+          to_return(
+            status: 404,
+            body: api_fixture('dids/id/patch/update_attributes/404'),
+            headers: json_api_headers
+          )
+        did = DIDWW::Resource::Did.load(id: id)
+        did.description = 'test'
+        expect { did.save }.to raise_error(JsonApiClient::Errors::NotFound)
+      end
+    end
   end
 end
