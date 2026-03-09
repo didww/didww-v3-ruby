@@ -62,7 +62,13 @@ module DIDWW
       def decompressed_csv
         file = csv
         return unless file
-        StringIO.new(Zlib::GzipReader.new(file).read)
+        gz = Zlib::GzipReader.new(file)
+        begin
+          StringIO.new(gz.read)
+        ensure
+          gz.close unless gz.closed?
+          file.close if file.respond_to?(:close) && !file.closed?
+        end
       end
 
       def complete?
