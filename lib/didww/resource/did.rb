@@ -2,6 +2,8 @@
 module DIDWW
   module Resource
     class Did < Base
+      include ExclusiveRelationship
+
       has_one :did_group
       has_one :order
       has_one :voice_in_trunk
@@ -9,6 +11,8 @@ module DIDWW
       has_one :capacity_pool
       has_one :shared_capacity_group
       has_one :address_verification
+
+      exclusive_relationships(voice_in_trunk: :voice_in_trunk_group)
 
       property :blocked, type: :boolean
       # Type: Boolean
