@@ -1,0 +1,21 @@
+{
+  "data": [
+    {
+      "id": "a7b89012-3456-789a-bcde-f12345678901",
+      "type": "public_keys",
+      "attributes": {
+        "key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA\n-----END PUBLIC KEY-----"
+      }
+    },
+    {
+      "id": "b8901234-5678-9abc-def0-123456789012",
+      "type": "public_keys",
+      "attributes": {
+        "key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEB\n-----END PUBLIC KEY-----"
+      }
+    }
+  ],
+  "meta": {
+    "total_records": 2
+  }
+}

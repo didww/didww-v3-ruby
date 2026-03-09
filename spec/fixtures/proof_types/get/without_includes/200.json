@@ -1,0 +1,23 @@
+{
+  "data": [
+    {
+      "id": "f6a7b890-1234-5678-9abc-def123456789",
+      "type": "proof_types",
+      "attributes": {
+        "name": "Utility Bill",
+        "entity_type": "Address"
+      }
+    },
+    {
+      "id": "a7b89012-3456-789a-bcde-f12345678901",
+      "type": "proof_types",
+      "attributes": {
+        "name": "Passport",
+        "entity_type": "Identity"
+      }
+    }
+  ],
+  "meta": {
+    "total_records": 2
+  }
+}

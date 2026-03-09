@@ -1,0 +1,22 @@
+{
+  "data": [
+    {
+      "id": "e5f6a7b8-9012-3456-789a-bcdef1234567",
+      "type": "proofs",
+      "attributes": {
+        "created_at": "2025-01-15",
+        "is_expired": false
+      },
+      "relationships": {
+        "proof_type": {
+          "links": {
+            "related": "https://sandbox-api.didww.com/v3/proof_types/f6a7b890-1234-5678-9abc-def123456789"
+          }
+        }
+      }
+    }
+  ],
+  "meta": {
+    "total_records": 1
+  }
+}

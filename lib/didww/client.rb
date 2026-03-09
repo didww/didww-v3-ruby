@@ -149,6 +149,22 @@ module DIDWW
         Resource::RequirementValidation
       end
 
+      def areas
+        Resource::Area
+      end
+
+      def proof_types
+        Resource::ProofType
+      end
+
+      def supporting_document_templates
+        Resource::SupportingDocumentTemplate
+      end
+
+      def public_keys
+        Resource::PublicKey
+      end
+
       def api_mode=(arg)
         unless BASE_URLS.keys.include?(arg)
           raise ArgumentError.new("Mode should be in #{BASE_URLS.keys} (given '#{arg}').")

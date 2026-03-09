@@ -1,0 +1,15 @@
+{
+  "data": [
+    {
+      "id": "b8901234-5678-9abc-def0-123456789012",
+      "type": "supporting_document_templates",
+      "attributes": {
+        "name": "Letter of Authorization",
+        "url": "https://example.com/templates/loa.pdf"
+      }
+    }
+  ],
+  "meta": {
+    "total_records": 1
+  }
+}
