@@ -129,6 +129,122 @@ RSpec.describe DIDWW::Callback::RequestValidator, '#validate' do
 
       it { is_expected.to eq(false) }
     end
+
+    context 'URL normalization vectors' do
+      let(:api_key) { 'SOMEAPIKEY' }
+      let(:payload) do
+        {
+          'id' => '1dd7a68b-e235-402b-8912-fe73ee14243a',
+          'status' => 'completed',
+          'type' => 'orders'
+        }
+      end
+
+      context 'http://foo.com/bar' do
+        let(:url) { 'http://foo.com/bar' }
+        let(:signature) { '4d1ce2be656d20d064183bec2ab98a2ff3981f73' }
+
+        it { is_expected.to eq(true) }
+      end
+
+      context 'http://foo.com:80/bar (default HTTP port)' do
+        let(:url) { 'http://foo.com:80/bar' }
+        let(:signature) { '4d1ce2be656d20d064183bec2ab98a2ff3981f73' }
+
+        it { is_expected.to eq(true) }
+      end
+
+      context 'http://foo.com:443/bar (non-default port for HTTP)' do
+        let(:url) { 'http://foo.com:443/bar' }
+        let(:signature) { '904eaa65c0759afac0e4d8912de424e2dfb96ea1' }
+
+        it { is_expected.to eq(true) }
+      end
+
+      context 'http://foo.com:8182/bar (custom port)' do
+        let(:url) { 'http://foo.com:8182/bar' }
+        let(:signature) { 'eb8fcfb3d7ed4b4c2265d73cf93c31ba614384d1' }
+
+        it { is_expected.to eq(true) }
+      end
+
+      context 'foo.com/bar (no schema)' do
+        let(:url) { 'foo.com/bar' }
+        let(:signature) { '4d1ce2be656d20d064183bec2ab98a2ff3981f73' }
+
+        it { is_expected.to eq(true) }
+      end
+
+      context 'http://foo.com/bar?baz=boo (with query string)' do
+        let(:url) { 'http://foo.com/bar?baz=boo' }
+        let(:signature) { '78b00717a86ce9df06abf45ff818aa94537e1729' }
+
+        it { is_expected.to eq(true) }
+      end
+
+      context 'http://user:pass@foo.com/bar (with userinfo)' do
+        let(:url) { 'http://user:pass@foo.com/bar' }
+        let(:signature) { '88615a11a78c021c1da2e1e0bfb8cc165170afc5' }
+
+        it { is_expected.to eq(true) }
+      end
+
+      context 'http://foo.com/bar#test (with fragment)' do
+        let(:url) { 'http://foo.com/bar#test' }
+        let(:signature) { 'b1c4391fcdab7c0521bb5b9eb4f41f08529b8418' }
+
+        it { is_expected.to eq(true) }
+      end
+
+      context 'https://foo.com/bar' do
+        let(:url) { 'https://foo.com/bar' }
+        let(:signature) { 'f26a771c302319a7094accbe2989bad67fff2928' }
+
+        it { is_expected.to eq(true) }
+      end
+
+      context 'https://foo.com:443/bar (default HTTPS port)' do
+        let(:url) { 'https://foo.com:443/bar' }
+        let(:signature) { 'f26a771c302319a7094accbe2989bad67fff2928' }
+
+        it { is_expected.to eq(true) }
+      end
+
+      context 'https://foo.com:80/bar (non-default port for HTTPS)' do
+        let(:url) { 'https://foo.com:80/bar' }
+        let(:signature) { 'bd45af5253b72f6383c6af7dc75250f12b73a4e1' }
+
+        it { is_expected.to eq(true) }
+      end
+
+      context 'https://foo.com:8384/bar (custom port)' do
+        let(:url) { 'https://foo.com:8384/bar' }
+        let(:signature) { '9c9fec4b7ebd6e1c461cb8e4ffe4f2987a19a5d3' }
+
+        it { is_expected.to eq(true) }
+      end
+
+      context 'https://foo.com/bar?qwe=asd (with query string)' do
+        let(:url) { 'https://foo.com/bar?qwe=asd' }
+        let(:signature) { '4a0e98ddf286acadd1d5be1b0ed85a4e541c3137' }
+
+        it { is_expected.to eq(true) }
+      end
+
+      context 'https://qwe:asd@foo.com/bar (with userinfo)' do
+        let(:url) { 'https://qwe:asd@foo.com/bar' }
+        let(:signature) { '7a8cd4a6c349910dfecaf9807e56a63787250bbd' }
+
+        it { is_expected.to eq(true) }
+      end
+
+      context 'https://foo.com/bar#baz (with fragment)' do
+        let(:url) { 'https://foo.com/bar#baz' }
+        let(:signature) { '5024919770ea5ca2e3ccc07cb940323d79819508' }
+
+        it { is_expected.to eq(true) }
+      end
+    end
   end
 
 end
