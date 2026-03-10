@@ -30,6 +30,10 @@ RSpec.describe DIDWW::Resource::AddressVerification do
     it '"created_at", type: Time' do
       expect(verification.created_at).to be_kind_of(Time)
     end
+
+    it '"reference", type: String' do
+      expect(verification.reference).to be_kind_of(String)
+    end
   end
 
   describe 'status helper methods' do

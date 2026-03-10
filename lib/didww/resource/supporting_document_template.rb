@@ -9,6 +9,10 @@ module DIDWW
       property :url, type: :string
       # Type: String
       # Description:
+
+      property :permanent, type: :boolean
+      # Type: Boolean
+      # Description: whether the document template is permanent
     end
   end
 end

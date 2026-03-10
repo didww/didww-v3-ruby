@@ -66,6 +66,10 @@ module DIDWW
       # Type: Boolean
       # Description:
 
+      property :contact_email, type: :string
+      # Type: String
+      # Description:
+
       def personal?
         identity_type == IDENTITY_TYPE_PERSONAL
       end
