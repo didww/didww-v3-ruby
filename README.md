@@ -51,17 +51,17 @@ Or install it yourself as:
 ```ruby
 require 'didww'
 
-client = DIDWW::Client.configure do |config|
+DIDWW::Client.configure do |config|
   config.api_key  = 'YOUR_API_KEY'
   config.api_mode = :sandbox
 end
 
 # Check balance
-balance = client.balance
+balance = DIDWW::Client.balance
 puts "Balance: #{balance.total_balance}"
 
 # List DID groups with stock keeping units
-did_groups = client.did_groups.all(
+did_groups = DIDWW::Client.did_groups.all(
   include: 'stock_keeping_units',
   filter: { area_name: 'Acapulco' }
 )
@@ -69,14 +69,10 @@ did_groups = client.did_groups.all(
 puts "DID groups: #{did_groups.count}"
 ```
 
-For more examples visit [examples](examples/).
-
 For details on obtaining your API key please visit https://doc.didww.com/api3/configuration.html
 
 ## Examples
 
-- Source code: [examples/](examples/)
-- How to run: [examples/README.md](examples/README.md)
 - Rails integration sample: https://github.com/didww/didww-v3-rails-sample
 
 ## Configuration
@@ -168,6 +164,7 @@ trunk = DIDWW::Client.voice_in_trunks.new(
   name: 'My SIP Trunk',
   configuration: {
     type: 'sip_configurations',
+    username: '{DID}',
     host: 'sip.example.com',
     port: 5060
   }
