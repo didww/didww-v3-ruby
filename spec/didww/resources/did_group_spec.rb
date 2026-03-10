@@ -64,6 +64,16 @@ RSpec.describe DIDWW::Resource::DidGroup do
       end
     end
 
+    it 'has requirement relationship' do
+      stub_didww_request(:get, "/did_groups/#{id}").to_return(
+        status: 200,
+        body: api_fixture('did_groups/id/get/without_includes/200'),
+        headers: json_api_headers
+      )
+      did_group = client.did_groups.find(id).first
+      expect(did_group).to respond_to(:requirement)
+    end
+
     it 'optionally includes Country, City, Region, DidGroupType and a collection of StockKeepingUnits' do
       stub_didww_request(:get, "/did_groups/#{id}?include=country,city,region,did_group_type,stock_keeping_units").to_return(
         status: 200,
