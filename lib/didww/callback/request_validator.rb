@@ -31,7 +31,7 @@ module DIDWW
       def validate(url, payload, signature)
         return false if signature.blank?
 
-        signature == valid_signature(url, payload)
+        OpenSSL.secure_compare(signature, valid_signature(url, payload))
       end
 
       private
