@@ -14,17 +14,23 @@ RSpec.describe DIDWW::Resource::Proof do
   end
 
   describe 'has correct attributes' do
-    let(:proof) do
+    let(:proofs) do
       stub_didww_request(:get, '/proofs').to_return(
         status: 200,
         body: api_fixture('proofs/get/without_includes/200'),
         headers: json_api_headers
       )
-      client.proofs.all.first
+      client.proofs.all
     end
 
-    it '"is_expired", type: Boolean' do
-      expect(proof.is_expired).to eq(false).or eq(true)
+    it '"expires_at" returns parsed date when present' do
+      proof = proofs.first
+      expect(proof.expires_at).to be_a(Date)
+    end
+
+    it '"expires_at" returns nil when null' do
+      proof = proofs[1]
+      expect(proof.expires_at).to be_nil
     end
   end
 end

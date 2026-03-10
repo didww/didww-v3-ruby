@@ -1,22 +1,51 @@
 {
   "data": [
     {
-      "id": "e5f6a7b8-9012-3456-789a-bcdef1234567",
+      "id": "84155378-88d5-456e-844d-103596e3fb2c",
       "type": "proofs",
       "attributes": {
-        "created_at": "2025-01-15",
-        "is_expired": false
+        "created_at": "2021-03-28T18:01:50.387Z",
+        "expires_at": "2025-12-31T00:00:00.000Z"
       },
       "relationships": {
         "proof_type": {
           "links": {
-            "related": "https://sandbox-api.didww.com/v3/proof_types/f6a7b890-1234-5678-9abc-def123456789"
+            "self": "https://api.didww.com/v3/proofs/84155378-88d5-456e-844d-103596e3fb2c/relationships/proof_type",
+            "related": "https://api.didww.com/v3/proofs/84155378-88d5-456e-844d-103596e3fb2c/proof_type"
+          }
+        },
+        "entity": {
+          "links": {
+            "self": "https://api.didww.com/v3/proofs/84155378-88d5-456e-844d-103596e3fb2c/relationships/entity",
+            "related": "https://api.didww.com/v3/proofs/84155378-88d5-456e-844d-103596e3fb2c/entity"
+          }
+        }
+      }
+    },
+    {
+      "id": "95266489-99e6-567f-955e-214707f4gc3d",
+      "type": "proofs",
+      "attributes": {
+        "created_at": "2021-05-15T10:30:00.000Z",
+        "expires_at": null
+      },
+      "relationships": {
+        "proof_type": {
+          "links": {
+            "self": "https://api.didww.com/v3/proofs/95266489-99e6-567f-955e-214707f4gc3d/relationships/proof_type",
+            "related": "https://api.didww.com/v3/proofs/95266489-99e6-567f-955e-214707f4gc3d/proof_type"
+          }
+        },
+        "entity": {
+          "links": {
+            "self": "https://api.didww.com/v3/proofs/95266489-99e6-567f-955e-214707f4gc3d/relationships/entity",
+            "related": "https://api.didww.com/v3/proofs/95266489-99e6-567f-955e-214707f4gc3d/entity"
           }
         }
       }
     }
   ],
   "meta": {
-    "total_records": 1
+    "total_records": 2
   }
 }

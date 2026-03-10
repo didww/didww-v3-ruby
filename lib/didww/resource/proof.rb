@@ -11,9 +11,9 @@ module DIDWW
       # Type: Date
       # Description:
 
-      property :is_expired, type: :boolean
-      # Type: Boolean
-      # Description:
+      property :expires_at, type: :date
+      # Type: Date
+      # Description: expiration date of the proof
     end
   end
 end
