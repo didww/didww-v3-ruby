@@ -27,6 +27,10 @@ module DIDWW
       # Type: String
       # Description:
 
+      def reject_reasons
+        super&.split('; ')
+      end
+
       property :created_at, type: :time
       # Type: Time
       # Description:
