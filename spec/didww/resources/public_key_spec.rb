@@ -13,6 +13,20 @@ RSpec.describe DIDWW::Resource::PublicKey do
     end
   end
 
+  describe 'request headers' do
+    it 'does not send Api-Key header' do
+      stub = stub_request(:get, api_uri('/public_keys'))
+        .with { |req| !req.headers.key?('Api-Key') }
+        .to_return(
+          status: 200,
+          body: api_fixture('public_keys/get/without_includes/200'),
+          headers: json_api_headers
+        )
+      DIDWW::Resource::PublicKey.all
+      expect(stub).to have_been_requested
+    end
+  end
+
   describe 'has correct attributes' do
     let(:public_key) do
       stub_didww_request(:get, '/public_keys').to_return(
