@@ -4,7 +4,7 @@
     "type": "regions",
     "attributes": {
       "name": "Alberta",
-      "iso": "AB"
+      "iso": "CA-AB"
     },
     "relationships": {
       "country": {
