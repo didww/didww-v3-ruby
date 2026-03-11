@@ -5,6 +5,7 @@ RSpec.describe DIDWW::Resource::Identity do
   it 'has IDENTITY_TYPE constants' do
     expect(described_class::IDENTITY_TYPE_PERSONAL).to eq('Personal')
     expect(described_class::IDENTITY_TYPE_BUSINESS).to eq('Business')
+    expect(described_class::IDENTITY_TYPE_ANY).to eq('Any')
   end
 
   describe 'GET /identities' do
