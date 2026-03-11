@@ -67,7 +67,9 @@ module DIDWW
     end
 
     def calculate_fingerprint
-      public_keys.map { |pub_key| fingerprint_for(pub_key) }.join(SEPARATOR)
+      raise ArgumentError, 'at least 2 public keys are required' if public_keys.length < 2
+
+      public_keys[0..1].map { |pub_key| fingerprint_for(pub_key) }.join(SEPARATOR)
     end
 
     # @param public_key [String] PEM public key.
