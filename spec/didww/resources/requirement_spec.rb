@@ -21,8 +21,8 @@ RSpec.describe DIDWW::Resource::Requirement do
       end
 
       describe 'has correct attributes' do
-        it '"identity_type", type: Integer' do
-          expect(requirement.identity_type).to be_kind_of(Integer)
+        it '"identity_type", type: String' do
+          expect(requirement.identity_type).to be_kind_of(String)
         end
 
         it '"personal_area_level", type: String' do
