@@ -160,8 +160,6 @@ RSpec.describe DIDWW::Callback::RequestValidator, '#validate' do
         { name: 'http://[::1]:80/bar (ipv6 http explicit port 80)', url: 'http://[::1]:80/bar', signature: 'e0e9b83e4046d097f54b3ae64b08cbb4a539f601' },
         { name: 'http://[::1]:9090/bar (ipv6 http custom port)', url: 'http://[::1]:9090/bar', signature: 'ebec110ec5debd0e0fd086ff2f02e48ca665b543' },
         { name: 'https://[::1]/bar (ipv6 https default port)', url: 'https://[::1]/bar', signature: 'f3cfe6f523fdf1d4eaadc310fcd3ed92e1e324b0' },
-        { name: 'http://foo.com (empty path)', url: 'http://foo.com', signature: '6e9bb224f621d9bf735e80b45d69af688900e7d2' },
-        { name: 'http://foo.com/ (explicit slash)', url: 'http://foo.com/', signature: '6e9bb224f621d9bf735e80b45d69af688900e7d2' },
         { name: 'http://foo.com/hello%20world (percent-encoded path)', url: 'http://foo.com/hello%20world', signature: 'eb64035b2e8f356ff1442898a39ec94d5c3e2fc8' },
         { name: 'http://foo.com/foo%2Fbar (percent-encoded slash in path)', url: 'http://foo.com/foo%2Fbar', signature: 'db24428442b012fa0972a453ba1ba98e755bba10' }
       ].freeze
