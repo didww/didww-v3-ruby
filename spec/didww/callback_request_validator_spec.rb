@@ -17,12 +17,6 @@ RSpec.describe DIDWW::Callback::RequestValidator, '#validate' do
 
     it { is_expected.to eq(true) }
 
-    context 'when url without scheme' do
-      let(:url) { 'foo.com/bar' }
-
-      it { is_expected.to eq(true) }
-    end
-
   end
 
   context 'with signature from another request' do
@@ -144,7 +138,7 @@ RSpec.describe DIDWW::Callback::RequestValidator, '#validate' do
         { name: 'http://foo.com:80/bar (default HTTP port)', url: 'http://foo.com:80/bar', signature: '4d1ce2be656d20d064183bec2ab98a2ff3981f73' },
         { name: 'http://foo.com:443/bar (non-default port for HTTP)', url: 'http://foo.com:443/bar', signature: '904eaa65c0759afac0e4d8912de424e2dfb96ea1' },
         { name: 'http://foo.com:8182/bar (custom port)', url: 'http://foo.com:8182/bar', signature: 'eb8fcfb3d7ed4b4c2265d73cf93c31ba614384d1' },
-        { name: 'foo.com/bar (no schema)', url: 'foo.com/bar', signature: '4d1ce2be656d20d064183bec2ab98a2ff3981f73' },
+
         { name: 'http://foo.com/bar?baz=boo (with query string)', url: 'http://foo.com/bar?baz=boo', signature: '78b00717a86ce9df06abf45ff818aa94537e1729' },
         { name: 'http://user:pass@foo.com/bar (with userinfo)', url: 'http://user:pass@foo.com/bar', signature: '88615a11a78c021c1da2e1e0bfb8cc165170afc5' }, # NOSONAR
         { name: 'http://foo.com/bar#test (with fragment)', url: 'http://foo.com/bar#test', signature: 'b1c4391fcdab7c0521bb5b9eb4f41f08529b8418' },

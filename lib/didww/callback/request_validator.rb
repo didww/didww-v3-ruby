@@ -56,21 +56,13 @@ module DIDWW
 
       # @return [String] normalized URL.
       def normalize_url(url)
-        parsed_url = URI ensure_protocol_url(url)
-        url = "#{parsed_url.scheme || 'http'}://"
+        parsed_url = URI(url)
+        url = "#{parsed_url.scheme}://"
         url += "#{parsed_url.userinfo}@" if parsed_url.userinfo
         url += "#{parsed_url.host}:#{parsed_url.port || parsed_url.default_port}#{parsed_url.path}"
         url += "?#{parsed_url.query}" if parsed_url.query
         url += "##{parsed_url.fragment}" if parsed_url.fragment
         url
-      end
-
-      def ensure_protocol_url(url)
-        if url[%r{\A[a-zA-Z]+://}i]
-          url
-        else
-          'http://' + url
-        end
       end
     end
   end
