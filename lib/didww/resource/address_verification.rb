@@ -25,7 +25,7 @@ module DIDWW
 
       property :reject_reasons, type: :string
       # Type: Array<String> or nil
-      # Description: List of reject reasons parsed from a semicolon-separated string
+      # Description: List of reject reasons split by '; '
 
       def reject_reasons
         value = self[:reject_reasons]
