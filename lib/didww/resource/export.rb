@@ -56,7 +56,11 @@ module DIDWW
 
       def download
         return unless url.present?
-        Down::Http.new(headers: { 'Api-Key' => DIDWW::Client.api_key, 'X-DIDWW-API-Version' => DIDWW::Client.api_version }).open(url)
+        Down::Http.new(headers: {
+          'Api-Key' => DIDWW::Client.api_key,
+          'X-DIDWW-API-Version' => DIDWW::Client.api_version,
+          'User-Agent' => "didww-v3 Ruby gem v#{DIDWW::VERSION}"
+        }).open(url)
       end
 
       def csv

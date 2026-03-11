@@ -54,6 +54,12 @@ RSpec.describe DIDWW::Resource::Export do
             magic = download_io.read(2)
             expect(magic.bytes).to eq([0x1f, 0x8b])
           end
+          it 'sends User-Agent header' do
+            export.download
+            expect(
+              a_request(:get, export.url).with(headers: { 'User-Agent' => /didww-v3 Ruby gem v\d+\.\d+\.\d+/ })
+            ).to have_been_made.once
+          end
         end
 
         describe 'when url is empty' do
