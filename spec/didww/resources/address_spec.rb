@@ -35,6 +35,10 @@ RSpec.describe DIDWW::Resource::Address do
       expect(address.address).to be_kind_of(String)
     end
 
+    it '"created_at", type: Time' do
+      expect(address.created_at).to be_kind_of(Time)
+    end
+
     it '"verified", type: Boolean' do
       expect(address.verified).to eq(false).or eq(true)
     end

@@ -39,6 +39,10 @@ RSpec.describe DIDWW::Resource::Identity do
     it '"identity_type", type: String' do
       expect(identity.identity_type).to be_kind_of(String)
     end
+
+    it '"created_at", type: Time' do
+      expect(identity.created_at).to be_kind_of(Time)
+    end
   end
 
   describe 'type helper methods' do

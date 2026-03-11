@@ -27,8 +27,8 @@ module DIDWW
       # Type: String
       # Description:
 
-      property :created_at, type: :date
-      # Type: Date
+      property :created_at, type: :time
+      # Type: Time
       # Description:
 
       property :callback_url, type: :string

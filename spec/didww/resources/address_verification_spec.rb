@@ -17,6 +17,21 @@ RSpec.describe DIDWW::Resource::AddressVerification do
     end
   end
 
+  describe 'has correct attributes' do
+    let(:verification) do
+      stub_didww_request(:get, '/address_verifications').to_return(
+        status: 200,
+        body: api_fixture('address_verifications/get/without_includes/200'),
+        headers: json_api_headers
+      )
+      client.address_verifications.all.first
+    end
+
+    it '"created_at", type: Time' do
+      expect(verification.created_at).to be_kind_of(Time)
+    end
+  end
+
   describe 'status helper methods' do
     it '#pending?' do
       subject.status = 'Pending'

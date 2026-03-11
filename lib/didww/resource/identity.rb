@@ -54,8 +54,8 @@ module DIDWW
       # Type: String
       # Description:
 
-      property :created_at, type: :date
-      # Type: Date
+      property :created_at, type: :time
+      # Type: Time
       # Description:
 
       property :external_reference_id, type: :string

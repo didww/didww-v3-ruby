@@ -26,5 +26,9 @@ RSpec.describe DIDWW::Resource::EncryptedFile do
     it '"description", type: String' do
       expect(encrypted_file.description).to be_kind_of(String)
     end
+
+    it '"expire_at", type: Time' do
+      expect(encrypted_file.expire_at).to be_kind_of(Time)
+    end
   end
 end
