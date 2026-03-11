@@ -9,8 +9,8 @@ module DIDWW
       # Type: String
       # Description:
 
-      property :expire_at, type: :date
-      # Type: Date
+      property :expire_at, type: :time
+      # Type: Time
       # Description:
 
       # @return [Faraday::Connection]

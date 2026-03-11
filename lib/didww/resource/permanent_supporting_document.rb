@@ -7,8 +7,8 @@ module DIDWW
       has_one :template, class_name: 'SupportingDocumentTemplate'
       has_one :identity, class_name: 'Identity'
 
-      property :created_at, type: :date
-      # Type: Date
+      property :created_at, type: :time
+      # Type: Time
       # Description:
     end
   end
