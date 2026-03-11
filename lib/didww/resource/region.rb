@@ -7,6 +7,10 @@ module DIDWW
       property :name, type: :string
       # Type: String
       # Description: Region name
+
+      property :iso, type: :string
+      # Type: String
+      # Description: ISO code of the region
     end
   end
 end

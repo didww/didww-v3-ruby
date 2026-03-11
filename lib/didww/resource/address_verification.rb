@@ -39,6 +39,10 @@ module DIDWW
       # Type: String
       # Description: GET or POST
 
+      property :reference, type: :string
+      # Type: String
+      # Description: verification reference code
+
       def pending?
         status == STATUS_PENDING
       end

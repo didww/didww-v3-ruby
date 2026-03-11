@@ -22,6 +22,9 @@ RSpec.describe DIDWW::Resource::Region do
       it 'the Region has "name", type: String' do
         expect(region.name).to be_kind_of(String)
       end
+      it 'the Region has "iso", type: String' do
+        expect(region.iso).to be_kind_of(String)
+      end
     end
 
     context 'when Region does not exist' do

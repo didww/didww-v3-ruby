@@ -3,7 +3,8 @@
     "id": "8ce33ee2-73da-4baa-85a0-cd607d0e9733",
     "type": "regions",
     "attributes": {
-      "name": "Alberta"
+      "name": "Alberta",
+      "iso": "CA-AB"
     },
     "relationships": {
       "country": {

@@ -1,31 +1,33 @@
 {
   "data": [
     {
-      "id": "753c7b45-2b31-4832-bc5a-9a337d6ebf12",
+      "id": "8ce33ee2-73da-4baa-85a0-cd607d0e9733",
       "type": "regions",
       "attributes": {
-        "name": "Texas"
+        "name": "Alberta",
+        "iso": "AB"
       },
       "relationships": {
         "country": {
           "links": {
-            "self": "https://sandbox-api.didww.com/v3/regions/753c7b45-2b31-4832-bc5a-9a337d6ebf12/relationships/country",
-            "related": "https://sandbox-api.didww.com/v3/regions/753c7b45-2b31-4832-bc5a-9a337d6ebf12/country"
+            "self": "https://sandbox-api.didww.com/v3/regions/8ce33ee2-73da-4baa-85a0-cd607d0e9733/relationships/country",
+            "related": "https://sandbox-api.didww.com/v3/regions/8ce33ee2-73da-4baa-85a0-cd607d0e9733/country"
           }
         }
       }
     },
     {
-      "id": "b5226d4f-0d99-4a0f-8630-3756c29d1c1a",
+      "id": "e2f3f115-11f1-43cf-8279-08b29d94403d",
       "type": "regions",
       "attributes": {
-        "name": "Rhode Island"
+        "name": "British Columbia",
+        "iso": "BC"
       },
       "relationships": {
         "country": {
           "links": {
-            "self": "https://sandbox-api.didww.com/v3/regions/b5226d4f-0d99-4a0f-8630-3756c29d1c1a/relationships/country",
-            "related": "https://sandbox-api.didww.com/v3/regions/b5226d4f-0d99-4a0f-8630-3756c29d1c1a/country"
+            "self": "https://sandbox-api.didww.com/v3/regions/e2f3f115-11f1-43cf-8279-08b29d94403d/relationships/country",
+            "related": "https://sandbox-api.didww.com/v3/regions/e2f3f115-11f1-43cf-8279-08b29d94403d/country"
           }
         }
       }

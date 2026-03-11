@@ -30,5 +30,9 @@ RSpec.describe DIDWW::Resource::SupportingDocumentTemplate do
     it '"url", type: String' do
       expect(template.url).to be_kind_of(String)
     end
+
+    it '"permanent", type: Boolean' do
+      expect(template.permanent).to be_in([true, false])
+    end
   end
 end

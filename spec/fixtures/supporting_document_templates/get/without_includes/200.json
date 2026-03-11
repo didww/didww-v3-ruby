@@ -1,15 +1,25 @@
 {
   "data": [
     {
-      "id": "b8901234-5678-9abc-def0-123456789012",
+      "id": "206ccec2-1166-461f-9f58-3a56823db548",
       "type": "supporting_document_templates",
       "attributes": {
-        "name": "Letter of Authorization",
-        "url": "https://example.com/templates/loa.pdf"
+        "name": "Generic LOI",
+        "permanent": false,
+        "url": "https://api.didww.com/storage/public/w7f2irbo819la7vd7up7u67pkmkn"
+      }
+    },
+    {
+      "id": "fd38c86d-b69b-4ca8-b73c-286a3b93d107",
+      "type": "supporting_document_templates",
+      "attributes": {
+        "name": "Belgium Registration Form",
+        "permanent": true,
+        "url": "https://api.didww.com/storage/public/e8lziulj68xetfa5ed6na3g7q7ra"
       }
     }
   ],
   "meta": {
-    "total_records": 1
+    "total_records": 2
   }
 }
