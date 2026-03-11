@@ -4,7 +4,6 @@ module DIDWW
     class Identity < Base
       IDENTITY_TYPE_PERSONAL = 'Personal'
       IDENTITY_TYPE_BUSINESS = 'Business'
-      IDENTITY_TYPE_ANY = 'Any'
 
       has_one :country, class_name: 'Country'
       has_many :proofs, class_name: 'Proof'
