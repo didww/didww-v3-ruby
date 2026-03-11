@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 RSpec.describe DIDWW::Callback::RequestValidator, '#validate' do
   subject do
     validator = DIDWW::Callback::RequestValidator.new(api_key)
@@ -48,7 +49,7 @@ RSpec.describe DIDWW::Callback::RequestValidator, '#validate' do
   end
 
   context 'with cross-SDK test vectors' do
-    CROSS_SDK_VECTORS = [ # rubocop:disable Lint/ConstantDefinitionInBlock
+    cross_sdk_vectors = [
       {
         name: 'sandbox callback',
         api_key: 'SOMEAPIKEY',
@@ -75,6 +76,8 @@ RSpec.describe DIDWW::Callback::RequestValidator, '#validate' do
         valid: true
       },
       {
+        # Synthetic: URL fragments are never sent to the server in real HTTP requests.
+        # Included to verify normalize_url handles fragments consistently across SDKs.
         name: 'valid request with query and fragment',
         api_key: 'OTHERAPIKEY',
         url: 'http://example.com/callbacks?foo=bar#baz',
@@ -112,7 +115,7 @@ RSpec.describe DIDWW::Callback::RequestValidator, '#validate' do
       }
     ].freeze
 
-    CROSS_SDK_VECTORS.each do |vector|
+    cross_sdk_vectors.each do |vector|
       context vector[:name] do
         let(:api_key) { vector[:api_key] }
         let(:url) { vector[:url] }
@@ -133,7 +136,7 @@ RSpec.describe DIDWW::Callback::RequestValidator, '#validate' do
         }
       end
 
-      URL_NORMALIZATION_VECTORS = [ # rubocop:disable Lint/ConstantDefinitionInBlock
+      url_normalization_vectors = [
         { name: 'http://foo.com/bar', url: 'http://foo.com/bar', signature: '4d1ce2be656d20d064183bec2ab98a2ff3981f73' },
         { name: 'http://foo.com:80/bar (default HTTP port)', url: 'http://foo.com:80/bar', signature: '4d1ce2be656d20d064183bec2ab98a2ff3981f73' },
         { name: 'http://foo.com:443/bar (non-default port for HTTP)', url: 'http://foo.com:443/bar', signature: '904eaa65c0759afac0e4d8912de424e2dfb96ea1' },
@@ -141,6 +144,8 @@ RSpec.describe DIDWW::Callback::RequestValidator, '#validate' do
 
         { name: 'http://foo.com/bar?baz=boo (with query string)', url: 'http://foo.com/bar?baz=boo', signature: '78b00717a86ce9df06abf45ff818aa94537e1729' },
         { name: 'http://user:pass@foo.com/bar (with userinfo)', url: 'http://user:pass@foo.com/bar', signature: '88615a11a78c021c1da2e1e0bfb8cc165170afc5' }, # NOSONAR
+        # Synthetic: URL fragments are stripped by browsers/HTTP clients and never reach servers.
+        # Included to verify normalize_url handles fragments consistently across SDKs.
         { name: 'http://foo.com/bar#test (with fragment)', url: 'http://foo.com/bar#test', signature: 'b1c4391fcdab7c0521bb5b9eb4f41f08529b8418' },
         { name: 'https://foo.com/bar', url: 'https://foo.com/bar', signature: 'f26a771c302319a7094accbe2989bad67fff2928' },
         { name: 'https://foo.com:443/bar (default HTTPS port)', url: 'https://foo.com:443/bar', signature: 'f26a771c302319a7094accbe2989bad67fff2928' },
@@ -148,10 +153,11 @@ RSpec.describe DIDWW::Callback::RequestValidator, '#validate' do
         { name: 'https://foo.com:8384/bar (custom port)', url: 'https://foo.com:8384/bar', signature: '9c9fec4b7ebd6e1c461cb8e4ffe4f2987a19a5d3' },
         { name: 'https://foo.com/bar?qwe=asd (with query string)', url: 'https://foo.com/bar?qwe=asd', signature: '4a0e98ddf286acadd1d5be1b0ed85a4e541c3137' },
         { name: 'https://qwe:asd@foo.com/bar (with userinfo)', url: 'https://qwe:asd@foo.com/bar', signature: '7a8cd4a6c349910dfecaf9807e56a63787250bbd' }, # NOSONAR
+        # Synthetic: same as above, fragments are not part of real HTTP requests.
         { name: 'https://foo.com/bar#baz (with fragment)', url: 'https://foo.com/bar#baz', signature: '5024919770ea5ca2e3ccc07cb940323d79819508' }
       ].freeze
 
-      URL_NORMALIZATION_VECTORS.each do |vector|
+      url_normalization_vectors.each do |vector|
         context vector[:name] do
           let(:url) { vector[:url] }
           let(:signature) { vector[:signature] }
