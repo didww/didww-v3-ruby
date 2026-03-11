@@ -36,6 +36,38 @@ RSpec.describe DIDWW::Resource::AddressVerification do
     end
   end
 
+  describe 'GET /address_verifications/:id' do
+    let(:id) { '429e6d4e-2ee9-4953-aa98-0b3ac07f0f96' }
+
+    context 'when AddressVerification is rejected' do
+      let(:address_verification) do
+        stub_didww_request(:get, "/address_verifications/#{id}").to_return(
+          status: 200,
+          body: api_fixture('address_verifications/id/get/without_includes/200_rejected'),
+          headers: json_api_headers
+        )
+        client.address_verifications.find(id).first
+      end
+
+      it 'returns a single AddressVerification' do
+        expect(address_verification).to be_kind_of(described_class)
+        expect(address_verification.id).to eq(id)
+      end
+
+      it 'has status "Rejected"' do
+        expect(address_verification.status).to eq('Rejected')
+      end
+
+      it 'has reject_reasons' do
+        expect(address_verification.reject_reasons).to eq(['Address cannot be validated', 'Proof of address should be not older than of 6 months'])
+      end
+
+      it 'has reference' do
+        expect(address_verification.reference).to eq('ODW-879912')
+      end
+    end
+  end
+
   describe 'status helper methods' do
     it '#pending?' do
       subject.status = 'Pending'
