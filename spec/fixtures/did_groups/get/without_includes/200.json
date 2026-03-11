@@ -46,6 +46,12 @@
             "self": "https://sandbox-api.didww.com/v3/did_groups/d35148e7-8858-446e-ae53-2f5ae17501ef/relationships/stock_keeping_units",
             "related": "https://sandbox-api.didww.com/v3/did_groups/d35148e7-8858-446e-ae53-2f5ae17501ef/stock_keeping_units"
           }
+        },
+        "requirement": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/did_groups/d35148e7-8858-446e-ae53-2f5ae17501ef/relationships/requirement",
+            "related": "https://sandbox-api.didww.com/v3/did_groups/d35148e7-8858-446e-ae53-2f5ae17501ef/requirement"
+          }
         }
       },
       "meta": {
@@ -97,6 +103,12 @@
           "links": {
             "self": "https://sandbox-api.didww.com/v3/did_groups/9e31a4a5-38ef-4e1e-8a83-f6ae10d61d51/relationships/stock_keeping_units",
             "related": "https://sandbox-api.didww.com/v3/did_groups/9e31a4a5-38ef-4e1e-8a83-f6ae10d61d51/stock_keeping_units"
+          }
+        },
+        "requirement": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/did_groups/9e31a4a5-38ef-4e1e-8a83-f6ae10d61d51/relationships/requirement",
+            "related": "https://sandbox-api.didww.com/v3/did_groups/9e31a4a5-38ef-4e1e-8a83-f6ae10d61d51/requirement"
           }
         }
       },

@@ -64,6 +64,10 @@ RSpec.describe DIDWW::Resource::DidGroup do
       end
     end
 
+    it 'has requirement relationship' do
+      expect(described_class.new).to respond_to(:requirement)
+    end
+
     it 'optionally includes Country, City, Region, DidGroupType and a collection of StockKeepingUnits' do
       stub_didww_request(:get, "/did_groups/#{id}?include=country,city,region,did_group_type,stock_keeping_units").to_return(
         status: 200,

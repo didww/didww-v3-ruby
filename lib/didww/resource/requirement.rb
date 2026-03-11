@@ -13,8 +13,8 @@ module DIDWW
       has_many :business_proof_types, class_name: 'ProofType'
       has_many :address_proof_types, class_name: 'ProofType'
 
-      property :identity_type, type: :integer
-      # Type: Integer
+      property :identity_type, type: :string
+      # Type: String
       # Description:
 
       property :personal_area_level, type: :string
