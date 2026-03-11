@@ -5,7 +5,7 @@ module DIDWW
     def call(request_env)
       headers = {}
       headers['Content-Type']        = 'application/vnd.api+json'
-      headers['Api-Key']             = DIDWW::Client.api_key
+      headers['Api-Key']             = DIDWW::Client.api_key unless request_env.url.path&.end_with?('/public_keys')
       headers['User-Agent']          = "didww-v3 Ruby gem v#{VERSION}"
       headers['x-didww-api-version'] = DIDWW::Client.api_version unless DIDWW::Client.api_version.blank?
 
