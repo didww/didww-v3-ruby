@@ -59,7 +59,9 @@ module DIDWW
         parsed_url = URI(url)
         url = "#{parsed_url.scheme}://"
         url += "#{parsed_url.userinfo}@" if parsed_url.userinfo
-        url += "#{parsed_url.host}:#{parsed_url.port || parsed_url.default_port}#{parsed_url.path}"
+        path = parsed_url.path
+        path = '/' if path.empty?
+        url += "#{parsed_url.host}:#{parsed_url.port || parsed_url.default_port}#{path}"
         url += "?#{parsed_url.query}" if parsed_url.query
         url += "##{parsed_url.fragment}" if parsed_url.fragment
         url
