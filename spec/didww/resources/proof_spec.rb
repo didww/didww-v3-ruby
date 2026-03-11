@@ -25,7 +25,7 @@ RSpec.describe DIDWW::Resource::Proof do
 
     it '"expires_at" returns parsed date when present' do
       proof = proofs.first
-      expect(proof.expires_at).to be_a(Date)
+      expect(proof.expires_at).to be_a(Time)
     end
 
     it '"expires_at" returns nil when null' do
