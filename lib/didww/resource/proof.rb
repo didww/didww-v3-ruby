@@ -7,13 +7,13 @@ module DIDWW
       has_one :proof_type, class_name: 'ProofType'
       has_one :entity, class_name: 'Entity', polymorphic: true
 
-      property :created_at, type: :date
-      # Type: Date
+      property :created_at, type: :time
+      # Type: Time
       # Description:
 
-      property :is_expired, type: :boolean
-      # Type: Boolean
-      # Description:
+      property :expires_at, type: :time
+      # Type: Time
+      # Description: expiration date of the proof
     end
   end
 end
