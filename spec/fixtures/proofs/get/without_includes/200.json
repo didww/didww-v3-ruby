@@ -23,7 +23,7 @@
       }
     },
     {
-      "id": "95266489-99e6-567f-955e-214707f4gc3d",
+      "id": "95266489-99e6-567f-955e-214707f4ac3d",
       "type": "proofs",
       "attributes": {
         "created_at": "2021-05-15T10:30:00.000Z",
@@ -32,14 +32,14 @@
       "relationships": {
         "proof_type": {
           "links": {
-            "self": "https://api.didww.com/v3/proofs/95266489-99e6-567f-955e-214707f4gc3d/relationships/proof_type",
-            "related": "https://api.didww.com/v3/proofs/95266489-99e6-567f-955e-214707f4gc3d/proof_type"
+            "self": "https://api.didww.com/v3/proofs/95266489-99e6-567f-955e-214707f4ac3d/relationships/proof_type",
+            "related": "https://api.didww.com/v3/proofs/95266489-99e6-567f-955e-214707f4ac3d/proof_type"
           }
         },
         "entity": {
           "links": {
-            "self": "https://api.didww.com/v3/proofs/95266489-99e6-567f-955e-214707f4gc3d/relationships/entity",
-            "related": "https://api.didww.com/v3/proofs/95266489-99e6-567f-955e-214707f4gc3d/entity"
+            "self": "https://api.didww.com/v3/proofs/95266489-99e6-567f-955e-214707f4ac3d/relationships/entity",
+            "related": "https://api.didww.com/v3/proofs/95266489-99e6-567f-955e-214707f4ac3d/entity"
           }
         }
       }
