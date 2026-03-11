@@ -24,11 +24,12 @@ module DIDWW
       # Description:
 
       property :reject_reasons, type: :string
-      # Type: String
-      # Description:
+      # Type: Array<String> or nil
+      # Description: List of reject reasons parsed from a semicolon-separated string
 
       def reject_reasons
-        super&.split('; ')
+        value = self[:reject_reasons]
+        value&.split('; ')
       end
 
       property :created_at, type: :time
