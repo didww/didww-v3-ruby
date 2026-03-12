@@ -53,127 +53,48 @@ module DIDWW
         Resource::Balance.all.first
       end
 
-      def capacity_pools
-        Resource::CapacityPool
+      RESOURCE_CLASSES = {
+          capacity_pools: 'CapacityPool',
+          exports: 'Export',
+          shared_capacity_groups: 'SharedCapacityGroup',
+          cities: 'City',
+          countries: 'Country',
+          did_group_types: 'DidGroupType',
+          did_groups: 'DidGroup',
+          dids: 'Did',
+          orders: 'Order',
+          pops: 'Pop',
+          regions: 'Region',
+          voice_in_trunk_groups: 'VoiceInTrunkGroup',
+          voice_in_trunks: 'VoiceInTrunk',
+          voice_out_trunks: 'VoiceOutTrunk',
+          available_dids: 'AvailableDid',
+          did_reservations: 'DidReservation',
+          requirements: 'Requirement',
+          identities: 'Identity',
+          proofs: 'Proof',
+          addresses: 'Address',
+          permanent_supporting_documents: 'PermanentSupportingDocument',
+          encrypted_file: 'EncryptedFile',
+          address_verifications: 'AddressVerification',
+          requirement_validation: 'RequirementValidation',
+          areas: 'Area',
+          proof_types: 'ProofType',
+          supporting_document_templates: 'SupportingDocumentTemplate',
+          public_keys: 'PublicKey',
+          nanpa_prefixes: 'NanpaPrefix',
+      }.freeze
+
+      RESOURCE_CLASSES.each do |name, klass|
+        define_method(name) { Resource.const_get(klass) }
       end
 
-      def exports
-        Resource::Export
-      end
-
-      def shared_capacity_groups
-        Resource::SharedCapacityGroup
-      end
-
-      def cities
-        Resource::City
-      end
-
-      def countries
-        Resource::Country
-      end
-
-      def did_group_types
-        Resource::DidGroupType
-      end
-
-      def did_groups
-        Resource::DidGroup
-      end
-
-      def dids
-        Resource::Did
-      end
-
-      def orders
-        Resource::Order
-      end
-
-      def pops
-        Resource::Pop
-      end
-
-      def regions
-        Resource::Region
-      end
-
-      def voice_in_trunk_groups
-        Resource::VoiceInTrunkGroup
-      end
-
-      def voice_in_trunks
-        Resource::VoiceInTrunk
-      end
-
-      def voice_out_trunks
-        Resource::VoiceOutTrunk
-      end
-
-      def available_dids
-        Resource::AvailableDid
-      end
-
-      def did_reservations
-        Resource::DidReservation
-      end
-
-      def requirements
-        Resource::Requirement
-      end
-
-      def identities
-        Resource::Identity
-      end
-
-      def proofs
-        Resource::Proof
-      end
-
-      def addresses
-        Resource::Address
-      end
-
-      def permanent_supporting_documents
-        Resource::PermanentSupportingDocument
-      end
-
-      def encrypted_file
-        Resource::EncryptedFile
-      end
-
-      def address_verifications
-        Resource::AddressVerification
-      end
-
-      def requirement_validation
-        Resource::RequirementValidation
-      end
-
-      def areas
-        Resource::Area
-      end
-
-      def proof_types
-        Resource::ProofType
-      end
-
-      def supporting_document_templates
-        Resource::SupportingDocumentTemplate
-      end
-
-      def public_keys
-        Resource::PublicKey
-      end
 
       def api_mode=(arg)
         unless BASE_URLS.keys.include?(arg)
           raise ArgumentError.new("Mode should be in #{BASE_URLS.keys} (given '#{arg}').")
         end
         @@api_mode = arg
-      end
-
-      def nanpa_prefixes
-        Resource::NanpaPrefix
       end
 
       private
