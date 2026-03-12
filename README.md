@@ -193,6 +193,46 @@ order.save
 
 See [docs/resource_relationships.md](docs/resource_relationships.md) for a Mermaid ER diagram showing all `has_one`, `has_many`, and `belongs_to` relationships between resources.
 
+## Webhook Signature Validation
+
+Validate incoming webhook callbacks from DIDWW using HMAC-SHA1 signature verification.
+
+```ruby
+require 'didww/callback/request_validator'
+
+validator = DIDWW::Callback::RequestValidator.new("YOUR_API_KEY")
+
+# In your webhook handler:
+valid = validator.validate(
+  request_url,    # full original URL
+  payload_params, # Hash of payload key-value pairs
+  signature       # value of X-DIDWW-Signature header
+)
+```
+
+The signature header name is available as the constant `DIDWW::Callback::RequestValidator::HEADER`.
+
+### Rails Example
+
+```ruby
+class WebhooksController < ApplicationController
+  skip_before_action :verify_authenticity_token
+
+  def create
+    validator = DIDWW::Callback::RequestValidator.new("YOUR_API_KEY")
+    signature = request.headers[DIDWW::Callback::RequestValidator::HEADER]
+    params_hash = request.POST
+
+    if validator.validate(request.original_url, params_hash, signature)
+      # Process the webhook
+      head :ok
+    else
+      head :forbidden
+    end
+  end
+end
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
