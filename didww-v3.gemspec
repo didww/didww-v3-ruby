@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.required_ruby_version = '>= 3.2'
+  spec.required_ruby_version = '>= 3.3'
 
   spec.add_dependency 'activesupport'
   spec.add_dependency 'faraday'
