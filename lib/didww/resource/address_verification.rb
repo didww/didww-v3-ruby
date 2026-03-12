@@ -1,7 +1,9 @@
 # frozen_string_literal: true
+require 'didww/resource/concerns/has_status_helpers'
 module DIDWW
   module Resource
     class AddressVerification < Base
+      include HasStatusHelpers
       STATUS_PENDING = 'Pending'
       STATUS_APPROVED = 'Approved'
       STATUS_REJECTED = 'Rejected'
@@ -48,17 +50,9 @@ module DIDWW
       # Type: String
       # Description: verification reference code
 
-      def pending?
-        status == STATUS_PENDING
-      end
-
-      def approved?
-        status == STATUS_APPROVED
-      end
-
-      def rejected?
-        status == STATUS_REJECTED
-      end
+      status_helper :pending, STATUS_PENDING
+      status_helper :approved, STATUS_APPROVED
+      status_helper :rejected, STATUS_REJECTED
 
     end
   end

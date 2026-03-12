@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require 'didww/complex_objects/did_order_item'
+require 'didww/resource/concerns/has_status_helpers'
 require 'didww/complex_objects/capacity_order_item'
 require 'didww/callback/const'
 
@@ -7,6 +8,7 @@ module DIDWW
   module Resource
     class Order < Base
       include DIDWW::Callback::CONST
+      include HasStatusHelpers
 
       # Possible values for order.status
       STATUS_PENDING      = 'Pending'
@@ -59,17 +61,9 @@ module DIDWW
         self.items ||= []
       end
 
-      def pending?
-        STATUS_PENDING == status
-      end
-
-      def completed?
-        STATUS_COMPLETED == status
-      end
-
-      def cancelled?
-        STATUS_CANCELLED == status
-      end
+      status_helper :pending, STATUS_PENDING
+      status_helper :completed, STATUS_COMPLETED
+      status_helper :cancelled, STATUS_CANCELLED
 
     end
   end
