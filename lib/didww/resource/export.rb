@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require 'forwardable'
+require 'didww/resource/concerns/has_status_helpers'
 require 'down/http'
 require 'zlib'
 require 'stringio'
@@ -9,6 +10,7 @@ module DIDWW
   module Resource
     class Export < Base
       include DIDWW::Callback::CONST
+      include HasStatusHelpers
       extend Forwardable
 
       STATUS_COMPLETED = 'Completed'
@@ -75,9 +77,7 @@ module DIDWW
         end
       end
 
-      def complete?
-        status == STATUS_COMPLETED
-      end
+      status_helper :complete, STATUS_COMPLETED
       alias_method :completed?, :complete?
     end
   end
