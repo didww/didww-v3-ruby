@@ -189,6 +189,26 @@ order = DIDWW::Client.orders.new(
 order.save
 ```
 
+## Date and Datetime Fields
+
+The SDK distinguishes between date-only and datetime fields:
+
+- **Datetime fields** — deserialized as `Time`:
+  - All `created_at` fields — present on most resources (`EncryptedFile` has no `created_at`)
+  - Expiry fields: `Did#expires_at`, `DidReservation#expire_at`, `Proof#expires_at`, `EncryptedFile#expire_at`
+- **Date-only fields** — deserialized as `Date`:
+  - `Identity#birth_date`
+- **Date-only fields kept as strings** (`CapacityPool#renew_date`) remain as `String`.
+
+```ruby
+did = DIDWW::Client.dids.find("uuid").first
+puts did.created_at   # => 2024-01-15 10:00:00 UTC  (Time)
+puts did.expires_at   # => nil or 2025-01-15 10:00:00 UTC  (Time)
+
+identity = DIDWW::Client.identities.find("uuid").first
+puts identity.birth_date  # => 1990-05-20  (Date)
+```
+
 ## Resource Relationships
 
 See [docs/resource_relationships.md](docs/resource_relationships.md) for a Mermaid ER diagram showing all `has_one`, `has_many`, and `belongs_to` relationships between resources.

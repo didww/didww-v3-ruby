@@ -6,7 +6,7 @@ module DIDWW
     private
 
     def request_headers(request_env)
-      super.merge('Content-Type' => 'application/vnd.api+json')
+      super.tap { |h| h['Content-Type'] = 'application/vnd.api+json' }
     end
   end
 end
