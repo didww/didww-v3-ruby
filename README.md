@@ -100,6 +100,36 @@ end
 | `:production` | `https://api.didww.com/v3/` |
 | `:sandbox` | `https://sandbox-api.didww.com/v3/` |
 
+### Connection Customization
+
+Use `customize_connection` to customize the underlying Faraday connection, for example to configure a proxy or add custom middleware:
+
+```ruby
+# Using a proxy
+DIDWW::Client.configure do |config|
+  config.api_key  = 'YOUR_API_KEY'
+  config.api_mode = :production
+  config.customize_connection do |conn|
+    # conn is a JsonApiClient::Connection instance
+    conn.faraday.proxy = 'http://proxy.example.com:8080'
+  end
+end
+```
+
+```ruby
+# Adding custom middleware and timeouts
+DIDWW::Client.configure do |config|
+  config.api_key  = 'YOUR_API_KEY'
+  config.api_mode = :production
+  config.customize_connection do |conn|
+    # conn is a JsonApiClient::Connection instance
+    conn.use MyCustomMiddleware
+    conn.faraday.options.timeout = 30
+    conn.faraday.options.open_timeout = 10
+  end
+end
+```
+
 ### API Version
 
 The SDK sends `X-DIDWW-API-Version: 2022-05-10` by default. You can override it per block:
