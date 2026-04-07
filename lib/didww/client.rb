@@ -14,10 +14,14 @@ module DIDWW
     DEFAULT_MODE = :sandbox
     DEFAULT_API_VERSION = '2022-05-10'
 
-    mattr_accessor :api_key, :api_mode, :http_verbose, :api_version
+    mattr_accessor :api_key, :api_mode, :http_verbose, :api_version, :_customize_conn_block
     self.api_version = DEFAULT_API_VERSION
 
     class << self
+      def customize_connection(&block)
+        self._customize_conn_block = block
+      end
+
       def configure
         yield self if block_given?
         connect!
@@ -107,6 +111,7 @@ module DIDWW
         DIDWW::Resource::Base.connection do |connection|
           connection.use Faraday::Response::Logger if http_verbose?
           connection.use DIDWW::JsonapiMiddleware
+          _customize_conn_block.call(connection) if _customize_conn_block
         end
         JsonApiClient::Paginating::Paginator.page_param = 'number'
         JsonApiClient::Paginating::Paginator.per_page_param = 'size'

@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+- `DIDWW::Client.customize_connection` to allow customizing the Faraday connection (e.g. proxy, timeouts, custom middleware).
+
 ## [4.1.0]
 ### Breaking Changes
 - removed DIDWW::Resource::DidGroup::FEATURE_VOICE in favor DIDWW::Resource::DidGroup::FEATURE_VOICE_IN and DIDWW::Resource::DidGroup::FEATURE_VOICE_OUT [#42](https://github.com/didww/didww-v3-ruby/pull/42)

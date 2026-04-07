@@ -6,6 +6,7 @@ RSpec.describe DIDWW::Client do
 
   after do
     # restore DIDWW client configuration
+    DIDWW::Client._customize_conn_block = nil
     DIDWW::Client.configure do |client|
       client.api_key  = nil
       client.api_mode = :sandbox
@@ -42,5 +43,28 @@ RSpec.describe DIDWW::Client do
       DIDWW::Client.api_mode = :production
       expect { DIDWW::Client.api_mode = :other }.to raise_error(ArgumentError)
     end
+  end
+
+  it 'applies customize_connection block to Faraday connection' do
+    received_connection = nil
+    DIDWW::Resource::Base.connection_object = nil
+    DIDWW::Client.configure do |client|
+      client.api_key = api_key
+      client.customize_connection do |conn|
+        received_connection = conn
+      end
+    end
+
+    expect(received_connection).to be_a(JsonApiClient::Connection)
+  end
+
+  it 'configures without customize_connection block' do
+    DIDWW::Client._customize_conn_block = nil
+    DIDWW::Resource::Base.connection_object = nil
+    expect {
+      DIDWW::Client.configure do |client|
+        client.api_key = api_key
+      end
+    }.not_to raise_error
   end
 end
