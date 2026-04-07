@@ -8,6 +8,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - `DIDWW::Client.customize_connection` to allow customizing the Faraday connection (e.g. proxy, timeouts, custom middleware).
 
+## [5.2.0]
+### Changes
+- Extract status predicate methods into `HasStatusHelpers` concern.
+- Merge shared auth header logic into `BaseMiddleware`, `JsonapiMiddleware` inherits and adds `Content-Type`.
+- Replace 29 resource accessor methods with `RESOURCE_CLASSES` hash and `define_method`.
+- Document date and datetime field types in README.
+
+### Fixed
+- Fix date type attributes: use `:time` for ISO 8601 timestamps.
+- Add missing resource fields: `reference`, `permanent`, `iso`, `contact_email`.
+- Add `requirement` relationship to `DidGroup`.
+- Skip `Api-Key` header on `public_keys` endpoint.
+- Add `User-Agent` header to export download.
+- Use timing-safe comparison for callback signature validation.
+- Fix `is_expired` boolean changed to `expires_at` date on `Proof`.
+
+## [5.1.0]
+### Added
+- `X-DIDWW-API-Version` header sent with requests.
+- Exclusive relationship auto-nullification for DID `voice_in_trunk`/`voice_in_trunk_group`.
+- Export gzip decompression support (`.csv.gz`).
+- `VoiceOutTrunk` CRUD tests and fixtures.
+
+### Changes
+- Rename test fixtures from `sample_N` to self-descriptive names.
+
+## [5.0.0]
+### Breaking Changes
+- Remove H323 and IAX2 trunk configuration support.
+- Update dependencies and CI for current Ruby/Rails versions.
+
+### Added
+- Add missing relationship declarations and tests for included resources.
+
+### Fixed
+- Fix compatibility with `json_api_client` 1.23.0 and newer Ruby.
+
 ## [4.1.0]
 ### Breaking Changes
 - removed DIDWW::Resource::DidGroup::FEATURE_VOICE in favor DIDWW::Resource::DidGroup::FEATURE_VOICE_IN and DIDWW::Resource::DidGroup::FEATURE_VOICE_OUT [#42](https://github.com/didww/didww-v3-ruby/pull/42)
