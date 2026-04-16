@@ -58,6 +58,15 @@ module DIDWW
       property :created_at, type: :time
       # Type: DateTime
       # Description: When the event occurred.
+
+      # Meta attributes (accessible via the JSON:API `meta` hash on the
+      # returned resource, not declared as properties):
+      #
+      # meta[:from] / meta[:to]
+      #   Type: Integer
+      #   Presence: only when action == 'billing_cycles_count_changed'.
+      #   Description: The previous (from) and new (to) billing_cycles_count
+      #                values. Absent for every other action.
     end
   end
 end
