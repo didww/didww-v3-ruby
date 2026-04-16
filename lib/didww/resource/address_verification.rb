@@ -45,6 +45,14 @@ module DIDWW
       # Type: String
       # Description: verification reference code
 
+      property :reject_comment, type: :string
+      # Type: String
+      # Description: Optional free-form comment accompanying a rejection. (API 2026-04-16)
+
+      property :external_reference_id, type: :string
+      # Type: String
+      # Description: Customer-supplied reference. Max 100 characters. (API 2026-04-16)
+
       status_helper :pending, STATUS_PENDING
       status_helper :approved, STATUS_APPROVED
       status_helper :rejected, STATUS_REJECTED

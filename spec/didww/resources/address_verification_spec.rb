@@ -65,6 +65,14 @@ RSpec.describe DIDWW::Resource::AddressVerification do
       it 'has reference' do
         expect(address_verification.reference).to eq('ODW-879912')
       end
+
+      it 'has reject_comment' do
+        expect(address_verification.reject_comment).to eq('Please re-submit with a more recent utility bill.')
+      end
+
+      it 'has external_reference_id' do
+        expect(address_verification.external_reference_id).to eq('crm-verif-0001')
+      end
     end
   end
 
