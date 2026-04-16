@@ -2,11 +2,13 @@
 
 require 'didww/callback/const'
 require 'didww/complex_objects/authentication_method'
+require 'didww/resource/concerns/has_status_helpers'
 
 module DIDWW
   module Resource
     class VoiceOutTrunk < Base
       include DIDWW::Callback::CONST
+      include HasStatusHelpers
 
       ON_CLI_MISMATCH_ACTION_REJECT_CALL = 'reject_call'
       ON_CLI_MISMATCH_ACTION_REPLACE_CLI = 'replace_cli'
@@ -87,6 +89,9 @@ module DIDWW
       has_one :default_did, class_name: 'Did'
       has_many :dids
       has_many :emergency_dids, class_name: 'Did'
+
+      status_helper :active, STATUS_ACTIVE
+      status_helper :blocked, STATUS_BLOCKED
 
       def regenerate_credentials
         resource = DIDWW::Resource::VoiceOutTrunkRegenerateCredential.new

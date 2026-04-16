@@ -18,6 +18,22 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
     expect(described_class::STATUSES).to include('Active', 'Blocked')
   end
 
+  describe 'status helpers' do
+    it 'exposes #active? predicate' do
+      trunk = described_class.new(status: 'Active')
+      expect(trunk.active?).to be true
+      trunk.status = 'Blocked'
+      expect(trunk.active?).to be false
+    end
+
+    it 'exposes #blocked? predicate' do
+      trunk = described_class.new(status: 'Blocked')
+      expect(trunk.blocked?).to be true
+      trunk.status = 'Active'
+      expect(trunk.blocked?).to be false
+    end
+  end
+
   it 'has MEDIA_ENCRYPTION_MODES constant' do
     expect(described_class::MEDIA_ENCRYPTION_MODES).to include(
       'Disable', 'SRTP SDES', 'SRTP DTLS', 'ZRTP'
