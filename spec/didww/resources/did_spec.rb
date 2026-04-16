@@ -286,6 +286,33 @@ RSpec.describe DIDWW::Resource::Did do
         expect(did.errors).to be_empty
       end
 
+      it 'unassigns EmergencyCallingService from Did (emergency_calling_service: { data: null })' do
+        id = '44957076-778a-4802-b60c-d22db0cda284'
+        stub_didww_request(:patch, "/dids/#{id}").
+          with(body:
+            {
+              "data": {
+                "id": id,
+                "type": 'dids',
+                "relationships": {
+                  "emergency_calling_service": {
+                    "data": nil
+                  }
+                },
+                "attributes": {}
+              }
+            }.to_json).
+          to_return(
+            status: 200,
+            body: api_fixture('dids/id/patch/unassign_emergency_calling_service/200'),
+            headers: json_api_headers
+          )
+        did = DIDWW::Resource::Did.load(id: id)
+        did.relationships[:emergency_calling_service] = nil
+        expect(did.save)
+        expect(did.errors).to be_empty
+      end
+
       it 'assigns a SharedCapacityGroup to Did' do
         id = '3e3f57ec-0541-473a-af63-103216d19db3'
         stub_didww_request(:patch, "/dids/#{id}").
