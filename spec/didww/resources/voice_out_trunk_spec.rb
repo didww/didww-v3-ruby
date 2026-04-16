@@ -368,6 +368,95 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
 
         expect(request).to have_been_made.once
       end
+
+      it 'toggles emergency_enable_all attribute' do
+        id = '01234567-89ab-cdef-0123-456789abcdef'
+        request = stub_didww_request(:patch, "/voice_out_trunks/#{id}").
+          with(body: {
+            data: {
+              id: id,
+              type: 'voice_out_trunks',
+              attributes: {
+                emergency_enable_all: true
+              }
+            }
+          }.to_json).
+          to_return(
+            status: 200,
+            body: api_fixture('voice_out_trunks/id/patch/update_attributes/200'),
+            headers: json_api_headers
+          )
+
+        trunk = DIDWW::Resource::VoiceOutTrunk.load(id: id)
+        trunk.emergency_enable_all = true
+        trunk.save
+
+        expect(request).to have_been_made.once
+      end
+
+      it 'replaces the emergency_dids to-many relationship' do
+        id = '01234567-89ab-cdef-0123-456789abcdef'
+        did_a = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
+        did_b = 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'
+        request = stub_didww_request(:patch, "/voice_out_trunks/#{id}").
+          with(body: {
+            data: {
+              id: id,
+              type: 'voice_out_trunks',
+              relationships: {
+                emergency_dids: {
+                  data: [
+                    { type: 'dids', id: did_a },
+                    { type: 'dids', id: did_b }
+                  ]
+                }
+              },
+              attributes: {}
+            }
+          }.to_json).
+          to_return(
+            status: 200,
+            body: api_fixture('voice_out_trunks/id/patch/update_emergency_dids/200'),
+            headers: json_api_headers
+          )
+
+        trunk = DIDWW::Resource::VoiceOutTrunk.load(id: id)
+        trunk.relationships[:emergency_dids] = [
+          DIDWW::Resource::Did.load(id: did_a),
+          DIDWW::Resource::Did.load(id: did_b)
+        ]
+        trunk.save
+
+        expect(request).to have_been_made.once
+      end
+
+      it 'clears the emergency_dids to-many relationship with an empty array' do
+        id = '01234567-89ab-cdef-0123-456789abcdef'
+        request = stub_didww_request(:patch, "/voice_out_trunks/#{id}").
+          with(body: {
+            data: {
+              id: id,
+              type: 'voice_out_trunks',
+              relationships: {
+                emergency_dids: {
+                  data: []
+                }
+              },
+              attributes: {}
+            }
+          }.to_json).
+          to_return(
+            status: 200,
+            body: api_fixture('voice_out_trunks/id/patch/update_emergency_dids/200'),
+            headers: json_api_headers
+          )
+
+        trunk = DIDWW::Resource::VoiceOutTrunk.load(id: id)
+        trunk.relationships[:emergency_dids] = []
+        trunk.save
+
+        expect(request).to have_been_made.once
+      end
     end
 
     describe 'when name attribute already been taken' do
