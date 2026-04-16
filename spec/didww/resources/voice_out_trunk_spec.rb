@@ -122,6 +122,10 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
         it '"emergency_enable_all", type: Boolean' do
           expect(trunk.emergency_enable_all).to be_in([true, false])
         end
+
+        it '"rtp_timeout", type: Integer' do
+          expect(trunk.rtp_timeout).to be_kind_of(Integer)
+        end
       end
     end
 

@@ -70,6 +70,11 @@ module DIDWW
       # emergency-enabled. Cannot be combined with emergency_dids. (API 2026-04-16)
       property :emergency_enable_all, type: :boolean
 
+      # Type: Integer
+      # Description: Seconds of RTP inactivity before the trunk tears down the call.
+      # (API 2026-04-16)
+      property :rtp_timeout, type: :integer
+
       # Polymorphic authentication_method (2026-04-16). One of:
       #   - ip_only:             { allowed_sip_ips, tech_prefix }
       #   - credentials_and_ip:  { allowed_sip_ips, tech_prefix, username, password }
