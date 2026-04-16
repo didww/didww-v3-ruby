@@ -11,6 +11,7 @@ module DIDWW
       has_one :capacity_pool
       has_one :shared_capacity_group
       has_one :address_verification
+      has_one :emergency_calling_service, class_name: 'EmergencyCallingService'
 
       exclusive_relationships(voice_in_trunk: :voice_in_trunk_group)
 

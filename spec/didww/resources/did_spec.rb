@@ -2,6 +2,13 @@
 RSpec.describe DIDWW::Resource::Did do
   let (:client) { DIDWW::Client }
 
+  describe 'emergency_calling_service relationship (2026-04-16)' do
+    it 'has emergency_calling_service has_one relationship' do
+      did = described_class.new
+      expect(did).to respond_to(:emergency_calling_service)
+    end
+  end
+
   describe 'GET /dids/:id' do
     let (:id) { '44957076-778a-4802-b60c-d22db0cda284' }
 
