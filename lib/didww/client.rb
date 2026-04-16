@@ -81,7 +81,7 @@ module DIDWW
         permanent_supporting_documents: 'PermanentSupportingDocument',
         encrypted_file: 'EncryptedFile',
         address_verifications: 'AddressVerification',
-        requirement_validation: 'RequirementValidation',
+        address_requirement_validation: 'AddressRequirementValidation',
         areas: 'Area',
         proof_types: 'ProofType',
         supporting_document_templates: 'SupportingDocumentTemplate',
@@ -146,7 +146,7 @@ module DIDWW
         require 'didww/resource/permanent_supporting_document'
         require 'didww/resource/encrypted_file'
         require 'didww/resource/address_verification'
-        require 'didww/resource/requirement_validation'
+        require 'didww/resource/address_requirement_validation'
         require 'didww/resource/public_key'
         require 'didww/resource/area'
         require 'didww/resource/voice_out_trunk'
