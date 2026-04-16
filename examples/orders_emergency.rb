@@ -54,8 +54,8 @@ if svc
   if svc.order
     puts "  -> Order #{svc.order.id} — status: #{svc.order.status}, amount: #{svc.order.amount}"
   else
-    puts "  -> No order linked yet"
+    puts '  -> No order linked yet'
   end
 else
-  puts "No emergency_calling_services on this account"
+  puts 'No emergency_calling_services on this account'
 end

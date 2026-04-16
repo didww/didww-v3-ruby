@@ -26,7 +26,7 @@ abort 'No emergency_requirements found on this account' unless requirement
 abort 'No addresses found on this account'               unless address
 abort 'No identities found on this account'              unless identity
 
-puts "Validating order setup with:"
+puts 'Validating order setup with:'
 puts "  Emergency Requirement: #{requirement.id}"
 puts "  Address:               #{address.id}"
 puts "  Identity:              #{identity.id}"
