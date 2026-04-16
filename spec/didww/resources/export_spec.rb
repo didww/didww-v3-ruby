@@ -2,6 +2,29 @@
 RSpec.describe DIDWW::Resource::Export do
   let (:client) { DIDWW::Client }
 
+  describe 'status constants and predicates' do
+    it 'exposes STATUS_PENDING, STATUS_PROCESSING, STATUS_COMPLETED' do
+      expect(described_class::STATUS_PENDING).to eq('Pending')
+      expect(described_class::STATUS_PROCESSING).to eq('Processing')
+      expect(described_class::STATUS_COMPLETED).to eq('Completed')
+    end
+
+    it 'has STATUSES array covering all three values' do
+      expect(described_class::STATUSES).to eq(%w[Pending Processing Completed])
+    end
+
+    it 'exposes #pending? / #processing? / #completed? predicates' do
+      export = described_class.new(status: 'Pending')
+      expect(export.pending?).to be true
+      expect(export.processing?).to be false
+      expect(export.completed?).to be false
+      export.status = 'Processing'
+      expect(export.processing?).to be true
+      export.status = 'Completed'
+      expect(export.completed?).to be true
+    end
+  end
+
   describe 'PATCH /exports/:id' do
     let(:id) { '21e02b15-806d-44b3-b67f-434ea6c44f61' }
 

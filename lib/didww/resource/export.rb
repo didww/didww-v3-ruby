@@ -13,7 +13,15 @@ module DIDWW
       include HasStatusHelpers
       extend Forwardable
 
+      STATUS_PENDING = 'Pending'
+      STATUS_PROCESSING = 'Processing'
       STATUS_COMPLETED = 'Completed'
+
+      STATUSES = [
+        STATUS_PENDING,
+        STATUS_PROCESSING,
+        STATUS_COMPLETED
+      ].freeze
 
       EXPORT_TYPE_CDR_IN = 'cdr_in'
       EXPORT_TYPE_CDR_OUT = 'cdr_out'
@@ -81,6 +89,8 @@ module DIDWW
         end
       end
 
+      status_helper :pending, STATUS_PENDING
+      status_helper :processing, STATUS_PROCESSING
       status_helper :complete, STATUS_COMPLETED
       alias_method :completed?, :complete?
     end
