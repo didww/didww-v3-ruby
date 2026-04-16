@@ -30,6 +30,9 @@ RSpec.describe DIDWW::Resource::Export do
         it '"created_at", type: Time' do
           expect(export.created_at).to be_kind_of(Time)
         end
+        it '"external_reference_id", type: String' do
+          expect(export.external_reference_id).to be_kind_of(String).or be_nil
+        end
       end
 
       describe '#download' do

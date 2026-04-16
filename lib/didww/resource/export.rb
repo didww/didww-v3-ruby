@@ -52,6 +52,10 @@ module DIDWW
 
       property :export_type, type: :string
 
+      property :external_reference_id, type: :string
+      # Type: String
+      # Description: Customer-supplied reference. Max 100 characters. (API 2026-04-16)
+
       def initialize(params = {})
         super params.reverse_merge(filters: {})
       end
