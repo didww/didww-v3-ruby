@@ -32,5 +32,10 @@ RSpec.describe DIDWW::Resource::Proof do
       proof = proofs[1]
       expect(proof.expires_at).to be_nil
     end
+
+    it '"external_reference_id", type: String' do
+      proof = proofs.first
+      expect(proof.external_reference_id).to be_kind_of(String).or be_nil
+    end
   end
 end

@@ -14,6 +14,10 @@ module DIDWW
       property :expires_at, type: :time
       # Type: Time
       # Description: expiration date of the proof
+
+      property :external_reference_id, type: :string
+      # Type: String
+      # Description: Customer-supplied reference. Max 100 characters. (API 2026-04-16)
     end
   end
 end
