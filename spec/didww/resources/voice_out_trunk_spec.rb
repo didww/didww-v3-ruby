@@ -4,24 +4,38 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
 
   it 'has ON_CLI_MISMATCH_ACTIONS constant' do
     expect(described_class::ON_CLI_MISMATCH_ACTIONS).to include(
-      'reject_call', 'replace_cli', 'send_original_cli'
+      'Reject call', 'Replace CLI', 'Send Original CLI'
     )
   end
 
   it 'has DEFAULT_DST_ACTIONS constant' do
     expect(described_class::DEFAULT_DST_ACTIONS).to include(
-      'allow_all', 'reject_all'
+      'Allow Calls', 'Reject Calls'
     )
   end
 
   it 'has STATUSES constant' do
-    expect(described_class::STATUSES).to include('active', 'blocked')
+    expect(described_class::STATUSES).to include('Active', 'Blocked')
   end
 
   it 'has MEDIA_ENCRYPTION_MODES constant' do
     expect(described_class::MEDIA_ENCRYPTION_MODES).to include(
-      'disabled', 'srtp_sdes', 'srtp_dtls', 'zrtp'
+      'Disable', 'SRTP SDES', 'SRTP DTLS', 'ZRTP'
     )
+  end
+
+  describe 'authentication_method (2026-04-16 polymorphic)' do
+    let(:property_names) do
+      [].tap { |names| described_class.schema.each_property { |p| names << p.name } }
+    end
+
+    it 'declares authentication_method' do
+      expect(property_names).to include(:authentication_method)
+    end
+
+    it 'no longer declares the flat allowed_sip_ips/username/password attributes' do
+      expect(property_names).not_to include(:allowed_sip_ips, :username, :password)
+    end
   end
 
   describe 'GET /voice_out_trunks' do
@@ -71,12 +85,10 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
           expect(trunk.on_cli_mismatch_action).to be_kind_of(String)
         end
 
-        it '"username", type: String' do
-          expect(trunk.username).to be_kind_of(String)
-        end
-
-        it '"password", type: String' do
-          expect(trunk.password).to be_kind_of(String)
+        it '"authentication_method", polymorphic complex object' do
+          expect(trunk.authentication_method).to be_kind_of(
+            DIDWW::ComplexObject::AuthenticationMethod::Base
+          )
         end
 
         it '"allow_any_did_as_cli", type: Boolean' do
@@ -119,7 +131,7 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
 
   describe 'POST /voice_out_trunks' do
     describe 'with correct attributes' do
-      it 'creates a VoiceOutTrunk' do
+      it 'creates a VoiceOutTrunk with an ip_only authentication_method' do
         stub_didww_request(:post, '/voice_out_trunks').
           with(body:
             {
@@ -127,14 +139,20 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
                 "type": 'voice_out_trunks',
                 "attributes": {
                   "name": 'New Outbound Trunk',
-                  "allowed_sip_ips": ['10.0.0.1'],
-                  "on_cli_mismatch_action": 'reject_call',
+                  "on_cli_mismatch_action": 'Reject call',
                   "capacity_limit": 50,
                   "allow_any_did_as_cli": false,
-                  "default_dst_action": 'allow_all',
+                  "default_dst_action": 'Allow Calls',
                   "dst_prefixes": ['1', '44'],
-                  "media_encryption_mode": 'disabled',
-                  "force_symmetric_rtp": false
+                  "media_encryption_mode": 'Disable',
+                  "force_symmetric_rtp": false,
+                  "authentication_method": {
+                    "type": 'ip_only',
+                    "attributes": {
+                      "allowed_sip_ips": ['10.0.0.1/32'],
+                      "tech_prefix": ''
+                    }
+                  }
                 }
               }
             }.to_json).
@@ -145,14 +163,17 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
           )
         trunk = client.voice_out_trunks.new(
           name: 'New Outbound Trunk',
-          allowed_sip_ips: ['10.0.0.1/32'],
-          on_cli_mismatch_action: 'reject_call',
+          on_cli_mismatch_action: 'Reject call',
           capacity_limit: 50,
           allow_any_did_as_cli: false,
-          default_dst_action: 'allow_all',
+          default_dst_action: 'Allow Calls',
           dst_prefixes: ['1', '44'],
-          media_encryption_mode: 'disabled',
-          force_symmetric_rtp: false
+          media_encryption_mode: 'Disable',
+          force_symmetric_rtp: false,
+          authentication_method: DIDWW::ComplexObject::AuthenticationMethod::IpOnly.new(
+            allowed_sip_ips: ['10.0.0.1/32'],
+            tech_prefix: ''
+          )
         )
         trunk.save
         expect(trunk).to be_persisted

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'didww/callback/const'
+require 'didww/complex_objects/authentication_method'
 
 module DIDWW
   module Resource
@@ -46,11 +47,8 @@ module DIDWW
                                ].freeze
 
       property :name, type: :string
-      property :allowed_sip_ips, type: :ip_addresses
       property :on_cli_mismatch_action, type: :string
       property :capacity_limit, type: :integer
-      property :username, type: :string
-      property :password, type: :string
       property :created_at, type: :time
       property :allow_any_did_as_cli, type: :boolean
       property :status, type: :string
@@ -62,6 +60,15 @@ module DIDWW
       property :callback_url, type: :string
       property :force_symmetric_rtp, type: :boolean
       property :allowed_rtp_ips, type: :ip_addresses
+
+      # Polymorphic authentication_method (2026-04-16). One of:
+      #   - ip_only:             { allowed_sip_ips, tech_prefix }
+      #   - credentials_and_ip:  { allowed_sip_ips, tech_prefix, username, password }
+      #     (username/password are server-generated and returned in responses only)
+      #   - twilio:              { twilio_account_sid }
+      # Replaces the flat `allowed_sip_ips`, `username`, `password` attributes
+      # that existed in API v3.4 and earlier.
+      property :authentication_method, type: :authentication_method
 
       has_one :default_did, class_name: 'Did'
       has_many :dids
