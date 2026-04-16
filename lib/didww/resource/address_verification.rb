@@ -25,14 +25,9 @@ module DIDWW
       # Type: String
       # Description:
 
-      property :reject_reasons, type: :string
+      property :reject_reasons, type: :array
       # Type: Array<String> or nil
-      # Description: List of reject reasons split by '; '
-
-      def reject_reasons
-        value = self[:reject_reasons]
-        value&.split('; ')
-      end
+      # Description: List of reject reasons
 
       property :created_at, type: :time
       # Type: Time
