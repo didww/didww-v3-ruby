@@ -7,6 +7,7 @@
 
 require 'bundler/setup'
 require 'didww'
+require 'securerandom'
 
 DIDWW::Client.configure do |client|
   client.api_key  = ENV.fetch('DIDWW_API_KEY') { abort 'Please set DIDWW_API_KEY' }
@@ -41,7 +42,7 @@ end
 
 # Create a voice out trunk with credentials_and_ip authentication
 puts "\n=== Creating Voice Out Trunk (credentials_and_ip) ==="
-suffix = SecureRandom.random_bytes(4).unpack1('H*')[0..7]
+suffix = SecureRandom.hex(4)
 
 voice_out_trunk = DIDWW::Client.voice_out_trunks.new(
   name: "Ruby Outbound Trunk #{suffix}",
