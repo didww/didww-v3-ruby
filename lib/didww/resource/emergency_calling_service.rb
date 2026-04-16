@@ -22,6 +22,7 @@ module DIDWW
       has_one :country, class_name: 'Country'
       has_one :did_group_type, class_name: 'DidGroupType'
       has_one :order, class_name: 'Order'
+      has_one :address, class_name: 'Address'
       has_one :emergency_requirement, class_name: 'EmergencyRequirement'
       has_one :emergency_verification, class_name: 'EmergencyVerification'
       has_many :dids, class_name: 'Did'

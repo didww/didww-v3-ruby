@@ -1,0 +1,38 @@
+{
+  "data": {
+    "id": "01234567-89ab-cdef-0123-456789abcdef",
+    "type": "emergency_calling_services",
+    "attributes": {
+      "name": "Berlin Office ECS",
+      "reference": "ECS-0042",
+      "status": "pending update",
+      "activated_at": "2026-03-15T09:00:00.000Z",
+      "canceled_at": null,
+      "created_at": "2026-03-14T11:00:00.000Z",
+      "renew_date": "2026-06-15T00:00:00.000Z"
+    },
+    "relationships": {
+      "address": {
+        "data": { "id": "b2c3d4e5-f6a7-8901-bcde-f12345678901", "type": "addresses" }
+      }
+    },
+    "meta": {
+      "setup_price": "5.0",
+      "monthly_price": "3.75"
+    }
+  },
+  "included": [
+    {
+      "id": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+      "type": "addresses",
+      "attributes": {
+        "city_name": "Berlin",
+        "postal_code": "10115",
+        "address": "Alexanderplatz 1",
+        "description": "HQ",
+        "created_at": "2026-03-01T10:00:00.000Z",
+        "verified": true
+      }
+    }
+  ]
+}
