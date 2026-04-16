@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'didww/resource/concerns/has_status_helpers'
+
 module DIDWW
   module Resource
     # Customer-owned subscription to emergency calling on one or more DIDs.
@@ -10,13 +12,22 @@ module DIDWW
     #
     # meta carries: setup_price, monthly_price.
     class EmergencyCallingService < Base
+      include HasStatusHelpers
+
+      STATUS_ACTIVE = 'active'
+      STATUS_CANCELED = 'canceled'
+      STATUS_CHANGES_REQUIRED = 'changes required'
+      STATUS_IN_PROCESS = 'in process'
+      STATUS_NEW = 'new'
+      STATUS_PENDING_UPDATE = 'pending update'
+
       STATUSES = [
-        'active',
-        'canceled',
-        'changes required',
-        'in process',
-        'new',
-        'pending update'
+        STATUS_ACTIVE,
+        STATUS_CANCELED,
+        STATUS_CHANGES_REQUIRED,
+        STATUS_IN_PROCESS,
+        STATUS_NEW,
+        STATUS_PENDING_UPDATE
       ].freeze
 
       has_one :country, class_name: 'Country'
@@ -54,6 +65,14 @@ module DIDWW
       property :renew_date, type: :time
       # Type: Time
       # Description: Next renewal date. nil when canceled.
+
+      status_helper :active,            STATUS_ACTIVE
+      status_helper :canceled,          STATUS_CANCELED
+      status_helper :changes_required,  STATUS_CHANGES_REQUIRED
+      status_helper :in_process,        STATUS_IN_PROCESS
+      # "new" collides with Class.new, so expose the predicate as new_status?
+      status_helper :new_status,        STATUS_NEW
+      status_helper :pending_update,    STATUS_PENDING_UPDATE
     end
   end
 end

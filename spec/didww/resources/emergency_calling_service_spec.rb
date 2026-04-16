@@ -36,6 +36,33 @@ RSpec.describe DIDWW::Resource::EmergencyCallingService do
     end
   end
 
+  describe 'status constants and predicates' do
+    it 'exposes STATUS_* constants for every value in STATUSES' do
+      expect(described_class::STATUS_ACTIVE).to eq('active')
+      expect(described_class::STATUS_CANCELED).to eq('canceled')
+      expect(described_class::STATUS_CHANGES_REQUIRED).to eq('changes required')
+      expect(described_class::STATUS_IN_PROCESS).to eq('in process')
+      expect(described_class::STATUS_NEW).to eq('new')
+      expect(described_class::STATUS_PENDING_UPDATE).to eq('pending update')
+      expect(described_class::STATUSES).to match_array(
+        [described_class::STATUS_ACTIVE, described_class::STATUS_CANCELED,
+         described_class::STATUS_CHANGES_REQUIRED, described_class::STATUS_IN_PROCESS,
+         described_class::STATUS_NEW, described_class::STATUS_PENDING_UPDATE]
+      )
+    end
+
+    it 'exposes boolean predicates for every status' do
+      ecs = described_class.new(status: 'active')
+      expect(ecs.active?).to be true
+      expect(ecs.canceled?).to be false
+      ecs.status = 'canceled';         expect(ecs.canceled?).to be true
+      ecs.status = 'changes required'; expect(ecs.changes_required?).to be true
+      ecs.status = 'in process';       expect(ecs.in_process?).to be true
+      ecs.status = 'new';              expect(ecs.new_status?).to be true
+      ecs.status = 'pending update';   expect(ecs.pending_update?).to be true
+    end
+  end
+
   describe 'associations' do
     it 'declares :address as a has_one so it shows up in associations and its setter dirty-tracks' do
       expect(described_class.associations.map(&:attr_name)).to include(:address)
