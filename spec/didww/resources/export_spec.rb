@@ -155,7 +155,7 @@ RSpec.describe DIDWW::Resource::Export do
       subject(:export) do
         client.exports.create(
           export_type: DIDWW::Resource::Export::EXPORT_TYPE_CDR_IN,
-          filters: { year: 2017, month: 5, did_number: '123456789' }
+          filters: { from: '2026-04-01 00:00:00', to: '2026-04-15 23:59:59', did_number: '123456789' }
         )
       end
 
@@ -175,8 +175,8 @@ RSpec.describe DIDWW::Resource::Export do
             type: 'exports',
             attributes: {
               filters: {
-                year: 2017,
-                month: 5,
+                from: '2026-04-01 00:00:00',
+                to: '2026-04-15 23:59:59',
                 did_number: '123456789'
               },
               export_type: DIDWW::Resource::Export::EXPORT_TYPE_CDR_IN

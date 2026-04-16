@@ -9,9 +9,8 @@ module DIDWW
         new(hash)
       end
 
-      property :year,       type: :integer
-      property :month,      type: :integer
-      property :day,        type: :integer # only for CDR Out
+      property :from,       type: :string # ISO 8601 / "YYYY-MM-DD HH:MM:SS" lower bound (cdr_in / cdr_out)
+      property :to,         type: :string # ISO 8601 / "YYYY-MM-DD HH:MM:SS" upper bound (cdr_in / cdr_out)
       property :did_number, type: :string # only for CDR in
       property :voice_out_trunk_id, type: :string # only for CDR Out
 
