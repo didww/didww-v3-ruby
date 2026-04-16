@@ -22,7 +22,7 @@ module DIDWW
       has_one :did_group_type, class_name: 'DidGroupType'
       has_one :region, class_name: 'Region'
       has_many :stock_keeping_units, class_name: 'StockKeepingUnit'
-      has_one :requirement, class_name: 'Requirement'
+      has_one :address_requirement, class_name: 'AddressRequirement'
 
       property :area_name, type: :string
       # Type: String

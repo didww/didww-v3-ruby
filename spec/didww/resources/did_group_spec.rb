@@ -64,8 +64,8 @@ RSpec.describe DIDWW::Resource::DidGroup do
       end
     end
 
-    it 'has requirement relationship' do
-      expect(described_class.new).to respond_to(:requirement)
+    it 'has address_requirement relationship' do
+      expect(described_class.new).to respond_to(:address_requirement)
     end
 
     it 'optionally includes Country, City, Region, DidGroupType and a collection of StockKeepingUnits' do
