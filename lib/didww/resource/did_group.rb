@@ -7,14 +7,12 @@ module DIDWW
       FEATURE_VOICE_OUT = 'voice_out'
       FEATURE_T38 = 't38'
       FEATURE_IN_SMS = 'sms_in'
-      FEATURE_OUT_SMS = 'sms_out'
 
       FEATURES = {
         FEATURE_VOICE_IN => 'Voice IN',
         FEATURE_VOICE_OUT => 'Voice OUT',
         FEATURE_T38 => 'T.38 Fax',
-        FEATURE_IN_SMS => 'SMS IN',
-        FEATURE_OUT_SMS => 'SMS OUT'
+        FEATURE_IN_SMS => 'SMS IN'
       }.freeze
 
       has_one :country, class_name: 'Country'

@@ -6,12 +6,19 @@ RSpec.describe DIDWW::Resource::DidGroup do
     expect(DIDWW::Resource::DidGroup::FEATURES).to match(
       hash_including(
         'sms_in' => 'SMS IN',
-        'sms_out' => 'SMS OUT',
         't38' => 'T.38 Fax',
         'voice_in' => 'Voice IN',
         'voice_out' => 'Voice OUT',
       )
     )
+  end
+
+  it 'does not expose sms_out in FEATURES' do
+    expect(DIDWW::Resource::DidGroup::FEATURES).not_to have_key('sms_out')
+  end
+
+  it 'does not define FEATURE_OUT_SMS' do
+    expect(DIDWW::Resource::DidGroup).not_to be_const_defined(:FEATURE_OUT_SMS)
   end
 
   describe '#features_human' do

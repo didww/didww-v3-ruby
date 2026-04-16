@@ -78,7 +78,6 @@
           "voice_in",
           "voice_out",
           "sms_in",
-          "sms_out",
           "t38"
         ],
         "is_metered": false,
