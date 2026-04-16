@@ -9,7 +9,7 @@ module DIDWW
       # Type: String
       # Description:
 
-      property :expire_at, type: :time
+      property :expires_at, type: :time
       # Type: Time
       # Description:
 
