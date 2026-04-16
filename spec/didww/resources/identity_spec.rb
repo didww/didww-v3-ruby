@@ -50,6 +50,13 @@ RSpec.describe DIDWW::Resource::Identity do
     end
   end
 
+  describe 'birth_country relationship (2026-04-16)' do
+    it 'has birth_country has_one relationship' do
+      identity = described_class.new
+      expect(identity).to respond_to(:birth_country)
+    end
+  end
+
   describe 'type helper methods' do
     it '#personal?' do
       subject.identity_type = 'Personal'

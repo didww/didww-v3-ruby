@@ -7,6 +7,7 @@ module DIDWW
       IDENTITY_TYPE_ANY = 'Any'
 
       has_one :country, class_name: 'Country'
+      has_one :birth_country, class_name: 'Country'
       has_many :proofs, class_name: 'Proof'
       has_many :addresses, class_name: 'Address'
       has_many :permanent_documents, class_name: 'PermanentSupportingDocument'
