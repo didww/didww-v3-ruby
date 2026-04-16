@@ -90,6 +90,7 @@ module DIDWW
         did_history: 'DidHistory',
         emergency_requirements: 'EmergencyRequirement',
         emergency_requirement_validation: 'EmergencyRequirementValidation',
+        emergency_calling_services: 'EmergencyCallingService',
       }.freeze
 
       RESOURCE_CLASSES.each do |name, klass|
@@ -158,6 +159,7 @@ module DIDWW
         require 'didww/resource/did_history'
         require 'didww/resource/emergency_requirement'
         require 'didww/resource/emergency_requirement_validation'
+        require 'didww/resource/emergency_calling_service'
       end
 
     end
