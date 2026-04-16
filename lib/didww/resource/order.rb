@@ -2,6 +2,7 @@
 require 'didww/complex_objects/did_order_item'
 require 'didww/resource/concerns/has_status_helpers'
 require 'didww/complex_objects/capacity_order_item'
+require 'didww/complex_objects/emergency_order_item'
 require 'didww/callback/const'
 
 module DIDWW
