@@ -46,8 +46,11 @@ suffix = SecureRandom.hex(4)
 
 voice_out_trunk = DIDWW::Client.voice_out_trunks.new(
   name: "Ruby Outbound Trunk #{suffix}",
+  # NOTE: 203.0.113.0/24 is RFC 5737 TEST-NET-3 documentation space.
+  # Replace with the real CIDR of your SIP infrastructure — do NOT use 0.0.0.0/0
+  # in production, that would expose the trunk to the entire internet.
   authentication_method: DIDWW::ComplexObject::AuthenticationMethod::CredentialsAndIp.new(
-    allowed_sip_ips: ['0.0.0.0/0'],
+    allowed_sip_ips: ['203.0.113.0/24'],
     tech_prefix: ''
   ),
   default_dst_action: DIDWW::Resource::VoiceOutTrunk::DEFAULT_DST_ACTION_ALLOW_CALLS,
