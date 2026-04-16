@@ -36,6 +36,40 @@ RSpec.describe DIDWW::ComplexObject::AuthenticationMethod do
     end
   end
 
+  describe 'unknown type fallback (forward-compat)' do
+    let(:base) { DIDWW::ComplexObject::AuthenticationMethod::Base }
+
+    it 'wraps an unknown type in Generic instead of returning a raw Hash' do
+      obj = base.cast(
+        { type: 'future_auth_method',
+          attributes: { some_new_field: 'value', another: 42 } },
+        nil
+      )
+      expect(obj).to be_kind_of(DIDWW::ComplexObject::AuthenticationMethod::Generic)
+      expect(obj).to be_kind_of(base)
+    end
+
+    it 'preserves the original type on Generic' do
+      obj = base.cast(
+        { type: 'future_auth_method', attributes: { some_new_field: 'value' } },
+        nil
+      )
+      expect(obj.type).to eq('future_auth_method')
+    end
+
+    it 'preserves unknown attributes and round-trips through as_json' do
+      obj = base.cast(
+        { type: 'future_auth_method',
+          attributes: { some_new_field: 'value', another: 42 } },
+        nil
+      )
+      expect(obj.as_json).to eq(
+        'type' => 'future_auth_method',
+        'attributes' => { 'some_new_field' => 'value', 'another' => 42 }
+      )
+    end
+  end
+
   describe '#as_json' do
     it 'serializes the singular type (not pluralized) for JSONAPI' do
       obj = DIDWW::ComplexObject::AuthenticationMethod::IpOnly.new(
