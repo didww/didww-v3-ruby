@@ -9,6 +9,10 @@ RSpec.describe DIDWW::Resource::DidGroup do
         't38' => 'T.38 Fax',
         'voice_in' => 'Voice IN',
         'voice_out' => 'Voice OUT',
+        'p2p' => 'P2P SMS',
+        'a2p' => 'A2P SMS',
+        'emergency' => 'Emergency',
+        'cnam_out' => 'CNAM OUT',
       )
     )
   end
