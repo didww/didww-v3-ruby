@@ -88,6 +88,7 @@ module DIDWW
         public_keys: 'PublicKey',
         nanpa_prefixes: 'NanpaPrefix',
         did_history: 'DidHistory',
+        emergency_requirements: 'EmergencyRequirement',
       }.freeze
 
       RESOURCE_CLASSES.each do |name, klass|
@@ -154,6 +155,7 @@ module DIDWW
         require 'didww/resource/voice_out_trunk_regenerate_credential'
         require 'didww/resource/nanpa_prefix'
         require 'didww/resource/did_history'
+        require 'didww/resource/emergency_requirement'
       end
 
     end

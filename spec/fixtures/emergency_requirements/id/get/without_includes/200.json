@@ -1,0 +1,29 @@
+{
+  "data": {
+    "id": "01234567-89ab-cdef-0123-456789abcdef",
+    "type": "emergency_requirements",
+    "attributes": {
+      "identity_type": "business",
+      "address_area_level": "region",
+      "personal_area_level": "city",
+      "business_area_level": "region",
+      "address_mandatory_fields": ["street", "city", "region", "postal_code"],
+      "personal_mandatory_fields": ["first_name", "last_name", "date_of_birth"],
+      "business_mandatory_fields": ["company_name", "tax_number", "registration_number"],
+      "estimate_setup_time": "7-14 days",
+      "requirement_restriction_message": "Additional compliance review is required for this country."
+    },
+    "relationships": {
+      "country": {
+        "data": { "id": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee", "type": "countries" }
+      },
+      "did_group_type": {
+        "data": { "id": "ffffffff-0000-1111-2222-333333333333", "type": "did_group_types" }
+      }
+    },
+    "meta": {
+      "setup_price": "10.0",
+      "monthly_price": "2.5"
+    }
+  }
+}
