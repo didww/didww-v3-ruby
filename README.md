@@ -16,9 +16,11 @@ This SDK uses [json_api_client](https://github.com/JsonApiClient/json_api_client
 
 Read more https://doc.didww.com/api
 
-This SDK sends the `X-DIDWW-API-Version: 2022-05-10` header with every request by default.
+This SDK sends the `X-DIDWW-API-Version: 2026-04-16` header with every request by default.
 
-Gem Versions **4.X.X**, **5.X.X** and branch [master](https://github.com/didww/didww-v3-ruby) are intended to use with DIDWW API 3 version [2022-05-10](https://doc.didww.com/api3/2022-05-10/index.html).
+Gem Versions **6.X.X** and branch [master](https://github.com/didww/didww-v3-ruby) are intended to use with DIDWW API 3 version [2026-04-16](https://doc.didww.com/api3/2026-04-16/index.html).
+
+Gem Versions **5.X.X** and branch [release-5](https://github.com/didww/didww-v3-ruby/tree/release-5) are intended to use with DIDWW API 3 version [2022-05-10](https://doc.didww.com/api3/2022-05-10/index.html).
 
 Gem Versions **3.X.X** and branch [release-3](https://github.com/didww/didww-v3-ruby/tree/release-3) are intended to use with DIDWW API 3 version [2021-12-15](https://doc.didww.com/api3/2021-12-15/index.html).
 
@@ -132,7 +134,7 @@ end
 
 ### API Version
 
-The SDK sends `X-DIDWW-API-Version: 2022-05-10` by default. You can override it per block:
+The SDK sends `X-DIDWW-API-Version: 2026-04-16` by default. You can override it per block (e.g., to pin to a previous API version during migration):
 
 ```ruby
 DIDWW::Client.with_api_version('2022-05-10') do
