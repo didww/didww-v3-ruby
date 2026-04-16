@@ -17,6 +17,7 @@
       "callback_url": null,
       "force_symmetric_rtp": false,
       "allowed_rtp_ips": [],
+      "external_reference_id": "crm-vot-0001",
       "authentication_method": {
         "type": "credentials_and_ip",
         "attributes": {

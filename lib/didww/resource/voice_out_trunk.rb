@@ -61,6 +61,10 @@ module DIDWW
       property :force_symmetric_rtp, type: :boolean
       property :allowed_rtp_ips, type: :ip_addresses
 
+      # Type: String
+      # Description: Customer-supplied reference. Max 100 characters. (API 2026-04-16)
+      property :external_reference_id, type: :string
+
       # Polymorphic authentication_method (2026-04-16). One of:
       #   - ip_only:             { allowed_sip_ips, tech_prefix }
       #   - credentials_and_ip:  { allowed_sip_ips, tech_prefix, username, password }
