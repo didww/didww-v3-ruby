@@ -52,6 +52,9 @@ RSpec.describe DIDWW::Resource::Order do
         it '"items", type: Array of DidOrderItem' do
           expect(order.items).to all be_an_instance_of(DIDWW::ComplexObject::DidOrderItem)
         end
+        it '"external_reference_id", type: String' do
+          expect(order.external_reference_id).to be_kind_of(String).or be_nil
+        end
       end
     end
 

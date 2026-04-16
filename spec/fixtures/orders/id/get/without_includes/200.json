@@ -23,7 +23,8 @@
             "did_group_id": "111f3e78-4c18-4394-88e7-7eb90c4b4e8d"
           }
         }
-      ]
+      ],
+      "external_reference_id": "crm-order-0001"
     }
   }
 }
