@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# CRUD for voice out trunks (requires account config).
+# CRUD for voice out trunks using 2026-04-16 polymorphic authentication_method.
 # Note: Voice Out Trunks require additional account configuration.
 # Contact DIDWW support to enable.
 #
@@ -21,37 +21,60 @@ puts "Found #{trunks.size} voice out trunks"
 trunks.first(5).each do |trunk|
   puts "#{trunk.name} (#{trunk.status})"
   puts "  ID: #{trunk.id}"
-  puts "  Username: #{trunk.username}"
+  auth = trunk.authentication_method
+  puts "  Auth type: #{auth&.type}"
+  case auth
+  when DIDWW::ComplexObject::AuthenticationMethod::CredentialsAndIp
+    puts "  Username: #{auth.username}"
+  when DIDWW::ComplexObject::AuthenticationMethod::IpOnly
+    puts "  Allowed SIP IPs: #{auth.allowed_sip_ips}"
+  when DIDWW::ComplexObject::AuthenticationMethod::Twilio
+    puts "  Twilio Account SID: #{auth.twilio_account_sid}"
+  end
   puts "  Default DST Action: #{trunk.default_dst_action}"
   puts "  On CLI Mismatch: #{trunk.on_cli_mismatch_action}"
+  puts "  External Reference ID: #{trunk.external_reference_id}"
+  puts "  Emergency Enable All: #{trunk.emergency_enable_all}"
+  puts "  RTP Timeout: #{trunk.rtp_timeout}"
   puts ''
 end
 
-# Create a voice out trunk
-puts "\n=== Creating Voice Out Trunk ==="
+# Create a voice out trunk with credentials_and_ip authentication
+puts "\n=== Creating Voice Out Trunk (credentials_and_ip) ==="
 suffix = SecureRandom.random_bytes(4).unpack1('H*')[0..7]
 
 voice_out_trunk = DIDWW::Client.voice_out_trunks.new(
   name: "Ruby Outbound Trunk #{suffix}",
-  allowed_sip_ips: ['0.0.0.0/0'],
-  default_dst_action: 'allow_all',
-  on_cli_mismatch_action: 'reject_call'
+  authentication_method: DIDWW::ComplexObject::AuthenticationMethod::CredentialsAndIp.new(
+    allowed_sip_ips: ['0.0.0.0/0'],
+    tech_prefix: ''
+  ),
+  default_dst_action: DIDWW::Resource::VoiceOutTrunk::DEFAULT_DST_ACTION_ALLOW_CALLS,
+  on_cli_mismatch_action: DIDWW::Resource::VoiceOutTrunk::ON_CLI_MISMATCH_ACTION_REJECT_CALL,
+  external_reference_id: "ruby-example-#{suffix}",
+  rtp_timeout: 60
 )
 
 if voice_out_trunk.save
   puts "Created voice out trunk: #{voice_out_trunk.id}"
   puts "  Name: #{voice_out_trunk.name}"
-  puts "  Username: #{voice_out_trunk.username}"
-  puts "  Password: #{voice_out_trunk.password}"
+  puts "  Auth type: #{voice_out_trunk.authentication_method.type}"
+  puts "  Username: #{voice_out_trunk.authentication_method.username}"
   puts "  Status: #{voice_out_trunk.status}"
+  puts "  External Reference: #{voice_out_trunk.external_reference_id}"
 
-  # Update trunk
+  # Update trunk - change name and tech_prefix
   puts "\n=== Updating Voice Out Trunk ==="
   voice_out_trunk.name = "Updated Outbound Trunk #{suffix}"
-  voice_out_trunk.allowed_sip_ips = ['10.0.0.0/8']
+  voice_out_trunk.authentication_method = DIDWW::ComplexObject::AuthenticationMethod::CredentialsAndIp.new(
+    allowed_sip_ips: ['10.0.0.0/8'],
+    tech_prefix: '9'
+  )
 
   if voice_out_trunk.save
     puts "Updated name: #{voice_out_trunk.name}"
+    puts "  New auth type: #{voice_out_trunk.authentication_method.type}"
+    puts "  Username: #{voice_out_trunk.authentication_method.username}"
 
     # Delete trunk
     puts "\n=== Deleting Voice Out Trunk ==="
