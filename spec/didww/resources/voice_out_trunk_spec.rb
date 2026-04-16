@@ -118,6 +118,10 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
         it '"external_reference_id", type: String' do
           expect(trunk.external_reference_id).to be_kind_of(String).or be_nil
         end
+
+        it '"emergency_enable_all", type: Boolean' do
+          expect(trunk.emergency_enable_all).to be_in([true, false])
+        end
       end
     end
 

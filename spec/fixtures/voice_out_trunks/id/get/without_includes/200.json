@@ -18,6 +18,7 @@
       "force_symmetric_rtp": false,
       "allowed_rtp_ips": [],
       "external_reference_id": "crm-vot-0001",
+      "emergency_enable_all": false,
       "authentication_method": {
         "type": "credentials_and_ip",
         "attributes": {

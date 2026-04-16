@@ -65,6 +65,11 @@ module DIDWW
       # Description: Customer-supplied reference. Max 100 characters. (API 2026-04-16)
       property :external_reference_id, type: :string
 
+      # Type: Boolean
+      # Description: When true, all customer DIDs assigned to this trunk are considered
+      # emergency-enabled. Cannot be combined with emergency_dids. (API 2026-04-16)
+      property :emergency_enable_all, type: :boolean
+
       # Polymorphic authentication_method (2026-04-16). One of:
       #   - ip_only:             { allowed_sip_ips, tech_prefix }
       #   - credentials_and_ip:  { allowed_sip_ips, tech_prefix, username, password }
