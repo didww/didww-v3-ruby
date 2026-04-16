@@ -91,6 +91,7 @@ module DIDWW
         emergency_requirements: 'EmergencyRequirement',
         emergency_requirement_validation: 'EmergencyRequirementValidation',
         emergency_calling_services: 'EmergencyCallingService',
+        emergency_verifications: 'EmergencyVerification',
       }.freeze
 
       RESOURCE_CLASSES.each do |name, klass|
@@ -160,6 +161,7 @@ module DIDWW
         require 'didww/resource/emergency_requirement'
         require 'didww/resource/emergency_requirement_validation'
         require 'didww/resource/emergency_calling_service'
+        require 'didww/resource/emergency_verification'
       end
 
     end
