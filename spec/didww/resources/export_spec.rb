@@ -2,6 +2,30 @@
 RSpec.describe DIDWW::Resource::Export do
   let (:client) { DIDWW::Client }
 
+  describe 'PATCH /exports/:id' do
+    let(:id) { '21e02b15-806d-44b3-b67f-434ea6c44f61' }
+
+    it 'updates external_reference_id' do
+      stub_didww_request(:patch, "/exports/#{id}").with(
+        body: {
+          data: {
+            id: id,
+            type: 'exports',
+            attributes: { external_reference_id: 'renamed-ref-99' }
+          }
+        }.to_json
+      ).to_return(
+        status: 200,
+        body: api_fixture('exports/id/patch/update_external_reference_id/200'),
+        headers: json_api_headers
+      )
+      export = described_class.load(id: id)
+      export.external_reference_id = 'renamed-ref-99'
+      expect(export.save).to eq(true)
+      expect(export.external_reference_id).to eq('renamed-ref-99')
+    end
+  end
+
   describe 'GET /exports/{id}' do
     let (:id) { '21e02b15-806d-44b3-b67f-434ea6c44f61' }
 
