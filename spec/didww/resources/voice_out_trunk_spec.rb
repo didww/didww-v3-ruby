@@ -288,6 +288,46 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
         expect(request).to have_been_made.once
       end
 
+      it 'PATCHes only authentication_method when the polymorphic method is reassigned' do
+        id = '01234567-89ab-cdef-0123-456789abcdef'
+        request = stub_didww_request(:patch, "/voice_out_trunks/#{id}").
+          with(body: {
+            data: {
+              id: id,
+              type: 'voice_out_trunks',
+              attributes: {
+                authentication_method: {
+                  type: 'credentials_and_ip',
+                  attributes: {
+                    allowed_sip_ips: ['192.0.2.10/32'],
+                    tech_prefix: '99'
+                  }
+                }
+              }
+            }
+          }.to_json).
+          to_return(
+            status: 200,
+            body: api_fixture('voice_out_trunks/id/patch/update_attributes/200'),
+            headers: json_api_headers
+          )
+
+        trunk = DIDWW::Resource::VoiceOutTrunk.load(id: id)
+        expect(trunk).not_to be_changed
+
+        trunk.authentication_method =
+          DIDWW::ComplexObject::AuthenticationMethod::CredentialsAndIp.new(
+            allowed_sip_ips: ['192.0.2.10/32'],
+            tech_prefix: '99'
+          )
+
+        expect(trunk).to be_changed
+        expect(trunk.changed).to eq(['authentication_method'])
+        trunk.save
+
+        expect(request).to have_been_made.once
+      end
+
       it 'sends explicit null when attribute is set to nil' do
         id = '01234567-89ab-cdef-0123-456789abcdef'
         request = stub_didww_request(:patch, "/voice_out_trunks/#{id}").
