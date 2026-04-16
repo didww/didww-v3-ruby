@@ -12,7 +12,7 @@ module DIDWW
       production: 'https://api.didww.com/v3/'.freeze
     }.freeze
     DEFAULT_MODE = :sandbox
-    DEFAULT_API_VERSION = '2022-05-10'
+    DEFAULT_API_VERSION = '2026-04-16'
 
     mattr_accessor :api_key, :api_mode, :http_verbose, :api_version, :_customize_conn_block
     self.api_version = DEFAULT_API_VERSION
