@@ -39,10 +39,31 @@ RSpec.describe DIDWW::ComplexObject::SipConfiguration do
       'CODECS',
       'DEFAULT_REROUTING_DISCONNECT_CODE_IDS',
       'DEFAULT_CODEC_IDS',
-      'TRANSPORT_PROTOCOLS'
+      'TRANSPORT_PROTOCOLS',
+      'DIVERSION_RELAY_POLICIES'
     ].each do |name|
       expect { described_class.const_get(name) }.to_not raise_error
     end
+  end
+
+  it 'exposes diversion_relay_policy (2026-04-16 replacement for diversion_relay_mode)' do
+    sip = described_class.new
+    sip.diversion_relay_policy = 'sip'
+    expect(sip.diversion_relay_policy).to eq('sip')
+    expect(described_class::DIVERSION_RELAY_POLICIES).to contain_exactly('none', 'as_is', 'sip', 'tel')
+  end
+
+  it 'has individual DIVERSION_RELAY_POLICY constants' do
+    expect(described_class::DIVERSION_RELAY_POLICY_NONE).to eq('none')
+    expect(described_class::DIVERSION_RELAY_POLICY_AS_IS).to eq('as_is')
+    expect(described_class::DIVERSION_RELAY_POLICY_SIP).to eq('sip')
+    expect(described_class::DIVERSION_RELAY_POLICY_TEL).to eq('tel')
+    expect(described_class::DIVERSION_RELAY_POLICIES).to eq([
+      described_class::DIVERSION_RELAY_POLICY_NONE,
+      described_class::DIVERSION_RELAY_POLICY_AS_IS,
+      described_class::DIVERSION_RELAY_POLICY_SIP,
+      described_class::DIVERSION_RELAY_POLICY_TEL
+    ])
   end
 
   describe '#rx_dtmf_format' do
