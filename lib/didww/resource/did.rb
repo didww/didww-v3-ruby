@@ -13,6 +13,7 @@ module DIDWW
       has_one :address_verification
       has_one :emergency_calling_service, class_name: 'EmergencyCallingService'
       has_one :emergency_verification, class_name: 'EmergencyVerification'
+      has_one :identity, class_name: 'Identity'
 
       exclusive_relationships(voice_in_trunk: :voice_in_trunk_group)
 

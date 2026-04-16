@@ -16,6 +16,13 @@ RSpec.describe DIDWW::Resource::Did do
     end
   end
 
+  describe 'identity relationship (2026-04-16)' do
+    it 'has identity has_one relationship' do
+      did = described_class.new
+      expect(did).to respond_to(:identity)
+    end
+  end
+
   describe 'GET /dids/:id' do
     let (:id) { '44957076-778a-4802-b60c-d22db0cda284' }
 
