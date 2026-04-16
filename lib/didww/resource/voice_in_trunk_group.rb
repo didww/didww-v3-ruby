@@ -16,6 +16,10 @@ module DIDWW
       # Type: DateTime
       # Description: Trunk Group created at DateTime
 
+      property :external_reference_id, type: :string
+      # Type: String
+      # Description: Customer-supplied reference. Max 100 characters. (API 2026-04-16)
+
       def trunks_count
         meta[:trunks_count]
       end
