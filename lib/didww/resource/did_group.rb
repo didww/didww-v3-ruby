@@ -50,6 +50,11 @@ module DIDWW
       # Type: Boolean
       # Description: Defines if channel capacity may be added to this DID Group.
 
+      property :service_restrictions, type: :string
+      # Type: String
+      # Description: Service restriction message associated with this DID Group, if any.
+      #              Null when no restrictions apply. (API 2026-04-16)
+
       # TODO
       # Meta attributes
       #

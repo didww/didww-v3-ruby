@@ -62,6 +62,9 @@ RSpec.describe DIDWW::Resource::DidGroup do
       it 'the DidGroup has "allow_additional_channels", type: Boolean' do
         expect(did_group.allow_additional_channels).to be_in([true, false])
       end
+      it 'the DidGroup has "service_restrictions", type: String' do
+        expect(did_group.service_restrictions).to be_kind_of(String).or be_nil
+      end
     end
 
     context 'when DidGroup does not exist' do

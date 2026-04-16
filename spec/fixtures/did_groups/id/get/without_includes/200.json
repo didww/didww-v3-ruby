@@ -13,7 +13,8 @@
       ],
       "is_metered": false,
       "area_name": "National",
-      "allow_additional_channels": true
+      "allow_additional_channels": true,
+      "service_restrictions": null
     },
     "relationships": {
       "country": {
