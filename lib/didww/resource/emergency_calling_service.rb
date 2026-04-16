@@ -28,12 +28,32 @@ module DIDWW
       has_many :dids, class_name: 'Did'
 
       property :name, type: :string
+      # Type: String
+      # Description: Human-readable name for the calling service subscription.
+
       property :reference, type: :string
+      # Type: String
+      # Description: server-assigned reference code
+
       property :status, type: :string
+      # Type: String
+      # Description: One of STATUSES ("active", "canceled", "changes required",
+      #   "in process", "new", "pending update").
+
       property :activated_at, type: :time
+      # Type: Time
+      # Description: Timestamp when the service became active. nil while pending.
+
       property :canceled_at, type: :time
+      # Type: Time
+      # Description: Timestamp when the service was canceled. nil when active.
+
       property :created_at, type: :time
+      # Type: Time
+
       property :renew_date, type: :time
+      # Type: Time
+      # Description: Next renewal date. nil when canceled.
     end
   end
 end

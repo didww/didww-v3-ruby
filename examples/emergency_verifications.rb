@@ -11,7 +11,6 @@
 
 require 'bundler/setup'
 require 'didww'
-require 'securerandom'
 
 DIDWW::Client.configure do |client|
   client.api_key  = ENV.fetch('DIDWW_API_KEY') { abort 'Please set DIDWW_API_KEY' }

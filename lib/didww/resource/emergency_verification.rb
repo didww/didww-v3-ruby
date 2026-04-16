@@ -27,13 +27,35 @@ module DIDWW
       has_many :dids, class_name: 'Did'
 
       property :reference, type: :string
+      # Type: String
+      # Description: verification reference code
+
       property :status, type: :string
+      # Type: String
+      # Description: One of STATUSES ("pending", "approved", "rejected").
+
       property :reject_reasons, type: :array
+      # Type: Array<String> or nil
+      # Description: List of reject reason codes when status is "rejected".
+
       property :reject_comment, type: :string
+      # Type: String
+      # Description: Optional free-form comment accompanying a rejection.
+
       property :callback_url, type: :string
+      # Type: String
+      # Description: valid URI for callbacks
+
       property :callback_method, type: :string
+      # Type: String
+      # Description: GET or POST
+
       property :external_reference_id, type: :string
+      # Type: String
+      # Description: Customer-supplied reference. Max 100 characters.
+
       property :created_at, type: :time
+      # Type: Time
 
       status_helper :pending, STATUS_PENDING
       status_helper :approved, STATUS_APPROVED
