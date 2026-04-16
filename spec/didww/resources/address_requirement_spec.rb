@@ -1,22 +1,22 @@
 # frozen_string_literal: true
-RSpec.describe DIDWW::Resource::Requirement do
+RSpec.describe DIDWW::Resource::AddressRequirement do
   let (:client) { DIDWW::Client }
 
-  describe 'GET /requirements/:id' do
+  describe 'GET /address_requirements/:id' do
     let(:id) { 'bf22f685-c036-49d9-b3ee-d5e6092f472e' }
 
     context 'when requirement exists' do
       let (:requirement) do
-        stub_didww_request(:get, "/requirements/#{id}").to_return(
+        stub_didww_request(:get, "/address_requirements/#{id}").to_return(
           status: 200,
-          body: api_fixture('requirements/id/get/without_includes/200'),
+          body: api_fixture('address_requirements/id/get/without_includes/200'),
           headers: json_api_headers
         )
-        client.requirements.find(id).first
+        client.address_requirements.find(id).first
       end
 
-      it 'returns a single Requirement' do
-        expect(requirement).to be_kind_of(DIDWW::Resource::Requirement)
+      it 'returns a single AddressRequirement' do
+        expect(requirement).to be_kind_of(DIDWW::Resource::AddressRequirement)
         expect(requirement.id).to eq(id)
       end
 
@@ -108,25 +108,25 @@ RSpec.describe DIDWW::Resource::Requirement do
       end
     end
 
-    context 'when Requirements does not exist' do
+    context 'when AddressRequirement does not exist' do
       it 'raises a NotFound error' do
-        stub_didww_request(:get, "/requirements/#{id}").to_return(
+        stub_didww_request(:get, "/address_requirements/#{id}").to_return(
           status: 404,
-          body: api_fixture('requirements/id/get/without_includes/404'),
+          body: api_fixture('address_requirements/id/get/without_includes/404'),
           headers: json_api_headers
         )
-        expect { client.requirements.find(id) }.to raise_error(JsonApiClient::Errors::NotFound)
+        expect { client.address_requirements.find(id) }.to raise_error(JsonApiClient::Errors::NotFound)
       end
     end
 
     it 'optionally includes Country, Did group type, Supporting documents and Proof types' do
-      path_with_included = "/requirements/#{id}?include=country,did_group_type,personal_permanent_document,business_permanent_document,personal_onetime_document,business_onetime_document,personal_proof_types,business_proof_types,address_proof_types"
+      path_with_included = "/address_requirements/#{id}?include=country,did_group_type,personal_permanent_document,business_permanent_document,personal_onetime_document,business_onetime_document,personal_proof_types,business_proof_types,address_proof_types"
       stub_didww_request(:get, path_with_included).to_return(
         status: 200,
-        body: api_fixture('requirements/id/get/with_included_relationships/200'),
+        body: api_fixture('address_requirements/id/get/with_included_relationships/200'),
         headers: json_api_headers
       )
-      requirement = client.requirements.includes(
+      requirement = client.address_requirements.includes(
         :country,
         :did_group_type,
         :personal_permanent_document,
@@ -150,24 +150,24 @@ RSpec.describe DIDWW::Resource::Requirement do
     end
   end
 
-  describe 'GET /requirements' do
+  describe 'GET /address_requirements' do
     it 'returns a collection of Requirements' do
-      stub_didww_request(:get, '/requirements').to_return(
+      stub_didww_request(:get, '/address_requirements').to_return(
         status: 200,
-        body: api_fixture('requirements/get/without_includes/200'),
+        body: api_fixture('address_requirements/get/without_includes/200'),
         headers: json_api_headers
       )
-      expect(client.requirements.all).to all be_an_instance_of(DIDWW::Resource::Requirement)
+      expect(client.address_requirements.all).to all be_an_instance_of(DIDWW::Resource::AddressRequirement)
     end
 
     it 'optionally includes Country, Did group type, Supporting documents and Proof types' do
-      path_with_included = '/requirements?include=country,did_group_type,personal_permanent_document,business_permanent_document,personal_onetime_document,business_onetime_document,personal_proof_types,business_proof_types,address_proof_types'
+      path_with_included = '/address_requirements?include=country,did_group_type,personal_permanent_document,business_permanent_document,personal_onetime_document,business_onetime_document,personal_proof_types,business_proof_types,address_proof_types'
       stub_didww_request(:get, path_with_included).to_return(
         status: 200,
-        body: api_fixture('requirements/get/with_included_relationships/200'),
+        body: api_fixture('address_requirements/get/with_included_relationships/200'),
         headers: json_api_headers
       )
-      requirements = client.requirements.includes(
+      address_requirements = client.address_requirements.includes(
         :country,
         :did_group_type,
         :personal_permanent_document,
@@ -179,15 +179,15 @@ RSpec.describe DIDWW::Resource::Requirement do
         :address_proof_types
       ).all
 
-      expect(requirements.first.country).to be_an_instance_of(DIDWW::Resource::Country)
-      expect(requirements.first.did_group_type).to be_an_instance_of(DIDWW::Resource::DidGroupType)
-      expect(requirements.first.personal_permanent_document).to eq nil
-      expect(requirements.first.business_permanent_document).to eq nil
-      expect(requirements.first.personal_onetime_document).to eq nil
-      expect(requirements.first.business_onetime_document).to eq nil
-      expect(requirements.first.personal_proof_types).to all be_an_instance_of(DIDWW::Resource::ProofType)
-      expect(requirements.first.business_proof_types).to all be_an_instance_of(DIDWW::Resource::ProofType)
-      expect(requirements.first.address_proof_types).to all be_an_instance_of(DIDWW::Resource::ProofType)
+      expect(address_requirements.first.country).to be_an_instance_of(DIDWW::Resource::Country)
+      expect(address_requirements.first.did_group_type).to be_an_instance_of(DIDWW::Resource::DidGroupType)
+      expect(address_requirements.first.personal_permanent_document).to eq nil
+      expect(address_requirements.first.business_permanent_document).to eq nil
+      expect(address_requirements.first.personal_onetime_document).to eq nil
+      expect(address_requirements.first.business_onetime_document).to eq nil
+      expect(address_requirements.first.personal_proof_types).to all be_an_instance_of(DIDWW::Resource::ProofType)
+      expect(address_requirements.first.business_proof_types).to all be_an_instance_of(DIDWW::Resource::ProofType)
+      expect(address_requirements.first.address_proof_types).to all be_an_instance_of(DIDWW::Resource::ProofType)
     end
   end
 end

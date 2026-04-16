@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module DIDWW
   module Resource
-    class Requirement < Base
+    class AddressRequirement < Base
 
       has_one :country, class_name: 'Country'
       has_one :did_group_type, class_name: 'DidGroupType', relation_name: :group_type

@@ -74,7 +74,7 @@ module DIDWW
         voice_out_trunks: 'VoiceOutTrunk',
         available_dids: 'AvailableDid',
         did_reservations: 'DidReservation',
-        requirements: 'Requirement',
+        address_requirements: 'AddressRequirement',
         identities: 'Identity',
         proofs: 'Proof',
         addresses: 'Address',
@@ -137,7 +137,7 @@ module DIDWW
         require 'didww/resource/voice_in_trunk'
         require 'didww/resource/available_did'
         require 'didww/resource/did_reservation'
-        require 'didww/resource/requirement'
+        require 'didww/resource/address_requirement'
         require 'didww/resource/proof_type'
         require 'didww/resource/supporting_document_template'
         require 'didww/resource/identity'
