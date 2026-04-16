@@ -51,6 +51,9 @@ RSpec.describe DIDWW::Resource::Did do
         it '"created_at", type: Time' do
           expect(did.created_at).to be_kind_of(Time)
         end
+        it '"emergency_enabled", type: Boolean' do
+          expect(did.emergency_enabled).to be_in([true, false])
+        end
       end
 
       it 'lazily fetches Trunk' do

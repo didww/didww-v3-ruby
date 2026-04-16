@@ -58,6 +58,10 @@ module DIDWW
       # Type: DateTime
       # Description: DID created at DateTime
 
+      property :emergency_enabled, type: :boolean
+      # Type: Boolean
+      # Description: Indicates whether the DID is emergency-enabled. (API 2026-04-16)
+
     end
   end
 end
