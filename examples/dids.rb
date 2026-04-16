@@ -11,9 +11,10 @@ DIDWW::Client.configure do |client|
   client.api_mode = :sandbox
 end
 
-# Get the last ordered DID
+# Get the last ordered DID (include 2026-04-16 emergency relationships)
 puts '=== Finding last ordered DID ==='
 dids = DIDWW::Client.dids
+        .includes(:identity, :emergency_calling_service, :emergency_verification)
         .all
 
 if dids.empty?
@@ -23,6 +24,11 @@ end
 
 did = dids.first
 puts "Selected DID: #{did.id}"
+puts "  Number: #{did.number}"
+puts "  Emergency enabled: #{did.emergency_enabled}"                       if did.respond_to?(:emergency_enabled)
+puts "  Emergency Calling Service: #{did.emergency_calling_service&.id}"   if did.emergency_calling_service
+puts "  Emergency Verification:    #{did.emergency_verification&.id}"      if did.emergency_verification
+puts "  Identity: #{did.identity&.id}"                                     if did.identity
 
 # Get last SIP trunk
 puts "\n=== Finding SIP trunk ==="
