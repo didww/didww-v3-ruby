@@ -86,6 +86,7 @@ module DIDWW
 
       has_one :default_did, class_name: 'Did'
       has_many :dids
+      has_many :emergency_dids, class_name: 'Did'
 
       def regenerate_credentials
         resource = DIDWW::Resource::VoiceOutTrunkRegenerateCredential.new

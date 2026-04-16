@@ -38,6 +38,13 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
     end
   end
 
+  describe 'emergency_dids relationship (2026-04-16)' do
+    it 'has an emergency_dids has_many relationship' do
+      trunk = described_class.new
+      expect(trunk).to respond_to(:emergency_dids)
+    end
+  end
+
   describe 'GET /voice_out_trunks' do
     it 'returns a collection of VoiceOutTrunks' do
       stub_didww_request(:get, '/voice_out_trunks').to_return(
