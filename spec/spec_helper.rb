@@ -8,6 +8,7 @@ require 'debug'
 
 require 'didww'
 require 'support/stub_request_helper'
+require 'support/shared_examples/requirement_validation'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
