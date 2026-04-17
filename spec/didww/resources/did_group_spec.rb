@@ -2,40 +2,8 @@
 RSpec.describe DIDWW::Resource::DidGroup do
   let (:client) { DIDWW::Client }
 
-  it 'has FEATURES constant' do
-    expect(DIDWW::Resource::DidGroup::FEATURES).to match(
-      hash_including(
-        'sms_in' => 'SMS IN',
-        't38' => 'T.38 Fax',
-        'voice_in' => 'Voice IN', # NOSONAR
-        'voice_out' => 'Voice OUT',
-        'p2p' => 'P2P SMS',
-        'a2p' => 'A2P SMS',
-        'emergency' => 'Emergency',
-        'cnam_out' => 'CNAM OUT',
-      )
-    )
-  end
-
-  it 'does not expose sms_out in FEATURES' do
-    expect(DIDWW::Resource::DidGroup::FEATURES).not_to have_key('sms_out')
-  end
-
   it 'does not define FEATURE_OUT_SMS' do
     expect(DIDWW::Resource::DidGroup).not_to be_const_defined(:FEATURE_OUT_SMS)
-  end
-
-  describe '#features_human' do
-    it 'humanizes features array attribute' do
-      expect(subject.features_human).to eq([])
-      subject.features = %w[t38 voice_in]
-      expect(subject.features_human).to eq(['T.38 Fax', 'Voice IN']) # NOSONAR
-    end
-
-    it 'falls back to the raw key for features not in FEATURES (forward-compat)' do
-      subject.features = %w[voice_in future_unknown_feature]
-      expect(subject.features_human).to eq(['Voice IN', 'future_unknown_feature']) # NOSONAR
-    end
   end
 
   describe 'GET /did_groups/:id' do

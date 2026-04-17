@@ -12,17 +12,6 @@ module DIDWW
       FEATURE_EMERGENCY = 'emergency' # (API 2026-04-16)
       FEATURE_CNAM_OUT = 'cnam_out'   # (API 2026-04-16)
 
-      FEATURES = {
-        FEATURE_VOICE_IN => 'Voice IN',
-        FEATURE_VOICE_OUT => 'Voice OUT',
-        FEATURE_T38 => 'T.38 Fax',
-        FEATURE_IN_SMS => 'SMS IN',
-        FEATURE_P2P => 'P2P SMS',
-        FEATURE_A2P => 'A2P SMS',
-        FEATURE_EMERGENCY => 'Emergency',
-        FEATURE_CNAM_OUT => 'CNAM OUT'
-      }.freeze
-
       has_one :country, class_name: 'Country'
       has_one :city,    class_name: 'City'
       has_one :did_group_type, class_name: 'DidGroupType'
@@ -70,9 +59,6 @@ module DIDWW
       # Type: Boolean
       # Description: Defines if numbers in this DID Group are currently in stock.
 
-      def features_human
-        Array.wrap(features).map { |f| FEATURES[f] }
-      end
     end
   end
 end
