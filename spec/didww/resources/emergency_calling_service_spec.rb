@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 RSpec.describe DIDWW::Resource::EmergencyCallingService do
   let(:client) { DIDWW::Client }
+  let(:id) { '01234567-89ab-cdef-0123-456789abcdef' }
 
   describe 'GET /emergency_calling_services' do
     it 'returns a collection of EmergencyCallingService records' do
@@ -20,8 +21,6 @@ RSpec.describe DIDWW::Resource::EmergencyCallingService do
   end
 
   describe 'GET /emergency_calling_services/{id}' do
-    let(:id) { '01234567-89ab-cdef-0123-456789abcdef' }
-
     it 'returns a single EmergencyCallingService record' do
       stub_didww_request(:get, "/emergency_calling_services/#{id}").to_return(
         status: 200,
@@ -70,8 +69,6 @@ RSpec.describe DIDWW::Resource::EmergencyCallingService do
   end
 
   describe 'GET /emergency_calling_services/{id} with included address' do
-    let(:id) { '01234567-89ab-cdef-0123-456789abcdef' }
-
     it 'sideloads the address relationship as Address' do
       stub_didww_request(:get, "/emergency_calling_services/#{id}?include=address").to_return(
         status: 200,
@@ -85,8 +82,6 @@ RSpec.describe DIDWW::Resource::EmergencyCallingService do
   end
 
   describe 'DELETE /emergency_calling_services/{id}' do
-    let(:id) { '01234567-89ab-cdef-0123-456789abcdef' }
-
     it 'cancels the emergency calling service' do
       stub_didww_request(:delete, "/emergency_calling_services/#{id}").to_return(
         status: 204,

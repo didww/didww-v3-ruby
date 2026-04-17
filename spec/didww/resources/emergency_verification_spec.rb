@@ -88,6 +88,7 @@ RSpec.describe DIDWW::Resource::EmergencyVerification do
 
   describe 'PATCH /emergency_verifications/:id' do
     let(:id) { '01234567-89ab-cdef-0123-456789abcdef' }
+    let(:new_external_reference_id) { 'updated-ev-ref-77' }
 
     it 'updates external_reference_id' do
       stub_didww_request(:patch, "/emergency_verifications/#{id}").with(
@@ -95,7 +96,7 @@ RSpec.describe DIDWW::Resource::EmergencyVerification do
           data: {
             id: id,
             type: 'emergency_verifications',
-            attributes: { external_reference_id: 'updated-ev-ref-77' }
+            attributes: { external_reference_id: new_external_reference_id }
           }
         }.to_json
       ).to_return(
@@ -104,9 +105,9 @@ RSpec.describe DIDWW::Resource::EmergencyVerification do
         headers: json_api_headers
       )
       verification = described_class.load(id: id)
-      verification.external_reference_id = 'updated-ev-ref-77'
+      verification.external_reference_id = new_external_reference_id
       expect(verification.save).to eq(true)
-      expect(verification.external_reference_id).to eq('updated-ev-ref-77')
+      expect(verification.external_reference_id).to eq(new_external_reference_id)
     end
   end
 

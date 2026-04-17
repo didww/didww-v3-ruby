@@ -31,6 +31,8 @@ trunks.first(5).each do |trunk|
     puts "  Allowed SIP IPs: #{auth.allowed_sip_ips}"
   when DIDWW::ComplexObject::AuthenticationMethod::Twilio
     puts "  Twilio Account SID: #{auth.twilio_account_sid}"
+  else
+    puts "  Auth details: #{auth&.type}"
   end
   puts "  Default DST Action: #{trunk.default_dst_action}"
   puts "  On CLI Mismatch: #{trunk.on_cli_mismatch_action}"

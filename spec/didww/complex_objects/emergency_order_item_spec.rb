@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 RSpec.describe DIDWW::ComplexObject::EmergencyOrderItem do
+  let(:ecs_id) { 'b6d9d793-578d-42d3-bc33-73dd8155e615' }
+
   it 'has JSONAPI type "emergency_order_items"' do
     expect(described_class.type).to eq('emergency_order_items')
   end
@@ -8,10 +10,10 @@ RSpec.describe DIDWW::ComplexObject::EmergencyOrderItem do
     it 'accepts qty and emergency_calling_service_id' do
       item = described_class.new(
         qty: 1,
-        emergency_calling_service_id: 'b6d9d793-578d-42d3-bc33-73dd8155e615'
+        emergency_calling_service_id: ecs_id
       )
       expect(item.qty).to eq(1)
-      expect(item.emergency_calling_service_id).to eq('b6d9d793-578d-42d3-bc33-73dd8155e615')
+      expect(item.emergency_calling_service_id).to eq(ecs_id)
     end
   end
 
@@ -36,13 +38,13 @@ RSpec.describe DIDWW::ComplexObject::EmergencyOrderItem do
     it 'serializes with type and attributes' do
       item = described_class.new(
         qty: 1,
-        emergency_calling_service_id: 'b6d9d793-578d-42d3-bc33-73dd8155e615'
+        emergency_calling_service_id: ecs_id
       )
       expect(item.as_json).to eq(
         'type' => 'emergency_order_items',
         'attributes' => {
           'qty' => 1,
-          'emergency_calling_service_id' => 'b6d9d793-578d-42d3-bc33-73dd8155e615'
+          'emergency_calling_service_id' => ecs_id
         }
       )
     end

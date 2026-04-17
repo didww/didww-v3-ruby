@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 RSpec.describe DIDWW::ComplexObject::AuthenticationMethod do
+  let(:test_sip_ip) { '10.0.0.1/32' }
+
   describe 'polymorphic casting' do
     let(:base) { DIDWW::ComplexObject::AuthenticationMethod::Base }
 
     it 'casts ip_only to IpOnly subtype' do
-      obj = base.cast({ type: 'ip_only', attributes: { allowed_sip_ips: ['10.0.0.1/32'], tech_prefix: '' } }, nil)
+      obj = base.cast({ type: 'ip_only', attributes: { allowed_sip_ips: [test_sip_ip], tech_prefix: '' } }, nil)
       expect(obj).to be_kind_of(DIDWW::ComplexObject::AuthenticationMethod::IpOnly)
-      expect(obj.allowed_sip_ips).to eq(['10.0.0.1/32'])
+      expect(obj.allowed_sip_ips).to eq([test_sip_ip])
       expect(obj.type).to eq('ip_only')
     end
 
@@ -14,7 +16,7 @@ RSpec.describe DIDWW::ComplexObject::AuthenticationMethod do
       obj = base.cast({
         type: 'credentials_and_ip',
         attributes: {
-          allowed_sip_ips: ['10.0.0.1/32'],
+          allowed_sip_ips: [test_sip_ip],
           username: 'u',
           password: 'p',
           tech_prefix: '9'
@@ -23,7 +25,7 @@ RSpec.describe DIDWW::ComplexObject::AuthenticationMethod do
       expect(obj).to be_kind_of(DIDWW::ComplexObject::AuthenticationMethod::CredentialsAndIp)
       expect(obj.username).to eq('u')
       expect(obj.password).to eq('p')
-      expect(obj.allowed_sip_ips).to eq(['10.0.0.1/32'])
+      expect(obj.allowed_sip_ips).to eq([test_sip_ip])
       expect(obj.tech_prefix).to eq('9')
       expect(obj.type).to eq('credentials_and_ip')
     end
@@ -73,13 +75,13 @@ RSpec.describe DIDWW::ComplexObject::AuthenticationMethod do
   describe '#as_json' do
     it 'serializes the singular type (not pluralized) for JSONAPI' do
       obj = DIDWW::ComplexObject::AuthenticationMethod::IpOnly.new(
-        allowed_sip_ips: ['10.0.0.1/32'],
+        allowed_sip_ips: [test_sip_ip],
         tech_prefix: ''
       )
       expect(obj.as_json).to eq(
         'type' => 'ip_only',
         'attributes' => {
-          'allowed_sip_ips' => ['10.0.0.1/32'],
+          'allowed_sip_ips' => [test_sip_ip],
           'tech_prefix' => ''
         }
       )

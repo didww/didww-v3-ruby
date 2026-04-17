@@ -78,6 +78,7 @@ RSpec.describe DIDWW::Resource::AddressVerification do
 
   describe 'PATCH /address_verifications/:id' do
     let(:id) { '429e6d4e-2ee9-4953-aa98-0b3ac07f0f96' }
+    let(:new_external_reference_id) { 'updated-ref-42' }
 
     it 'updates external_reference_id' do
       stub_didww_request(:patch, "/address_verifications/#{id}").with(
@@ -85,7 +86,7 @@ RSpec.describe DIDWW::Resource::AddressVerification do
           data: {
             id: id,
             type: 'address_verifications',
-            attributes: { external_reference_id: 'updated-ref-42' }
+            attributes: { external_reference_id: new_external_reference_id }
           }
         }.to_json
       ).to_return(
@@ -94,9 +95,9 @@ RSpec.describe DIDWW::Resource::AddressVerification do
         headers: json_api_headers
       )
       verification = described_class.load(id: id)
-      verification.external_reference_id = 'updated-ref-42'
+      verification.external_reference_id = new_external_reference_id
       expect(verification.save).to eq(true)
-      expect(verification.external_reference_id).to eq('updated-ref-42')
+      expect(verification.external_reference_id).to eq(new_external_reference_id)
     end
   end
 
