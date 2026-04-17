@@ -4,7 +4,7 @@
     "type": "exports",
     "attributes": {
       "export_type": "cdr_in",
-      "status": "Pending",
+      "status": "pending",
       "created_at": "2017-06-25T14:56:31.513Z",
       "url": null
     }

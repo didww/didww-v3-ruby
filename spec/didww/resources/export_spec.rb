@@ -4,23 +4,23 @@ RSpec.describe DIDWW::Resource::Export do
 
   describe 'status constants and predicates' do
     it 'exposes STATUS_PENDING, STATUS_PROCESSING, STATUS_COMPLETED' do
-      expect(described_class::STATUS_PENDING).to eq('Pending')
-      expect(described_class::STATUS_PROCESSING).to eq('Processing')
-      expect(described_class::STATUS_COMPLETED).to eq('Completed')
+      expect(described_class::STATUS_PENDING).to eq('pending')
+      expect(described_class::STATUS_PROCESSING).to eq('processing')
+      expect(described_class::STATUS_COMPLETED).to eq('completed')
     end
 
     it 'has STATUSES array covering all three values' do
-      expect(described_class::STATUSES).to eq(%w[Pending Processing Completed])
+      expect(described_class::STATUSES).to eq(%w[pending processing completed])
     end
 
     it 'exposes #pending? / #processing? / #completed? predicates' do
-      export = described_class.new(status: 'Pending')
+      export = described_class.new(status: 'pending')
       expect(export.pending?).to be true
       expect(export.processing?).to be false
       expect(export.completed?).to be false
-      export.status = 'Processing'
+      export.status = 'processing'
       expect(export.processing?).to be true
-      export.status = 'Completed'
+      export.status = 'completed'
       expect(export.completed?).to be true
     end
   end
@@ -69,7 +69,7 @@ RSpec.describe DIDWW::Resource::Export do
 
       describe 'has correct attributes' do
         it '"status", type: String' do
-          expect(export.status).to be_in(['Pending', 'Processing', 'Completed'])
+          expect(export.status).to be_in(['pending', 'processing', 'completed'])
         end
         it '"url", type: String' do
           expect(export.url).to be_kind_of(String)

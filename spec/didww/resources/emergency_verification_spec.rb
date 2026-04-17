@@ -60,7 +60,7 @@ RSpec.describe DIDWW::Resource::EmergencyVerification do
             },
             attributes: {
               callback_url: 'https://example.com/emergency/hook',
-              callback_method: 'POST',
+              callback_method: 'post',
               external_reference_id: 'ref-abc-123'
             }
           }
@@ -72,7 +72,7 @@ RSpec.describe DIDWW::Resource::EmergencyVerification do
       )
       record = described_class.new(
         callback_url: 'https://example.com/emergency/hook',
-        callback_method: 'POST',
+        callback_method: 'post',
         external_reference_id: 'ref-abc-123',
         relationships: {
           emergency_calling_service: { data: { type: 'emergency_calling_services', id: '33333333-4444-5555-6666-777777777777' } },

@@ -53,7 +53,7 @@ voice_out_trunk = DIDWW::Client.voice_out_trunks.new(
     allowed_sip_ips: ['203.0.113.0/24'],
     tech_prefix: ''
   ),
-  default_dst_action: DIDWW::Resource::VoiceOutTrunk::DEFAULT_DST_ACTION_ALLOW_CALLS,
+  default_dst_action: DIDWW::Resource::VoiceOutTrunk::DEFAULT_DST_ACTION_ALLOW_ALL,
   on_cli_mismatch_action: DIDWW::Resource::VoiceOutTrunk::ON_CLI_MISMATCH_ACTION_REJECT_CALL,
   external_reference_id: "ruby-example-#{suffix}",
   rtp_timeout: 60

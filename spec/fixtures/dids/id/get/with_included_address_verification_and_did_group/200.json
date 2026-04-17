@@ -135,8 +135,8 @@
       "attributes": {
         "service_description": "Address verification for registration 01kjan2paw2wfqndqdkd2m3hyc",
         "callback_url": "https://example.com/webhook/verification/callback/119881627",
-        "callback_method": "POST",
-        "status": "Approved",
+        "callback_method": "post",
+        "status": "approved",
         "reject_reasons": null,
         "reference": "AHB-291174",
         "created_at": "2026-02-27T13:48:55.368Z"

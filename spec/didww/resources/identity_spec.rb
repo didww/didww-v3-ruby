@@ -3,9 +3,9 @@ RSpec.describe DIDWW::Resource::Identity do
   let(:client) { DIDWW::Client }
 
   it 'has IDENTITY_TYPE constants' do
-    expect(described_class::IDENTITY_TYPE_PERSONAL).to eq('Personal')
-    expect(described_class::IDENTITY_TYPE_BUSINESS).to eq('Business')
-    expect(described_class::IDENTITY_TYPE_ANY).to eq('Any')
+    expect(described_class::IDENTITY_TYPE_PERSONAL).to eq('personal')
+    expect(described_class::IDENTITY_TYPE_BUSINESS).to eq('business')
+    expect(described_class::IDENTITY_TYPE_ANY).to eq('any')
   end
 
   describe 'GET /identities' do
@@ -59,12 +59,12 @@ RSpec.describe DIDWW::Resource::Identity do
 
   describe 'type helper methods' do
     it '#personal?' do
-      subject.identity_type = 'Personal'
+      subject.identity_type = 'personal'
       expect(subject).to be_personal
     end
 
     it '#business?' do
-      subject.identity_type = 'Business'
+      subject.identity_type = 'business'
       expect(subject).to be_business
     end
   end

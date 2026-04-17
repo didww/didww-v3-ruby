@@ -4,9 +4,9 @@ module DIDWW
   module Resource
     class AddressVerification < Base
       include HasStatusHelpers
-      STATUS_PENDING = 'Pending'
-      STATUS_APPROVED = 'Approved'
-      STATUS_REJECTED = 'Rejected'
+      STATUS_PENDING = 'pending'
+      STATUS_APPROVED = 'approved'
+      STATUS_REJECTED = 'rejected'
       STATUSES = [
         STATUS_PENDING,
         STATUS_APPROVED,

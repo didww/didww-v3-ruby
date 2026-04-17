@@ -3,7 +3,7 @@ RSpec.describe DIDWW::Resource::Order do
   let (:client) { DIDWW::Client }
 
   it 'has STATUSES constant' do
-    expect(described_class::STATUSES).to include('Pending', 'Completed', 'Canceled')
+    expect(described_class::STATUSES).to include('pending', 'completed', 'canceled')
   end
 
   it 'has status helper methods' do
@@ -41,7 +41,7 @@ RSpec.describe DIDWW::Resource::Order do
           expect(order.amount).to be_kind_of(BigDecimal)
         end
         it '"status", type: String' do
-          expect(order.status).to be_in(['Pending', 'Completed', 'Canceled'])
+          expect(order.status).to be_in(['pending', 'completed', 'canceled'])
         end
         it '"description", type: String' do
           expect(order.description).to be_kind_of(String)
@@ -252,7 +252,7 @@ RSpec.describe DIDWW::Resource::Order do
           it 'should create DID Order' do
             subject
             expect(order).to be_persisted
-            expect(order.status).to eq 'Pending'
+            expect(order.status).to eq 'pending'
             expect(order.items).to be_one
             expect(order.reference).to be_kind_of(String)
           end

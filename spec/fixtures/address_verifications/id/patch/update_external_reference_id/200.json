@@ -6,7 +6,7 @@
       "service_description": null,
       "callback_url": null,
       "callback_method": null,
-      "status": "Pending",
+      "status": "pending",
       "reject_reasons": null,
       "reject_comment": null,
       "reference": "ODW-879912",

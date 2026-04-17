@@ -3,7 +3,7 @@ RSpec.describe DIDWW::Resource::AddressVerification do
   let(:client) { DIDWW::Client }
 
   it 'has STATUSES constant' do
-    expect(described_class::STATUSES).to include('Pending', 'Approved', 'Rejected')
+    expect(described_class::STATUSES).to include('pending', 'approved', 'rejected')
   end
 
   describe 'GET /address_verifications' do
@@ -54,8 +54,8 @@ RSpec.describe DIDWW::Resource::AddressVerification do
         expect(address_verification.id).to eq(id)
       end
 
-      it 'has status "Rejected"' do
-        expect(address_verification.status).to eq('Rejected')
+      it 'has status "rejected"' do
+        expect(address_verification.status).to eq('rejected')
       end
 
       it 'has reject_reasons' do
@@ -102,17 +102,17 @@ RSpec.describe DIDWW::Resource::AddressVerification do
 
   describe 'status helper methods' do
     it '#pending?' do
-      subject.status = 'Pending'
+      subject.status = 'pending'
       expect(subject).to be_pending
     end
 
     it '#approved?' do
-      subject.status = 'Approved'
+      subject.status = 'approved'
       expect(subject).to be_approved
     end
 
     it '#rejected?' do
-      subject.status = 'Rejected'
+      subject.status = 'rejected'
       expect(subject).to be_rejected
     end
   end

@@ -5,7 +5,7 @@
     "attributes": {
       "name": "Berlin Office ECS",
       "reference": "ECS-0042",
-      "status": "pending update",
+      "status": "pending_update",
       "activated_at": "2026-03-15T09:00:00.000Z",
       "canceled_at": null,
       "created_at": "2026-03-14T11:00:00.000Z",

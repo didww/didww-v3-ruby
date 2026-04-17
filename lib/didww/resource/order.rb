@@ -12,9 +12,9 @@ module DIDWW
       include HasStatusHelpers
 
       # Possible values for order.status
-      STATUS_PENDING      = 'Pending'
-      STATUS_COMPLETED    = 'Completed'
-      STATUS_CANCELLED    = 'Canceled'
+      STATUS_PENDING      = 'pending'
+      STATUS_COMPLETED    = 'completed'
+      STATUS_CANCELLED    = 'canceled'
       STATUSES = [
                    STATUS_PENDING,
                    STATUS_COMPLETED,

@@ -13,9 +13,9 @@ module DIDWW
       include HasStatusHelpers
       extend Forwardable
 
-      STATUS_PENDING = 'Pending'
-      STATUS_PROCESSING = 'Processing'
-      STATUS_COMPLETED = 'Completed'
+      STATUS_PENDING = 'pending'
+      STATUS_PROCESSING = 'processing'
+      STATUS_COMPLETED = 'completed'
 
       STATUSES = [
         STATUS_PENDING,

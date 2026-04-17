@@ -16,10 +16,10 @@ module DIDWW
 
       STATUS_ACTIVE = 'active'
       STATUS_CANCELED = 'canceled'
-      STATUS_CHANGES_REQUIRED = 'changes required'
-      STATUS_IN_PROCESS = 'in process'
+      STATUS_CHANGES_REQUIRED = 'changes_required'
+      STATUS_IN_PROCESS = 'in_process'
       STATUS_NEW = 'new'
-      STATUS_PENDING_UPDATE = 'pending update'
+      STATUS_PENDING_UPDATE = 'pending_update'
 
       STATUSES = [
         STATUS_ACTIVE,
@@ -48,8 +48,8 @@ module DIDWW
 
       property :status, type: :string
       # Type: String
-      # Description: One of STATUSES ("active", "canceled", "changes required",
-      #   "in process", "new", "pending update").
+      # Description: One of STATUSES ("active", "canceled", "changes_required",
+      #   "in_process", "new", "pending_update").
 
       property :activated_at, type: :time
       # Type: Time
