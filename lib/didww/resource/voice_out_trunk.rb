@@ -7,9 +7,9 @@ module DIDWW
     class VoiceOutTrunk < Base
       include DIDWW::Callback::CONST
 
-      ON_CLI_MISMATCH_ACTION_REJECT_CALL = 'Reject call'
-      ON_CLI_MISMATCH_ACTION_REPLACE_CLI = 'Replace CLI'
-      ON_CLI_MISMATCH_ACTION_SEND_ORIGINAL_CLI = 'Send Original CLI'
+      ON_CLI_MISMATCH_ACTION_REJECT_CALL = 'reject_call'
+      ON_CLI_MISMATCH_ACTION_REPLACE_CLI = 'replace_cli'
+      ON_CLI_MISMATCH_ACTION_SEND_ORIGINAL_CLI = 'send_original_cli'
 
       ON_CLI_MISMATCH_ACTIONS = [
                                   ON_CLI_MISMATCH_ACTION_REJECT_CALL,
@@ -17,29 +17,29 @@ module DIDWW
                                   ON_CLI_MISMATCH_ACTION_SEND_ORIGINAL_CLI
                                 ].freeze
 
-      DEFAULT_DST_ACTION_ALLOW_CALLS = 'Allow Calls'
-      DEFAULT_DST_ACTION_REJECT_CALLS = 'Reject Calls'
+      DEFAULT_DST_ACTION_ALLOW_ALL = 'allow_all'
+      DEFAULT_DST_ACTION_REJECT_ALL = 'reject_all'
 
       DEFAULT_DST_ACTIONS = [
-                              DEFAULT_DST_ACTION_ALLOW_CALLS,
-                              DEFAULT_DST_ACTION_REJECT_CALLS
+                              DEFAULT_DST_ACTION_ALLOW_ALL,
+                              DEFAULT_DST_ACTION_REJECT_ALL
                             ].freeze
 
-      STATUS_ACTIVE = 'Active'
-      STATUS_BLOCKED = 'Blocked'
+      STATUS_ACTIVE = 'active'
+      STATUS_BLOCKED = 'blocked'
 
       STATUSES = [
                    STATUS_ACTIVE,
                    STATUS_BLOCKED
                  ].freeze
 
-      MEDIA_ENCRYPTION_MODE_DISABLE = 'Disable'
-      MEDIA_ENCRYPTION_MODE_SRTP_SDES = 'SRTP SDES'
-      MEDIA_ENCRYPTION_MODE_SRTP_DTLS = 'SRTP DTLS'
-      MEDIA_ENCRYPTION_MODE_ZRTP = 'ZRTP'
+      MEDIA_ENCRYPTION_MODE_DISABLED = 'disabled'
+      MEDIA_ENCRYPTION_MODE_SRTP_SDES = 'srtp_sdes'
+      MEDIA_ENCRYPTION_MODE_SRTP_DTLS = 'srtp_dtls'
+      MEDIA_ENCRYPTION_MODE_ZRTP = 'zrtp'
 
       MEDIA_ENCRYPTION_MODES = [
-                                 MEDIA_ENCRYPTION_MODE_DISABLE,
+                                 MEDIA_ENCRYPTION_MODE_DISABLED,
                                  MEDIA_ENCRYPTION_MODE_SRTP_SDES,
                                  MEDIA_ENCRYPTION_MODE_SRTP_DTLS,
                                  MEDIA_ENCRYPTION_MODE_ZRTP
