@@ -11,12 +11,15 @@ module DIDWW
       include HasStatusHelpers
 
       ON_CLI_MISMATCH_ACTION_REJECT_CALL = 'reject_call'
+      # replace_cli and randomize_cli require account configuration
       ON_CLI_MISMATCH_ACTION_REPLACE_CLI = 'replace_cli'
+      ON_CLI_MISMATCH_ACTION_RANDOMIZE_CLI = 'randomize_cli'
       ON_CLI_MISMATCH_ACTION_SEND_ORIGINAL_CLI = 'send_original_cli'
 
       ON_CLI_MISMATCH_ACTIONS = [
                                   ON_CLI_MISMATCH_ACTION_REJECT_CALL,
                                   ON_CLI_MISMATCH_ACTION_REPLACE_CLI,
+                                  ON_CLI_MISMATCH_ACTION_RANDOMIZE_CLI,
                                   ON_CLI_MISMATCH_ACTION_SEND_ORIGINAL_CLI
                                 ].freeze
 

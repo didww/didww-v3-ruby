@@ -4,7 +4,7 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
 
   it 'has ON_CLI_MISMATCH_ACTIONS constant' do
     expect(described_class::ON_CLI_MISMATCH_ACTIONS).to include(
-      'reject_call', 'replace_cli', 'send_original_cli'
+      'reject_call', 'replace_cli', 'randomize_cli', 'send_original_cli'
     )
   end
 
