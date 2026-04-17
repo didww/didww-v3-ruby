@@ -8,7 +8,9 @@ require 'debug'
 
 require 'didww'
 require 'support/stub_request_helper'
+require 'support/request_body_helper'
 require 'support/shared_examples/requirement_validation'
+require 'support/shared_examples/patch_external_reference_id'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -21,6 +23,7 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
   config.include StubRequestHelper
+  config.include RequestBodyHelper
 end
 
 DIDWW::Client.configure do |client|

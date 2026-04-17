@@ -76,30 +76,11 @@ RSpec.describe DIDWW::Resource::AddressVerification do
     end
   end
 
-  describe 'PATCH /address_verifications/:id' do
-    let(:id) { '429e6d4e-2ee9-4953-aa98-0b3ac07f0f96' }
-    let(:new_external_reference_id) { 'updated-ref-42' }
-
-    it 'updates external_reference_id' do
-      stub_didww_request(:patch, "/address_verifications/#{id}").with(
-        body: {
-          data: {
-            id: id,
-            type: 'address_verifications',
-            attributes: { external_reference_id: new_external_reference_id }
-          }
-        }.to_json
-      ).to_return(
-        status: 200,
-        body: api_fixture('address_verifications/id/patch/update_external_reference_id/200'),
-        headers: json_api_headers
-      )
-      verification = described_class.load(id: id)
-      verification.external_reference_id = new_external_reference_id
-      expect(verification.save).to eq(true)
-      expect(verification.external_reference_id).to eq(new_external_reference_id)
-    end
-  end
+  it_behaves_like 'a resource that PATCHes external_reference_id',
+                  resource_type: 'address_verifications',
+                  path_prefix: 'address_verifications',
+                  id: '429e6d4e-2ee9-4953-aa98-0b3ac07f0f96',
+                  new_value: 'updated-ref-42'
 
   describe 'status helper methods' do
     it '#pending?' do

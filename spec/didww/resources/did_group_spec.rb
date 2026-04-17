@@ -31,6 +31,11 @@ RSpec.describe DIDWW::Resource::DidGroup do
       subject.features = %w[t38 voice_in]
       expect(subject.features_human).to eq(['T.38 Fax', 'Voice IN'])
     end
+
+    it 'falls back to the raw key for features not in FEATURES (forward-compat)' do
+      subject.features = %w[voice_in future_unknown_feature]
+      expect(subject.features_human).to eq(['Voice IN', 'future_unknown_feature'])
+    end
   end
 
   describe 'GET /did_groups/:id' do

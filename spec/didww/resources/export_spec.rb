@@ -25,30 +25,10 @@ RSpec.describe DIDWW::Resource::Export do
     end
   end
 
-  describe 'PATCH /exports/:id' do
-    let(:id) { '21e02b15-806d-44b3-b67f-434ea6c44f61' }
-    let(:new_external_reference_id) { 'renamed-ref-99' }
-
-    it 'updates external_reference_id' do
-      stub_didww_request(:patch, "/exports/#{id}").with(
-        body: {
-          data: {
-            id: id,
-            type: 'exports',
-            attributes: { external_reference_id: new_external_reference_id }
-          }
-        }.to_json
-      ).to_return(
-        status: 200,
-        body: api_fixture('exports/id/patch/update_external_reference_id/200'),
-        headers: json_api_headers
-      )
-      export = described_class.load(id: id)
-      export.external_reference_id = new_external_reference_id
-      expect(export.save).to eq(true)
-      expect(export.external_reference_id).to eq(new_external_reference_id)
-    end
-  end
+  it_behaves_like 'a resource that PATCHes external_reference_id',
+                  resource_type: 'exports',
+                  path_prefix: 'exports',
+                  new_value: 'renamed-ref-99'
 
   describe 'GET /exports/{id}' do
     let (:id) { '21e02b15-806d-44b3-b67f-434ea6c44f61' }

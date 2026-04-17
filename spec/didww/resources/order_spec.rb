@@ -87,24 +87,15 @@ RSpec.describe DIDWW::Resource::Order do
       context 'did order type' do
         it 'with allow_back_ordering equal "true" creates an Order with a reference' do
           stub_didww_request(:post, '/orders').
-            with(body:
-              {
-                "data": {
-                  "type": 'orders',
-                  "attributes": {
-                    "allow_back_ordering": true,
-                    "items": [
-                      {
-                        "type": 'did_order_items',
-                        "attributes": {
-                          "qty": 15,
-                          "sku_id": 'a78bb6d8-b05e-4e12-afe6-ad84ac979088'
-                        }
-                      }
-                    ]
-                  }
-                }
-              }.to_json).
+            with(body: json_api_post_body(
+              type: 'orders',
+              attributes: {
+                allow_back_ordering: true,
+                items: [
+                  { type: 'did_order_items', attributes: { qty: 15, sku_id: 'a78bb6d8-b05e-4e12-afe6-ad84ac979088' } }
+                ]
+              }
+            )).
             to_return(
               status: 201,
               body: api_fixture('orders/post/did_order_with_back_ordering/201'),
@@ -118,24 +109,15 @@ RSpec.describe DIDWW::Resource::Order do
         end
         it 'with allow_back_ordering equal "false" creates an Order' do
           stub_didww_request(:post, '/orders').
-            with(body:
-              {
-                "data": {
-                  "type": 'orders',
-                  "attributes": {
-                    "allow_back_ordering": false,
-                    "items": [
-                      {
-                        "type": 'did_order_items',
-                        "attributes": {
-                          "qty": 15,
-                          "sku_id": 'b6d9d793-578d-42d3-bc33-73dd8155e615'
-                        }
-                      }
-                    ]
-                  }
-                }
-              }.to_json).
+            with(body: json_api_post_body(
+              type: 'orders',
+              attributes: {
+                allow_back_ordering: false,
+                items: [
+                  { type: 'did_order_items', attributes: { qty: 15, sku_id: 'b6d9d793-578d-42d3-bc33-73dd8155e615' } }
+                ]
+              }
+            )).
             to_return(
               status: 201,
               body: api_fixture('orders/post/did_order_without_back_ordering/201'),
@@ -149,29 +131,20 @@ RSpec.describe DIDWW::Resource::Order do
         end
         it 'with available_did_id' do
           stub_didww_request(:post, '/orders').
-              with(body:
-                       {
-                           "data": {
-                               "type": 'orders',
-                               "attributes": {
-                                   "allow_back_ordering": false,
-                                   "items": [
-                                       {
-                                           "type": 'did_order_items',
-                                           "attributes": {
-                                               "sku_id": 'b6d9d793-578d-42d3-bc33-73dd8155e615',
-                                               "available_did_id": '7f44285d-20ef-4773-953f-ba012adafed3'
-                                           }
-                                       }
-                                   ]
-                               }
-                           }
-                       }.to_json).
-              to_return(
-                  status: 201,
-                  body: api_fixture('orders/post/did_order_with_available_did/201'),
-                  headers: json_api_headers
-              )
+            with(body: json_api_post_body(
+              type: 'orders',
+              attributes: {
+                allow_back_ordering: false,
+                items: [
+                  { type: 'did_order_items', attributes: { sku_id: 'b6d9d793-578d-42d3-bc33-73dd8155e615', available_did_id: '7f44285d-20ef-4773-953f-ba012adafed3' } }
+                ]
+              }
+            )).
+            to_return(
+              status: 201,
+              body: api_fixture('orders/post/did_order_with_available_did/201'),
+              headers: json_api_headers
+            )
           order = client.orders.new(allow_back_ordering: false)
           order.items << DIDWW::ComplexObject::DidOrderItem.new(
               sku_id: 'b6d9d793-578d-42d3-bc33-73dd8155e615',
@@ -183,29 +156,20 @@ RSpec.describe DIDWW::Resource::Order do
         end
         it 'with did_reservation_id' do
           stub_didww_request(:post, '/orders').
-              with(body:
-                       {
-                           "data": {
-                               "type": 'orders',
-                               "attributes": {
-                                   "allow_back_ordering": false,
-                                   "items": [
-                                       {
-                                           "type": 'did_order_items',
-                                           "attributes": {
-                                               "sku_id": 'b6d9d793-578d-42d3-bc33-73dd8155e615',
-                                               "did_reservation_id": '2a1d98d2-eafd-4332-80d5-5ecd36411eb3'
-                                           }
-                                       }
-                                   ]
-                               }
-                           }
-                       }.to_json).
-              to_return(
-                  status: 201,
-                  body: api_fixture('orders/post/did_order_without_back_ordering/201'),
-                  headers: json_api_headers
-              )
+            with(body: json_api_post_body(
+              type: 'orders',
+              attributes: {
+                allow_back_ordering: false,
+                items: [
+                  { type: 'did_order_items', attributes: { sku_id: 'b6d9d793-578d-42d3-bc33-73dd8155e615', did_reservation_id: '2a1d98d2-eafd-4332-80d5-5ecd36411eb3' } }
+                ]
+              }
+            )).
+            to_return(
+              status: 201,
+              body: api_fixture('orders/post/did_order_without_back_ordering/201'),
+              headers: json_api_headers
+            )
           order = client.orders.new(allow_back_ordering: false)
           order.items << DIDWW::ComplexObject::DidOrderItem.new(
               sku_id: 'b6d9d793-578d-42d3-bc33-73dd8155e615',
@@ -223,23 +187,15 @@ RSpec.describe DIDWW::Resource::Order do
           let(:sku_id) { 'b6d9d793-578d-42d3-bc33-73dd8155e615' }
           let!(:mock_post_create_order_request) do
             stub_didww_request(:post, '/orders')
-              .with(body: {
-                       "data": {
-                         "type": 'orders',
-                         "attributes": {
-                           "allow_back_ordering": false,
-                           "items": [
-                             {
-                               "type": 'did_order_items',
-                               "attributes": {
-                                 "sku_id": 'b6d9d793-578d-42d3-bc33-73dd8155e615',
-                                 "nanpa_prefix_id": nanpa_prefix_id
-                               }
-                             }
-                           ]
-                         }
-                       }
-                }.to_json)
+              .with(body: json_api_post_body(
+                type: 'orders',
+                attributes: {
+                  allow_back_ordering: false,
+                  items: [
+                    { type: 'did_order_items', attributes: { sku_id: 'b6d9d793-578d-42d3-bc33-73dd8155e615', nanpa_prefix_id: nanpa_prefix_id } }
+                  ]
+                }
+              ))
               .to_return(
                 status: 201,
                 body: api_fixture('orders/post/did_order_without_back_ordering/201'),
@@ -266,29 +222,20 @@ RSpec.describe DIDWW::Resource::Order do
       context 'capacity order type' do
         it 'with capacity_pool_id' do
           stub_didww_request(:post, '/orders').
-              with(body:
-                      {
-                          "data": {
-                              "type": 'orders',
-                              "attributes": {
-                                  "allow_back_ordering": true,
-                                  "items": [
-                                      {
-                                          "type": 'capacity_order_items',
-                                          "attributes": {
-                                              "qty": 5,
-                                              "capacity_pool_id": '034f98bf-704c-4497-be9a-1c9ab399a900'
-                                          }
-                                      }
-                                  ]
-                              }
-                          }
-                      }.to_json).
-              to_return(
-                  status: 201,
-                  body: api_fixture('orders/post/capacity_order/201'),
-                  headers: json_api_headers
-              )
+            with(body: json_api_post_body(
+              type: 'orders',
+              attributes: {
+                allow_back_ordering: true,
+                items: [
+                  { type: 'capacity_order_items', attributes: { qty: 5, capacity_pool_id: '034f98bf-704c-4497-be9a-1c9ab399a900' } }
+                ]
+              }
+            )).
+            to_return(
+              status: 201,
+              body: api_fixture('orders/post/capacity_order/201'),
+              headers: json_api_headers
+            )
           order = client.orders.new(allow_back_ordering: true)
           order.items << DIDWW::ComplexObject::CapacityOrderItem.new(
               qty: 5,
@@ -305,24 +252,15 @@ RSpec.describe DIDWW::Resource::Order do
     describe 'with incorrect attributes' do
       it 'returns an Order with errors' do
         stub_didww_request(:post, '/orders').
-          with(body:
-            {
-              "data": {
-                "type": 'orders',
-                "attributes": {
-                  "allow_back_ordering": true,
-                  "items": [
-                    {
-                      "type": 'did_order_items',
-                      "attributes": {
-                        "qty": 15,
-                        "sku_id": 'a78bb6d8-b05e-4e12-afe6-ad84ac979088'
-                      }
-                    }
-                  ]
-                }
-              }
-            }.to_json).
+          with(body: json_api_post_body(
+            type: 'orders',
+            attributes: {
+              allow_back_ordering: true,
+              items: [
+                { type: 'did_order_items', attributes: { qty: 15, sku_id: 'a78bb6d8-b05e-4e12-afe6-ad84ac979088' } }
+              ]
+            }
+          )).
           to_return(
             status: 422,
             body: api_fixture('orders/post/did_order_with_back_ordering/422'),
@@ -340,29 +278,20 @@ RSpec.describe DIDWW::Resource::Order do
     describe 'insufficient funds for capacity order' do
       it 'returns an Order with errors' do
         stub_didww_request(:post, '/orders').
-            with(body:
-                    {
-                        "data": {
-                            "type": 'orders',
-                            "attributes": {
-                                "allow_back_ordering": true,
-                                "items": [
-                                    {
-                                        "type": 'capacity_order_items',
-                                        "attributes": {
-                                            "qty": 5,
-                                            "capacity_pool_id": '034f98bf-704c-4497-be9a-1c9ab399a900'
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    }.to_json).
-            to_return(
-                status: 400,
-                body: api_fixture('orders/post/capacity_order/400'),
-                headers: json_api_headers
-            )
+          with(body: json_api_post_body(
+            type: 'orders',
+            attributes: {
+              allow_back_ordering: true,
+              items: [
+                { type: 'capacity_order_items', attributes: { qty: 5, capacity_pool_id: '034f98bf-704c-4497-be9a-1c9ab399a900' } }
+              ]
+            }
+          )).
+          to_return(
+            status: 400,
+            body: api_fixture('orders/post/capacity_order/400'),
+            headers: json_api_headers
+          )
         order = client.orders.new(allow_back_ordering: true)
         order.items << DIDWW::ComplexObject::CapacityOrderItem.new(
             qty: 5,
@@ -376,29 +305,20 @@ RSpec.describe DIDWW::Resource::Order do
     describe 'qty is less than minimum_qty_per_order for capacity order' do
       it 'returns an Order with errors' do
         stub_didww_request(:post, '/orders').
-            with(body:
-                    {
-                        "data": {
-                            "type": 'orders',
-                            "attributes": {
-                                "allow_back_ordering": true,
-                                "items": [
-                                    {
-                                        "type": 'capacity_order_items',
-                                        "attributes": {
-                                            "qty": 3,
-                                            "capacity_pool_id": '034f98bf-704c-4497-be9a-1c9ab399a900'
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    }.to_json).
-            to_return(
-                status: 422,
-                body: api_fixture('orders/post/capacity_order/422'),
-                headers: json_api_headers
-            )
+          with(body: json_api_post_body(
+            type: 'orders',
+            attributes: {
+              allow_back_ordering: true,
+              items: [
+                { type: 'capacity_order_items', attributes: { qty: 3, capacity_pool_id: '034f98bf-704c-4497-be9a-1c9ab399a900' } }
+              ]
+            }
+          )).
+          to_return(
+            status: 422,
+            body: api_fixture('orders/post/capacity_order/422'),
+            headers: json_api_headers
+          )
         order = client.orders.new(allow_back_ordering: true)
         order.items << DIDWW::ComplexObject::CapacityOrderItem.new(
             qty: 3,

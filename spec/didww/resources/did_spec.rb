@@ -156,19 +156,16 @@ RSpec.describe DIDWW::Resource::Did do
       it 'updates a Did' do
         id = '46e129f1-deaa-44db-8915-2646de4d4c70'
         stub_didww_request(:patch, "/dids/#{id}").
-          with(body:
-            {
-              "data": {
-                "id": '46e129f1-deaa-44db-8915-2646de4d4c70',
-                "type": 'dids',
-                "attributes": {
-                  "terminated": false,
-                  "billing_cycles_count": 1,
-                  "description": 'string',
-                  "capacity_limit": 1
-                }
-              }
-            }.to_json).
+          with(body: json_api_body(
+            id: id,
+            type: 'dids',
+            attributes: {
+              terminated: false,
+              billing_cycles_count: 1,
+              description: 'string',
+              capacity_limit: 1
+            }
+          )).
           to_return(
             status: 200,
             body: api_fixture('dids/id/patch/update_attributes/200'),
@@ -191,25 +188,16 @@ RSpec.describe DIDWW::Resource::Did do
       it 'assigns a Trunk to Did' do
         id = '3505b18a-3019-47bc-95d1-0f9ec7766fd5'
         stub_didww_request(:patch, "/dids/#{id}").
-          with(body:
-            {
-              "data": {
-                "id": '3505b18a-3019-47bc-95d1-0f9ec7766fd5',
-                "type": 'dids',
-                "relationships": {
-                  "voice_in_trunk": {
-                    "data": {
-                      "type": 'voice_in_trunks',
-                      "id": 'c80d096a-c8cf-4449-aa6d-8bac39130fe0'
-                    }
-                  },
-                  "voice_in_trunk_group": {
-                    "data": nil
-                  }
-                },
-                "attributes": {}
-              }
-            }.to_json).
+          with(body: json_api_body(
+            id: id,
+            type: 'dids',
+            relationships: {
+              voice_in_trunk: {
+                data: { type: 'voice_in_trunks', id: 'c80d096a-c8cf-4449-aa6d-8bac39130fe0' }
+              },
+              voice_in_trunk_group: { data: nil }
+            }
+          )).
           to_return(
             status: 200,
             body: api_fixture('dids/id/patch/assign_voice_in_trunk/200'),
@@ -224,25 +212,16 @@ RSpec.describe DIDWW::Resource::Did do
       it 'assigns a TrunkGroup to Did' do
         id = '3e3f57ec-0541-473a-af63-103216d19db3'
         stub_didww_request(:patch, "/dids/#{id}").
-          with(body:
-            {
-              "data": {
-                "id": '3e3f57ec-0541-473a-af63-103216d19db3',
-                "type": 'dids',
-                "relationships": {
-                  "voice_in_trunk_group": {
-                    "data": {
-                      "type": 'voice_in_trunk_groups',
-                      "id": '1dc6e448-d9d8-4da8-a34b-21459b03112f'
-                    }
-                  },
-                  "voice_in_trunk": {
-                    "data": nil
-                  }
-                },
-                "attributes": {}
-              }
-            }.to_json).
+          with(body: json_api_body(
+            id: id,
+            type: 'dids',
+            relationships: {
+              voice_in_trunk_group: {
+                data: { type: 'voice_in_trunk_groups', id: '1dc6e448-d9d8-4da8-a34b-21459b03112f' }
+              },
+              voice_in_trunk: { data: nil }
+            }
+          )).
           to_return(
             status: 200,
             body: api_fixture('dids/id/patch/assign_voice_in_trunk_group/200'),
@@ -258,22 +237,15 @@ RSpec.describe DIDWW::Resource::Did do
       it 'assigns a CapacityPool to Did' do
         id = '3e3f57ec-0541-473a-af63-103216d19db3'
         stub_didww_request(:patch, "/dids/#{id}").
-          with(body:
-            {
-              "data": {
-                "id": '3e3f57ec-0541-473a-af63-103216d19db3',
-                "type": 'dids',
-                "relationships": {
-                  "capacity_pool": {
-                    "data": {
-                      "type": 'capacity_pools',
-                      "id": '1e9e4362-bc5c-47f3-a2bb-c17afa66f3fa'
-                    }
-                  }
-                },
-                "attributes": {}
+          with(body: json_api_body(
+            id: id,
+            type: 'dids',
+            relationships: {
+              capacity_pool: {
+                data: { type: 'capacity_pools', id: '1e9e4362-bc5c-47f3-a2bb-c17afa66f3fa' }
               }
-            }.to_json).
+            }
+          )).
           to_return(
             status: 200,
             body: api_fixture('dids/id/patch/assign_capacity_pool/200'),
@@ -289,19 +261,13 @@ RSpec.describe DIDWW::Resource::Did do
       it 'unassigns EmergencyCallingService from Did (emergency_calling_service: { data: null })' do
         id = '44957076-778a-4802-b60c-d22db0cda284'
         stub_didww_request(:patch, "/dids/#{id}").
-          with(body:
-            {
-              "data": {
-                "id": id,
-                "type": 'dids',
-                "relationships": {
-                  "emergency_calling_service": {
-                    "data": nil
-                  }
-                },
-                "attributes": {}
-              }
-            }.to_json).
+          with(body: json_api_body(
+            id: id,
+            type: 'dids',
+            relationships: {
+              emergency_calling_service: { data: nil }
+            }
+          )).
           to_return(
             status: 200,
             body: api_fixture('dids/id/patch/unassign_emergency_calling_service/200'),
@@ -316,22 +282,15 @@ RSpec.describe DIDWW::Resource::Did do
       it 'assigns a SharedCapacityGroup to Did' do
         id = '3e3f57ec-0541-473a-af63-103216d19db3'
         stub_didww_request(:patch, "/dids/#{id}").
-          with(body:
-            {
-              "data": {
-                "id": '3e3f57ec-0541-473a-af63-103216d19db3',
-                "type": 'dids',
-                "relationships": {
-                  "shared_capacity_group": {
-                    "data": {
-                      "type": 'shared_capacity_groups',
-                      "id": '31e08e8f-f3c6-49dd-acb2-d9335828879e'
-                    }
-                  }
-                },
-                "attributes": {}
+          with(body: json_api_body(
+            id: id,
+            type: 'dids',
+            relationships: {
+              shared_capacity_group: {
+                data: { type: 'shared_capacity_groups', id: '31e08e8f-f3c6-49dd-acb2-d9335828879e' }
               }
-            }.to_json).
+            }
+          )).
           to_return(
             status: 200,
             body: api_fixture('dids/id/patch/assign_shared_capacity_group/200'),
@@ -349,19 +308,16 @@ RSpec.describe DIDWW::Resource::Did do
       it 'returns a Did with errors' do
         id = '46e129f1-deaa-44db-8915-2646de4d4c70'
         stub_didww_request(:patch, "/dids/#{id}").
-          with(body:
-            {
-              "data": {
-                "id": '46e129f1-deaa-44db-8915-2646de4d4c70',
-                "type": 'dids',
-                "attributes": {
-                  "terminated": false,
-                  "billing_cycles_count": 1,
-                  "description": 'string',
-                  "capacity_limit": 1
-                }
-              }
-            }.to_json).
+          with(body: json_api_body(
+            id: id,
+            type: 'dids',
+            attributes: {
+              terminated: false,
+              billing_cycles_count: 1,
+              description: 'string',
+              capacity_limit: 1
+            }
+          )).
           to_return(
             status: 422,
             body: api_fixture('dids/id/patch/update_attributes/422'),
@@ -383,22 +339,15 @@ RSpec.describe DIDWW::Resource::Did do
       it 'returns a Did with errors' do
         id = '3e3f57ec-0541-473a-af63-103216d19db3'
         stub_didww_request(:patch, "/dids/#{id}").
-          with(body:
-            {
-              "data": {
-                "id": '3e3f57ec-0541-473a-af63-103216d19db3',
-                "type": 'dids',
-                "relationships": {
-                  "capacity_pool": {
-                    "data": {
-                      "type": 'capacity_pools',
-                      "id": '1e9e4362-bc5c-47f3-a2bb-c17afa66f3fa'
-                    }
-                  }
-                },
-                "attributes": {}
+          with(body: json_api_body(
+            id: id,
+            type: 'dids',
+            relationships: {
+              capacity_pool: {
+                data: { type: 'capacity_pools', id: '1e9e4362-bc5c-47f3-a2bb-c17afa66f3fa' }
               }
-            }.to_json).
+            }
+          )).
           to_return(
             status: 422,
             body: api_fixture('dids/id/patch/assign_capacity_pool/422'),
@@ -417,22 +366,15 @@ RSpec.describe DIDWW::Resource::Did do
       it 'returns a Did with errors' do
         id = '3e3f57ec-0541-473a-af63-103216d19db3'
         stub_didww_request(:patch, "/dids/#{id}").
-          with(body:
-            {
-              "data": {
-                "id": '3e3f57ec-0541-473a-af63-103216d19db3',
-                "type": 'dids',
-                "relationships": {
-                  "shared_capacity_group": {
-                    "data": {
-                      "type": 'shared_capacity_groups',
-                      "id": '31e08e8f-f3c6-49dd-acb2-d9335828879e'
-                    }
-                  }
-                },
-                "attributes": {}
+          with(body: json_api_body(
+            id: id,
+            type: 'dids',
+            relationships: {
+              shared_capacity_group: {
+                data: { type: 'shared_capacity_groups', id: '31e08e8f-f3c6-49dd-acb2-d9335828879e' }
               }
-            }.to_json).
+            }
+          )).
           to_return(
             status: 422,
             body: api_fixture('dids/id/patch/assign_shared_capacity_group/422'),
@@ -451,25 +393,16 @@ RSpec.describe DIDWW::Resource::Did do
       it 'returns a Did with errors' do
         id = '3505b18a-3019-47bc-95d1-0f9ec7766fd5'
         stub_didww_request(:patch, "/dids/#{id}").
-          with(body:
-            {
-              "data": {
-                "id": '3505b18a-3019-47bc-95d1-0f9ec7766fd5',
-                "type": 'dids',
-                "relationships": {
-                  "voice_in_trunk": {
-                    "data": {
-                      "type": 'voice_in_trunks',
-                      "id": 'c80d096a-c8cf-4449-aa6d-8bac39130fe0'
-                    }
-                  },
-                  "voice_in_trunk_group": {
-                    "data": nil
-                  }
-                },
-                "attributes": {}
-              }
-            }.to_json).
+          with(body: json_api_body(
+            id: id,
+            type: 'dids',
+            relationships: {
+              voice_in_trunk: {
+                data: { type: 'voice_in_trunks', id: 'c80d096a-c8cf-4449-aa6d-8bac39130fe0' }
+              },
+              voice_in_trunk_group: { data: nil }
+            }
+          )).
           to_return(
             status: 422,
             body: api_fixture('dids/id/patch/assign_voice_in_trunk/422'),
@@ -488,25 +421,16 @@ RSpec.describe DIDWW::Resource::Did do
       it 'returns a Did with errors' do
         id = '3e3f57ec-0541-473a-af63-103216d19db3'
         stub_didww_request(:patch, "/dids/#{id}").
-          with(body:
-            {
-              "data": {
-                "id": '3e3f57ec-0541-473a-af63-103216d19db3',
-                "type": 'dids',
-                "relationships": {
-                  "voice_in_trunk_group": {
-                    "data": {
-                      "type": 'voice_in_trunk_groups',
-                      "id": '1dc6e448-d9d8-4da8-a34b-21459b03112f'
-                    }
-                  },
-                  "voice_in_trunk": {
-                    "data": nil
-                  }
-                },
-                "attributes": {}
-              }
-            }.to_json).
+          with(body: json_api_body(
+            id: id,
+            type: 'dids',
+            relationships: {
+              voice_in_trunk_group: {
+                data: { type: 'voice_in_trunk_groups', id: '1dc6e448-d9d8-4da8-a34b-21459b03112f' }
+              },
+              voice_in_trunk: { data: nil }
+            }
+          )).
           to_return(
             status: 422,
             body: api_fixture('dids/id/patch/assign_voice_in_trunk_group/422'),
@@ -525,16 +449,11 @@ RSpec.describe DIDWW::Resource::Did do
       it 'raises a NotFound error' do
         id = '46e129f1-deaa-44db-8915-2646de4d4c70'
         stub_didww_request(:patch, "/dids/#{id}").
-          with(body:
-            {
-              "data": {
-                "id": '46e129f1-deaa-44db-8915-2646de4d4c70',
-                "type": 'dids',
-                "attributes": {
-                  "description": 'test'
-                }
-              }
-            }.to_json).
+          with(body: json_api_body(
+            id: id,
+            type: 'dids',
+            attributes: { description: 'test' }
+          )).
           to_return(
             status: 404,
             body: api_fixture('dids/id/patch/update_attributes/404'),

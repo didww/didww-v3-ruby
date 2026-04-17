@@ -10,7 +10,7 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
 
   it 'has DEFAULT_DST_ACTIONS constant' do
     expect(described_class::DEFAULT_DST_ACTIONS).to include(
-      'allow_all', 'reject_all'
+      'allow_calls', 'reject_calls'
     )
   end
 
@@ -36,7 +36,7 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
 
   it 'has MEDIA_ENCRYPTION_MODES constant' do
     expect(described_class::MEDIA_ENCRYPTION_MODES).to include(
-      'disabled', 'srtp_sdes', 'srtp_dtls', 'zrtp'
+      'disable', 'srtp_sdes', 'srtp_dtls', 'zrtp'
     )
   end
 
@@ -165,26 +165,24 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
   end
 
   describe 'POST /voice_out_trunks' do
-    let(:trunk_name) { 'New Outbound Trunk' }
-
     describe 'with correct attributes' do
       it 'creates a VoiceOutTrunk with an ip_only authentication_method' do
         stub_didww_request(:post, '/voice_out_trunks').
           with(body: json_api_post_body(
             type: 'voice_out_trunks',
             attributes: {
-              name: trunk_name,
+              name: 'New Outbound Trunk',
               on_cli_mismatch_action: 'reject_call',
               capacity_limit: 50,
               allow_any_did_as_cli: false,
-              default_dst_action: 'allow_all',
+              default_dst_action: 'allow_calls',
               dst_prefixes: ['1', '44'],
-              media_encryption_mode: 'disabled',
+              media_encryption_mode: 'disable',
               force_symmetric_rtp: false,
               authentication_method: {
                 type: 'ip_only',
                 attributes: {
-                  allowed_sip_ips: ['203.0.113.1/32'],
+                  allowed_sip_ips: ['10.0.0.1/32'],
                   tech_prefix: ''
                 }
               }
@@ -196,16 +194,16 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
             headers: json_api_headers
           )
         trunk = client.voice_out_trunks.new(
-          name: trunk_name,
+          name: 'New Outbound Trunk',
           on_cli_mismatch_action: 'reject_call',
           capacity_limit: 50,
           allow_any_did_as_cli: false,
-          default_dst_action: 'allow_all',
+          default_dst_action: 'allow_calls',
           dst_prefixes: ['1', '44'],
-          media_encryption_mode: 'disabled',
+          media_encryption_mode: 'disable',
           force_symmetric_rtp: false,
           authentication_method: DIDWW::ComplexObject::AuthenticationMethod::IpOnly.new(
-            allowed_sip_ips: ['203.0.113.1/32'],
+            allowed_sip_ips: ['10.0.0.1/32'],
             tech_prefix: ''
           )
         )
@@ -220,7 +218,7 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
           with(body: json_api_post_body(
             type: 'voice_out_trunks',
             attributes: {
-              name: trunk_name,
+              name: 'New Outbound Trunk',
               capacity_limit: 50
             }
           )).
@@ -230,7 +228,7 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
             headers: json_api_headers
           )
         trunk = client.voice_out_trunks.new(
-          name: trunk_name,
+          name: 'New Outbound Trunk',
           capacity_limit: 50
         )
         trunk.save
@@ -242,8 +240,6 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
   end
 
   describe 'PATCH /voice_out_trunks/{id}' do
-    let(:updated_trunk_name) { 'Updated Trunk' }
-
     describe 'with correct attributes' do
       it 'updates a VoiceOutTrunk' do
         id = '01234567-89ab-cdef-0123-456789abcdef'
@@ -252,7 +248,7 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
             id: id,
             type: 'voice_out_trunks',
             attributes: {
-              name: updated_trunk_name,
+              name: 'Updated Trunk',
               capacity_limit: 200
             }
           )).
@@ -262,12 +258,12 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
             headers: json_api_headers
           )
         trunk = DIDWW::Resource::VoiceOutTrunk.load(id: id).tap do |t|
-          t.name = updated_trunk_name
+          t.name = 'Updated Trunk'
           t.capacity_limit = 200
         end
         expect(trunk.save)
         expect(trunk.errors).to be_empty
-        expect(trunk.name).to eq(updated_trunk_name)
+        expect(trunk.name).to eq('Updated Trunk')
         expect(trunk.capacity_limit).to eq(200)
       end
 
@@ -461,7 +457,7 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
           with(body: json_api_body(
             id: id,
             type: 'voice_out_trunks',
-            attributes: { name: updated_trunk_name }
+            attributes: { name: 'Updated Trunk' }
           )).
           to_return(
             status: 404,
@@ -469,7 +465,7 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
             headers: json_api_headers
           )
         trunk = DIDWW::Resource::VoiceOutTrunk.load(id: id)
-        trunk.name = updated_trunk_name
+        trunk.name = 'Updated Trunk'
         expect { trunk.save }.to raise_error(JsonApiClient::Errors::NotFound)
       end
     end
