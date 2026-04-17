@@ -152,6 +152,11 @@ RSpec.describe DIDWW::Resource::Did do
   end
 
   describe 'PATCH /dids/{id}' do
+    let(:voice_in_trunk_id) { 'c80d096a-c8cf-4449-aa6d-8bac39130fe0' }
+    let(:voice_in_trunk_group_id) { '1dc6e448-d9d8-4da8-a34b-21459b03112f' }
+    let(:capacity_pool_id) { '1e9e4362-bc5c-47f3-a2bb-c17afa66f3fa' }
+    let(:shared_capacity_group_id) { '31e08e8f-f3c6-49dd-acb2-d9335828879e' }
+
     describe 'with correct attributes' do
       it 'updates a Did' do
         id = '46e129f1-deaa-44db-8915-2646de4d4c70'
@@ -193,7 +198,7 @@ RSpec.describe DIDWW::Resource::Did do
             type: 'dids',
             relationships: {
               voice_in_trunk: {
-                data: { type: 'voice_in_trunks', id: 'c80d096a-c8cf-4449-aa6d-8bac39130fe0' }
+                data: { type: 'voice_in_trunks', id: voice_in_trunk_id }
               },
               voice_in_trunk_group: { data: nil }
             }
@@ -204,7 +209,7 @@ RSpec.describe DIDWW::Resource::Did do
             headers: json_api_headers
           )
         did = DIDWW::Resource::Did.load(id: id)
-        did.relationships[:voice_in_trunk] = DIDWW::Resource::VoiceInTrunk.load(id: 'c80d096a-c8cf-4449-aa6d-8bac39130fe0')
+        did.relationships[:voice_in_trunk] = DIDWW::Resource::VoiceInTrunk.load(id: voice_in_trunk_id)
         expect(did.save)
         expect(did.errors).to be_empty
       end
@@ -217,7 +222,7 @@ RSpec.describe DIDWW::Resource::Did do
             type: 'dids',
             relationships: {
               voice_in_trunk_group: {
-                data: { type: 'voice_in_trunk_groups', id: '1dc6e448-d9d8-4da8-a34b-21459b03112f' }
+                data: { type: 'voice_in_trunk_groups', id: voice_in_trunk_group_id }
               },
               voice_in_trunk: { data: nil }
             }
@@ -228,7 +233,7 @@ RSpec.describe DIDWW::Resource::Did do
             headers: json_api_headers
           )
         did = DIDWW::Resource::Did.load(id: id)
-        did.relationships[:voice_in_trunk_group] = DIDWW::Resource::VoiceInTrunkGroup.load(id: '1dc6e448-d9d8-4da8-a34b-21459b03112f')
+        did.relationships[:voice_in_trunk_group] = DIDWW::Resource::VoiceInTrunkGroup.load(id: voice_in_trunk_group_id)
 
         expect(did.save)
         expect(did.errors).to be_empty
@@ -242,7 +247,7 @@ RSpec.describe DIDWW::Resource::Did do
             type: 'dids',
             relationships: {
               capacity_pool: {
-                data: { type: 'capacity_pools', id: '1e9e4362-bc5c-47f3-a2bb-c17afa66f3fa' }
+                data: { type: 'capacity_pools', id: capacity_pool_id }
               }
             }
           )).
@@ -252,7 +257,7 @@ RSpec.describe DIDWW::Resource::Did do
             headers: json_api_headers
           )
         did = DIDWW::Resource::Did.load(id: id)
-        did.relationships[:capacity_pool] = DIDWW::Resource::CapacityPool.load(id: '1e9e4362-bc5c-47f3-a2bb-c17afa66f3fa')
+        did.relationships[:capacity_pool] = DIDWW::Resource::CapacityPool.load(id: capacity_pool_id)
 
         expect(did.save)
         expect(did.errors).to be_empty
@@ -287,7 +292,7 @@ RSpec.describe DIDWW::Resource::Did do
             type: 'dids',
             relationships: {
               shared_capacity_group: {
-                data: { type: 'shared_capacity_groups', id: '31e08e8f-f3c6-49dd-acb2-d9335828879e' }
+                data: { type: 'shared_capacity_groups', id: shared_capacity_group_id }
               }
             }
           )).
@@ -297,7 +302,7 @@ RSpec.describe DIDWW::Resource::Did do
             headers: json_api_headers
           )
         did = DIDWW::Resource::Did.load(id: id)
-        did.relationships[:shared_capacity_group] = DIDWW::Resource::SharedCapacityGroup.load(id: '31e08e8f-f3c6-49dd-acb2-d9335828879e')
+        did.relationships[:shared_capacity_group] = DIDWW::Resource::SharedCapacityGroup.load(id: shared_capacity_group_id)
 
         expect(did.save)
         expect(did.errors).to be_empty
@@ -344,7 +349,7 @@ RSpec.describe DIDWW::Resource::Did do
             type: 'dids',
             relationships: {
               capacity_pool: {
-                data: { type: 'capacity_pools', id: '1e9e4362-bc5c-47f3-a2bb-c17afa66f3fa' }
+                data: { type: 'capacity_pools', id: capacity_pool_id }
               }
             }
           )).
@@ -354,7 +359,7 @@ RSpec.describe DIDWW::Resource::Did do
             headers: json_api_headers
           )
         did = DIDWW::Resource::Did.load(id: id)
-        did.relationships[:capacity_pool] = DIDWW::Resource::CapacityPool.load(id: '1e9e4362-bc5c-47f3-a2bb-c17afa66f3fa')
+        did.relationships[:capacity_pool] = DIDWW::Resource::CapacityPool.load(id: capacity_pool_id)
 
         did.save
         expect(did.errors.count).to eq 1
@@ -371,7 +376,7 @@ RSpec.describe DIDWW::Resource::Did do
             type: 'dids',
             relationships: {
               shared_capacity_group: {
-                data: { type: 'shared_capacity_groups', id: '31e08e8f-f3c6-49dd-acb2-d9335828879e' }
+                data: { type: 'shared_capacity_groups', id: shared_capacity_group_id }
               }
             }
           )).
@@ -381,7 +386,7 @@ RSpec.describe DIDWW::Resource::Did do
             headers: json_api_headers
           )
         did = DIDWW::Resource::Did.load(id: id)
-        did.relationships[:shared_capacity_group] = DIDWW::Resource::SharedCapacityGroup.load(id: '31e08e8f-f3c6-49dd-acb2-d9335828879e')
+        did.relationships[:shared_capacity_group] = DIDWW::Resource::SharedCapacityGroup.load(id: shared_capacity_group_id)
 
         did.save
         expect(did.errors.count).to eq 1
@@ -398,7 +403,7 @@ RSpec.describe DIDWW::Resource::Did do
             type: 'dids',
             relationships: {
               voice_in_trunk: {
-                data: { type: 'voice_in_trunks', id: 'c80d096a-c8cf-4449-aa6d-8bac39130fe0' }
+                data: { type: 'voice_in_trunks', id: voice_in_trunk_id }
               },
               voice_in_trunk_group: { data: nil }
             }
@@ -409,7 +414,7 @@ RSpec.describe DIDWW::Resource::Did do
             headers: json_api_headers
           )
         did = DIDWW::Resource::Did.load(id: id)
-        did.relationships[:voice_in_trunk] = DIDWW::Resource::VoiceInTrunk.load(id: 'c80d096a-c8cf-4449-aa6d-8bac39130fe0')
+        did.relationships[:voice_in_trunk] = DIDWW::Resource::VoiceInTrunk.load(id: voice_in_trunk_id)
 
         did.save
         expect(did.errors.count).to eq 1
@@ -426,7 +431,7 @@ RSpec.describe DIDWW::Resource::Did do
             type: 'dids',
             relationships: {
               voice_in_trunk_group: {
-                data: { type: 'voice_in_trunk_groups', id: '1dc6e448-d9d8-4da8-a34b-21459b03112f' }
+                data: { type: 'voice_in_trunk_groups', id: voice_in_trunk_group_id }
               },
               voice_in_trunk: { data: nil }
             }
@@ -437,7 +442,7 @@ RSpec.describe DIDWW::Resource::Did do
             headers: json_api_headers
           )
         did = DIDWW::Resource::Did.load(id: id)
-        did.relationships[:voice_in_trunk_group] = DIDWW::Resource::VoiceInTrunkGroup.load(id: '1dc6e448-d9d8-4da8-a34b-21459b03112f')
+        did.relationships[:voice_in_trunk_group] = DIDWW::Resource::VoiceInTrunkGroup.load(id: voice_in_trunk_group_id)
 
         did.save
         expect(did.errors.count).to eq 1

@@ -165,13 +165,15 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
   end
 
   describe 'POST /voice_out_trunks' do
+    let(:trunk_name) { 'New Outbound Trunk' }
+
     describe 'with correct attributes' do
       it 'creates a VoiceOutTrunk with an ip_only authentication_method' do
         stub_didww_request(:post, '/voice_out_trunks').
           with(body: json_api_post_body(
             type: 'voice_out_trunks',
             attributes: {
-              name: 'New Outbound Trunk',
+              name: trunk_name,
               on_cli_mismatch_action: 'reject_call',
               capacity_limit: 50,
               allow_any_did_as_cli: false,
@@ -194,7 +196,7 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
             headers: json_api_headers
           )
         trunk = client.voice_out_trunks.new(
-          name: 'New Outbound Trunk',
+          name: trunk_name,
           on_cli_mismatch_action: 'reject_call',
           capacity_limit: 50,
           allow_any_did_as_cli: false,
@@ -218,7 +220,7 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
           with(body: json_api_post_body(
             type: 'voice_out_trunks',
             attributes: {
-              name: 'New Outbound Trunk',
+              name: trunk_name,
               capacity_limit: 50
             }
           )).
@@ -228,7 +230,7 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
             headers: json_api_headers
           )
         trunk = client.voice_out_trunks.new(
-          name: 'New Outbound Trunk',
+          name: trunk_name,
           capacity_limit: 50
         )
         trunk.save
@@ -240,6 +242,8 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
   end
 
   describe 'PATCH /voice_out_trunks/{id}' do
+    let(:updated_trunk_name) { 'Updated Trunk' }
+
     describe 'with correct attributes' do
       it 'updates a VoiceOutTrunk' do
         id = '01234567-89ab-cdef-0123-456789abcdef'
@@ -248,7 +252,7 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
             id: id,
             type: 'voice_out_trunks',
             attributes: {
-              name: 'Updated Trunk',
+              name: updated_trunk_name,
               capacity_limit: 200
             }
           )).
@@ -258,12 +262,12 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
             headers: json_api_headers
           )
         trunk = DIDWW::Resource::VoiceOutTrunk.load(id: id).tap do |t|
-          t.name = 'Updated Trunk'
+          t.name = updated_trunk_name
           t.capacity_limit = 200
         end
         expect(trunk.save)
         expect(trunk.errors).to be_empty
-        expect(trunk.name).to eq('Updated Trunk')
+        expect(trunk.name).to eq(updated_trunk_name)
         expect(trunk.capacity_limit).to eq(200)
       end
 
@@ -457,7 +461,7 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
           with(body: json_api_body(
             id: id,
             type: 'voice_out_trunks',
-            attributes: { name: 'Updated Trunk' }
+            attributes: { name: updated_trunk_name }
           )).
           to_return(
             status: 404,
@@ -465,7 +469,7 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
             headers: json_api_headers
           )
         trunk = DIDWW::Resource::VoiceOutTrunk.load(id: id)
-        trunk.name = 'Updated Trunk'
+        trunk.name = updated_trunk_name
         expect { trunk.save }.to raise_error(JsonApiClient::Errors::NotFound)
       end
     end

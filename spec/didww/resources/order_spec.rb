@@ -82,9 +82,12 @@ RSpec.describe DIDWW::Resource::Order do
   end
 
   describe 'POST /orders' do
+    let(:sku_id_back_order) { 'a78bb6d8-b05e-4e12-afe6-ad84ac979088' }
+    let(:capacity_pool_id) { '034f98bf-704c-4497-be9a-1c9ab399a900' }
 
     describe 'with correct attributes' do
       context 'did order type' do
+        let(:sku_id) { 'b6d9d793-578d-42d3-bc33-73dd8155e615' }
         it 'with allow_back_ordering equal "true" creates an Order with a reference' do
           stub_didww_request(:post, '/orders').
             with(body: json_api_post_body(
@@ -92,7 +95,7 @@ RSpec.describe DIDWW::Resource::Order do
               attributes: {
                 allow_back_ordering: true,
                 items: [
-                  { type: 'did_order_items', attributes: { qty: 15, sku_id: 'a78bb6d8-b05e-4e12-afe6-ad84ac979088' } }
+                  { type: 'did_order_items', attributes: { qty: 15, sku_id: sku_id_back_order } }
                 ]
               }
             )).
@@ -102,7 +105,7 @@ RSpec.describe DIDWW::Resource::Order do
               headers: json_api_headers
             )
           order = client.orders.new(allow_back_ordering: true)
-          order.items << DIDWW::ComplexObject::DidOrderItem.new(qty: 15, sku_id: 'a78bb6d8-b05e-4e12-afe6-ad84ac979088')
+          order.items << DIDWW::ComplexObject::DidOrderItem.new(qty: 15, sku_id: sku_id_back_order)
           order.save
           expect(order).to be_persisted
           expect(order[:reference]).to be_kind_of(String)
@@ -114,7 +117,7 @@ RSpec.describe DIDWW::Resource::Order do
               attributes: {
                 allow_back_ordering: false,
                 items: [
-                  { type: 'did_order_items', attributes: { qty: 15, sku_id: 'b6d9d793-578d-42d3-bc33-73dd8155e615' } }
+                  { type: 'did_order_items', attributes: { qty: 15, sku_id: sku_id } }
                 ]
               }
             )).
@@ -124,7 +127,7 @@ RSpec.describe DIDWW::Resource::Order do
               headers: json_api_headers
             )
           order = client.orders.new(allow_back_ordering: false)
-          order.items << DIDWW::ComplexObject::DidOrderItem.new(qty: 15, sku_id: 'b6d9d793-578d-42d3-bc33-73dd8155e615')
+          order.items << DIDWW::ComplexObject::DidOrderItem.new(qty: 15, sku_id: sku_id)
           order.save
           expect(order).to be_persisted
           expect(order.reference).to be_kind_of(String)
@@ -136,7 +139,7 @@ RSpec.describe DIDWW::Resource::Order do
               attributes: {
                 allow_back_ordering: false,
                 items: [
-                  { type: 'did_order_items', attributes: { sku_id: 'b6d9d793-578d-42d3-bc33-73dd8155e615', available_did_id: '7f44285d-20ef-4773-953f-ba012adafed3' } }
+                  { type: 'did_order_items', attributes: { sku_id: sku_id, available_did_id: '7f44285d-20ef-4773-953f-ba012adafed3' } }
                 ]
               }
             )).
@@ -147,7 +150,7 @@ RSpec.describe DIDWW::Resource::Order do
             )
           order = client.orders.new(allow_back_ordering: false)
           order.items << DIDWW::ComplexObject::DidOrderItem.new(
-              sku_id: 'b6d9d793-578d-42d3-bc33-73dd8155e615',
+              sku_id: sku_id,
               available_did_id: '7f44285d-20ef-4773-953f-ba012adafed3'
           )
           order.save
@@ -161,7 +164,7 @@ RSpec.describe DIDWW::Resource::Order do
               attributes: {
                 allow_back_ordering: false,
                 items: [
-                  { type: 'did_order_items', attributes: { sku_id: 'b6d9d793-578d-42d3-bc33-73dd8155e615', did_reservation_id: '2a1d98d2-eafd-4332-80d5-5ecd36411eb3' } }
+                  { type: 'did_order_items', attributes: { sku_id: sku_id, did_reservation_id: '2a1d98d2-eafd-4332-80d5-5ecd36411eb3' } }
                 ]
               }
             )).
@@ -172,7 +175,7 @@ RSpec.describe DIDWW::Resource::Order do
             )
           order = client.orders.new(allow_back_ordering: false)
           order.items << DIDWW::ComplexObject::DidOrderItem.new(
-              sku_id: 'b6d9d793-578d-42d3-bc33-73dd8155e615',
+              sku_id: sku_id,
               did_reservation_id: '2a1d98d2-eafd-4332-80d5-5ecd36411eb3'
           )
           order.save
@@ -184,7 +187,6 @@ RSpec.describe DIDWW::Resource::Order do
           subject { order.save }
 
           let(:nanpa_prefix_id) { '3a33892b-bd4d-4411-b669-5eba6cc13807' }
-          let(:sku_id) { 'b6d9d793-578d-42d3-bc33-73dd8155e615' }
           let!(:mock_post_create_order_request) do
             stub_didww_request(:post, '/orders')
               .with(body: json_api_post_body(
@@ -192,7 +194,7 @@ RSpec.describe DIDWW::Resource::Order do
                 attributes: {
                   allow_back_ordering: false,
                   items: [
-                    { type: 'did_order_items', attributes: { sku_id: 'b6d9d793-578d-42d3-bc33-73dd8155e615', nanpa_prefix_id: nanpa_prefix_id } }
+                    { type: 'did_order_items', attributes: { sku_id: sku_id, nanpa_prefix_id: nanpa_prefix_id } }
                   ]
                 }
               ))
@@ -227,7 +229,7 @@ RSpec.describe DIDWW::Resource::Order do
               attributes: {
                 allow_back_ordering: true,
                 items: [
-                  { type: 'capacity_order_items', attributes: { qty: 5, capacity_pool_id: '034f98bf-704c-4497-be9a-1c9ab399a900' } }
+                  { type: 'capacity_order_items', attributes: { qty: 5, capacity_pool_id: capacity_pool_id } }
                 ]
               }
             )).
@@ -239,7 +241,7 @@ RSpec.describe DIDWW::Resource::Order do
           order = client.orders.new(allow_back_ordering: true)
           order.items << DIDWW::ComplexObject::CapacityOrderItem.new(
               qty: 5,
-              capacity_pool_id: '034f98bf-704c-4497-be9a-1c9ab399a900'
+              capacity_pool_id: capacity_pool_id
           )
           order.save
           expect(order).to be_persisted
@@ -257,7 +259,7 @@ RSpec.describe DIDWW::Resource::Order do
             attributes: {
               allow_back_ordering: true,
               items: [
-                { type: 'did_order_items', attributes: { qty: 15, sku_id: 'a78bb6d8-b05e-4e12-afe6-ad84ac979088' } }
+                { type: 'did_order_items', attributes: { qty: 15, sku_id: sku_id_back_order } }
               ]
             }
           )).
@@ -267,7 +269,7 @@ RSpec.describe DIDWW::Resource::Order do
             headers: json_api_headers
           )
         order = client.orders.new(allow_back_ordering: true)
-        order.items << DIDWW::ComplexObject::DidOrderItem.new(qty: 15, sku_id: 'a78bb6d8-b05e-4e12-afe6-ad84ac979088')
+        order.items << DIDWW::ComplexObject::DidOrderItem.new(qty: 15, sku_id: sku_id_back_order)
         order.save
         expect(order).not_to be_persisted
         expect(order.errors.count).to eq 1
@@ -283,7 +285,7 @@ RSpec.describe DIDWW::Resource::Order do
             attributes: {
               allow_back_ordering: true,
               items: [
-                { type: 'capacity_order_items', attributes: { qty: 5, capacity_pool_id: '034f98bf-704c-4497-be9a-1c9ab399a900' } }
+                { type: 'capacity_order_items', attributes: { qty: 5, capacity_pool_id: capacity_pool_id } }
               ]
             }
           )).
@@ -295,7 +297,7 @@ RSpec.describe DIDWW::Resource::Order do
         order = client.orders.new(allow_back_ordering: true)
         order.items << DIDWW::ComplexObject::CapacityOrderItem.new(
             qty: 5,
-            capacity_pool_id: '034f98bf-704c-4497-be9a-1c9ab399a900'
+            capacity_pool_id: capacity_pool_id
         )
         expect { order.save }.to raise_error(JsonApiClient::Errors::ClientError, 'Insufficient funds')
         expect(order).to_not be_persisted
@@ -310,7 +312,7 @@ RSpec.describe DIDWW::Resource::Order do
             attributes: {
               allow_back_ordering: true,
               items: [
-                { type: 'capacity_order_items', attributes: { qty: 3, capacity_pool_id: '034f98bf-704c-4497-be9a-1c9ab399a900' } }
+                { type: 'capacity_order_items', attributes: { qty: 3, capacity_pool_id: capacity_pool_id } }
               ]
             }
           )).
@@ -322,7 +324,7 @@ RSpec.describe DIDWW::Resource::Order do
         order = client.orders.new(allow_back_ordering: true)
         order.items << DIDWW::ComplexObject::CapacityOrderItem.new(
             qty: 3,
-            capacity_pool_id: '034f98bf-704c-4497-be9a-1c9ab399a900'
+            capacity_pool_id: capacity_pool_id
         )
         order.save
         expect(order).to_not be_persisted
