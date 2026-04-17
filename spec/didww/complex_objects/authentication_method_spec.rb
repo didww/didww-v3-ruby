@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 RSpec.describe DIDWW::ComplexObject::AuthenticationMethod do
-  let(:test_sip_ip) { '10.0.0.1/32' }
+  let(:test_sip_ip) { '203.0.113.1/32' }
 
   describe 'polymorphic casting' do
     let(:base) { DIDWW::ComplexObject::AuthenticationMethod::Base }

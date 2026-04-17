@@ -22,7 +22,7 @@
       "authentication_method": {
         "type": "credentials_and_ip",
         "attributes": {
-          "allowed_sip_ips": ["10.0.0.1/32"],
+          "allowed_sip_ips": ["203.0.113.1/32"],
           "tech_prefix": "",
           "username": "user1",
           "password": "pass1"

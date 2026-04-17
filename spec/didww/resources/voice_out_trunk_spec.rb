@@ -10,7 +10,7 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
 
   it 'has DEFAULT_DST_ACTIONS constant' do
     expect(described_class::DEFAULT_DST_ACTIONS).to include(
-      'allow_calls', 'reject_calls'
+      'allow_all', 'reject_all'
     )
   end
 
@@ -36,7 +36,7 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
 
   it 'has MEDIA_ENCRYPTION_MODES constant' do
     expect(described_class::MEDIA_ENCRYPTION_MODES).to include(
-      'disable', 'srtp_sdes', 'srtp_dtls', 'zrtp'
+      'disabled', 'srtp_sdes', 'srtp_dtls', 'zrtp'
     )
   end
 
@@ -177,14 +177,14 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
               on_cli_mismatch_action: 'reject_call',
               capacity_limit: 50,
               allow_any_did_as_cli: false,
-              default_dst_action: 'allow_calls',
+              default_dst_action: 'allow_all',
               dst_prefixes: ['1', '44'],
-              media_encryption_mode: 'disable',
+              media_encryption_mode: 'disabled',
               force_symmetric_rtp: false,
               authentication_method: {
                 type: 'ip_only',
                 attributes: {
-                  allowed_sip_ips: ['10.0.0.1/32'],
+                  allowed_sip_ips: ['203.0.113.1/32'],
                   tech_prefix: ''
                 }
               }
@@ -200,12 +200,12 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
           on_cli_mismatch_action: 'reject_call',
           capacity_limit: 50,
           allow_any_did_as_cli: false,
-          default_dst_action: 'allow_calls',
+          default_dst_action: 'allow_all',
           dst_prefixes: ['1', '44'],
-          media_encryption_mode: 'disable',
+          media_encryption_mode: 'disabled',
           force_symmetric_rtp: false,
           authentication_method: DIDWW::ComplexObject::AuthenticationMethod::IpOnly.new(
-            allowed_sip_ips: ['10.0.0.1/32'],
+            allowed_sip_ips: ['203.0.113.1/32'],
             tech_prefix: ''
           )
         )

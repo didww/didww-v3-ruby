@@ -73,7 +73,7 @@ if voice_out_trunk.save
   puts "\n=== Updating Voice Out Trunk ==="
   voice_out_trunk.name = "Updated Outbound Trunk #{suffix}"
   voice_out_trunk.authentication_method = DIDWW::ComplexObject::AuthenticationMethod::CredentialsAndIp.new(
-    allowed_sip_ips: ['10.0.0.0/8'],
+    allowed_sip_ips: ['203.0.113.0/24'],
     tech_prefix: '9'
   )
 
