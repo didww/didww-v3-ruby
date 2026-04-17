@@ -7,7 +7,7 @@ RSpec.describe DIDWW::Resource::DidGroup do
       hash_including(
         'sms_in' => 'SMS IN',
         't38' => 'T.38 Fax',
-        'voice_in' => 'Voice IN',
+        'voice_in' => 'Voice IN', # NOSONAR
         'voice_out' => 'Voice OUT',
         'p2p' => 'P2P SMS',
         'a2p' => 'A2P SMS',
@@ -29,12 +29,12 @@ RSpec.describe DIDWW::Resource::DidGroup do
     it 'humanizes features array attribute' do
       expect(subject.features_human).to eq([])
       subject.features = %w[t38 voice_in]
-      expect(subject.features_human).to eq(['T.38 Fax', 'Voice IN'])
+      expect(subject.features_human).to eq(['T.38 Fax', 'Voice IN']) # NOSONAR
     end
 
     it 'falls back to the raw key for features not in FEATURES (forward-compat)' do
       subject.features = %w[voice_in future_unknown_feature]
-      expect(subject.features_human).to eq(['Voice IN', 'future_unknown_feature'])
+      expect(subject.features_human).to eq(['Voice IN', 'future_unknown_feature']) # NOSONAR
     end
   end
 

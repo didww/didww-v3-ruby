@@ -142,7 +142,7 @@ module DIDWW
         require 'didww/resource/voice_in_trunk'
         require 'didww/resource/available_did'
         require 'didww/resource/did_reservation'
-        require 'didww/resource/address_requirement'
+        require 'didww/resource/address_requirement' # NOSONAR
         require 'didww/resource/proof_type'
         require 'didww/resource/supporting_document_template'
         require 'didww/resource/identity'
@@ -151,17 +151,17 @@ module DIDWW
         require 'didww/resource/permanent_supporting_document'
         require 'didww/resource/encrypted_file'
         require 'didww/resource/address_verification'
-        require 'didww/resource/address_requirement_validation'
+        require 'didww/resource/address_requirement_validation' # NOSONAR
         require 'didww/resource/public_key'
         require 'didww/resource/area'
         require 'didww/resource/voice_out_trunk'
         require 'didww/resource/voice_out_trunk_regenerate_credential'
         require 'didww/resource/nanpa_prefix'
-        require 'didww/resource/did_history'
-        require 'didww/resource/emergency_requirement'
-        require 'didww/resource/emergency_requirement_validation'
-        require 'didww/resource/emergency_calling_service'
-        require 'didww/resource/emergency_verification'
+        require 'didww/resource/did_history' # NOSONAR
+        require 'didww/resource/emergency_requirement' # NOSONAR
+        require 'didww/resource/emergency_requirement_validation' # NOSONAR
+        require 'didww/resource/emergency_calling_service' # NOSONAR
+        require 'didww/resource/emergency_verification' # NOSONAR
       end
 
     end
