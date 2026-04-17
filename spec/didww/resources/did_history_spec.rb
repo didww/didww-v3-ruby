@@ -48,5 +48,21 @@ RSpec.describe DIDWW::Resource::DidHistory do
       expect(record).to be_kind_of(described_class)
       expect(record.id).to eq(id)
     end
+
+    context 'when action is billing_cycles_count_changed' do
+      let(:id) { 'c3d4e5f6-a7b8-9012-cdef-123456789012' }
+
+      it 'exposes meta from/to fields' do
+        stub_didww_request(:get, "/did_history/#{id}").to_return(
+          status: 200,
+          body: api_fixture('did_history/id/get/billing_cycles_count_changed/200'),
+          headers: json_api_headers
+        )
+        record = client.did_history.find(id).first
+        expect(record.action).to eq('billing_cycles_count_changed')
+        expect(record.meta[:from]).to eq('2')
+        expect(record.meta[:to]).to eq('1')
+      end
+    end
   end
 end
