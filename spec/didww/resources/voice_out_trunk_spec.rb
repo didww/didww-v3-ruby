@@ -4,23 +4,23 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
 
   it 'has ON_CLI_MISMATCH_ACTIONS constant' do
     expect(described_class::ON_CLI_MISMATCH_ACTIONS).to include(
-      'Reject call', 'Replace CLI', 'Send Original CLI'
+      'reject_call', 'replace_cli', 'send_original_cli'
     )
   end
 
   it 'has DEFAULT_DST_ACTIONS constant' do
     expect(described_class::DEFAULT_DST_ACTIONS).to include(
-      'Allow Calls', 'Reject Calls'
+      'allow_all', 'reject_all'
     )
   end
 
   it 'has STATUSES constant' do
-    expect(described_class::STATUSES).to include('Active', 'Blocked')
+    expect(described_class::STATUSES).to include('active', 'blocked')
   end
 
   it 'has MEDIA_ENCRYPTION_MODES constant' do
     expect(described_class::MEDIA_ENCRYPTION_MODES).to include(
-      'Disable', 'SRTP SDES', 'SRTP DTLS', 'ZRTP'
+      'disabled', 'srtp_sdes', 'srtp_dtls', 'zrtp'
     )
   end
 
@@ -128,12 +128,12 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
                 "attributes": {
                   "name": 'New Outbound Trunk',
                   "allowed_sip_ips": ['10.0.0.1'],
-                  "on_cli_mismatch_action": 'Reject call',
+                  "on_cli_mismatch_action": 'reject_call',
                   "capacity_limit": 50,
                   "allow_any_did_as_cli": false,
-                  "default_dst_action": 'Allow Calls',
+                  "default_dst_action": 'allow_all',
                   "dst_prefixes": ['1', '44'],
-                  "media_encryption_mode": 'Disable',
+                  "media_encryption_mode": 'disabled',
                   "force_symmetric_rtp": false
                 }
               }
@@ -146,12 +146,12 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
         trunk = client.voice_out_trunks.new(
           name: 'New Outbound Trunk',
           allowed_sip_ips: ['10.0.0.1/32'],
-          on_cli_mismatch_action: 'Reject call',
+          on_cli_mismatch_action: 'reject_call',
           capacity_limit: 50,
           allow_any_did_as_cli: false,
-          default_dst_action: 'Allow Calls',
+          default_dst_action: 'allow_all',
           dst_prefixes: ['1', '44'],
-          media_encryption_mode: 'Disable',
+          media_encryption_mode: 'disabled',
           force_symmetric_rtp: false
         )
         trunk.save
