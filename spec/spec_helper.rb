@@ -7,7 +7,7 @@ require 'webmock/rspec'
 require 'debug'
 
 require 'didww'
-require 'support/stub_request_helper' # NOSONAR
+require 'support/stub_request_helper'
 require 'support/request_body_helper' # NOSONAR
 require 'support/shared_examples/requirement_validation' # NOSONAR
 require 'support/shared_examples/patch_external_reference_id' # NOSONAR
