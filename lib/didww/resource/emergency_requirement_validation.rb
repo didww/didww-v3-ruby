@@ -13,6 +13,12 @@ module DIDWW
       has_one :emergency_requirement, class_name: 'EmergencyRequirement'
       has_one :address, class_name: 'Address'
       has_one :identity, class_name: 'Identity'
+
+      # This resource has no attributes — only relationships.
+      # json_api_client always sends "attributes": {} which the server rejects.
+      def as_json_api(*)
+        super.tap { |h| h.delete(:attributes) if h[:attributes].blank? }
+      end
     end
   end
 end

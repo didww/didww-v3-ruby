@@ -89,6 +89,7 @@ DIDWW_API_KEY=your_api_key ruby examples/orders_nanpa.rb
 | [`emergency_verifications.rb`](emergency_verifications.rb) | Lists and creates emergency verifications. |
 | [`emergency_requirement_validations.rb`](emergency_requirement_validations.rb) | Pre-validates an emergency order triple (requirement + address + identity). |
 | [`orders_emergency.rb`](orders_emergency.rb) | Inspects server-created Emergency orders and `emergency_order_items`. |
+| [`emergency_scenario.rb`](emergency_scenario.rb) | End-to-end: find DID → check requirements → validate → create verification → get service. |
 
 ## Troubleshooting
 

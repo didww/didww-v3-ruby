@@ -20,8 +20,10 @@ DIDWW::Client.configure do |client|
 end
 
 puts '=== All Orders (last 20, filtering for Emergency) ==='
-orders = DIDWW::Client.orders.all
-emergency_orders = orders.select { |o| o.description == 'Emergency' }
+orders = DIDWW::Client.orders.order('-created_at').all
+emergency_orders = orders.select do |o|
+  o.items&.any? { |i| (i.respond_to?(:type) ? i.type : i['type']) == 'emergency_order_items' }
+end
 puts "Found #{emergency_orders.size} emergency orders out of #{orders.size} total"
 
 emergency_orders.first(5).each do |order|

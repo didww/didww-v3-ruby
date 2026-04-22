@@ -31,10 +31,12 @@ puts "  Emergency Requirement: #{requirement.id}"
 puts "  Address:               #{address.id}"
 puts "  Identity:              #{identity.id}"
 
-validation = DIDWW::Client.emergency_requirement_validations.new(
-  emergency_requirement: requirement,
-  address: address,
-  identity: identity
+validation = DIDWW::Client.emergency_requirement_validation.new(
+  relationships: {
+    emergency_requirement: requirement,
+    address: address,
+    identity: identity
+  }
 )
 
 if validation.save

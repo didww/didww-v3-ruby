@@ -24,7 +24,7 @@ did_groups.first(3).each do |did_group|
   puts "  Area: #{did_group.area_name}"
   puts "  Prefix: #{did_group.prefix}"
   puts "  Metered: #{did_group.is_metered}"
-  puts "  Features: #{did_group.features_human}" # 2026-04-16 adds p2p / a2p / emergency / cnam_out
+  puts "  Features: #{did_group.features.join(', ')}" # 2026-04-16 adds p2p / a2p / emergency / cnam_out
   puts "  Allow additional channels: #{did_group.allow_additional_channels}" # 2026-04-16
   puts "  Service restrictions: #{did_group.service_restrictions}" if did_group.service_restrictions # 2026-04-16
 

@@ -34,6 +34,22 @@ RSpec.shared_examples 'a requirement validation' do |resource_class, requirement
     expect(resource_class.path).to eq(path)
   end
 
+  describe 'serialization' do
+    it 'does not leak relationship objects into attributes' do
+      validation = resource_class.new(
+        relationships: {
+          requirement_relationship => { data: { type: path, id: 'req-id' } },
+          address: DIDWW::Resource::Address.load(id: 'addr-id'),
+          identity: DIDWW::Resource::Identity.load(id: 'ident-id')
+        }
+      )
+      body = validation.as_json_api
+
+      expect(body).not_to have_key(:attributes)
+      expect(body[:relationships]).to include(requirement_relationship, :address, :identity)
+    end
+  end
+
   describe 'POST with a valid combination' do
     let(:requirement_id) { '11111111-2222-3333-4444-555555555555' }
     let(:address_id)     { '66666666-7777-8888-9999-aaaaaaaaaaaa' }
@@ -57,8 +73,7 @@ RSpec.shared_examples 'a requirement validation' do |resource_class, requirement
               },
               address: { data: { type: 'addresses', id: address_id } },
               identity: { data: { type: 'identities', id: identity_id } }
-            },
-            attributes: {}
+            }
           }
         }.to_json
       ).to_return(status: 204, body: '', headers: json_api_headers)

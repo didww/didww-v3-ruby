@@ -39,6 +39,25 @@ RSpec.describe DIDWW::Resource::EmergencyVerification do
     end
   end
 
+  describe 'serialization' do
+    it 'does not leak relationship objects into attributes when using relationships: key' do
+      ev = described_class.new(
+        callback_url: 'https://example.com/hook',
+        external_reference_id: 'test-ref',
+        relationships: {
+          address: DIDWW::Resource::Address.load(id: 'addr-id'),
+          dids: [DIDWW::Resource::Did.load(id: 'did-id')]
+        }
+      )
+      body = ev.as_json_api
+
+      expect(body[:attributes].keys).to contain_exactly('callback_url', 'external_reference_id')
+      expect(body[:attributes]).not_to have_key('address')
+      expect(body[:attributes]).not_to have_key('dids')
+      expect(body[:relationships]).to include(:address, :dids)
+    end
+  end
+
   describe 'POST /emergency_verifications' do
     it 'creates an EmergencyVerification with emergency_calling_service, address, and dids' do
       stub_didww_request(:post, '/emergency_verifications').with(

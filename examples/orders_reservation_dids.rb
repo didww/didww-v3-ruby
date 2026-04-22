@@ -41,7 +41,7 @@ reservation.available_did = available_did
 if reservation.save
   puts "✓ Reserved: #{available_did.number}"
   puts "  Reservation ID: #{reservation.id}"
-  puts "  Expires: #{reservation.expire_at}"
+  puts "  Expires: #{reservation.expires_at}"
 else
   puts "✗ Error creating reservation: #{reservation.errors.full_messages}"
   exit 1
