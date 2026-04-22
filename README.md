@@ -226,11 +226,22 @@ order.save
 The SDK distinguishes between date-only and datetime fields:
 
 - **Datetime fields** — deserialized as `Time`:
-  - All `created_at` fields — present on most resources (`EncryptedFile` has no `created_at`)
-  - Expiry fields: `Did#expires_at`, `DidReservation#expire_at`, `Proof#expires_at`, `EncryptedFile#expire_at`
+  - `created_at` — present on most resources
+  - `expires_at` — `Did`, `DidReservation`, `Proof`, `EncryptedFile` (nullable)
+  - `activated_at` — `EmergencyCallingService` (nullable)
+  - `canceled_at` — `EmergencyCallingService` (nullable)
 - **Date-only fields** — deserialized as `Date`:
   - `Identity#birth_date`
-- **Date-only fields kept as strings** (`CapacityPool#renew_date`) remain as `String`.
+- **Date-only fields kept as strings** — remain as `String`:
+  - `CapacityPool#renew_date`, `EmergencyCallingService#renew_date` — `"YYYY-MM-DD"` (nullable)
+- **String fields** (not numeric):
+  - `EmergencyRequirement#estimate_setup_time` — e.g. `"7-14 days"`, `"1"`
+  - `EmergencyRequirement#requirement_restriction_message` — nullable
+
+**Important changes from previous API versions:**
+- `expire_at` renamed to `expires_at` on `DidReservation` and `EncryptedFile`
+- `renew_date` is a date-only string, NOT a datetime
+- `estimate_setup_time` is a string, NOT an integer
 
 ```ruby
 did = DIDWW::Client.dids.find("uuid").first
