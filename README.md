@@ -221,6 +221,120 @@ order = DIDWW::Client.orders.new(
 order.save
 ```
 
+### Emergency Services
+
+```ruby
+# List emergency requirements with filters
+requirements = DIDWW::Client.emergency_requirements
+               .includes(:country, :did_group_type)
+               .all
+
+# Filter by country
+requirements = DIDWW::Client.emergency_requirements
+               .where('country.id': 'country-uuid')
+               .all
+
+requirements.each do |req|
+  puts req.identity_type
+  puts req.address_area_level
+  puts req.estimate_setup_time        # e.g. "7-14 days"
+  puts req.requirement_restriction_message
+end
+
+# Create an emergency verification
+verification = DIDWW::Client.emergency_verifications.new(
+  address: DIDWW::Resource::Address.load(id: 'address-uuid'),
+  emergency_calling_service:
+    DIDWW::Resource::EmergencyCallingService.load(id: 'ecs-uuid'),
+  dids: [DIDWW::Resource::Did.load(id: 'did-uuid')],
+  external_reference_id: 'my-ref-123'
+)
+
+if verification.save
+  puts "Created: #{verification.id} (status: #{verification.status})"
+else
+  puts "Errors: #{verification.errors.full_messages}"
+end
+
+# List emergency calling services
+services = DIDWW::Client.emergency_calling_services
+           .includes(:country, :did_group_type, :dids)
+           .all
+
+services.each do |svc|
+  puts "#{svc.name} — #{svc.status}"
+end
+
+# Cancel (destroy) an emergency calling service
+svc = DIDWW::Client.emergency_calling_services.find('uuid').first
+svc.destroy
+```
+
+### DID History
+
+```ruby
+# List recent DID history events (retained for the last 90 days)
+events = DIDWW::Client.did_history.all
+
+events.each do |event|
+  puts "#{event.created_at.iso8601}  #{event.did_number}  #{event.action}  via #{event.method}"
+end
+
+# Filter by action
+assigned = DIDWW::Client.did_history
+           .where(action: DIDWW::Resource::DidHistory::ACTION_ASSIGNED)
+           .all
+
+# Filter by DID number
+per_number = DIDWW::Client.did_history
+             .where(did_number: '12125551234')
+             .all
+
+# Filter by date range
+seven_days_ago = (Time.now - 7 * 24 * 60 * 60).iso8601
+recent = DIDWW::Client.did_history
+         .where(created_at_gteq: seven_days_ago)
+         .all
+```
+
+## Error Handling
+
+The SDK uses [json_api_client](https://github.com/JsonApiClient/json_api_client) which raises exceptions for HTTP-level errors. Validation errors from the API are returned on the resource's `errors` collection after a failed `save`.
+
+```ruby
+# Validation errors (422 Unprocessable Entity)
+trunk = DIDWW::Client.voice_in_trunks.new(name: '')
+unless trunk.save
+  trunk.errors.full_messages.each do |msg|
+    puts "Validation error: #{msg}"
+  end
+end
+
+# HTTP errors (404, 401, 500, etc.)
+begin
+  DIDWW::Client.dids.find('nonexistent-uuid')
+rescue JsonApiClient::Errors::NotFound => e
+  puts "Not found: #{e.message}"
+rescue JsonApiClient::Errors::AccessDenied => e
+  puts "Access denied: #{e.message}"
+rescue JsonApiClient::Errors::ServerError => e
+  puts "Server error: #{e.message}"
+rescue JsonApiClient::Errors::ConnectionError => e
+  puts "Connection error: #{e.message}"
+end
+```
+
+## Dirty Tracking
+
+The SDK (via `json_api_client`) tracks which attributes have been modified. When you call `save` on a fetched resource, the resulting PATCH request sends only the changed attributes, avoiding unintended overwrites of server-side values.
+
+```ruby
+did = DIDWW::Client.dids.find('uuid').first
+did.description = 'Updated'
+did.save
+# PATCH payload includes only "description", not all attributes
+```
+
 ## Date and Datetime Fields
 
 The SDK distinguishes between date-only and datetime fields:
