@@ -168,7 +168,7 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
     let(:trunk_name) { 'New Outbound Trunk' }
 
     describe 'with correct attributes' do
-      it 'creates a VoiceOutTrunk with an ip_only authentication_method' do
+      it 'creates a VoiceOutTrunk with a credentials_and_ip authentication_method' do
         stub_didww_request(:post, '/voice_out_trunks').
           with(body: json_api_post_body(
             type: 'voice_out_trunks',
@@ -182,7 +182,7 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
               media_encryption_mode: 'disabled',
               force_symmetric_rtp: false,
               authentication_method: {
-                type: 'ip_only',
+                type: 'credentials_and_ip',
                 attributes: {
                   allowed_sip_ips: ['203.0.113.1/32'],
                   tech_prefix: ''
@@ -204,7 +204,7 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
           dst_prefixes: ['1', '44'],
           media_encryption_mode: 'disabled',
           force_symmetric_rtp: false,
-          authentication_method: DIDWW::ComplexObject::AuthenticationMethod::IpOnly.new(
+          authentication_method: DIDWW::ComplexObject::AuthenticationMethod::CredentialsAndIp.new(
             allowed_sip_ips: ['203.0.113.1/32'],
             tech_prefix: ''
           )
