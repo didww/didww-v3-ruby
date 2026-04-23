@@ -152,6 +152,41 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
       end
     end
 
+    context 'when VoiceOutTrunk has ip_only authentication_method' do
+      let(:ip_only_id) { '23fd58f9-9094-406c-bfd9-f4d25bda13c6' }
+      let(:trunk) do
+        stub_didww_request(:get, "/voice_out_trunks/#{ip_only_id}").to_return(
+          status: 200,
+          body: api_fixture('voice_out_trunks/id/get/show_ip_only/200'),
+          headers: json_api_headers
+        )
+        client.voice_out_trunks.find(ip_only_id).first
+      end
+
+      it 'returns a VoiceOutTrunk with IpOnly authentication_method' do
+        expect(trunk).to be_kind_of(described_class)
+        expect(trunk.id).to eq(ip_only_id)
+      end
+
+      it 'deserializes authentication_method as IpOnly' do
+        expect(trunk.authentication_method).to be_kind_of(
+          DIDWW::ComplexObject::AuthenticationMethod::IpOnly
+        )
+        expect(trunk.authentication_method).not_to be_kind_of(
+          DIDWW::ComplexObject::AuthenticationMethod::CredentialsAndIp
+        )
+      end
+
+      it 'has correct allowed_sip_ips' do
+        expect(trunk.authentication_method.allowed_sip_ips).to eq(['203.0.113.1/32'])
+      end
+
+      it 'does not have username or password' do
+        expect(trunk.authentication_method).not_to respond_to(:username)
+        expect(trunk.authentication_method).not_to respond_to(:password)
+      end
+    end
+
     context 'when VoiceOutTrunk does not exist' do
       it 'raises a NotFound error' do
         stub_didww_request(:get, "/voice_out_trunks/#{id}").to_return(
