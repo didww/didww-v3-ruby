@@ -19,7 +19,7 @@ module DIDWW
 
       property :blocked, type: :boolean
       # Type: Boolean
-      # Description: Identifier for a blocked DID. Blocked DIDs are numbers that have expired, have been cancelled or have been suspended by DIDWW.
+      # Description: Identifier for a blocked DID. Blocked DIDs are numbers that have expired, have been canceled or have been suspended by DIDWW.
 
       property :awaiting_registration, type: :boolean
       # Type: Boolean

@@ -11,8 +11,8 @@ RSpec.describe DIDWW::Resource::Order do
     expect(order.pending?).to be true
     order = described_class.load(status: described_class::STATUS_COMPLETED)
     expect(order.completed?).to be true
-    order = described_class.load(status: described_class::STATUS_CANCELLED)
-    expect(order.cancelled?).to be true
+    order = described_class.load(status: described_class::STATUS_CANCELED)
+    expect(order.canceled?).to be true
   end
 
   describe 'GET /orders/{id}' do

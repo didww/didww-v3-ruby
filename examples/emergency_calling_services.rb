@@ -52,7 +52,7 @@ puts "Found #{active.size} active services"
 # if (svc = services.find { |s| s.status == 'active' })
 #   puts "\nCancelling service #{svc.id}..."
 #   if svc.destroy
-#     puts 'Service cancelled'
+#     puts 'Service canceled'
 #   else
 #     puts "Error: #{svc.errors.full_messages}"
 #   end
