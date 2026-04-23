@@ -12,13 +12,13 @@ module DIDWW
       include HasStatusHelpers
 
       # Possible values for order.status
-      STATUS_PENDING      = 'pending'
-      STATUS_COMPLETED    = 'completed'
-      STATUS_CANCELLED    = 'canceled'
+      STATUS_PENDING   = 'pending'
+      STATUS_COMPLETED = 'completed'
+      STATUS_CANCELED  = 'canceled'
       STATUSES = [
                    STATUS_PENDING,
                    STATUS_COMPLETED,
-                   STATUS_CANCELLED
+                   STATUS_CANCELED
                  ].freeze
 
       property :reference, type: :string
@@ -68,7 +68,7 @@ module DIDWW
 
       status_helper :pending, STATUS_PENDING
       status_helper :completed, STATUS_COMPLETED
-      status_helper :cancelled, STATUS_CANCELLED
+      status_helper :canceled, STATUS_CANCELED
 
     end
   end

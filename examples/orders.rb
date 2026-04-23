@@ -60,7 +60,7 @@ if order.save
   # Cancel order (delete it)
   puts "\n=== Cancelling Order ==="
   if order.destroy
-    puts 'Order cancelled'
+    puts 'Order canceled'
   else
     puts "Error cancelling order: #{order.errors.full_messages}"
   end
