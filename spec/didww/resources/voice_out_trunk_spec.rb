@@ -187,6 +187,35 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
       end
     end
 
+    context 'when VoiceOutTrunk has twilio authentication_method' do
+      let(:twilio_id) { 'b5e701f4-ea15-4f9d-8f35-6a0bdce04385' }
+      let(:trunk) do
+        stub_didww_request(:get, "/voice_out_trunks/#{twilio_id}").to_return(
+          status: 200,
+          body: api_fixture('voice_out_trunks/id/get/show_twilio/200'),
+          headers: json_api_headers
+        )
+        client.voice_out_trunks.find(twilio_id).first
+      end
+
+      it 'returns a VoiceOutTrunk with Twilio authentication_method' do
+        expect(trunk).to be_kind_of(described_class)
+        expect(trunk.id).to eq(twilio_id)
+        expect(trunk.name).to eq('SDK Test twilio')
+      end
+
+      it 'deserializes authentication_method as Twilio' do
+        expect(trunk.authentication_method).to be_kind_of(
+          DIDWW::ComplexObject::AuthenticationMethod::Twilio
+        )
+        expect(trunk.authentication_method.type).to eq('twilio')
+      end
+
+      it 'has correct twilio_account_sid' do
+        expect(trunk.authentication_method.twilio_account_sid).to eq('AC22222222222222222222222222222222')
+      end
+    end
+
     context 'when VoiceOutTrunk does not exist' do
       it 'raises a NotFound error' do
         stub_didww_request(:get, "/voice_out_trunks/#{id}").to_return(
@@ -246,6 +275,43 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
         )
         trunk.save
         expect(trunk).to be_persisted
+      end
+    end
+
+    describe 'with twilio authentication_method' do
+      it 'creates a VoiceOutTrunk with a twilio authentication_method' do
+        stub_didww_request(:post, '/voice_out_trunks').
+          with(body: json_api_post_body(
+            type: 'voice_out_trunks',
+            attributes: {
+              name: 'SDK Test twilio create',
+              on_cli_mismatch_action: 'reject_call',
+              authentication_method: {
+                type: 'twilio',
+                attributes: {
+                  twilio_account_sid: 'AC33333333333333333333333333333333'
+                }
+              }
+            }
+          )).
+          to_return(
+            status: 201,
+            body: api_fixture('voice_out_trunks/post/create_twilio/201'),
+            headers: json_api_headers
+          )
+        trunk = client.voice_out_trunks.new(
+          name: 'SDK Test twilio create',
+          on_cli_mismatch_action: 'reject_call',
+          authentication_method: DIDWW::ComplexObject::AuthenticationMethod::Twilio.new(
+            twilio_account_sid: 'AC33333333333333333333333333333333'
+          )
+        )
+        trunk.save
+        expect(trunk).to be_persisted
+        expect(trunk.authentication_method).to be_kind_of(
+          DIDWW::ComplexObject::AuthenticationMethod::Twilio
+        )
+        expect(trunk.authentication_method.twilio_account_sid).to eq('AC33333333333333333333333333333333')
       end
     end
 
