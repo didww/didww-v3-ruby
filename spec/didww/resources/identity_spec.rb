@@ -3,9 +3,9 @@ RSpec.describe DIDWW::Resource::Identity do
   let(:client) { DIDWW::Client }
 
   it 'has IDENTITY_TYPE constants' do
-    expect(described_class::IDENTITY_TYPE_PERSONAL).to eq('Personal')
-    expect(described_class::IDENTITY_TYPE_BUSINESS).to eq('Business')
-    expect(described_class::IDENTITY_TYPE_ANY).to eq('Any')
+    expect(described_class::IDENTITY_TYPE_PERSONAL).to eq('personal')
+    expect(described_class::IDENTITY_TYPE_BUSINESS).to eq('business')
+    expect(described_class::IDENTITY_TYPE_ANY).to eq('any')
   end
 
   describe 'GET /identities' do
@@ -50,14 +50,21 @@ RSpec.describe DIDWW::Resource::Identity do
     end
   end
 
+  describe 'birth_country relationship (2026-04-16)' do
+    it 'has birth_country has_one relationship' do
+      identity = described_class.new
+      expect(identity).to respond_to(:birth_country)
+    end
+  end
+
   describe 'type helper methods' do
     it '#personal?' do
-      subject.identity_type = 'Personal'
+      subject.identity_type = 'personal'
       expect(subject).to be_personal
     end
 
     it '#business?' do
-      subject.identity_type = 'Business'
+      subject.identity_type = 'business'
       expect(subject).to be_business
     end
   end

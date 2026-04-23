@@ -173,6 +173,25 @@ module DIDWW
         # Nullable: Yes
         # Description: Allowed IP addresses for RTP connection.
 
+        property :diversion_relay_policy, type: :string
+        # Type: String
+        # Nullable: No
+        # Description: Diversion header relay policy for SIP INVITE.
+        # See DIVERSION_RELAY_POLICIES for available values.
+        # In API v3.4 this attribute was named `diversion_relay_mode`.
+
+        DIVERSION_RELAY_POLICY_NONE = 'none'
+        DIVERSION_RELAY_POLICY_AS_IS = 'as_is'
+        DIVERSION_RELAY_POLICY_SIP = 'sip'
+        DIVERSION_RELAY_POLICY_TEL = 'tel'
+
+        DIVERSION_RELAY_POLICIES = [
+          DIVERSION_RELAY_POLICY_NONE,
+          DIVERSION_RELAY_POLICY_AS_IS,
+          DIVERSION_RELAY_POLICY_SIP,
+          DIVERSION_RELAY_POLICY_TEL
+        ].freeze
+
         MEDIA_ENCRYPTION_MODES = [
                                    'disabled',
                                    'srtp_sdes',

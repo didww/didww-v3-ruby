@@ -5,6 +5,7 @@
 
 require 'bundler/setup'
 require 'didww'
+require 'securerandom'
 
 DIDWW::Client.configure do |client|
   client.api_key  = ENV.fetch('DIDWW_API_KEY') { abort 'Please set DIDWW_API_KEY' }
@@ -23,16 +24,18 @@ trunk_groups.first(3).each do |group|
   puts "#{group.name} (#{trunks_count} trunks)"
 end
 
-# Create a new trunk group
+# Create a new trunk group (2026-04-16 external_reference_id for customer tagging)
 puts "\n=== Creating Trunk Group ==="
-suffix = SecureRandom.random_bytes(4).unpack1('H*')[0..7]
+suffix = SecureRandom.hex(4)
 trunk_group = DIDWW::Client.voice_in_trunk_groups.new(
   name: "Ruby Trunk Group #{suffix}",
-  capacity_limit: 20
+  capacity_limit: 20,
+  external_reference_id: "ruby-tg-#{suffix}"
 )
 
 if trunk_group.save
   puts "Created trunk group: #{trunk_group.id} - #{trunk_group.name}"
+  puts "  External reference: #{trunk_group.external_reference_id}"
 
   # Update trunk group
   puts "\n=== Updating Trunk Group ==="

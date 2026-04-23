@@ -2,24 +2,8 @@
 RSpec.describe DIDWW::Resource::DidGroup do
   let (:client) { DIDWW::Client }
 
-  it 'has FEATURES constant' do
-    expect(DIDWW::Resource::DidGroup::FEATURES).to match(
-      hash_including(
-        'sms_in' => 'SMS IN',
-        'sms_out' => 'SMS OUT',
-        't38' => 'T.38 Fax',
-        'voice_in' => 'Voice IN',
-        'voice_out' => 'Voice OUT',
-      )
-    )
-  end
-
-  describe '#features_human' do
-    it 'humanizes features array attribute' do
-      expect(subject.features_human).to eq([])
-      subject.features = %w[t38 voice_in]
-      expect(subject.features_human).to eq(['T.38 Fax', 'Voice IN'])
-    end
+  it 'does not define FEATURE_OUT_SMS' do
+    expect(DIDWW::Resource::DidGroup).not_to be_const_defined(:FEATURE_OUT_SMS)
   end
 
   describe 'GET /did_groups/:id' do
@@ -51,6 +35,9 @@ RSpec.describe DIDWW::Resource::DidGroup do
       it 'the DidGroup has "allow_additional_channels", type: Boolean' do
         expect(did_group.allow_additional_channels).to be_in([true, false])
       end
+      it 'the DidGroup has "service_restrictions", type: String' do
+        expect(did_group.service_restrictions).to be_kind_of(String).or be_nil
+      end
     end
 
     context 'when DidGroup does not exist' do
@@ -64,8 +51,8 @@ RSpec.describe DIDWW::Resource::DidGroup do
       end
     end
 
-    it 'has requirement relationship' do
-      expect(described_class.new).to respond_to(:requirement)
+    it 'has address_requirement relationship' do
+      expect(described_class.new).to respond_to(:address_requirement)
     end
 
     it 'optionally includes Country, City, Region, DidGroupType and a collection of StockKeepingUnits' do

@@ -10,3 +10,10 @@
 
 # rspec failure tracking
 .rspec_status
+
+# claude settings (local-only, per-developer)
+.claude/
+
+# build artifacts
+/*.gem
+

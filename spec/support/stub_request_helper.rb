@@ -22,7 +22,7 @@ module StubRequestHelper
     {
       'Content-Type' => 'application/vnd.api+json',
       'User-Agent' => /didww-v3 Ruby gem v\d+\.\d+\.\d+/,
-      'X-DIDWW-API-Version' => '2022-05-10'
+      'X-DIDWW-API-Version' => '2026-04-16'
     }
   end
 end

@@ -22,7 +22,7 @@ RSpec.describe DIDWW::Resource::DidReservation do
       it 'returns correct object' do
         subject
         expect(record).to be_kind_of(DIDWW::Resource::DidReservation)
-        expect(record.expire_at).to be_kind_of(Time)
+        expect(record.expires_at).to be_kind_of(Time)
         expect(record.created_at).to be_kind_of(Time)
       end
     end

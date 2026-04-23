@@ -1,0 +1,34 @@
+{
+  "data": [
+    {
+      "id": "11111111-2222-3333-4444-555555555555",
+      "type": "emergency_requirements",
+      "attributes": {
+        "identity_type": "personal",
+        "address_area_level": "city",
+        "personal_area_level": "city",
+        "business_area_level": "city",
+        "address_mandatory_fields": ["street", "city", "postal_code"],
+        "personal_mandatory_fields": ["first_name", "last_name"],
+        "business_mandatory_fields": ["company_name", "tax_number"],
+        "estimate_setup_time": "7-14 days",
+        "requirement_restriction_message": null
+      },
+      "relationships": {
+        "country": {
+          "data": { "id": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee", "type": "countries" }
+        },
+        "did_group_type": {
+          "data": { "id": "ffffffff-0000-1111-2222-333333333333", "type": "did_group_types" }
+        }
+      },
+      "meta": {
+        "setup_price": "0.0",
+        "monthly_price": "0.0"
+      }
+    }
+  ],
+  "meta": {
+    "total_records": 1
+  }
+}

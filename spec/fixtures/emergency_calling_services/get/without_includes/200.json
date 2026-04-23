@@ -1,0 +1,44 @@
+{
+  "data": [
+    {
+      "id": "11111111-2222-3333-4444-555555555555",
+      "type": "emergency_calling_services",
+      "attributes": {
+        "name": "London Office ECS",
+        "reference": "ECS-0001",
+        "status": "active",
+        "activated_at": "2026-03-01T10:00:00.000Z",
+        "canceled_at": null,
+        "created_at": "2026-02-28T09:00:00.000Z",
+        "renew_date": "2026-05-01T00:00:00.000Z"
+      },
+      "relationships": {
+        "country": {
+          "data": { "id": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee", "type": "countries" }
+        },
+        "did_group_type": {
+          "data": { "id": "ffffffff-0000-1111-2222-333333333333", "type": "did_group_types" }
+        },
+        "order": {
+          "data": { "id": "99999999-8888-7777-6666-555555555555", "type": "orders" }
+        },
+        "emergency_requirement": {
+          "data": { "id": "44444444-3333-2222-1111-000000000000", "type": "emergency_requirements" }
+        },
+        "emergency_verification": {
+          "data": null
+        },
+        "dids": {
+          "data": [{ "id": "11111111-aaaa-bbbb-cccc-dddddddddddd", "type": "dids" }]
+        }
+      },
+      "meta": {
+        "setup_price": "0.0",
+        "monthly_price": "2.5"
+      }
+    }
+  ],
+  "meta": {
+    "total_records": 1
+  }
+}

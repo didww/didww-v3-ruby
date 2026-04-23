@@ -7,7 +7,7 @@
         "attributes": {
           "reference": "BEX-438024",
           "amount": "15.0",
-          "status": "Completed",
+          "status": "completed",
           "created_at": "2017-06-25T08:21:41.795Z",
           "description": "DID",
           "items": [
@@ -36,7 +36,7 @@
         "attributes": {
           "reference": "NKZ-783320",
           "amount": "15.0",
-          "status": "Completed",
+          "status": "completed",
           "created_at": "2017-06-25T08:21:41.795Z",
           "description": "DID",
           "items": [

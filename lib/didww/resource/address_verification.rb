@@ -4,9 +4,9 @@ module DIDWW
   module Resource
     class AddressVerification < Base
       include HasStatusHelpers
-      STATUS_PENDING = 'Pending'
-      STATUS_APPROVED = 'Approved'
-      STATUS_REJECTED = 'Rejected'
+      STATUS_PENDING = 'pending'
+      STATUS_APPROVED = 'approved'
+      STATUS_REJECTED = 'rejected'
       STATUSES = [
         STATUS_PENDING,
         STATUS_APPROVED,
@@ -25,14 +25,9 @@ module DIDWW
       # Type: String
       # Description:
 
-      property :reject_reasons, type: :string
+      property :reject_reasons, type: :array
       # Type: Array<String> or nil
-      # Description: List of reject reasons split by '; '
-
-      def reject_reasons
-        value = self[:reject_reasons]
-        value&.split('; ')
-      end
+      # Description: List of reject reasons
 
       property :created_at, type: :time
       # Type: Time
@@ -49,6 +44,14 @@ module DIDWW
       property :reference, type: :string
       # Type: String
       # Description: verification reference code
+
+      property :reject_comment, type: :string
+      # Type: String
+      # Description: Optional free-form comment accompanying a rejection. (API 2026-04-16)
+
+      property :external_reference_id, type: :string
+      # Type: String
+      # Description: Customer-supplied reference. Max 100 characters. (API 2026-04-16)
 
       status_helper :pending, STATUS_PENDING
       status_helper :approved, STATUS_APPROVED

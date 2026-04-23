@@ -5,7 +5,7 @@
     "attributes": {
       "reference": "FZH-374899",
       "amount": "79.2",
-      "status": "Pending",
+      "status": "pending",
       "created_at": "2017-06-25T14:56:31.513Z",
       "description": "DID",
       "items": [

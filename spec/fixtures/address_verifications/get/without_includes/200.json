@@ -7,7 +7,7 @@
         "service_description": null,
         "callback_url": null,
         "callback_method": null,
-        "status": "Approved",
+        "status": "approved",
         "reject_reasons": null,
         "created_at": "2020-09-15T06:38:12.650Z",
         "reference": "SHB-485120"

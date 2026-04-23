@@ -1,19 +1,25 @@
 # frozen_string_literal: true
 
 require 'didww/callback/const'
+require 'didww/complex_objects/authentication_method'
+require 'didww/resource/concerns/has_status_helpers'
 
 module DIDWW
   module Resource
     class VoiceOutTrunk < Base
       include DIDWW::Callback::CONST
+      include HasStatusHelpers
 
       ON_CLI_MISMATCH_ACTION_REJECT_CALL = 'reject_call'
+      # replace_cli and randomize_cli require account configuration
       ON_CLI_MISMATCH_ACTION_REPLACE_CLI = 'replace_cli'
+      ON_CLI_MISMATCH_ACTION_RANDOMIZE_CLI = 'randomize_cli'
       ON_CLI_MISMATCH_ACTION_SEND_ORIGINAL_CLI = 'send_original_cli'
 
       ON_CLI_MISMATCH_ACTIONS = [
                                   ON_CLI_MISMATCH_ACTION_REJECT_CALL,
                                   ON_CLI_MISMATCH_ACTION_REPLACE_CLI,
+                                  ON_CLI_MISMATCH_ACTION_RANDOMIZE_CLI,
                                   ON_CLI_MISMATCH_ACTION_SEND_ORIGINAL_CLI
                                 ].freeze
 
@@ -46,11 +52,8 @@ module DIDWW
                                ].freeze
 
       property :name, type: :string
-      property :allowed_sip_ips, type: :ip_addresses
       property :on_cli_mismatch_action, type: :string
       property :capacity_limit, type: :integer
-      property :username, type: :string
-      property :password, type: :string
       property :created_at, type: :time
       property :allow_any_did_as_cli, type: :boolean
       property :status, type: :string
@@ -63,8 +66,35 @@ module DIDWW
       property :force_symmetric_rtp, type: :boolean
       property :allowed_rtp_ips, type: :ip_addresses
 
+      # Type: String
+      # Description: Customer-supplied reference. Max 100 characters. (API 2026-04-16)
+      property :external_reference_id, type: :string
+
+      # Type: Boolean
+      # Description: When true, all customer DIDs assigned to this trunk are considered
+      # emergency-enabled. Cannot be combined with emergency_dids. (API 2026-04-16)
+      property :emergency_enable_all, type: :boolean
+
+      # Type: Integer
+      # Description: Seconds of RTP inactivity before the trunk tears down the call.
+      # (API 2026-04-16)
+      property :rtp_timeout, type: :integer
+
+      # Polymorphic authentication_method (2026-04-16). One of:
+      #   - ip_only:             { allowed_sip_ips, tech_prefix }
+      #   - credentials_and_ip:  { allowed_sip_ips, tech_prefix, username, password }
+      #     (username/password are server-generated and returned in responses only)
+      #   - twilio:              { twilio_account_sid }
+      # Replaces the flat `allowed_sip_ips`, `username`, `password` attributes
+      # that existed in API v3.4 and earlier.
+      property :authentication_method, type: :authentication_method
+
       has_one :default_did, class_name: 'Did'
       has_many :dids
+      has_many :emergency_dids, class_name: 'Did'
+
+      status_helper :active, STATUS_ACTIVE
+      status_helper :blocked, STATUS_BLOCKED
 
       def regenerate_credentials
         resource = DIDWW::Resource::VoiceOutTrunkRegenerateCredential.new

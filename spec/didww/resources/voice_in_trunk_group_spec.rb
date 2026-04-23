@@ -30,6 +30,9 @@ RSpec.describe DIDWW::Resource::VoiceInTrunkGroup do
         it '"created_at", type: Time' do
           expect(trunk_group.created_at).to be_kind_of(Time)
         end
+        it '"external_reference_id", type: String' do
+          expect(trunk_group.external_reference_id).to be_kind_of(String).or be_nil
+        end
       end
 
       describe '#trunks_count' do

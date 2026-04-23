@@ -7,22 +7,17 @@ module DIDWW
       FEATURE_VOICE_OUT = 'voice_out'
       FEATURE_T38 = 't38'
       FEATURE_IN_SMS = 'sms_in'
-      FEATURE_OUT_SMS = 'sms_out'
-
-      FEATURES = {
-        FEATURE_VOICE_IN => 'Voice IN',
-        FEATURE_VOICE_OUT => 'Voice OUT',
-        FEATURE_T38 => 'T.38 Fax',
-        FEATURE_IN_SMS => 'SMS IN',
-        FEATURE_OUT_SMS => 'SMS OUT'
-      }.freeze
+      FEATURE_P2P = 'p2p'             # (API 2026-04-16)
+      FEATURE_A2P = 'a2p'             # (API 2026-04-16)
+      FEATURE_EMERGENCY = 'emergency' # (API 2026-04-16)
+      FEATURE_CNAM_OUT = 'cnam_out'   # (API 2026-04-16)
 
       has_one :country, class_name: 'Country'
       has_one :city,    class_name: 'City'
       has_one :did_group_type, class_name: 'DidGroupType'
       has_one :region, class_name: 'Region'
       has_many :stock_keeping_units, class_name: 'StockKeepingUnit'
-      has_one :requirement, class_name: 'Requirement'
+      has_one :address_requirement, class_name: 'AddressRequirement'
 
       property :area_name, type: :string
       # Type: String
@@ -44,6 +39,11 @@ module DIDWW
       # Type: Boolean
       # Description: Defines if channel capacity may be added to this DID Group.
 
+      property :service_restrictions, type: :string
+      # Type: String
+      # Description: Service restriction message associated with this DID Group, if any.
+      #              Null when no restrictions apply. (API 2026-04-16)
+
       # TODO
       # Meta attributes
       #
@@ -59,9 +59,6 @@ module DIDWW
       # Type: Boolean
       # Description: Defines if numbers in this DID Group are currently in stock.
 
-      def features_human
-        Array.wrap(features).map { |f| FEATURES[f] }
-      end
     end
   end
 end

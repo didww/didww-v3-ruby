@@ -16,9 +16,11 @@ This SDK uses [json_api_client](https://github.com/JsonApiClient/json_api_client
 
 Read more https://doc.didww.com/api
 
-This SDK sends the `X-DIDWW-API-Version: 2022-05-10` header with every request by default.
+This SDK sends the `X-DIDWW-API-Version: 2026-04-16` header with every request by default.
 
-Gem Versions **4.X.X**, **5.X.X** and branch [master](https://github.com/didww/didww-v3-ruby) are intended to use with DIDWW API 3 version [2022-05-10](https://doc.didww.com/api3/2022-05-10/index.html).
+Gem Versions **6.X.X** and branch [master](https://github.com/didww/didww-v3-ruby) are intended to use with DIDWW API 3 version [2026-04-16](https://doc.didww.com/api3/2026-04-16/index.html).
+
+Gem Versions **5.X.X** and branch [release-5](https://github.com/didww/didww-v3-ruby/tree/release-5) are intended to use with DIDWW API 3 version [2022-05-10](https://doc.didww.com/api3/2022-05-10/index.html).
 
 Gem Versions **3.X.X** and branch [release-3](https://github.com/didww/didww-v3-ruby/tree/release-3) are intended to use with DIDWW API 3 version [2021-12-15](https://doc.didww.com/api3/2021-12-15/index.html).
 
@@ -132,7 +134,7 @@ end
 
 ### API Version
 
-The SDK sends `X-DIDWW-API-Version: 2022-05-10` by default. You can override it per block:
+The SDK sends `X-DIDWW-API-Version: 2026-04-16` by default. You can override it per block (e.g., to pin to a previous API version during migration):
 
 ```ruby
 DIDWW::Client.with_api_version('2022-05-10') do
@@ -219,16 +221,141 @@ order = DIDWW::Client.orders.new(
 order.save
 ```
 
+### Emergency Services
+
+```ruby
+# List emergency requirements with filters
+requirements = DIDWW::Client.emergency_requirements
+               .includes(:country, :did_group_type)
+               .all
+
+# Filter by country
+requirements = DIDWW::Client.emergency_requirements
+               .where('country.id': 'country-uuid')
+               .all
+
+requirements.each do |req|
+  puts req.identity_type
+  puts req.address_area_level
+  puts req.estimate_setup_time        # e.g. "7-14 days"
+  puts req.requirement_restriction_message
+end
+
+# Create an emergency verification
+verification = DIDWW::Client.emergency_verifications.new(
+  address: DIDWW::Resource::Address.load(id: 'address-uuid'),
+  emergency_calling_service:
+    DIDWW::Resource::EmergencyCallingService.load(id: 'ecs-uuid'),
+  dids: [DIDWW::Resource::Did.load(id: 'did-uuid')],
+  external_reference_id: 'my-ref-123'
+)
+
+if verification.save
+  puts "Created: #{verification.id} (status: #{verification.status})"
+else
+  puts "Errors: #{verification.errors.full_messages}"
+end
+
+# List emergency calling services
+services = DIDWW::Client.emergency_calling_services
+           .includes(:country, :did_group_type, :dids)
+           .all
+
+services.each do |svc|
+  puts "#{svc.name} — #{svc.status}"
+end
+
+# Cancel (destroy) an emergency calling service
+svc = DIDWW::Client.emergency_calling_services.find('uuid').first
+svc.destroy
+```
+
+### DID History
+
+```ruby
+# List recent DID history events (retained for the last 90 days)
+events = DIDWW::Client.did_history.all
+
+events.each do |event|
+  puts "#{event.created_at.iso8601}  #{event.did_number}  #{event.action}  via #{event.method}"
+end
+
+# Filter by action
+assigned = DIDWW::Client.did_history
+           .where(action: DIDWW::Resource::DidHistory::ACTION_ASSIGNED)
+           .all
+
+# Filter by DID number
+per_number = DIDWW::Client.did_history
+             .where(did_number: '12125551234')
+             .all
+
+# Filter by date range
+seven_days_ago = (Time.now - 7 * 24 * 60 * 60).iso8601
+recent = DIDWW::Client.did_history
+         .where(created_at_gteq: seven_days_ago)
+         .all
+```
+
+## Error Handling
+
+The SDK uses [json_api_client](https://github.com/JsonApiClient/json_api_client) which raises exceptions for HTTP-level errors. Validation errors from the API are returned on the resource's `errors` collection after a failed `save`.
+
+```ruby
+# Validation errors (422 Unprocessable Entity)
+trunk = DIDWW::Client.voice_in_trunks.new(name: '')
+unless trunk.save
+  trunk.errors.full_messages.each do |msg|
+    puts "Validation error: #{msg}"
+  end
+end
+
+# HTTP errors (404, 401, 500, etc.)
+begin
+  DIDWW::Client.dids.find('nonexistent-uuid')
+rescue JsonApiClient::Errors::NotFound => e
+  puts "Not found: #{e.message}"
+rescue JsonApiClient::Errors::AccessDenied => e
+  puts "Access denied: #{e.message}"
+rescue JsonApiClient::Errors::ServerError => e
+  puts "Server error: #{e.message}"
+rescue JsonApiClient::Errors::ConnectionError => e
+  puts "Connection error: #{e.message}"
+end
+```
+
+## Dirty Tracking
+
+The SDK (via `json_api_client`) tracks which attributes have been modified. When you call `save` on a fetched resource, the resulting PATCH request sends only the changed attributes, avoiding unintended overwrites of server-side values.
+
+```ruby
+did = DIDWW::Client.dids.find('uuid').first
+did.description = 'Updated'
+did.save
+# PATCH payload includes only "description", not all attributes
+```
+
 ## Date and Datetime Fields
 
 The SDK distinguishes between date-only and datetime fields:
 
 - **Datetime fields** — deserialized as `Time`:
-  - All `created_at` fields — present on most resources (`EncryptedFile` has no `created_at`)
-  - Expiry fields: `Did#expires_at`, `DidReservation#expire_at`, `Proof#expires_at`, `EncryptedFile#expire_at`
+  - `created_at` — present on most resources
+  - `expires_at` — `Did`, `DidReservation`, `Proof`, `EncryptedFile` (nullable)
+  - `activated_at` — `EmergencyCallingService` (nullable)
+  - `canceled_at` — `EmergencyCallingService` (nullable)
 - **Date-only fields** — deserialized as `Date`:
   - `Identity#birth_date`
-- **Date-only fields kept as strings** (`CapacityPool#renew_date`) remain as `String`.
+- **Date-only fields kept as strings** — remain as `String`:
+  - `CapacityPool#renew_date`, `EmergencyCallingService#renew_date` — `"YYYY-MM-DD"` (nullable)
+- **String fields** (not numeric):
+  - `EmergencyRequirement#estimate_setup_time` — e.g. `"7-14 days"`, `"1"`
+  - `EmergencyRequirement#requirement_restriction_message` — nullable
+
+**Important changes from previous API versions:**
+- `expire_at` renamed to `expires_at` on `DidReservation` and `EncryptedFile`
+- `renew_date` is a date-only string, NOT a datetime
+- `estimate_setup_time` is a string, NOT an integer
 
 ```ruby
 did = DIDWW::Client.dids.find("uuid").first
@@ -282,6 +409,18 @@ class WebhooksController < ApplicationController
   end
 end
 ```
+
+## Enums
+
+The SDK provides constants for all API option fields. These are defined as constants on their respective modules/classes:
+
+`CallbackMethod`, `IdentityType`, `OrderStatus`, `ExportType`, `ExportStatus`, `CliFormat`,
+`OnCliMismatchAction`\*, `MediaEncryptionMode`, `DefaultDstAction`, `VoiceOutTrunkStatus`,
+`EmergencyCallingServiceStatus`, `EmergencyVerificationStatus`, `DiversionRelayPolicy`,
+`TransportProtocol`, `Codec`, `RxDtmfFormat`, `TxDtmfFormat`, `SstRefreshMethod`,
+`ReroutingDisconnectCode`, `Feature`, `AreaLevel`, `AddressVerificationStatus`, `StirShakenMode`
+
+\* `REPLACE_CLI` and `RANDOMIZE_CLI` require additional account configuration. Contact DIDWW support to enable these values.
 
 ## Development
 

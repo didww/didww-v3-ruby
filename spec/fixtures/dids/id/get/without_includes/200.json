@@ -13,7 +13,8 @@
       "channels_included_count": 2,
       "created_at": "2017-06-25T08:21:41.795Z",
       "billing_cycles_count": 1,
-      "dedicated_channels_count": 0
+      "dedicated_channels_count": 0,
+      "emergency_enabled": false
     },
     "relationships": {
       "did_group": {

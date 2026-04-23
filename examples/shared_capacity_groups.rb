@@ -24,6 +24,7 @@ shared_groups.first(10).each do |group|
   puts "  ID: #{group.id}"
   puts "  Shared channels: #{group.shared_channels_count}"
   puts "  Metered channels: #{group.metered_channels_count}"
+  puts "  External reference: #{group.external_reference_id}" if group.external_reference_id
   if group.capacity_pool
     puts "  Capacity pool: #{group.capacity_pool.name}"
   end

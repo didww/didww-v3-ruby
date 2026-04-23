@@ -1,0 +1,13 @@
+{
+  "data": {
+    "id": "f6a7b890-1234-5678-9abc-def123456789",
+    "type": "encrypted_files",
+    "attributes": {
+      "description": "passport.pdf",
+      "expires_at": "2026-04-22T10:00:00.000Z"
+    }
+  },
+  "meta": {
+    "api_version": "2026-04-16"
+  }
+}

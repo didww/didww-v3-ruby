@@ -12,7 +12,7 @@ module DIDWW
       production: 'https://api.didww.com/v3/'.freeze
     }.freeze
     DEFAULT_MODE = :sandbox
-    DEFAULT_API_VERSION = '2022-05-10'
+    DEFAULT_API_VERSION = '2026-04-16'
 
     mattr_accessor :api_key, :api_mode, :http_verbose, :api_version, :_customize_conn_block
     self.api_version = DEFAULT_API_VERSION
@@ -74,19 +74,24 @@ module DIDWW
         voice_out_trunks: 'VoiceOutTrunk',
         available_dids: 'AvailableDid',
         did_reservations: 'DidReservation',
-        requirements: 'Requirement',
+        address_requirements: 'AddressRequirement',
         identities: 'Identity',
         proofs: 'Proof',
         addresses: 'Address',
         permanent_supporting_documents: 'PermanentSupportingDocument',
         encrypted_file: 'EncryptedFile',
         address_verifications: 'AddressVerification',
-        requirement_validation: 'RequirementValidation',
+        address_requirement_validation: 'AddressRequirementValidation',
         areas: 'Area',
         proof_types: 'ProofType',
         supporting_document_templates: 'SupportingDocumentTemplate',
         public_keys: 'PublicKey',
         nanpa_prefixes: 'NanpaPrefix',
+        did_history: 'DidHistory',
+        emergency_requirements: 'EmergencyRequirement',
+        emergency_requirement_validation: 'EmergencyRequirementValidation',
+        emergency_calling_services: 'EmergencyCallingService',
+        emergency_verifications: 'EmergencyVerification',
       }.freeze
 
       RESOURCE_CLASSES.each do |name, klass|
@@ -137,7 +142,7 @@ module DIDWW
         require 'didww/resource/voice_in_trunk'
         require 'didww/resource/available_did'
         require 'didww/resource/did_reservation'
-        require 'didww/resource/requirement'
+        require 'didww/resource/address_requirement' # NOSONAR
         require 'didww/resource/proof_type'
         require 'didww/resource/supporting_document_template'
         require 'didww/resource/identity'
@@ -146,12 +151,17 @@ module DIDWW
         require 'didww/resource/permanent_supporting_document'
         require 'didww/resource/encrypted_file'
         require 'didww/resource/address_verification'
-        require 'didww/resource/requirement_validation'
+        require 'didww/resource/address_requirement_validation' # NOSONAR
         require 'didww/resource/public_key'
         require 'didww/resource/area'
         require 'didww/resource/voice_out_trunk'
         require 'didww/resource/voice_out_trunk_regenerate_credential'
         require 'didww/resource/nanpa_prefix'
+        require 'didww/resource/did_history' # NOSONAR
+        require 'didww/resource/emergency_requirement' # NOSONAR
+        require 'didww/resource/emergency_requirement_validation' # NOSONAR
+        require 'didww/resource/emergency_calling_service' # NOSONAR
+        require 'didww/resource/emergency_verification' # NOSONAR
       end
 
     end

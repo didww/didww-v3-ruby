@@ -33,6 +33,9 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
         it '"created_at", type: Time' do
           expect(shared_capacity_group.created_at).to be_kind_of(Time)
         end
+        it '"external_reference_id", type: String' do
+          expect(shared_capacity_group.external_reference_id).to be_kind_of(String).or be_nil
+        end
       end
 
       it 'lazily fetches CapacityPool' do

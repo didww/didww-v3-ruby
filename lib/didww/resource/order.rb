@@ -2,6 +2,7 @@
 require 'didww/complex_objects/did_order_item'
 require 'didww/resource/concerns/has_status_helpers'
 require 'didww/complex_objects/capacity_order_item'
+require 'didww/complex_objects/emergency_order_item'
 require 'didww/callback/const'
 
 module DIDWW
@@ -11,9 +12,9 @@ module DIDWW
       include HasStatusHelpers
 
       # Possible values for order.status
-      STATUS_PENDING      = 'Pending'
-      STATUS_COMPLETED    = 'Completed'
-      STATUS_CANCELLED    = 'Canceled'
+      STATUS_PENDING      = 'pending'
+      STATUS_COMPLETED    = 'completed'
+      STATUS_CANCELLED    = 'canceled'
       STATUSES = [
                    STATUS_PENDING,
                    STATUS_COMPLETED,
@@ -55,6 +56,10 @@ module DIDWW
       property :callback_method, type: :string
       # Type: String
       # Description: GET or POST
+
+      property :external_reference_id, type: :string
+      # Type: String
+      # Description: Customer-supplied reference. Max 100 characters. (API 2026-04-16)
 
       def initialize(*args)
         super

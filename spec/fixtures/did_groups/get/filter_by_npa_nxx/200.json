@@ -43,10 +43,10 @@
             "related": "https://sandbox-api.didww.com/v3/did_groups/f69196cc-2b00-4310-a550-3c433c350d35/stock_keeping_units"
           }
         },
-        "requirement": {
+        "address_requirement": {
           "links": {
-            "self": "https://sandbox-api.didww.com/v3/did_groups/f69196cc-2b00-4310-a550-3c433c350d35/relationships/requirement",
-            "related": "https://sandbox-api.didww.com/v3/did_groups/f69196cc-2b00-4310-a550-3c433c350d35/requirement"
+            "self": "https://sandbox-api.didww.com/v3/did_groups/f69196cc-2b00-4310-a550-3c433c350d35/relationships/address_requirement",
+            "related": "https://sandbox-api.didww.com/v3/did_groups/f69196cc-2b00-4310-a550-3c433c350d35/address_requirement"
           }
         }
       },

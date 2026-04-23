@@ -5,7 +5,8 @@
       "type": "proofs",
       "attributes": {
         "created_at": "2021-03-28T18:01:50.387Z",
-        "expires_at": "2025-12-31T00:00:00.000Z"
+        "expires_at": "2025-12-31T00:00:00.000Z",
+        "external_reference_id": "crm-proof-0001"
       },
       "relationships": {
         "proof_type": {
@@ -27,7 +28,8 @@
       "type": "proofs",
       "attributes": {
         "created_at": "2021-05-15T10:30:00.000Z",
-        "expires_at": null
+        "expires_at": null,
+        "external_reference_id": null
       },
       "relationships": {
         "proof_type": {

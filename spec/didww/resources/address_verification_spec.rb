@@ -3,7 +3,7 @@ RSpec.describe DIDWW::Resource::AddressVerification do
   let(:client) { DIDWW::Client }
 
   it 'has STATUSES constant' do
-    expect(described_class::STATUSES).to include('Pending', 'Approved', 'Rejected')
+    expect(described_class::STATUSES).to include('pending', 'approved', 'rejected')
   end
 
   describe 'GET /address_verifications' do
@@ -54,8 +54,8 @@ RSpec.describe DIDWW::Resource::AddressVerification do
         expect(address_verification.id).to eq(id)
       end
 
-      it 'has status "Rejected"' do
-        expect(address_verification.status).to eq('Rejected')
+      it 'has status "rejected"' do
+        expect(address_verification.status).to eq('rejected')
       end
 
       it 'has reject_reasons' do
@@ -65,22 +65,36 @@ RSpec.describe DIDWW::Resource::AddressVerification do
       it 'has reference' do
         expect(address_verification.reference).to eq('ODW-879912')
       end
+
+      it 'has reject_comment' do
+        expect(address_verification.reject_comment).to eq('Please re-submit with a more recent utility bill.')
+      end
+
+      it 'has external_reference_id' do
+        expect(address_verification.external_reference_id).to eq('crm-verif-0001')
+      end
     end
   end
 
+  it_behaves_like 'a resource that PATCHes external_reference_id',
+                  resource_type: 'address_verifications',
+                  path_prefix: 'address_verifications',
+                  id: '429e6d4e-2ee9-4953-aa98-0b3ac07f0f96',
+                  new_value: 'updated-ref-42'
+
   describe 'status helper methods' do
     it '#pending?' do
-      subject.status = 'Pending'
+      subject.status = 'pending'
       expect(subject).to be_pending
     end
 
     it '#approved?' do
-      subject.status = 'Approved'
+      subject.status = 'approved'
       expect(subject).to be_approved
     end
 
     it '#rejected?' do
-      subject.status = 'Rejected'
+      subject.status = 'rejected'
       expect(subject).to be_rejected
     end
   end

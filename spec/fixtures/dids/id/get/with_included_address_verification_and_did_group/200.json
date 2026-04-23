@@ -78,7 +78,6 @@
           "voice_in",
           "voice_out",
           "sms_in",
-          "sms_out",
           "t38"
         ],
         "is_metered": false,
@@ -116,10 +115,10 @@
             "related": "https://sandbox-api.didww.com/v3/did_groups/2b60bb9a-d382-4d35-84c6-61689f45f2f5/stock_keeping_units"
           }
         },
-        "requirement": {
+        "address_requirement": {
           "links": {
-            "self": "https://sandbox-api.didww.com/v3/did_groups/2b60bb9a-d382-4d35-84c6-61689f45f2f5/relationships/requirement",
-            "related": "https://sandbox-api.didww.com/v3/did_groups/2b60bb9a-d382-4d35-84c6-61689f45f2f5/requirement"
+            "self": "https://sandbox-api.didww.com/v3/did_groups/2b60bb9a-d382-4d35-84c6-61689f45f2f5/relationships/address_requirement",
+            "related": "https://sandbox-api.didww.com/v3/did_groups/2b60bb9a-d382-4d35-84c6-61689f45f2f5/address_requirement"
           }
         }
       },
@@ -136,8 +135,8 @@
       "attributes": {
         "service_description": "Address verification for registration 01kjan2paw2wfqndqdkd2m3hyc",
         "callback_url": "https://example.com/webhook/verification/callback/119881627",
-        "callback_method": "POST",
-        "status": "Approved",
+        "callback_method": "post",
+        "status": "approved",
         "reject_reasons": null,
         "reference": "AHB-291174",
         "created_at": "2026-02-27T13:48:55.368Z"

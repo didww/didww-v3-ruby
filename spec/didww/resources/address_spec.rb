@@ -42,5 +42,9 @@ RSpec.describe DIDWW::Resource::Address do
     it '"verified", type: Boolean' do
       expect(address.verified).to eq(false).or eq(true)
     end
+
+    it '"external_reference_id", type: String' do
+      expect(address.external_reference_id).to be_kind_of(String).or be_nil
+    end
   end
 end

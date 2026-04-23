@@ -3,8 +3,8 @@
 module DIDWW
   module Callback
     module CONST
-      CALLBACK_METHOD_POST = 'POST'
-      CALLBACK_METHOD_GET = 'GET'
+      CALLBACK_METHOD_POST = 'post'
+      CALLBACK_METHOD_GET = 'get'
       CALLBACK_METHODS = [
                            CALLBACK_METHOD_GET,
                            CALLBACK_METHOD_POST

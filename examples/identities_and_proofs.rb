@@ -11,9 +11,11 @@ DIDWW::Client.configure do |client|
   client.api_mode = :sandbox
 end
 
-# List identities
+# List identities (include country + birth_country, 2026-04-16 adds birth_country)
 puts '=== Identities ==='
-identities = DIDWW::Client.identities.all
+identities = DIDWW::Client.identities
+             .includes(:country, :birth_country)
+             .all
 puts "Found #{identities.size} identities"
 
 identities.first(10).each do |identity|
@@ -21,6 +23,9 @@ identities.first(10).each do |identity|
   puts "  Name: #{identity.first_name} #{identity.last_name}"
   puts "  Phone: #{identity.phone_number}"
   puts "  Type: #{identity.identity_type}"
+  puts "  Country: #{identity.country&.name}"
+  puts "  Birth Country: #{identity.birth_country&.name}" # 2026-04-16
+  puts "  Birth Date: #{identity.birth_date}"
   puts "  Verified: #{identity.verified}"
   puts "  Created: #{identity.created_at}"
 end

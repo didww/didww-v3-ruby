@@ -34,7 +34,8 @@ DIDWW_API_KEY=your_api_key ruby examples/orders_nanpa.rb
 | [`regions.rb`](regions.rb) | Lists regions with filters/includes and fetches a specific region. |
 | [`did_groups.rb`](did_groups.rb) | Fetches DID groups with included SKUs and shows group details. |
 | [`dids.rb`](dids.rb) | Updates DID routing/capacity by assigning trunk and capacity pool. |
-| [`exports.rb`](exports.rb) | Lists CDR exports and their details. |
+| [`did_history.rb`](did_history.rb) | Lists DID ownership history (last 90 days, 2026-04-16). |
+| [`exports.rb`](exports.rb) | Creates and lists CDR exports, with 2026-04-16 external_reference_id. |
 
 ### Voice In (Inbound)
 | Script | Description |
@@ -77,7 +78,18 @@ DIDWW_API_KEY=your_api_key ruby examples/orders_nanpa.rb
 ### Compliance & Verification
 | Script | Description |
 |---|---|
-| [`identities_and_proofs.rb`](identities_and_proofs.rb) | Creates identities, addresses, and demonstrates proof workflow. |
+| [`identities_and_proofs.rb`](identities_and_proofs.rb) | Creates identities, addresses, and demonstrates proof workflow (2026-04-16 birth_country). |
+| [`address_verifications.rb`](address_verifications.rb) | Lists address verifications with 2026-04-16 reject_comment / external_reference_id. |
+
+### Emergency Services (2026-04-16)
+| Script | Description |
+|---|---|
+| [`emergency_requirements.rb`](emergency_requirements.rb) | Lists emergency service requirements per country/did_group_type. |
+| [`emergency_calling_services.rb`](emergency_calling_services.rb) | Lists and cancels customer emergency calling services. |
+| [`emergency_verifications.rb`](emergency_verifications.rb) | Lists and creates emergency verifications. |
+| [`emergency_requirement_validations.rb`](emergency_requirement_validations.rb) | Pre-validates an emergency order triple (requirement + address + identity). |
+| [`orders_emergency.rb`](orders_emergency.rb) | Inspects server-created Emergency orders and `emergency_order_items`. |
+| [`emergency_scenario.rb`](emergency_scenario.rb) | End-to-end: find DID → check requirements → validate → create verification → get service. |
 
 ## Troubleshooting
 

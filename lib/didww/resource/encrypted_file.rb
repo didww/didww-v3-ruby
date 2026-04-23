@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+require 'faraday/multipart'
+
 module DIDWW
   module Resource
     class EncryptedFile < Base
@@ -9,7 +11,7 @@ module DIDWW
       # Type: String
       # Description:
 
-      property :expire_at, type: :time
+      property :expires_at, type: :time
       # Type: Time
       # Description:
 
@@ -23,32 +25,31 @@ module DIDWW
         end
       end
 
-      # @param files [Rack::Multipart::UploadedFile,(#tempfile,#content_type,#original_filename)]
-      # @return [Array<String>]
+      # @param file [Rack::Multipart::UploadedFile,(#tempfile,#content_type,#original_filename)]
+      # @param fingerprint [String] DIDWW::Encrypt#encryption_fingerprint
+      # @param description [String,nil] optional description (defaults to file.original_filename)
+      # @return [String] new resource id
       # @raise [DIDWW::Resource::EncryptedFile::UploadError]
-      def self.upload_files(files, fingerprint)
-        items = files.map do |file|
-          {
-            file: Faraday::UploadIO.new(file.tempfile, file.content_type),
-            description: file.original_filename
-          }
-        end
-        payload = { encryption_fingerprint: fingerprint, items: items }
+      def self.upload_file(file, fingerprint, description: nil)
+        payload = {
+          encryption_fingerprint: fingerprint,
+          file: Faraday::Multipart::FilePart.new(file.tempfile, file.content_type),
+          description: description || file.original_filename
+        }
         upload(payload)
       end
 
       # @param payload [Hash]
       #   encryption_fingerprint [String] DIDWW::Encrypt#encryption_fingerprint
-      #   items [Array]
-      #     file [Faraday::UploadIO] upload io
-      #     description [String,nil] optional description
-      # @return [Array<String>]
+      #   file [Faraday::UploadIO] upload io
+      #   description [String,nil] optional description
+      # @return [String] new resource id
       # @raise [DIDWW::Resource::EncryptedFile::UploadError]
       def self.upload(payload)
         connection = upload_connection
         response = connection.post('/v3/encrypted_files', encrypted_files: payload)
         if response.status == 201
-          JSON.parse(response.body, symbolize_names: true)[:ids]
+          JSON.parse(response.body, symbolize_names: true).dig(:data, :id)
         else
           raise UploadError, "Code: #{response.status} #{response.body}"
         end

@@ -5,6 +5,7 @@
 
 require 'bundler/setup'
 require 'didww'
+require 'securerandom'
 
 DIDWW::Client.configure do |client|
   client.api_key  = ENV.fetch('DIDWW_API_KEY') { abort 'Please set DIDWW_API_KEY' }
@@ -20,6 +21,7 @@ orders.first(3).each do |order|
   items_desc = order.items.map(&:type).join(', ') if order.items
   puts "Order #{order.id}: #{order.status} ($#{order.amount})"
   puts "  Items: #{items_desc}" if items_desc
+  puts "  External reference: #{order.external_reference_id}" if order.external_reference_id
 end
 
 # Create an order with DID order items
@@ -41,12 +43,19 @@ did_item = DIDWW::ComplexObject::DidOrderItem.new(
   qty: 1
 )
 
-order = DIDWW::Client.orders.new(allow_back_ordering: false, items: [did_item])
+# 2026-04-16 external_reference_id — customer-supplied tag (max 100 chars)
+suffix = SecureRandom.hex(4)
+order = DIDWW::Client.orders.new(
+  allow_back_ordering: false,
+  items: [did_item],
+  external_reference_id: "ruby-order-#{suffix}"
+)
 
 if order.save
   puts "Created order: #{order.id} - #{order.status}"
   puts "  Amount: #{order.amount}"
   puts "  Reference: #{order.reference}"
+  puts "  External reference: #{order.external_reference_id}"
 
   # Cancel order (delete it)
   puts "\n=== Cancelling Order ==="

@@ -11,6 +11,9 @@ module DIDWW
       has_one :capacity_pool
       has_one :shared_capacity_group
       has_one :address_verification
+      has_one :emergency_calling_service, class_name: 'EmergencyCallingService'
+      has_one :emergency_verification, class_name: 'EmergencyVerification'
+      has_one :identity, class_name: 'Identity'
 
       exclusive_relationships(voice_in_trunk: :voice_in_trunk_group)
 
@@ -57,6 +60,10 @@ module DIDWW
       property :created_at, type: :time
       # Type: DateTime
       # Description: DID created at DateTime
+
+      property :emergency_enabled, type: :boolean
+      # Type: Boolean
+      # Description: Indicates whether the DID is emergency-enabled. (API 2026-04-16)
 
     end
   end

@@ -13,7 +13,15 @@ module DIDWW
       include HasStatusHelpers
       extend Forwardable
 
-      STATUS_COMPLETED = 'Completed'
+      STATUS_PENDING = 'pending'
+      STATUS_PROCESSING = 'processing'
+      STATUS_COMPLETED = 'completed'
+
+      STATUSES = [
+        STATUS_PENDING,
+        STATUS_PROCESSING,
+        STATUS_COMPLETED
+      ].freeze
 
       EXPORT_TYPE_CDR_IN = 'cdr_in'
       EXPORT_TYPE_CDR_OUT = 'cdr_out'
@@ -52,6 +60,10 @@ module DIDWW
 
       property :export_type, type: :string
 
+      property :external_reference_id, type: :string
+      # Type: String
+      # Description: Customer-supplied reference. Max 100 characters. (API 2026-04-16)
+
       def initialize(params = {})
         super params.reverse_merge(filters: {})
       end
@@ -77,6 +89,8 @@ module DIDWW
         end
       end
 
+      status_helper :pending, STATUS_PENDING
+      status_helper :processing, STATUS_PROCESSING
       status_helper :complete, STATUS_COMPLETED
       alias_method :completed?, :complete?
     end

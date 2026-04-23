@@ -2,6 +2,34 @@
 RSpec.describe DIDWW::Resource::Export do
   let (:client) { DIDWW::Client }
 
+  describe 'status constants and predicates' do
+    it 'exposes STATUS_PENDING, STATUS_PROCESSING, STATUS_COMPLETED' do
+      expect(described_class::STATUS_PENDING).to eq('pending')
+      expect(described_class::STATUS_PROCESSING).to eq('processing')
+      expect(described_class::STATUS_COMPLETED).to eq('completed')
+    end
+
+    it 'has STATUSES array covering all three values' do
+      expect(described_class::STATUSES).to eq(%w[pending processing completed])
+    end
+
+    it 'exposes #pending? / #processing? / #completed? predicates' do
+      export = described_class.new(status: 'pending')
+      expect(export.pending?).to be true
+      expect(export.processing?).to be false
+      expect(export.completed?).to be false
+      export.status = 'processing'
+      expect(export.processing?).to be true
+      export.status = 'completed'
+      expect(export.completed?).to be true
+    end
+  end
+
+  it_behaves_like 'a resource that PATCHes external_reference_id',
+                  resource_type: 'exports',
+                  path_prefix: 'exports',
+                  new_value: 'renamed-ref-99'
+
   describe 'GET /exports/{id}' do
     let (:id) { '21e02b15-806d-44b3-b67f-434ea6c44f61' }
 
@@ -22,13 +50,16 @@ RSpec.describe DIDWW::Resource::Export do
 
       describe 'has correct attributes' do
         it '"status", type: String' do
-          expect(export.status).to be_in(['Pending', 'Processing', 'Completed'])
+          expect(export.status).to be_in(['pending', 'processing', 'completed'])
         end
         it '"url", type: String' do
           expect(export.url).to be_kind_of(String)
         end
         it '"created_at", type: Time' do
           expect(export.created_at).to be_kind_of(Time)
+        end
+        it '"external_reference_id", type: String' do
+          expect(export.external_reference_id).to be_kind_of(String).or be_nil
         end
       end
 
@@ -155,7 +186,7 @@ RSpec.describe DIDWW::Resource::Export do
       subject(:export) do
         client.exports.create(
           export_type: DIDWW::Resource::Export::EXPORT_TYPE_CDR_IN,
-          filters: { year: 2017, month: 5, did_number: '123456789' }
+          filters: { from: '2026-04-01 00:00:00', to: '2026-04-15 23:59:59', did_number: '123456789' }
         )
       end
 
@@ -175,8 +206,8 @@ RSpec.describe DIDWW::Resource::Export do
             type: 'exports',
             attributes: {
               filters: {
-                year: 2017,
-                month: 5,
+                from: '2026-04-01 00:00:00',
+                to: '2026-04-15 23:59:59',
                 did_number: '123456789'
               },
               export_type: DIDWW::Resource::Export::EXPORT_TYPE_CDR_IN

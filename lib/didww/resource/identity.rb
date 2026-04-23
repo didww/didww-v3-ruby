@@ -2,11 +2,12 @@
 module DIDWW
   module Resource
     class Identity < Base
-      IDENTITY_TYPE_PERSONAL = 'Personal'
-      IDENTITY_TYPE_BUSINESS = 'Business'
-      IDENTITY_TYPE_ANY = 'Any'
+      IDENTITY_TYPE_PERSONAL = 'personal'
+      IDENTITY_TYPE_BUSINESS = 'business'
+      IDENTITY_TYPE_ANY = 'any'
 
       has_one :country, class_name: 'Country'
+      has_one :birth_country, class_name: 'Country'
       has_many :proofs, class_name: 'Proof'
       has_many :addresses, class_name: 'Address'
       has_many :permanent_documents, class_name: 'PermanentSupportingDocument'
