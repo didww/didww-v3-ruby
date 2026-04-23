@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 #
+
 # Shared examples for the two write-only "*RequirementValidation" resources
 # (AddressRequirementValidation and EmergencyRequirementValidation). Each one
 # posts an (address, identity, <requirement>) triple and the server returns
-# 204 No Content when the combination is valid or JSONAPI errors when not.
+# 201 Created with the validation resource when the combination is valid, or
+# JSONAPI errors when not.
 #
 # Callers must pass the class under test and the name of its requirement
 # relationship:
@@ -62,7 +64,7 @@ RSpec.shared_examples 'a requirement validation' do |resource_class, requirement
       requirement_class.path
     end
 
-    it 'returns 204 No Content and leaves the record unpersisted' do
+    it 'returns 201 Created with the validation resource' do
       stub_didww_request(:post, "/#{path}").with(
         body: {
           data: {
@@ -76,7 +78,14 @@ RSpec.shared_examples 'a requirement validation' do |resource_class, requirement
             }
           }
         }.to_json
-      ).to_return(status: 204, body: '', headers: json_api_headers)
+      ).to_return(
+        status: 201,
+        body: {
+          data: { id: requirement_id, type: path },
+          meta: { api_version: '2026-04-16' }
+        }.to_json,
+        headers: json_api_headers
+      )
 
       validation = resource_class.new(
         relationships: {
@@ -88,6 +97,7 @@ RSpec.shared_examples 'a requirement validation' do |resource_class, requirement
 
       expect(validation.save).to eq(true)
       expect(validation.errors).to be_empty
+      expect(validation.id).to eq(requirement_id)
     end
   end
 end
