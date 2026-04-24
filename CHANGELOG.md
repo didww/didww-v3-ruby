@@ -4,9 +4,60 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-### Changed (BREAKING)
-- Rename `Order.cancelled?` to `canceled?` and `Order::STATUS_CANCELLED` to `STATUS_CANCELED` to match the wire-format (`status: "canceled"`).
+## [6.0.0] - 2026-04-24
+Support for DIDWW API version **2026-04-16**. The gem now sends `X-DIDWW-API-Version: 2026-04-16` with every request by default. Users staying on API `2022-05-10` should pin to the [`2022-05-10`](https://github.com/didww/didww-v3-ruby/tree/2022-05-10) branch (5.x).
+
+### Breaking Changes
+- Default `X-DIDWW-API-Version` header is now `2026-04-16`.
+- Resource `requirement_validations` renamed to `address_requirement_validations`.
+- Resource `requirements` renamed to `address_requirements`.
+- `AddressRequirementValidation#requirement` relationship renamed to `address_requirement`.
+- `DidGroup#requirement` relationship renamed to `address_requirement`.
+- `DidReservation#expire_at` renamed to `expires_at`.
+- `EncryptedFile#expire_at` renamed to `expires_at`.
+- `AddressVerification#reject_reasons` is now an array of strings.
+- Dropped `sms_out` from `DidGroup` features.
+- `EncryptedFile` POST now accepts a single file per request.
+- `Export` year/month filters replaced with `from`/`to` datetime range (`from` inclusive, `to` exclusive).
+- `VoiceInTrunk` SIP configuration gains `diversion_relay_policy`.
+- Attribute values standardized to lowercase `snake_case` (status/area-level enums, etc.).
+- `Order#cancelled?` renamed to `canceled?`; `Order::STATUS_CANCELLED` → `STATUS_CANCELED` to match wire format (`status: "canceled"`).
+- `VoiceOutTrunk`: flat credentials (`username`/`password`/`auth_type`) replaced with a polymorphic `authentication_method` relationship. Supported types: `CredentialsAuthenticationMethod`, `IpAuthenticationMethod`, `CredentialsAndIpAuthenticationMethod`, `TwilioAuthenticationMethod`, and `GenericAuthenticationMethod` (forward-compatible fallback).
+- `DidGroup`: removed `features_human` and `FEATURES` constant.
+
+### Added
+- New resource `DidHistory` (`/v3/did_history`) with `meta.billing_cycles_count_changed`.
+- New resource `EmergencyRequirement` (`/v3/emergency_requirements`).
+- New resource `EmergencyRequirementValidation` (`/v3/emergency_requirement_validations`).
+- New resource `EmergencyCallingService` (`/v3/emergency_calling_services`) with `address` has-one relationship.
+- New resource `EmergencyVerification` (`/v3/emergency_verifications`).
+- `external_reference_id` attribute on `Address`, `AddressVerification`, `Export`, `EmergencyVerification`, `Order`, `PermanentSupportingDocument`, `Proof`, `SharedCapacityGroup`, `VoiceInTrunkGroup`, `VoiceInTrunk`, `VoiceOutTrunk`.
+- PATCH support for `external_reference_id` on `/v3/address_verifications/:id`, `/v3/exports/:id`, `/v3/emergency_verifications/:id`.
+- `VoiceOutTrunk`: `emergency_enable_all`, `rtp_timeout`, `emergency_dids` has-many relationship, status predicate helpers.
+- `Did`: `emergency_enabled`, `emergency_calling_service` / `emergency_verification` / `identity` has-one relationships, PATCH support for unassigning `emergency_calling_service`.
+- `Identity`: `birth_country` has-one relationship.
+- `DidGroup`: new features `p2p`, `a2p`, `emergency`, `cnam_out`; `service_restrictions` attribute.
+- `AddressVerification`: `reject_comment` attribute.
+- `Order`: new `EmergencyOrderItem` complex object.
+- Status predicate helpers on `VoiceOutTrunk`, `EmergencyCallingService`, `AddressVerification`, `EmergencyVerification`, and `Order`.
+- `Export` exposes `STATUS_PENDING` and `STATUS_PROCESSING`.
+- `randomize_cli` added to `OnCliMismatchAction` constants.
+- Examples for all new 2026-04-16 resources and an end-to-end `emergency_scenario` example.
+
+### Changed
+- Unknown `authentication_method` types are wrapped in `Generic` for forward compatibility.
+- Resource-level meta support for `EmergencyCallingService` and `EmergencyRequirement`.
+- `ExportFilters` from/to semantics clarified (from=inclusive, to=exclusive).
+- Examples: fixtures use RFC 5737 documentation IPs (`203.0.113.0/24`); `SecureRandom.hex(4)` used for random IDs.
+- Shared rspec examples extracted for PATCH `external_reference_id` and requirement validations POST→204.
+
+### Fixed
+- Declare `has_one :address` on `EmergencyCallingService` to mirror server.
+- `features_human` falls back to raw key for unknown features (superseded by removal in 6.0).
+
+## [5.3.1]
+### Fixed
+- Correct `VoiceOutTrunk` constant wire values to match API responses.
 
 ## [5.3.0]
 ### Added
