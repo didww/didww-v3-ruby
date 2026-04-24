@@ -16,17 +16,17 @@ This SDK uses [json_api_client](https://github.com/JsonApiClient/json_api_client
 
 Read more https://doc.didww.com/api
 
+## API Version
+
 This SDK sends the `X-DIDWW-API-Version: 2026-04-16` header with every request by default.
 
-Gem Versions **6.X.X** and branch [master](https://github.com/didww/didww-v3-ruby) are intended to use with DIDWW API 3 version [2026-04-16](https://doc.didww.com/api3/2026-04-16/index.html).
-
-Gem Versions **5.X.X** and branch [release-5](https://github.com/didww/didww-v3-ruby/tree/release-5) are intended to use with DIDWW API 3 version [2022-05-10](https://doc.didww.com/api3/2022-05-10/index.html).
-
-Gem Versions **3.X.X** and branch [release-3](https://github.com/didww/didww-v3-ruby/tree/release-3) are intended to use with DIDWW API 3 version [2021-12-15](https://doc.didww.com/api3/2021-12-15/index.html).
-
-Gem Versions **2.X.X** and branch [release-2](https://github.com/didww/didww-v3-ruby/tree/release-2) are intended to use with DIDWW API 3 version [2021-04-19](https://doc.didww.com/api3/2021-04-19/index.html).
-
-Gem Versions **1.X.X** and branch [release-1](https://github.com/didww/didww-v3-ruby/tree/release-1) are intended to use with DIDWW API 3 version [2017-09-18](https://doc.didww.com/api3/2017-09-18/index.html).
+| Gem Version | Branch | DIDWW API Version |
+|-------------|--------|-------------------|
+| **6.x** | [`master`](https://github.com/didww/didww-v3-ruby) | [`2026-04-16`](https://doc.didww.com/api3/2026-04-16/index.html) |
+| **5.x** | [`2022-05-10`](https://github.com/didww/didww-v3-ruby/tree/2022-05-10) | [`2022-05-10`](https://doc.didww.com/api3/2022-05-10/index.html) |
+| **3.x** | [`release-3`](https://github.com/didww/didww-v3-ruby/tree/release-3) | [`2021-12-15`](https://doc.didww.com/api3/2021-12-15/index.html) |
+| **2.x** | [`release-2`](https://github.com/didww/didww-v3-ruby/tree/release-2) | [`2021-04-19`](https://doc.didww.com/api3/2021-04-19/index.html) |
+| **1.x** | [`release-1`](https://github.com/didww/didww-v3-ruby/tree/release-1) | [`2017-09-18`](https://doc.didww.com/api3/2017-09-18/index.html) |
 
 ## Installation
 
