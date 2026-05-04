@@ -18,7 +18,7 @@ module DIDWW
         # Nullable: No
         # Description: Optional authorization user for the SIP server
 
-        property :auth_password, type: :string
+        property :auth_password, type: :string, sensitive: true
         # Type: String
         # Nullable: No
         # Description: Optional authorization password for the SIP server
@@ -211,14 +211,14 @@ module DIDWW
         # Description: Enables CNAM resolution for inbound calls on this
         # trunk. (API 2026-04-16)
 
-        property :incoming_auth_username, type: :string, read_only: true
+        property :incoming_auth_username, type: :string, read_only: true, sensitive: true
         # Type: String
         # Nullable: Yes
         # Description: Server-generated SIP authentication username, returned in
         #   responses when `enabled_sip_registration` is true. Read-only; the API
         #   rejects any write attempt with 400 Param not allowed. (API 2026-04-16)
 
-        property :incoming_auth_password, type: :string, read_only: true
+        property :incoming_auth_password, type: :string, read_only: true, sensitive: true
         # Type: String
         # Nullable: Yes
         # Description: Server-generated SIP authentication password, returned in

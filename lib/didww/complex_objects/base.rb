@@ -14,6 +14,7 @@ module DIDWW
         def property(name, options = {})
           schema.add(name, options)
           read_only_attributes << name.to_s if options[:read_only]
+          sensitive_attributes << name.to_s if options[:sensitive]
           define_method(name.to_sym) { self[name] }
           define_method("#{name}=".to_sym) { |val| self[name] = val }
         end
@@ -28,6 +29,14 @@ module DIDWW
         # allowed.
         def read_only_attributes
           @read_only_attributes ||= []
+        end
+
+        # Names of attributes whose values are credentials/secrets. The wire
+        # format is unchanged — `as_json` still emits the real values — but
+        # `#inspect` redacts them so default logging / error reports / REPL
+        # echoes never leak credentials downstream.
+        def sensitive_attributes
+          @sensitive_attributes ||= []
         end
 
         # Type casting for JsonApiClient parser/setters
@@ -96,6 +105,19 @@ module DIDWW
       end
 
       def as_json_api(*); as_json end
+
+      # Redacts sensitive attribute values so credentials never leak into
+      # default logs / REPL output / error reports. The on-the-wire payload
+      # is unaffected (see `#as_json`).
+      FILTERED = '[FILTERED]'.freeze
+      def inspect
+        sensitive = self.class.sensitive_attributes
+        formatted = attributes.map do |k, v|
+          display = sensitive.include?(k.to_s) && !v.nil? ? FILTERED : v
+          "#{k}=#{display.inspect}"
+        end
+        "#<#{self.class.name} #{formatted.join(' ')}>"
+      end
     end
   end
 end
