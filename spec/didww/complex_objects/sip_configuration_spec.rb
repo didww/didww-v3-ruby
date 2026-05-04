@@ -195,6 +195,23 @@ RSpec.describe DIDWW::ComplexObject::SipConfiguration do
       expect(attrs['use_did_in_ruri']).to be(false)
     end
 
+    # Regression for 6.1.0: PATCH against an existing trunk that already has
+    # a host on the server side. The local SipConfiguration starts empty, so
+    # nothing is in the local attributes hash. Setting
+    # `enabled_sip_registration = true` must still emit `host: null` /
+    # `port: null` on the wire — otherwise the server merges the new field
+    # with the persisted host and rejects with 422.
+    it 'emits host=nil and port=nil even on a fresh config when enabling sip_registration' do
+      cfg = described_class.new
+      cfg.enabled_sip_registration = true
+      attrs = cfg.as_json[:attributes]
+      expect(attrs).to have_key('host')
+      expect(attrs['host']).to be_nil
+      expect(attrs).to have_key('port')
+      expect(attrs['port']).to be_nil
+      expect(attrs['enabled_sip_registration']).to be(true)
+    end
+
     it 'constructor-time assignment bypasses the cascade so server responses deserialize as-is' do
       # Server may return a regular SIP trunk shape (host: present together
       # with use_did_in_ruri: true). The constructor uses []= directly,
