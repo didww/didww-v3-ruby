@@ -324,6 +324,55 @@ module DIDWW
         def transport_protocol
           TRANSPORT_PROTOCOLS[transport_protocol_id]
         end
+
+        # Auto-cascade for server-enforced field dependencies (2026-04-16).
+        #
+        # The server validates these combinations and rejects mismatches with
+        # 422; the SDK fixes them up at assignment time so user code never has
+        # to track the full server-side rule set. Future server-required
+        # cascades are added here without the caller needing to know.
+        #
+        # Rules:
+        #   * `enabled_sip_registration = true`  => host = nil, port = nil
+        #     (server requires both blank when registration is enabled)
+        #   * `enabled_sip_registration = false` => use_did_in_ruri = false
+        #     (server requires use_did_in_ruri disabled when sip_registration is)
+        #   * `host = <non-nil>` => enabled_sip_registration = false,
+        #     use_did_in_ruri = false (host requires sip_registration disabled,
+        #     which in turn requires use_did_in_ruri disabled)
+        #
+        # Constructor-time `[]=` assignments bypass these setters intentionally
+        # so that responses returned from the server (e.g. a fixture with
+        # `enabled_sip_registration: true` AND `host: nil`) deserialize as-is.
+        def enabled_sip_registration=(val)
+          case val
+          when true
+            # Clear host/port only if they were already set — never emit a
+            # spurious `host: null` on a fresh config, which would otherwise
+            # widen every PATCH/POST body. If the trunk had a host, we have
+            # to send `host: null` explicitly so the server clears it.
+            self[:host] = nil if attributes.key?('host') && !self[:host].nil?
+            self[:port] = nil if attributes.key?('port') && !self[:port].nil?
+          when false
+            # Server requires use_did_in_ruri = false whenever sip_registration
+            # is disabled. Always emit it on the wire so the server's check
+            # passes regardless of the prior state of the field.
+            self[:use_did_in_ruri] = false
+          end
+          self[:enabled_sip_registration] = val
+        end
+
+        def host=(val)
+          unless val.nil?
+            # Setting host implies sip_registration is disabled (server-side
+            # validation), which in turn implies use_did_in_ruri = false.
+            # Always emit both on the wire so the server's checks pass
+            # without the caller having to know the rule set.
+            self[:enabled_sip_registration] = false
+            self[:use_did_in_ruri] = false
+          end
+          self[:host] = val
+        end
       end
     end
   end

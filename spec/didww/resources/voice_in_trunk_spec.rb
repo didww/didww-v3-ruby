@@ -248,6 +248,12 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
                     "type": 'sip_configurations',
                     "attributes": {
                       "username": 'username',
+                      # `host=` cascades enabled_sip_registration / use_did_in_ruri
+                      # to false (see SipConfiguration#host=) so the wire stays
+                      # consistent with the server's "host implies sip
+                      # registration disabled" rule.
+                      "enabled_sip_registration": false,
+                      "use_did_in_ruri": false,
                       "host": 'example.com',
                       "codec_ids": [
                         9,
@@ -283,8 +289,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
                       "diversion_relay_policy": 'as_is',
                       "diversion_inject_mode": 'did_number',
                       "network_protocol_priority": 'force_ipv4',
-                      "cnam_lookup": true,
-                      "use_did_in_ruri": false
+                      "cnam_lookup": true
                     }
                   }
                 }
@@ -452,6 +457,12 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
                     "type": 'sip_configurations',
                     "attributes": {
                       "username": 'username',
+                      # `host=` cascades enabled_sip_registration / use_did_in_ruri
+                      # to false (see SipConfiguration#host=) so the wire stays
+                      # consistent with the server's "host implies sip
+                      # registration disabled" rule.
+                      "enabled_sip_registration": false,
+                      "use_did_in_ruri": false,
                       "host": 'example.com',
                       "codec_ids": [
                         9,
@@ -640,6 +651,12 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
                     "type": 'sip_configurations',
                     "attributes": {
                       "username": 'username',
+                      # `host=` cascades enabled_sip_registration / use_did_in_ruri
+                      # to false on the wire so the server's "host implies
+                      # sip registration disabled" rule is satisfied without
+                      # the caller having to set the fields explicitly.
+                      "enabled_sip_registration": false,
+                      "use_did_in_ruri": false,
                       "host": 'example.com'
                     }
                   }
@@ -782,9 +799,11 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
             headers: json_api_headers
           )
         trunk = DIDWW::Resource::VoiceInTrunk.load(id: id)
+        # Setting `host` triggers the SDK's auto-cascade: enabled_sip_registration
+        # flips to false and use_did_in_ruri is forced to false in the same
+        # write, so user code does not have to enumerate the server-side rule
+        # set explicitly.
         trunk.configuration = DIDWW::ComplexObject::SipConfiguration.new.tap do |config|
-          config.enabled_sip_registration = false
-          config.use_did_in_ruri = false
           config.host = '203.0.113.10'
         end
         trunk.save

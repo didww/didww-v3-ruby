@@ -150,4 +150,63 @@ RSpec.describe DIDWW::ComplexObject::SipConfiguration do
     end
   end
 
+  describe 'auto-cascade for SIP registration (2026-04-16)' do
+    # The SDK auto-cascades dependent fields whose constraints are
+    # server-enforced: setting one field nullifies/forces another so user
+    # code never has to track the full server-side rule set.
+
+    it 'enabling SIP registration clears host and port' do
+      cfg = described_class.new(host: 'sip.example.com', port: 5060)
+      cfg.enabled_sip_registration = true
+      expect(cfg.host).to be_nil
+      expect(cfg.port).to be_nil
+      expect(cfg.enabled_sip_registration).to be(true)
+    end
+
+    it 'disabling SIP registration forces use_did_in_ruri to false' do
+      cfg = described_class.new(enabled_sip_registration: true, use_did_in_ruri: true)
+      cfg.enabled_sip_registration = false
+      expect(cfg.enabled_sip_registration).to be(false)
+      expect(cfg.use_did_in_ruri).to be(false)
+    end
+
+    it 'setting host disables SIP registration and forces use_did_in_ruri to false' do
+      cfg = described_class.new(enabled_sip_registration: true, use_did_in_ruri: true)
+      cfg.host = 'sip.example.com'
+      expect(cfg.host).to eq('sip.example.com')
+      expect(cfg.enabled_sip_registration).to be(false)
+      expect(cfg.use_did_in_ruri).to be(false)
+    end
+
+    it 'leaves use_did_in_ruri alone when SIP registration stays enabled' do
+      cfg = described_class.new(enabled_sip_registration: true, use_did_in_ruri: true)
+      cfg.enabled_sip_registration = true
+      expect(cfg.use_did_in_ruri).to be(true)
+    end
+
+    it 'wire payload reflects the cascaded state' do
+      cfg = described_class.new(enabled_sip_registration: true, use_did_in_ruri: true)
+      cfg.host = 'sip.example.com'
+      attrs = cfg.as_json[:attributes]
+      expect(attrs['host']).to eq('sip.example.com')
+      expect(attrs['enabled_sip_registration']).to be(false)
+      expect(attrs['use_did_in_ruri']).to be(false)
+    end
+
+    it 'constructor-time assignment bypasses the cascade so server responses deserialize as-is' do
+      # Server may return a regular SIP trunk shape (host: present together
+      # with use_did_in_ruri: true). The constructor uses []= directly,
+      # which skips the cascading setters — running cascade against
+      # already-consistent server data would clobber valid combinations.
+      cfg = described_class.new(
+        host: 'sip.example.com', port: 5060,
+        enabled_sip_registration: false, use_did_in_ruri: true
+      )
+      expect(cfg.host).to eq('sip.example.com')
+      expect(cfg.port).to eq(5060)
+      expect(cfg.enabled_sip_registration).to be(false)
+      expect(cfg.use_did_in_ruri).to be(true)
+    end
+  end
+
 end
