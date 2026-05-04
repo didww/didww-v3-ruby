@@ -197,7 +197,10 @@ module DIDWW
         # Nullable: No
         # Description: Enables SIP registration. When true the API generates
         # `incoming_auth_username` / `incoming_auth_password`; the trunk's
-        # `port` must be left blank. (API 2026-04-16)
+        # `host` and `port` must be left blank. When disabling sip
+        # registration on an existing trunk, the same PATCH must also set
+        # `host` to a non-blank value and `use_did_in_ruri` to false, or
+        # the server returns 422. (API 2026-04-16)
 
         property :use_did_in_ruri, type: :boolean
         # Type: Boolean
@@ -358,6 +361,9 @@ module DIDWW
             # is disabled. Always emit it on the wire so the server's check
             # passes regardless of the prior state of the field.
             self[:use_did_in_ruri] = false
+          else
+            # `nil` (or any non-bool) — caller is unsetting the field. No
+            # cascade: dependent fields stay as the caller left them.
           end
           self[:enabled_sip_registration] = val
         end

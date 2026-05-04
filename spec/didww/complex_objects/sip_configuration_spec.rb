@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 RSpec.describe DIDWW::ComplexObject::SipConfiguration do
+  let(:example_host) { 'example.com' }
+  let(:sip_reg_host) { 'sip.example.com' }
   let (:sip_configuration) {
       DIDWW::ComplexObject::SipConfiguration.new.tap do |c|
         c.username = 'username'
-        c.host = 'example.com'
+        c.host = example_host
         c.codec_ids = [ 9, 7 ]
         c.rx_dtmf_format_id = 1
         c.tx_dtmf_format_id = 2
@@ -12,7 +14,7 @@ RSpec.describe DIDWW::ComplexObject::SipConfiguration do
         c.auth_user = 'username'
         c.auth_password = 'password'
         c.auth_from_user = 'Office'
-        c.auth_from_domain = 'example.com'
+        c.auth_from_domain = example_host
         c.sst_enabled = 'false'
         c.sst_min_timer = 600
         c.sst_max_timer = 900
@@ -131,7 +133,7 @@ RSpec.describe DIDWW::ComplexObject::SipConfiguration do
   describe 'incoming_auth credentials (read-only)' do
     let(:configuration) do
       described_class.new(
-        host: 'example.com',
+        host: example_host,
         incoming_auth_username: 'sipreg-user-1',
         incoming_auth_password: 's3cret'
       )
@@ -144,7 +146,7 @@ RSpec.describe DIDWW::ComplexObject::SipConfiguration do
 
     it 'omits read-only attributes from the JSON:API serialization' do
       payload = configuration.as_json
-      expect(payload[:attributes]).to include('host' => 'example.com')
+      expect(payload[:attributes]).to include('host' => example_host)
       expect(payload[:attributes]).not_to have_key('incoming_auth_username')
       expect(payload[:attributes]).not_to have_key('incoming_auth_password')
     end
@@ -156,7 +158,7 @@ RSpec.describe DIDWW::ComplexObject::SipConfiguration do
     # code never has to track the full server-side rule set.
 
     it 'enabling SIP registration clears host and port' do
-      cfg = described_class.new(host: 'sip.example.com', port: 5060)
+      cfg = described_class.new(host: sip_reg_host, port: 5060)
       cfg.enabled_sip_registration = true
       expect(cfg.host).to be_nil
       expect(cfg.port).to be_nil
@@ -172,8 +174,8 @@ RSpec.describe DIDWW::ComplexObject::SipConfiguration do
 
     it 'setting host disables SIP registration and forces use_did_in_ruri to false' do
       cfg = described_class.new(enabled_sip_registration: true, use_did_in_ruri: true)
-      cfg.host = 'sip.example.com'
-      expect(cfg.host).to eq('sip.example.com')
+      cfg.host = sip_reg_host
+      expect(cfg.host).to eq(sip_reg_host)
       expect(cfg.enabled_sip_registration).to be(false)
       expect(cfg.use_did_in_ruri).to be(false)
     end
@@ -186,9 +188,9 @@ RSpec.describe DIDWW::ComplexObject::SipConfiguration do
 
     it 'wire payload reflects the cascaded state' do
       cfg = described_class.new(enabled_sip_registration: true, use_did_in_ruri: true)
-      cfg.host = 'sip.example.com'
+      cfg.host = sip_reg_host
       attrs = cfg.as_json[:attributes]
-      expect(attrs['host']).to eq('sip.example.com')
+      expect(attrs['host']).to eq(sip_reg_host)
       expect(attrs['enabled_sip_registration']).to be(false)
       expect(attrs['use_did_in_ruri']).to be(false)
     end
@@ -199,10 +201,10 @@ RSpec.describe DIDWW::ComplexObject::SipConfiguration do
       # which skips the cascading setters — running cascade against
       # already-consistent server data would clobber valid combinations.
       cfg = described_class.new(
-        host: 'sip.example.com', port: 5060,
+        host: sip_reg_host, port: 5060,
         enabled_sip_registration: false, use_did_in_ruri: true
       )
-      expect(cfg.host).to eq('sip.example.com')
+      expect(cfg.host).to eq(sip_reg_host)
       expect(cfg.port).to eq(5060)
       expect(cfg.enabled_sip_registration).to be(false)
       expect(cfg.use_did_in_ruri).to be(true)

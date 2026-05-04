@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 RSpec.describe DIDWW::Resource::VoiceInTrunk do
+  let(:disable_host) { '203.0.113.10' }
+
   let (:client) { DIDWW::Client }
 
   it 'has CLI_FORMATS constant' do
@@ -228,6 +230,44 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
   end
 
   describe 'POST /voice_in_trunks' do
+    # Shared SIP-trunk attribute payload reused across the two POST stubs
+    # below. `host=` cascades enabled_sip_registration / use_did_in_ruri
+    # to false (see SipConfiguration#host=) so the wire stays consistent
+    # with the server's "host implies sip registration disabled" rule.
+    let(:base_sip_config_attributes) do
+      {
+        "username": 'username',
+        "enabled_sip_registration": false,
+        "use_did_in_ruri": false,
+        "host": 'example.com',
+        "codec_ids": [9, 7],
+        "rx_dtmf_format_id": 1,
+        "tx_dtmf_format_id": 1,
+        "resolve_ruri": true,
+        "auth_enabled": true,
+        "auth_user": 'username',
+        "auth_password": 'password',
+        "auth_from_user": 'Office',
+        "auth_from_domain": 'example.com',
+        "sst_enabled": false,
+        "sst_min_timer": 600,
+        "sst_max_timer": 900,
+        "sst_refresh_method_id": 1,
+        "sst_accept_501": true,
+        "sip_timer_b": 8000,
+        "dns_srv_failover_timer": 2000,
+        "rtp_ping": false,
+        "rtp_timeout": 30,
+        "force_symmetric_rtp": false,
+        "symmetric_rtp_ignore_rtcp": false,
+        "rerouting_disconnect_code_ids": [58, 59],
+        "port": 5060,
+        "transport_protocol_id": 2,
+        "max_transfers": 0,
+        "max_30x_redirects": 0
+      }
+    end
+
     describe 'with correct attributes' do
       it 'creates a SIP Trunk' do
         stub_didww_request(:post, '/voice_in_trunks').
@@ -246,51 +286,12 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
                   "description": 'custom description',
                   "configuration": {
                     "type": 'sip_configurations',
-                    "attributes": {
-                      "username": 'username',
-                      # `host=` cascades enabled_sip_registration / use_did_in_ruri
-                      # to false (see SipConfiguration#host=) so the wire stays
-                      # consistent with the server's "host implies sip
-                      # registration disabled" rule.
-                      "enabled_sip_registration": false,
-                      "use_did_in_ruri": false,
-                      "host": 'example.com',
-                      "codec_ids": [
-                        9,
-                        7
-                      ],
-                      "rx_dtmf_format_id": 1,
-                      "tx_dtmf_format_id": 1,
-                      "resolve_ruri": true,
-                      "auth_enabled": true,
-                      "auth_user": 'username',
-                      "auth_password": 'password',
-                      "auth_from_user": 'Office',
-                      "auth_from_domain": 'example.com',
-                      "sst_enabled": false,
-                      "sst_min_timer": 600,
-                      "sst_max_timer": 900,
-                      "sst_refresh_method_id": 1,
-                      "sst_accept_501": true,
-                      "sip_timer_b": 8000,
-                      "dns_srv_failover_timer": 2000,
-                      "rtp_ping": false,
-                      "rtp_timeout": 30,
-                      "force_symmetric_rtp": false,
-                      "symmetric_rtp_ignore_rtcp": false,
-                      "rerouting_disconnect_code_ids": [
-                        58,
-                        59
-                      ],
-                      "port": 5060,
-                      "transport_protocol_id": 2,
-                      "max_transfers": 0,
-                      "max_30x_redirects": 0,
+                    "attributes": base_sip_config_attributes.merge(
                       "diversion_relay_policy": 'as_is',
                       "diversion_inject_mode": 'did_number',
                       "network_protocol_priority": 'force_ipv4',
                       "cnam_lookup": true
-                    }
+                    )
                   }
                 }
               }
@@ -455,47 +456,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
                   "cli_prefix": '+1',
                   "configuration": {
                     "type": 'sip_configurations',
-                    "attributes": {
-                      "username": 'username',
-                      # `host=` cascades enabled_sip_registration / use_did_in_ruri
-                      # to false (see SipConfiguration#host=) so the wire stays
-                      # consistent with the server's "host implies sip
-                      # registration disabled" rule.
-                      "enabled_sip_registration": false,
-                      "use_did_in_ruri": false,
-                      "host": 'example.com',
-                      "codec_ids": [
-                        9,
-                        7
-                      ],
-                      "rx_dtmf_format_id": 1,
-                      "tx_dtmf_format_id": 1,
-                      "resolve_ruri": true,
-                      "auth_enabled": true,
-                      "auth_user": 'username',
-                      "auth_password": 'password',
-                      "auth_from_user": 'Office',
-                      "auth_from_domain": 'example.com',
-                      "sst_enabled": false,
-                      "sst_min_timer": 600,
-                      "sst_max_timer": 900,
-                      "sst_refresh_method_id": 1,
-                      "sst_accept_501": true,
-                      "sip_timer_b": 8000,
-                      "dns_srv_failover_timer": 2000,
-                      "rtp_ping": false,
-                      "rtp_timeout": 30,
-                      "force_symmetric_rtp": false,
-                      "symmetric_rtp_ignore_rtcp": false,
-                      "rerouting_disconnect_code_ids": [
-                        58,
-                        59
-                      ],
-                      "port": 5060,
-                      "transport_protocol_id": 2,
-                      "max_transfers": 0,
-                      "max_30x_redirects": 0
-                    }
+                    "attributes": base_sip_config_attributes
                   }
                 }
               }
@@ -787,7 +748,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
                     "attributes": {
                       "enabled_sip_registration": false,
                       "use_did_in_ruri": false,
-                      "host": '203.0.113.10'
+                      "host": disable_host
                     }
                   }
                 }
@@ -804,7 +765,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
         # write, so user code does not have to enumerate the server-side rule
         # set explicitly.
         trunk.configuration = DIDWW::ComplexObject::SipConfiguration.new.tap do |config|
-          config.host = '203.0.113.10'
+          config.host = disable_host
         end
         trunk.save
         expect(trunk.errors).to be_empty
@@ -812,7 +773,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
         expect(config).to be_kind_of(DIDWW::ComplexObject::SipConfiguration)
         expect(config.enabled_sip_registration).to be(false)
         expect(config.use_did_in_ruri).to be(false)
-        expect(config.host).to eq('203.0.113.10')
+        expect(config.host).to eq(disable_host)
         # When disabled, the server clears server-generated incoming_auth_*.
         expect(config.incoming_auth_username).to be_nil
         expect(config.incoming_auth_password).to be_nil

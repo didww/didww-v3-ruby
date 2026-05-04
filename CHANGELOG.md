@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [6.0.1] - 2026-04-30
+## [6.1.0] - 2026-05-04
 ### Added
 - Complete the 2026-04-16 `SipConfiguration` attribute set that was missed during the 2026-04-16 rollout (and is not present in the public Postman collection — server form is the source of truth):
   - `enabled_sip_registration` (bool) — enables SIP registration; the API generates `incoming_auth_*` credentials when set true and requires `port` to be blank.
@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `cnam_lookup` (bool) — enables CNAM resolution for inbound calls.
 - `SipConfiguration#incoming_auth_username` and `#incoming_auth_password` — read-only server-generated SIP authentication credentials returned on `voice_in_trunks` when `enabled_sip_registration` is true.
 - `ComplexObject::Base.property` accepts `read_only: true`. Read-only attributes are still parsed from server responses but are stripped from the JSON:API write payload, so round-tripping a loaded configuration through PATCH no longer triggers `400 Param not allowed`.
+- `ComplexObject::Base.property` accepts `sensitive: true`. The default `#inspect` representation redacts those values with `[FILTERED]` so credentials never leak through default logging / REPL / unhandled exception output. Marked as sensitive: `SipConfiguration#auth_password`, `SipConfiguration#incoming_auth_username/password`, and `AuthenticationMethod::CredentialsAndIp#username/password`.
+- `SipConfiguration` auto-cascades dependent fields whose constraints are server-enforced when set via property setters: `enabled_sip_registration = true` clears `host`/`port` (when previously set), `enabled_sip_registration = false` forces `use_did_in_ruri = false`, and assigning a non-blank `host` flips both flags. Constructor / `[]=` assignments bypass the cascade so server responses deserialize as-is.
 
 ## [6.0.0] - 2026-04-24
 Support for DIDWW API version **2026-04-16**. The gem now sends `X-DIDWW-API-Version: 2026-04-16` with every request by default. Users staying on API `2022-05-10` should pin to the [`2022-05-10`](https://github.com/didww/didww-v3-ruby/tree/2022-05-10) branch (5.x).

@@ -70,6 +70,13 @@ end
 # them in the response. They are READ-ONLY — sending them on POST/PATCH
 # returns 400 Param not allowed; the SDK strips them from write payloads.
 #
+# Server-side rules to keep in mind:
+#   * When `enabled_sip_registration: true`, `host` and `port` MUST be left
+#     blank (the server will register inbound and pick the host itself).
+#   * When DISABLING SIP registration on an existing trunk, you must
+#     simultaneously set `host` to a non-blank value and `use_did_in_ruri`
+#     to `false` in the same PATCH — otherwise the server returns 422.
+#
 # Uncomment to actually create a trunk in your sandbox account:
 #
 # new_trunk = DIDWW::Resource::VoiceInTrunk.new(
@@ -79,7 +86,8 @@ end
 #   cli_format: 'e164',
 #   ringing_timeout: 30,
 #   configuration: DIDWW::ComplexObject::SipConfiguration.new(
-#     host: 'example.com',
+#     # NOTE: do NOT set `host` here — the server requires it to be blank
+#     # when enabled_sip_registration is true.
 #     enabled_sip_registration: true,
 #     use_did_in_ruri: true,
 #     cnam_lookup: false,
