@@ -13,12 +13,21 @@ module DIDWW
 
         def property(name, options = {})
           schema.add(name, options)
+          read_only_attributes << name.to_s if options[:read_only]
           define_method(name.to_sym) { self[name] }
           define_method("#{name}=".to_sym) { |val| self[name] = val }
         end
 
         def schema
           @schema ||= JsonApiClient::Schema.new
+        end
+
+        # Names of attributes that the server returns but does not accept on
+        # write. Excluded from `as_json` so that round-tripping a resource
+        # through PATCH does not echo them back and trigger 400 Param not
+        # allowed.
+        def read_only_attributes
+          @read_only_attributes ||= []
         end
 
         # Type casting for JsonApiClient parser/setters
@@ -77,10 +86,12 @@ module DIDWW
       end
 
       # When we represent this resource for serialization (create/update), we do so
-      # with this implementation
+      # with this implementation. Read-only attributes are excluded — the server
+      # rejects them with 400 Param not allowed.
       def as_json(*)
+        excluded = self.class.read_only_attributes
         { type: type }.with_indifferent_access.tap do |h|
-          h[:attributes] = attributes.as_json
+          h[:attributes] = attributes.as_json.reject { |k, _| excluded.include?(k.to_s) }
         end
       end
 

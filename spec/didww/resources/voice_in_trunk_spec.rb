@@ -136,6 +136,44 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
       it 'has SipConfiguration' do
         expect(trunk.configuration).to be_kind_of(DIDWW::ComplexObject::SipConfiguration)
       end
+
+      context 'with SIP registration enabled (2026-04-16)' do
+        let (:trunk) do
+          stub_didww_request(:get, "/voice_in_trunks/#{id}").to_return(
+            status: 200,
+            body: api_fixture('voice_in_trunks/id/get/sip_trunk_with_sip_registration/200'),
+            headers: json_api_headers
+          )
+          client.voice_in_trunks.find(id).first
+        end
+
+        it 'parses the new 2026-04-16 SIP-registration attributes from the response' do
+          config = trunk.configuration
+          expect(config).to be_kind_of(DIDWW::ComplexObject::SipConfiguration)
+          expect(config.enabled_sip_registration).to be(true)
+          expect(config.use_did_in_ruri).to be(true)
+          expect(config.cnam_lookup).to be(true)
+          expect(config.diversion_relay_policy).to eq('as_is')
+          expect(config.diversion_inject_mode).to eq('did_number')
+          expect(config.network_protocol_priority).to eq('prefer_ipv4')
+        end
+
+        it 'exposes the read-only incoming_auth credentials returned by the server' do
+          config = trunk.configuration
+          expect(config.incoming_auth_username).to eq('sipreg-user-1')
+          expect(config.incoming_auth_password).to eq('s3cret-Pa55')
+        end
+
+        it 'never echoes the read-only credentials back in a write payload' do
+          payload = trunk.configuration.as_json[:attributes]
+          expect(payload).to include(
+            'enabled_sip_registration' => true,
+            'use_did_in_ruri' => true
+          )
+          expect(payload).not_to have_key('incoming_auth_username')
+          expect(payload).not_to have_key('incoming_auth_password')
+        end
+      end
     end
 
     describe 'PSTN trunk' do
@@ -241,7 +279,12 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
                       "port": 5060,
                       "transport_protocol_id": 2,
                       "max_transfers": 0,
-                      "max_30x_redirects": 0
+                      "max_30x_redirects": 0,
+                      "diversion_relay_policy": 'as_is',
+                      "diversion_inject_mode": 'did_number',
+                      "network_protocol_priority": 'force_ipv4',
+                      "cnam_lookup": true,
+                      "use_did_in_ruri": false
                     }
                   }
                 }
@@ -290,10 +333,65 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
           c.transport_protocol_id = 2
           c.max_transfers = 0
           c.max_30x_redirects = 0
+          # API 2026-04-16 writable attributes
+          c.diversion_relay_policy = 'as_is'
+          c.diversion_inject_mode = 'did_number'
+          c.network_protocol_priority = 'force_ipv4'
+          c.cnam_lookup = true
+          # use_did_in_ruri must stay false unless enabled_sip_registration is
+          # also true (server returns 422 otherwise).
+          c.use_did_in_ruri = false
         end
         trunk.save
         expect(trunk).to be_persisted
         expect(trunk.configuration).to be_kind_of(DIDWW::ComplexObject::SipConfiguration)
+      end
+
+      it 'creates a SIP Trunk with SIP registration enabled (2026-04-16)' do
+        stub_didww_request(:post, '/voice_in_trunks').
+          with(body:
+            {
+              "data": {
+                "type": 'voice_in_trunks',
+                "attributes": {
+                  "name": 'Office (registered)',
+                  "configuration": {
+                    "type": 'sip_configurations',
+                    "attributes": {
+                      "enabled_sip_registration": true,
+                      "use_did_in_ruri": true,
+                      "cnam_lookup": true,
+                      "diversion_relay_policy": 'as_is',
+                      "diversion_inject_mode": 'did_number',
+                      "network_protocol_priority": 'prefer_ipv4'
+                    }
+                  }
+                }
+              }
+            }.to_json).
+          to_return(
+            status: 201,
+            body: api_fixture('voice_in_trunks/post/create_sip_trunk_with_sip_registration/201'),
+            headers: json_api_headers
+          )
+        trunk = client.voice_in_trunks.new(name: 'Office (registered)')
+        # Note: host MUST be left blank when enabled_sip_registration: true
+        # — the server returns 422 otherwise. Verified against sandbox.
+        trunk.configuration = DIDWW::ComplexObject::SipConfiguration.new.tap do |c|
+          c.enabled_sip_registration = true
+          c.use_did_in_ruri = true
+          c.cnam_lookup = true
+          c.diversion_relay_policy = 'as_is'
+          c.diversion_inject_mode = 'did_number'
+          c.network_protocol_priority = 'prefer_ipv4'
+        end
+        trunk.save
+        expect(trunk).to be_persisted
+        config = trunk.configuration
+        expect(config).to be_kind_of(DIDWW::ComplexObject::SipConfiguration)
+        expect(config.enabled_sip_registration).to be(true)
+        expect(config.incoming_auth_username).to eq('sipreg-user-1')
+        expect(config.incoming_auth_password).to eq('s3cret-Pa55')
       end
 
       it 'creates a PSTN Trunk' do
@@ -605,6 +703,100 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
         expect(trunk.errors).to be_empty
         expect(trunk.configuration).to be_kind_of(DIDWW::ComplexObject::SipConfiguration)
         expect(trunk.configuration.username).to eq('new_username')
+      end
+
+      it 'enables SIP registration on an existing SIP Trunk' do
+        id = '57a939dd-1600-41a6-80b1-f624e22a1f4c'
+        stub_didww_request(:patch, "/voice_in_trunks/#{id}").
+          with(body:
+            {
+              "data": {
+                "id": '57a939dd-1600-41a6-80b1-f624e22a1f4c',
+                "type": 'voice_in_trunks',
+                "attributes": {
+                  "configuration": {
+                    "type": 'sip_configurations',
+                    "attributes": {
+                      "enabled_sip_registration": true,
+                      "use_did_in_ruri": true,
+                      "cnam_lookup": true,
+                      "diversion_inject_mode": 'none',
+                      "network_protocol_priority": 'any'
+                    }
+                  }
+                }
+              }
+            }.to_json).
+          to_return(
+            status: 200,
+            body: api_fixture('voice_in_trunks/id/patch/enable_sip_registration/200'),
+            headers: json_api_headers
+          )
+        trunk = DIDWW::Resource::VoiceInTrunk.load(id: id)
+        trunk.configuration = DIDWW::ComplexObject::SipConfiguration.new.tap do |config|
+          config.enabled_sip_registration = true
+          config.use_did_in_ruri = true
+          config.cnam_lookup = true
+          config.diversion_inject_mode = 'none'
+          config.network_protocol_priority = 'any'
+        end
+        trunk.save
+        expect(trunk.errors).to be_empty
+        config = trunk.configuration
+        expect(config).to be_kind_of(DIDWW::ComplexObject::SipConfiguration)
+        expect(config.enabled_sip_registration).to be(true)
+        expect(config.use_did_in_ruri).to be(true)
+        expect(config.cnam_lookup).to be(true)
+        expect(config.incoming_auth_username).to eq('sipreg-user-2')
+        expect(config.incoming_auth_password).to eq('n3wPa55-w0rd')
+      end
+
+      it 'disables SIP registration on an existing SIP Trunk (2026-04-16)' do
+        # Disabling SIP registration is a multi-field PATCH: the server
+        # returns 422 for any request that sets enabled_sip_registration
+        # without simultaneously providing a non-blank `host` and
+        # use_did_in_ruri: false, so all three fields MUST appear in the
+        # same PATCH body.
+        id = '57a939dd-1600-41a6-80b1-f624e22a1f4c'
+        stub_didww_request(:patch, "/voice_in_trunks/#{id}").
+          with(body:
+            {
+              "data": {
+                "id": '57a939dd-1600-41a6-80b1-f624e22a1f4c',
+                "type": 'voice_in_trunks',
+                "attributes": {
+                  "configuration": {
+                    "type": 'sip_configurations',
+                    "attributes": {
+                      "enabled_sip_registration": false,
+                      "use_did_in_ruri": false,
+                      "host": '203.0.113.10'
+                    }
+                  }
+                }
+              }
+            }.to_json).
+          to_return(
+            status: 200,
+            body: api_fixture('voice_in_trunks/id/patch/disable_sip_registration/200'),
+            headers: json_api_headers
+          )
+        trunk = DIDWW::Resource::VoiceInTrunk.load(id: id)
+        trunk.configuration = DIDWW::ComplexObject::SipConfiguration.new.tap do |config|
+          config.enabled_sip_registration = false
+          config.use_did_in_ruri = false
+          config.host = '203.0.113.10'
+        end
+        trunk.save
+        expect(trunk.errors).to be_empty
+        config = trunk.configuration
+        expect(config).to be_kind_of(DIDWW::ComplexObject::SipConfiguration)
+        expect(config.enabled_sip_registration).to be(false)
+        expect(config.use_did_in_ruri).to be(false)
+        expect(config.host).to eq('203.0.113.10')
+        # When disabled, the server clears server-generated incoming_auth_*.
+        expect(config.incoming_auth_username).to be_nil
+        expect(config.incoming_auth_password).to be_nil
       end
 
       it 'updates a PSTN Trunk' do

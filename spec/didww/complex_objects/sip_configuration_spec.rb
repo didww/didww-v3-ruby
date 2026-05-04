@@ -90,4 +90,64 @@ RSpec.describe DIDWW::ComplexObject::SipConfiguration do
     end
   end
 
+  describe '2026-04-16 SIP registration attributes' do
+    let(:configuration) do
+      described_class.new(
+        enabled_sip_registration: true,
+        use_did_in_ruri: true,
+        cnam_lookup: true,
+        diversion_inject_mode: described_class::DIVERSION_INJECT_MODE_DID_NUMBER,
+        network_protocol_priority: described_class::NETWORK_PROTOCOL_PRIORITY_PREFER_IPV4
+      )
+    end
+
+    it 'exposes the values via reader methods' do
+      expect(configuration.enabled_sip_registration).to be(true)
+      expect(configuration.use_did_in_ruri).to be(true)
+      expect(configuration.cnam_lookup).to be(true)
+      expect(configuration.diversion_inject_mode).to eq('did_number')
+      expect(configuration.network_protocol_priority).to eq('prefer_ipv4')
+    end
+
+    it 'serializes the writable attributes for PATCH/POST' do
+      attrs = configuration.as_json[:attributes]
+      expect(attrs).to include(
+        'enabled_sip_registration' => true,
+        'use_did_in_ruri' => true,
+        'cnam_lookup' => true,
+        'diversion_inject_mode' => 'did_number',
+        'network_protocol_priority' => 'prefer_ipv4'
+      )
+    end
+
+    it 'exposes valid enum constants' do
+      expect(described_class::DIVERSION_INJECT_MODES).to contain_exactly('none', 'did_number')
+      expect(described_class::NETWORK_PROTOCOL_PRIORITIES).to contain_exactly(
+        'force_ipv4', 'force_ipv6', 'any', 'prefer_ipv4', 'prefer_ipv6'
+      )
+    end
+  end
+
+  describe 'incoming_auth credentials (read-only)' do
+    let(:configuration) do
+      described_class.new(
+        host: 'example.com',
+        incoming_auth_username: 'sipreg-user-1',
+        incoming_auth_password: 's3cret'
+      )
+    end
+
+    it 'exposes the values via reader methods' do
+      expect(configuration.incoming_auth_username).to eq('sipreg-user-1')
+      expect(configuration.incoming_auth_password).to eq('s3cret')
+    end
+
+    it 'omits read-only attributes from the JSON:API serialization' do
+      payload = configuration.as_json
+      expect(payload[:attributes]).to include('host' => 'example.com')
+      expect(payload[:attributes]).not_to have_key('incoming_auth_username')
+      expect(payload[:attributes]).not_to have_key('incoming_auth_password')
+    end
+  end
+
 end

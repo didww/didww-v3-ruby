@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.0.1] - 2026-04-30
+### Added
+- Complete the 2026-04-16 `SipConfiguration` attribute set that was missed during the 2026-04-16 rollout (and is not present in the public Postman collection — server form is the source of truth):
+  - `enabled_sip_registration` (bool) — enables SIP registration; the API generates `incoming_auth_*` credentials when set true and requires `port` to be blank.
+  - `use_did_in_ruri` (bool) — uses DID number in R-URI; requires SIP registration to be enabled.
+  - `network_protocol_priority` (string enum) — `force_ipv4` / `force_ipv6` / `any` / `prefer_ipv4` / `prefer_ipv6`. Constants exposed as `NETWORK_PROTOCOL_PRIORITY_*` and `NETWORK_PROTOCOL_PRIORITIES`.
+  - `diversion_inject_mode` (string enum) — `none` / `did_number`. Constants exposed as `DIVERSION_INJECT_MODE_*` and `DIVERSION_INJECT_MODES`.
+  - `cnam_lookup` (bool) — enables CNAM resolution for inbound calls.
+- `SipConfiguration#incoming_auth_username` and `#incoming_auth_password` — read-only server-generated SIP authentication credentials returned on `voice_in_trunks` when `enabled_sip_registration` is true.
+- `ComplexObject::Base.property` accepts `read_only: true`. Read-only attributes are still parsed from server responses but are stripped from the JSON:API write payload, so round-tripping a loaded configuration through PATCH no longer triggers `400 Param not allowed`.
+
 ## [6.0.0] - 2026-04-24
 Support for DIDWW API version **2026-04-16**. The gem now sends `X-DIDWW-API-Version: 2026-04-16` with every request by default. Users staying on API `2022-05-10` should pin to the [`2022-05-10`](https://github.com/didww/didww-v3-ruby/tree/2022-05-10) branch (5.x).
 

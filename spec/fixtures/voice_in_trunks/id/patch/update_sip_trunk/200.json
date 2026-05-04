@@ -15,6 +15,14 @@
       "configuration": {
         "type": "sip_configurations",
         "attributes": {
+          "network_protocol_priority": "force_ipv4",
+          "enabled_sip_registration": false,
+          "use_did_in_ruri": false,
+          "diversion_relay_policy": "none",
+          "diversion_inject_mode": "did_number",
+          "cnam_lookup": false,
+          "incoming_auth_username": null,
+          "incoming_auth_password": null,
           "username": "new_username",
           "host": "example.com",
           "port": 5060,
