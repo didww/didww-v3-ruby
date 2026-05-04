@@ -350,12 +350,14 @@ module DIDWW
         def enabled_sip_registration=(val)
           case val
           when true
-            # Clear host/port only if they were already set — never emit a
-            # spurious `host: null` on a fresh config, which would otherwise
-            # widen every PATCH/POST body. If the trunk had a host, we have
-            # to send `host: null` explicitly so the server clears it.
-            self[:host] = nil if attributes.key?('host') && !self[:host].nil?
-            self[:port] = nil if attributes.key?('port') && !self[:port].nil?
+            # Always emit host: null and port: null on the wire when
+            # enabling sip_registration. The server requires both blank
+            # (returns 422 otherwise) AND a PATCH against an existing
+            # trunk that already has host/port set on the server side
+            # MUST explicitly nullify them — the SDK's local attributes
+            # hash starts empty, so there's nothing to "preserve".
+            self[:host] = nil
+            self[:port] = nil
           when false
             # Server requires use_did_in_ruri = false whenever sip_registration
             # is disabled. Always emit it on the wire so the server's check

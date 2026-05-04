@@ -41,6 +41,7 @@ DIDWW_API_KEY=your_api_key ruby examples/orders_nanpa.rb
 | Script | Description |
 |---|---|
 | [`voice_in_trunks.rb`](voice_in_trunks.rb) | Lists voice in trunks and their configurations. |
+| [`voice_in_trunk_sip_registration.rb`](voice_in_trunk_sip_registration.rb) | End-to-end SIP registration flow: create with `enabled_sip_registration: true`, rename, disable by setting `host`, re-enable by toggling the flag. The SDK keeps the dependent fields (`host`, `port`, `use_did_in_ruri`) aligned with the server's validation rules automatically. |
 | [`voice_in_trunk_groups.rb`](voice_in_trunk_groups.rb) | CRUD for trunk groups with trunk relationships. |
 
 ### Voice Out (Outbound)

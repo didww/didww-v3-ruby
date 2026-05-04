@@ -364,6 +364,11 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
                   "configuration": {
                     "type": 'sip_configurations',
                     "attributes": {
+                      # Setting `enabled_sip_registration = true` always
+                      # cascades host: nil and port: nil on the wire so the
+                      # server clears whatever it had persisted.
+                      "host": nil,
+                      "port": nil,
                       "enabled_sip_registration": true,
                       "use_did_in_ruri": true,
                       "cnam_lookup": true,
@@ -695,6 +700,12 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
                   "configuration": {
                     "type": 'sip_configurations',
                     "attributes": {
+                      # Setting `enabled_sip_registration = true` always
+                      # cascades host: nil and port: nil on the wire so the
+                      # server clears the values it had persisted on the
+                      # existing trunk.
+                      "host": nil,
+                      "port": nil,
                       "enabled_sip_registration": true,
                       "use_did_in_ruri": true,
                       "cnam_lookup": true,

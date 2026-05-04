@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.1.1] - 2026-05-04
+### Fixed
+- `SipConfiguration#enabled_sip_registration = true` now always emits `host: null` and `port: null` on the wire, not only when the local attribute hash already had them set. The previous conditional cascade (introduced in 6.1.0) silently no-op'd when re-enabling SIP registration on an existing trunk through a fresh `SipConfiguration` instance: the PATCH body carried only `enabled_sip_registration: true`, the server merged it with the trunk's persisted host, and rejected with 422 (`host must be blank when the SIP registration is enabled`). Verified end-to-end against the live sandbox via the new `examples/voice_in_trunk_sip_registration.rb`.
+
+### Added
+- `examples/voice_in_trunk_sip_registration.rb` — end-to-end create / rename / disable / re-enable flow demonstrating every cascade rule against the sandbox API.
+
 ## [6.1.0] - 2026-05-04
 ### Added
 - Complete the 2026-04-16 `SipConfiguration` attribute set that was missed during the 2026-04-16 rollout (and is not present in the public Postman collection — server form is the source of truth):
