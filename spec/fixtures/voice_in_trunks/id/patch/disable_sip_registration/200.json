@@ -1,31 +1,24 @@
 {
   "data": {
-    "id": "081ad751-d790-4e70-9c92-7c18f6b50a6d",
+    "id": "57a939dd-1600-41a6-80b1-f624e22a1f4c",
     "type": "voice_in_trunks",
     "attributes": {
       "priority": 1,
       "capacity_limit": 10,
       "weight": 2,
-      "name": "New trunk",
+      "name": "Office",
       "cli_format": "e164",
       "cli_prefix": "+",
       "description": "custom description",
       "ringing_timeout": 30,
       "created_at": "2017-06-25T08:21:41.795Z",
+      "external_reference_id": null,
       "configuration": {
         "type": "sip_configurations",
         "attributes": {
-          "network_protocol_priority": "force_ipv4",
-          "enabled_sip_registration": false,
-          "use_did_in_ruri": false,
-          "diversion_relay_policy": "none",
-          "diversion_inject_mode": "did_number",
-          "cnam_lookup": false,
-          "incoming_auth_username": null,
-          "incoming_auth_password": null,
-          "username": "username",
-          "host": "example.com",
-          "port": 5060,
+          "username": null,
+          "host": "203.0.113.10",
+          "port": null,
           "codec_ids": [
             9,
             7
@@ -50,42 +43,38 @@
           "symmetric_rtp_ignore_rtcp": false,
           "rerouting_disconnect_code_ids": [
             58,
-            59
+            59,
+            1505
           ],
           "sst_session_expires": null,
           "sst_refresh_method_id": 1,
-          "transport_protocol_id": 2,
-          "max_transfers": 0,
-          "max_30x_redirects": 0
+          "transport_protocol_id": 1,
+          "max_transfers": 5,
+          "max_30x_redirects": 0,
+          "diversion_relay_policy": "none",
+          "diversion_inject_mode": "none",
+          "network_protocol_priority": "any",
+          "enabled_sip_registration": false,
+          "use_did_in_ruri": false,
+          "cnam_lookup": true,
+          "incoming_auth_username": null,
+          "incoming_auth_password": null
         }
       }
     },
     "relationships": {
       "voice_in_trunk_group": {
         "links": {
-          "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/081ad751-d790-4e70-9c92-7c18f6b50a6d/relationships/voice_in_trunk_group",
-          "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/081ad751-d790-4e70-9c92-7c18f6b50a6d/voice_in_trunk_group"
+          "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/57a939dd-1600-41a6-80b1-f624e22a1f4c/relationships/voice_in_trunk_group",
+          "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/57a939dd-1600-41a6-80b1-f624e22a1f4c/voice_in_trunk_group"
         }
       },
       "pop": {
         "links": {
-          "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/081ad751-d790-4e70-9c92-7c18f6b50a6d/relationships/pop",
-          "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/081ad751-d790-4e70-9c92-7c18f6b50a6d/pop"
-        },
-        "data": {
-          "type": "pops",
-          "id": "cb5ea690-e3a3-4781-a4f3-3bd0123284dd"
+          "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/57a939dd-1600-41a6-80b1-f624e22a1f4c/relationships/pop",
+          "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/57a939dd-1600-41a6-80b1-f624e22a1f4c/pop"
         }
       }
     }
-  },
-  "included": [
-    {
-      "id": "cb5ea690-e3a3-4781-a4f3-3bd0123284dd",
-      "type": "pops",
-      "attributes": {
-        "name": "US, NY"
-      }
-    }
-  ]
+  }
 }

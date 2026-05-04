@@ -18,7 +18,7 @@ module DIDWW
         # Nullable: No
         # Description: Optional authorization user for the SIP server
 
-        property :auth_password, type: :string
+        property :auth_password, type: :string, sensitive: true
         # Type: String
         # Nullable: No
         # Description: Optional authorization password for the SIP server
@@ -180,6 +180,54 @@ module DIDWW
         # See DIVERSION_RELAY_POLICIES for available values.
         # In API v3.4 this attribute was named `diversion_relay_mode`.
 
+        property :diversion_inject_mode, type: :string
+        # Type: String
+        # Nullable: No
+        # Description: Diversion header injection mode. See
+        # DIVERSION_INJECT_MODES for available values. (API 2026-04-16)
+
+        property :network_protocol_priority, type: :string
+        # Type: String
+        # Nullable: No
+        # Description: SIP network protocol priority. See
+        # NETWORK_PROTOCOL_PRIORITIES for available values. (API 2026-04-16)
+
+        property :enabled_sip_registration, type: :boolean
+        # Type: Boolean
+        # Nullable: No
+        # Description: Enables SIP registration. When true the API generates
+        # `incoming_auth_username` / `incoming_auth_password`; the trunk's
+        # `host` and `port` must be left blank. When disabling sip
+        # registration on an existing trunk, the same PATCH must also set
+        # `host` to a non-blank value and `use_did_in_ruri` to false, or
+        # the server returns 422. (API 2026-04-16)
+
+        property :use_did_in_ruri, type: :boolean
+        # Type: Boolean
+        # Nullable: No
+        # Description: When true, the trunk's R-URI uses the DID number.
+        # Requires `enabled_sip_registration` to be true. (API 2026-04-16)
+
+        property :cnam_lookup, type: :boolean
+        # Type: Boolean
+        # Nullable: No
+        # Description: Enables CNAM resolution for inbound calls on this
+        # trunk. (API 2026-04-16)
+
+        property :incoming_auth_username, type: :string, read_only: true, sensitive: true
+        # Type: String
+        # Nullable: Yes
+        # Description: Server-generated SIP authentication username, returned in
+        #   responses when `enabled_sip_registration` is true. Read-only; the API
+        #   rejects any write attempt with 400 Param not allowed. (API 2026-04-16)
+
+        property :incoming_auth_password, type: :string, read_only: true, sensitive: true
+        # Type: String
+        # Nullable: Yes
+        # Description: Server-generated SIP authentication password, returned in
+        #   responses when `enabled_sip_registration` is true. Read-only; the API
+        #   rejects any write attempt with 400 Param not allowed. (API 2026-04-16)
+
         DIVERSION_RELAY_POLICY_NONE = 'none'
         DIVERSION_RELAY_POLICY_AS_IS = 'as_is'
         DIVERSION_RELAY_POLICY_SIP = 'sip'
@@ -190,6 +238,28 @@ module DIDWW
           DIVERSION_RELAY_POLICY_AS_IS,
           DIVERSION_RELAY_POLICY_SIP,
           DIVERSION_RELAY_POLICY_TEL
+        ].freeze
+
+        DIVERSION_INJECT_MODE_NONE = 'none'
+        DIVERSION_INJECT_MODE_DID_NUMBER = 'did_number'
+
+        DIVERSION_INJECT_MODES = [
+          DIVERSION_INJECT_MODE_NONE,
+          DIVERSION_INJECT_MODE_DID_NUMBER
+        ].freeze
+
+        NETWORK_PROTOCOL_PRIORITY_FORCE_IPV4 = 'force_ipv4'
+        NETWORK_PROTOCOL_PRIORITY_FORCE_IPV6 = 'force_ipv6'
+        NETWORK_PROTOCOL_PRIORITY_ANY = 'any'
+        NETWORK_PROTOCOL_PRIORITY_PREFER_IPV4 = 'prefer_ipv4'
+        NETWORK_PROTOCOL_PRIORITY_PREFER_IPV6 = 'prefer_ipv6'
+
+        NETWORK_PROTOCOL_PRIORITIES = [
+          NETWORK_PROTOCOL_PRIORITY_FORCE_IPV4,
+          NETWORK_PROTOCOL_PRIORITY_FORCE_IPV6,
+          NETWORK_PROTOCOL_PRIORITY_ANY,
+          NETWORK_PROTOCOL_PRIORITY_PREFER_IPV4,
+          NETWORK_PROTOCOL_PRIORITY_PREFER_IPV6
         ].freeze
 
         MEDIA_ENCRYPTION_MODES = [
@@ -256,6 +326,58 @@ module DIDWW
 
         def transport_protocol
           TRANSPORT_PROTOCOLS[transport_protocol_id]
+        end
+
+        # Auto-cascade for server-enforced field dependencies (2026-04-16).
+        #
+        # The server validates these combinations and rejects mismatches with
+        # 422; the SDK fixes them up at assignment time so user code never has
+        # to track the full server-side rule set. Future server-required
+        # cascades are added here without the caller needing to know.
+        #
+        # Rules:
+        #   * `enabled_sip_registration = true`  => host = nil, port = nil
+        #     (server requires both blank when registration is enabled)
+        #   * `enabled_sip_registration = false` => use_did_in_ruri = false
+        #     (server requires use_did_in_ruri disabled when sip_registration is)
+        #   * `host = <non-nil>` => enabled_sip_registration = false,
+        #     use_did_in_ruri = false (host requires sip_registration disabled,
+        #     which in turn requires use_did_in_ruri disabled)
+        #
+        # Constructor-time `[]=` assignments bypass these setters intentionally
+        # so that responses returned from the server (e.g. a fixture with
+        # `enabled_sip_registration: true` AND `host: nil`) deserialize as-is.
+        def enabled_sip_registration=(val)
+          case val
+          when true
+            # Clear host/port only if they were already set — never emit a
+            # spurious `host: null` on a fresh config, which would otherwise
+            # widen every PATCH/POST body. If the trunk had a host, we have
+            # to send `host: null` explicitly so the server clears it.
+            self[:host] = nil if attributes.key?('host') && !self[:host].nil?
+            self[:port] = nil if attributes.key?('port') && !self[:port].nil?
+          when false
+            # Server requires use_did_in_ruri = false whenever sip_registration
+            # is disabled. Always emit it on the wire so the server's check
+            # passes regardless of the prior state of the field.
+            self[:use_did_in_ruri] = false
+          else
+            # `nil` (or any non-bool) — caller is unsetting the field. No
+            # cascade: dependent fields stay as the caller left them.
+          end
+          self[:enabled_sip_registration] = val
+        end
+
+        def host=(val)
+          unless val.nil?
+            # Setting host implies sip_registration is disabled (server-side
+            # validation), which in turn implies use_did_in_ruri = false.
+            # Always emit both on the wire so the server's checks pass
+            # without the caller having to know the rule set.
+            self[:enabled_sip_registration] = false
+            self[:use_did_in_ruri] = false
+          end
+          self[:host] = val
         end
       end
     end

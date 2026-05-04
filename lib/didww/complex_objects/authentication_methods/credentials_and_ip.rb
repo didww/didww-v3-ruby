@@ -12,8 +12,8 @@ module DIDWW
         # only in responses; they cannot be set from the client on create.
         property :allowed_sip_ips, type: :strings
         property :tech_prefix, type: :string
-        property :username, type: :string
-        property :password, type: :string
+        property :username, type: :string, sensitive: true
+        property :password, type: :string, sensitive: true
       end
     end
   end

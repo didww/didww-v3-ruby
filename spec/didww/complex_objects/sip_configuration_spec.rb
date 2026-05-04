@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 RSpec.describe DIDWW::ComplexObject::SipConfiguration do
+  let(:example_host) { 'example.com' }
+  let(:sip_reg_host) { 'sip.example.com' }
   let (:sip_configuration) {
       DIDWW::ComplexObject::SipConfiguration.new.tap do |c|
         c.username = 'username'
-        c.host = 'example.com'
+        c.host = example_host
         c.codec_ids = [ 9, 7 ]
         c.rx_dtmf_format_id = 1
         c.tx_dtmf_format_id = 2
@@ -12,7 +14,7 @@ RSpec.describe DIDWW::ComplexObject::SipConfiguration do
         c.auth_user = 'username'
         c.auth_password = 'password'
         c.auth_from_user = 'Office'
-        c.auth_from_domain = 'example.com'
+        c.auth_from_domain = example_host
         c.sst_enabled = 'false'
         c.sst_min_timer = 600
         c.sst_max_timer = 900
@@ -87,6 +89,125 @@ RSpec.describe DIDWW::ComplexObject::SipConfiguration do
   describe '#transport_protocol' do
     it 'returns humanized transport protocol' do
       expect(sip_configuration.transport_protocol).to eq('TCP')
+    end
+  end
+
+  describe '2026-04-16 SIP registration attributes' do
+    let(:configuration) do
+      described_class.new(
+        enabled_sip_registration: true,
+        use_did_in_ruri: true,
+        cnam_lookup: true,
+        diversion_inject_mode: described_class::DIVERSION_INJECT_MODE_DID_NUMBER,
+        network_protocol_priority: described_class::NETWORK_PROTOCOL_PRIORITY_PREFER_IPV4
+      )
+    end
+
+    it 'exposes the values via reader methods' do
+      expect(configuration.enabled_sip_registration).to be(true)
+      expect(configuration.use_did_in_ruri).to be(true)
+      expect(configuration.cnam_lookup).to be(true)
+      expect(configuration.diversion_inject_mode).to eq('did_number')
+      expect(configuration.network_protocol_priority).to eq('prefer_ipv4')
+    end
+
+    it 'serializes the writable attributes for PATCH/POST' do
+      attrs = configuration.as_json[:attributes]
+      expect(attrs).to include(
+        'enabled_sip_registration' => true,
+        'use_did_in_ruri' => true,
+        'cnam_lookup' => true,
+        'diversion_inject_mode' => 'did_number',
+        'network_protocol_priority' => 'prefer_ipv4'
+      )
+    end
+
+    it 'exposes valid enum constants' do
+      expect(described_class::DIVERSION_INJECT_MODES).to contain_exactly('none', 'did_number')
+      expect(described_class::NETWORK_PROTOCOL_PRIORITIES).to contain_exactly(
+        'force_ipv4', 'force_ipv6', 'any', 'prefer_ipv4', 'prefer_ipv6'
+      )
+    end
+  end
+
+  describe 'incoming_auth credentials (read-only)' do
+    let(:configuration) do
+      described_class.new(
+        host: example_host,
+        incoming_auth_username: 'sipreg-user-1',
+        incoming_auth_password: 's3cret'
+      )
+    end
+
+    it 'exposes the values via reader methods' do
+      expect(configuration.incoming_auth_username).to eq('sipreg-user-1')
+      expect(configuration.incoming_auth_password).to eq('s3cret')
+    end
+
+    it 'omits read-only attributes from the JSON:API serialization' do
+      payload = configuration.as_json
+      expect(payload[:attributes]).to include('host' => example_host)
+      expect(payload[:attributes]).not_to have_key('incoming_auth_username')
+      expect(payload[:attributes]).not_to have_key('incoming_auth_password')
+    end
+  end
+
+  describe 'auto-cascade for SIP registration (2026-04-16)' do
+    # The SDK auto-cascades dependent fields whose constraints are
+    # server-enforced: setting one field nullifies/forces another so user
+    # code never has to track the full server-side rule set.
+
+    it 'enabling SIP registration clears host and port' do
+      cfg = described_class.new(host: sip_reg_host, port: 5060)
+      cfg.enabled_sip_registration = true
+      expect(cfg.host).to be_nil
+      expect(cfg.port).to be_nil
+      expect(cfg.enabled_sip_registration).to be(true)
+    end
+
+    it 'disabling SIP registration forces use_did_in_ruri to false' do
+      cfg = described_class.new(enabled_sip_registration: true, use_did_in_ruri: true)
+      cfg.enabled_sip_registration = false
+      expect(cfg.enabled_sip_registration).to be(false)
+      expect(cfg.use_did_in_ruri).to be(false)
+    end
+
+    it 'setting host disables SIP registration and forces use_did_in_ruri to false' do
+      cfg = described_class.new(enabled_sip_registration: true, use_did_in_ruri: true)
+      cfg.host = sip_reg_host
+      expect(cfg.host).to eq(sip_reg_host)
+      expect(cfg.enabled_sip_registration).to be(false)
+      expect(cfg.use_did_in_ruri).to be(false)
+    end
+
+    it 'leaves use_did_in_ruri alone when SIP registration stays enabled' do
+      cfg = described_class.new(enabled_sip_registration: true, use_did_in_ruri: true)
+      cfg.enabled_sip_registration = true
+      expect(cfg.use_did_in_ruri).to be(true)
+    end
+
+    it 'wire payload reflects the cascaded state' do
+      cfg = described_class.new(enabled_sip_registration: true, use_did_in_ruri: true)
+      cfg.host = sip_reg_host
+      attrs = cfg.as_json[:attributes]
+      expect(attrs['host']).to eq(sip_reg_host)
+      expect(attrs['enabled_sip_registration']).to be(false)
+      expect(attrs['use_did_in_ruri']).to be(false)
+    end
+
+    it 'constructor-time assignment bypasses the cascade so server responses deserialize as-is' do
+      # Server may return a regular SIP trunk shape (host: present together
+      # with use_did_in_ruri: true). The constructor uses []= directly,
+      # which skips the cascading setters — running cascade against
+      # already-consistent server data would clobber valid combinations.
+      cfg = described_class.new(
+        host: sip_reg_host, port: 5060,
+        enabled_sip_registration: false, use_did_in_ruri: true
+      )
+      expect(cfg.host).to eq(sip_reg_host)
+      expect(cfg.port).to eq(5060)
+      expect(cfg.enabled_sip_registration).to be(false)
+      expect(cfg.use_did_in_ruri).to be(true)
     end
   end
 
