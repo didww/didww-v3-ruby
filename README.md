@@ -361,6 +361,10 @@ recent = DIDWW::Client.did_history
          .all
 ```
 
+## Filter Reference
+
+> See [`FILTERS.md`](FILTERS.md) for the canonical list of `filter[KEY]` keys accepted by every list endpoint, verified live against the DIDWW API at version `2026-04-16`.
+
 ## Error Handling
 
 The SDK uses [json_api_client](https://github.com/JsonApiClient/json_api_client) which raises exceptions for HTTP-level errors. Validation errors from the API are returned on the resource's `errors` collection after a failed `save`.
