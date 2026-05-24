@@ -9,7 +9,7 @@ module DIDWW
       # returned
       property :nrc,                type: :decimal
       property :mrc,                type: :decimal
-      property :propated_mrc,       type: :boolean
+      property :prorated_mrc,       type: :boolean
       property :billed_from,        type: :string
       property :billed_to,          type: :string
     end

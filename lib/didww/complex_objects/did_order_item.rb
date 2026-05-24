@@ -15,7 +15,7 @@ module DIDWW
       property :monthly_price,        type: :decimal
       property :nrc,                  type: :decimal
       property :mrc,                  type: :decimal
-      property :propated_mrc,         type: :boolean
+      property :prorated_mrc,         type: :boolean
       property :billed_from,          type: :string
       property :billed_to,            type: :string
       property :did_group_id,         type: :string
