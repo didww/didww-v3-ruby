@@ -16,6 +16,7 @@
       "media_encryption_mode": "disabled",
       "callback_url": null,
       "force_symmetric_rtp": false,
+      "rtp_ping": false,
       "allowed_rtp_ips": [],
       "external_reference_id": null,
       "emergency_enable_all": false,

@@ -149,6 +149,10 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
         it '"rtp_timeout", type: Integer' do
           expect(trunk.rtp_timeout).to be_kind_of(Integer)
         end
+
+        it '"rtp_ping", type: Boolean' do
+          expect(trunk.rtp_ping).to be_in([true, false])
+        end
       end
     end
 

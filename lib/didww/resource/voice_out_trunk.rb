@@ -64,6 +64,7 @@ module DIDWW
       property :media_encryption_mode, type: :string
       property :callback_url, type: :string
       property :force_symmetric_rtp, type: :boolean
+      property :rtp_ping, type: :boolean
       property :allowed_rtp_ips, type: :ip_addresses
 
       # Type: String
