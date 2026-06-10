@@ -161,7 +161,7 @@
   ],
   "meta": {
     "total_records": 3,
-    "api_version": "2022-05-09"
+    "api_version": "2026-04-16"
   },
   "links": {
     "first": "https://sandbox-api.didww.com/v3/nanpa_prefixes?include=region%2Ccountry&page%5Bnumber%5D=1&page%5Bsize%5D=50",
