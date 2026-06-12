@@ -24,6 +24,7 @@ RSpec.describe DIDWW::Resource::DidReservation do
         expect(record).to be_kind_of(DIDWW::Resource::DidReservation)
         expect(record.expires_at).to be_kind_of(Time)
         expect(record.created_at).to be_kind_of(Time)
+        expect(record.description).to eq('DIDWW')
       end
     end
 

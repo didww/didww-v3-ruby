@@ -12,6 +12,10 @@ module DIDWW
       # Type: DateTime
       # Description: DID reservation created at DateTime.
 
+      property :description, type: :string
+      # Type: String
+      # Description: Customer-supplied note attached to the reservation.
+      # Writable on POST; returned on subsequent GETs.
     end
   end
 end
