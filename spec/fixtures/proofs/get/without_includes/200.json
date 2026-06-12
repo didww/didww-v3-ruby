@@ -11,14 +11,14 @@
       "relationships": {
         "proof_type": {
           "links": {
-            "self": "https://api.didww.com/v3/proofs/84155378-88d5-456e-844d-103596e3fb2c/relationships/proof_type",
-            "related": "https://api.didww.com/v3/proofs/84155378-88d5-456e-844d-103596e3fb2c/proof_type"
+            "self": "https://sandbox-api.didww.com/v3/proofs/84155378-88d5-456e-844d-103596e3fb2c/relationships/proof_type",
+            "related": "https://sandbox-api.didww.com/v3/proofs/84155378-88d5-456e-844d-103596e3fb2c/proof_type"
           }
         },
         "entity": {
           "links": {
-            "self": "https://api.didww.com/v3/proofs/84155378-88d5-456e-844d-103596e3fb2c/relationships/entity",
-            "related": "https://api.didww.com/v3/proofs/84155378-88d5-456e-844d-103596e3fb2c/entity"
+            "self": "https://sandbox-api.didww.com/v3/proofs/84155378-88d5-456e-844d-103596e3fb2c/relationships/entity",
+            "related": "https://sandbox-api.didww.com/v3/proofs/84155378-88d5-456e-844d-103596e3fb2c/entity"
           }
         }
       }
@@ -34,14 +34,14 @@
       "relationships": {
         "proof_type": {
           "links": {
-            "self": "https://api.didww.com/v3/proofs/95266489-99e6-567f-955e-214707f4ac3d/relationships/proof_type",
-            "related": "https://api.didww.com/v3/proofs/95266489-99e6-567f-955e-214707f4ac3d/proof_type"
+            "self": "https://sandbox-api.didww.com/v3/proofs/95266489-99e6-567f-955e-214707f4ac3d/relationships/proof_type",
+            "related": "https://sandbox-api.didww.com/v3/proofs/95266489-99e6-567f-955e-214707f4ac3d/proof_type"
           }
         },
         "entity": {
           "links": {
-            "self": "https://api.didww.com/v3/proofs/95266489-99e6-567f-955e-214707f4ac3d/relationships/entity",
-            "related": "https://api.didww.com/v3/proofs/95266489-99e6-567f-955e-214707f4ac3d/entity"
+            "self": "https://sandbox-api.didww.com/v3/proofs/95266489-99e6-567f-955e-214707f4ac3d/relationships/entity",
+            "related": "https://sandbox-api.didww.com/v3/proofs/95266489-99e6-567f-955e-214707f4ac3d/entity"
           }
         }
       }
