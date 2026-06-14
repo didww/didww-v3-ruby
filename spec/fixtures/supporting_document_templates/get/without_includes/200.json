@@ -6,7 +6,7 @@
       "attributes": {
         "name": "Generic LOI",
         "permanent": false,
-        "url": "https://api.didww.com/storage/public/w7f2irbo819la7vd7up7u67pkmkn"
+        "url": "https://sandbox-api.didww.com/storage/public/w7f2irbo819la7vd7up7u67pkmkn"
       }
     },
     {
@@ -15,7 +15,7 @@
       "attributes": {
         "name": "Belgium Registration Form",
         "permanent": true,
-        "url": "https://api.didww.com/storage/public/e8lziulj68xetfa5ed6na3g7q7ra"
+        "url": "https://sandbox-api.didww.com/storage/public/e8lziulj68xetfa5ed6na3g7q7ra"
       }
     }
   ],
