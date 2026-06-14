@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'activesupport',     '>= 7.2', '< 9'
   spec.add_dependency 'faraday',           '~> 2.0'
   spec.add_dependency 'faraday-multipart', '~> 1.0'
-  spec.add_dependency 'json_api_client',   '1.23.0'
+  spec.add_dependency 'json_api_client',   '~> 1.23'
   spec.add_dependency 'http',              '~> 5.0'
   spec.add_dependency 'down',              '~> 5.0'
   spec.add_dependency 'openssl-oaep',      '~> 0.1'
