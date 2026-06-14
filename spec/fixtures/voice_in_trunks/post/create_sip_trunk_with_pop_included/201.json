@@ -1,0 +1,97 @@
+{
+  "data": {
+    "id": "204f6568-a583-40ef-9bef-fff02273b183",
+    "type": "voice_in_trunks",
+    "attributes": {
+      "external_reference_id": null,
+      "priority": 10,
+      "capacity_limit": 1000,
+      "weight": 65535,
+      "name": "35",
+      "cli_format": "raw",
+      "cli_prefix": "",
+      "description": null,
+      "ringing_timeout": null,
+      "configuration": {
+        "type": "sip_configurations",
+        "attributes": {
+          "username": "dfds77",
+          "host": "df.oc",
+          "port": null,
+          "codec_ids": [
+            9,
+            10,
+            8,
+            7
+          ],
+          "rx_dtmf_format_id": 1,
+          "tx_dtmf_format_id": 1,
+          "resolve_ruri": false,
+          "auth_enabled": false,
+          "auth_user": "",
+          "auth_password": "",
+          "auth_from_user": "",
+          "auth_from_domain": "",
+          "sst_enabled": true,
+          "sst_min_timer": 600,
+          "sst_max_timer": 900,
+          "sst_accept_501": true,
+          "sip_timer_b": 8000,
+          "dns_srv_failover_timer": 2000,
+          "rtp_ping": false,
+          "rtp_timeout": 30,
+          "force_symmetric_rtp": false,
+          "symmetric_rtp_ignore_rtcp": false,
+          "rerouting_disconnect_code_ids": [],
+          "sst_session_expires": null,
+          "sst_refresh_method_id": 1,
+          "transport_protocol_id": 1,
+          "max_transfers": 0,
+          "max_30x_redirects": 0,
+          "media_encryption_mode": "disabled",
+          "stir_shaken_mode": "disabled",
+          "allowed_rtp_ips": null,
+          "network_protocol_priority": "force_ipv4",
+          "enabled_sip_registration": false,
+          "use_did_in_ruri": false,
+          "diversion_relay_policy": "none",
+          "diversion_inject_mode": "did_number",
+          "cnam_lookup": false,
+          "incoming_auth_username": null,
+          "incoming_auth_password": null
+        }
+      },
+      "created_at": "2015-08-28T06:59:22.805Z"
+    },
+    "relationships": {
+      "voice_in_trunk_group": {
+        "links": {
+          "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/204f6568-a583-40ef-9bef-fff02273b183/relationships/voice_in_trunk_group",
+          "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/204f6568-a583-40ef-9bef-fff02273b183/voice_in_trunk_group"
+        }
+      },
+      "pop": {
+        "links": {
+          "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/204f6568-a583-40ef-9bef-fff02273b183/relationships/pop",
+          "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/204f6568-a583-40ef-9bef-fff02273b183/pop"
+        },
+        "data": {
+          "type": "pops",
+          "id": "b4d3ec87-8b2b-4e91-bcda-da67db8a76ca"
+        }
+      }
+    }
+  },
+  "included": [
+    {
+      "id": "b4d3ec87-8b2b-4e91-bcda-da67db8a76ca",
+      "type": "pops",
+      "attributes": {
+        "name": "NYC"
+      }
+    }
+  ],
+  "meta": {
+    "api_version": "2026-04-16"
+  }
+}

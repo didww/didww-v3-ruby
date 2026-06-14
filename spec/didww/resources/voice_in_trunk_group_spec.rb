@@ -179,7 +179,57 @@ RSpec.describe DIDWW::Resource::VoiceInTrunkGroup do
         expect(trunk_group).to be_persisted
       end
 
-      xit 'creates a TrunkGroup, assign Trunks and include them in response'
+      it 'creates a TrunkGroup, assign Trunks and include them in response' do
+        stub_didww_request(:post, '/voice_in_trunk_groups?include=voice_in_trunks').
+          with(body:
+            {
+              "data": {
+                "type": 'voice_in_trunk_groups',
+                "relationships": {
+                  "voice_in_trunks": {
+                    "data": [
+                      {
+                        "type": 'voice_in_trunks',
+                        "id": '4380d9a3-0b04-4da3-8383-0fdf43c27fc5'
+                      },
+                      {
+                        "type": 'voice_in_trunks',
+                        "id": '82d6875a-d84f-4d18-a47f-d2f470c074fd'
+                      },
+                      {
+                        "type": 'voice_in_trunks',
+                        "id": 'b2baa741-e886-499f-8e43-760c3fdd2924'
+                      }
+                    ]
+                  }
+                },
+                "attributes": {
+                  "name": 'Main group',
+                  "capacity_limit": 100
+                }
+              }
+            }.to_json).
+          to_return(
+            status: 201,
+            body: api_fixture('voice_in_trunk_groups/post/create_with_trunks_included/201'),
+            headers: json_api_headers
+          )
+        trunk_group = client.voice_in_trunk_groups.new(name: 'Main group', capacity_limit: 100)
+        trunk_group.relationships[:voice_in_trunks] = [
+          DIDWW::Resource::VoiceInTrunk.load(id: '4380d9a3-0b04-4da3-8383-0fdf43c27fc5'),
+          DIDWW::Resource::VoiceInTrunk.load(id: '82d6875a-d84f-4d18-a47f-d2f470c074fd'),
+          DIDWW::Resource::VoiceInTrunk.load(id: 'b2baa741-e886-499f-8e43-760c3fdd2924')
+        ]
+        trunk_group.request_includes(:voice_in_trunks)
+        trunk_group.save
+        expect(trunk_group).to be_persisted
+        expect(trunk_group.voice_in_trunks).to all(be_kind_of(DIDWW::Resource::VoiceInTrunk))
+        expect(trunk_group.voice_in_trunks.map(&:id)).to contain_exactly(
+          '4380d9a3-0b04-4da3-8383-0fdf43c27fc5',
+          '82d6875a-d84f-4d18-a47f-d2f470c074fd',
+          'b2baa741-e886-499f-8e43-760c3fdd2924'
+        )
+      end
     end
 
     describe 'when creating TrunkGroup with trunks and name already taken' do
