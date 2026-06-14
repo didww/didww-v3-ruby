@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.2.0] - 2026-06-14
+### Added
+- `VoiceOutTrunk#rtp_ping` (boolean) — exposes the outbound trunk RTP ping toggle.
+- `DidReservation#description` (string) — customer-supplied note attached to a reservation.
+
+### Changed
+- Relaxed the `json_api_client` dependency from the exact pin `1.23.0` to `~> 1.23`, allowing `1.24.0`. This unblocks installation on **Ruby 4.0**: the old exact pin transitively forced `faraday-gzip < 3.0`, whose `required_ruby_version < 4` made bundler resolution fail on Ruby 4. `json_api_client 1.24.0` raised the cap to `faraday-gzip < 4.0` (allowing `3.x`, which supports Ruby 4). CI now exercises Ruby 4.0 against activesupport 7.2 / 8.0 / 8.1. (#89)
+
 ## [6.1.1] - 2026-05-04
 ### Fixed
 - `SipConfiguration#enabled_sip_registration = true` now always emits `host: null` and `port: null` on the wire, not only when the local attribute hash already had them set. The previous conditional cascade (introduced in 6.1.0) silently no-op'd when re-enabling SIP registration on an existing trunk through a fresh `SipConfiguration` instance: the PATCH body carried only `enabled_sip_registration: true`, the server merged it with the trunk's persisted host, and rejected with 422 (`host must be blank when the SIP registration is enabled`). Verified end-to-end against the live sandbox via the new `examples/voice_in_trunk_sip_registration.rb`.
