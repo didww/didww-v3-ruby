@@ -68,6 +68,35 @@ RSpec.describe DIDWW::Encrypt do
     end
   end
 
+  describe '.encrypt' do
+    subject do
+      DIDWW::Encrypt.encrypt(text)
+    end
+
+    before { stub_public_keys_fetch }
+
+    # smallest PNG binary
+    let(:text) do
+      base64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg=='
+      Base64.decode64(base64)
+    end
+
+    it 'encrypts successfully via the class method' do
+      expect(subject).to be_present
+      expect(stub_public_keys_fetch).to have_been_made.once
+    end
+
+    it 'decrypts successfully with first key' do
+      decrypted = decrypt(subject, private_keys_data[:private_key_a], 0)
+      expect(decrypted).to eq(text)
+    end
+
+    it 'decrypts successfully with second key' do
+      decrypted = decrypt(subject, private_keys_data[:private_key_b], 1)
+      expect(decrypted).to eq(text)
+    end
+  end
+
   describe '#encryption_fingerprint' do
     subject do
       encryptor.encryption_fingerprint
