@@ -277,41 +277,6 @@ module DIDWW
                               'verstat'
                             ].freeze
 
-        DEFAULTS = {
-            username: DID_PLACEHOLDER,
-            port: '5060',
-            tx_dtmf_format_id: 1,
-            sst_min_timer: 600,
-            sst_max_timer: 900,
-            sst_refresh_method_id: 1,
-            sst_accept_501: true,
-            sip_timer_b: 8000,
-            dns_srv_failover_timer: 2000,
-            rtp_timeout: 30,
-            auth_enabled: false,
-            max_transfers: 0,
-            max_30x_redirects: 0,
-            codec_ids: DEFAULT_CODEC_IDS,
-            rerouting_disconnect_code_ids: DEFAULT_REROUTING_DISCONNECT_CODE_IDS,
-            transport_protocol_id: 1
-        }.freeze
-
-        RECOMMENDED = DEFAULTS.merge(
-            #-- Authentication
-            auth_user: '',
-            auth_password: '',
-            auth_from_user: '',
-            auth_from_domain: '',
-            #-- Media & DTMF
-            rx_dtmf_format_id: 1,
-            rtp_ping: false,
-            force_symmetric_rtp: false,
-            symmetric_rtp_ignore_rtcp: false,
-            #-- Advanced Signalling Settings
-            sst_enabled: false,
-            sst_session_expires: '',
-        ).freeze
-
         def sst_refresh_method
           SST_REFRESH_METHODS[sst_refresh_method_id]
         end
