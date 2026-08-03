@@ -44,7 +44,7 @@ available_dids.first(10).each do |available_did|
 end
 
 # Find a specific reservation if available
-if !reservations.empty?
+unless reservations.empty?
   puts "\n=== Specific Reservation Details ==="
   specific_reservation = DIDWW::Client.did_reservations
                          .find(reservations.first.id)

@@ -37,7 +37,7 @@ did_groups.first(3).each do |did_group|
 end
 
 # Find a specific DID group
-if !did_groups.empty?
+unless did_groups.empty?
   puts "\n=== Specific DID Group ==="
   did_group = DIDWW::Client.did_groups
                .includes(:stock_keeping_units)
