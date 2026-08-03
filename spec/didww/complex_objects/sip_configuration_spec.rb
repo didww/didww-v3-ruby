@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+require 'didww/complex_objects/configurations'
+
 RSpec.describe DIDWW::ComplexObject::SipConfiguration do
   let(:example_host) { 'example.com' }
   let(:sip_reg_host) { 'sip.example.com' }

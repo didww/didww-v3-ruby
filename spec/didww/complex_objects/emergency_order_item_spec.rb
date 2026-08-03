@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+require 'didww/complex_objects/emergency_order_item'
+
 RSpec.describe DIDWW::ComplexObject::EmergencyOrderItem do
   let(:ecs_id) { 'b6d9d793-578d-42d3-bc33-73dd8155e615' }
 

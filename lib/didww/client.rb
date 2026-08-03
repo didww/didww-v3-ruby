@@ -25,7 +25,6 @@ module DIDWW
       def configure
         yield self if block_given?
         connect!
-        require_didww_resources
         self
       end
 
@@ -120,47 +119,6 @@ module DIDWW
         end
         JsonApiClient::Paginating::Paginator.page_param = 'number'
         JsonApiClient::Paginating::Paginator.per_page_param = 'size'
-      end
-
-      def require_didww_resources
-        require 'didww/resource/balance'
-        require 'didww/resource/capacity_pool'
-        require 'didww/resource/export'
-        require 'didww/resource/shared_capacity_group'
-        require 'didww/resource/city'
-        require 'didww/resource/country'
-        require 'didww/resource/did_group_type'
-        require 'didww/resource/did_group'
-        require 'didww/resource/did'
-        require 'didww/resource/order'
-        require 'didww/resource/pop'
-        require 'didww/resource/qty_based_pricing'
-        require 'didww/resource/region'
-        require 'didww/resource/stock_keeping_unit'
-        require 'didww/resource/voice_in_trunk_group'
-        require 'didww/resource/voice_in_trunk'
-        require 'didww/resource/available_did'
-        require 'didww/resource/did_reservation'
-        require 'didww/resource/address_requirement' # NOSONAR
-        require 'didww/resource/proof_type'
-        require 'didww/resource/supporting_document_template'
-        require 'didww/resource/identity'
-        require 'didww/resource/proof'
-        require 'didww/resource/address'
-        require 'didww/resource/permanent_supporting_document'
-        require 'didww/resource/encrypted_file'
-        require 'didww/resource/address_verification'
-        require 'didww/resource/address_requirement_validation' # NOSONAR
-        require 'didww/resource/public_key'
-        require 'didww/resource/area'
-        require 'didww/resource/voice_out_trunk'
-        require 'didww/resource/voice_out_trunk_regenerate_credential'
-        require 'didww/resource/nanpa_prefix'
-        require 'didww/resource/did_history' # NOSONAR
-        require 'didww/resource/emergency_requirement' # NOSONAR
-        require 'didww/resource/emergency_requirement_validation' # NOSONAR
-        require 'didww/resource/emergency_calling_service' # NOSONAR
-        require 'didww/resource/emergency_verification' # NOSONAR
       end
 
     end
