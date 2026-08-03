@@ -170,10 +170,6 @@ Lint/DeprecatedClassMethods:
 Lint/EachWithObjectArgument:
   Enabled: true
 
-# Check for odd code arrangement in an else block.
-Lint/ElseLayout:
-  Enabled: false
-
 # Checks for empty ensure block.
 Lint/EmptyEnsure:
   Enabled: true
@@ -206,112 +202,6 @@ Lint/FormatParameterMismatch:
 Lint/SuppressedException:
   Enabled: true
 
-# Checks for adjacent string literals on the same line, which could better be
-# represented as a single string literal.
-Lint/ImplicitStringConcatenation:
-  Enabled: false
-
-# Checks for attempts to use `private` or `protected` to set the visibility
-# of a class method, which does not work.
-Lint/IneffectiveAccessModifier:
-  Enabled: false
-
-# Checks for literals used in interpolation.
-Lint/LiteralInInterpolation:
-  Enabled: false
-
-# This cop checks for uses of *begin...end while/until something*.
-Lint/Loop:
-  Enabled: false
-
-# Do not use nested method definitions.
-Lint/NestedMethodDefinition:
-  Enabled: false
-
-# Do not omit the accumulator when calling `next` in a `reduce`/`inject` block.
-Lint/NextWithoutAccumulator:
-  Enabled: false
-
-# Checks for method calls with a space before the opening parenthesis.
-Lint/ParenthesesAsGroupedExpression:
-  Enabled: false
-
-# Checks for `rand(1)` calls. Such calls always return `0` and most likely
-# a mistake.
-Lint/RandOne:
-  Enabled: false
-
-# Use parentheses in the method call to avoid confusion about precedence.
-Lint/RequireParentheses:
-  Enabled: false
-
-# Avoid rescuing the Exception class.
-Lint/RescueException:
-  Enabled: false
-
-# Checks for the order which exceptions are rescued to avoid rescueing a less specific exception before a more specific exception.
-Lint/ShadowedException:
-  Enabled: false
-
-# This cop looks for use of the same name as outer local variables
-# for block arguments or block local variables.
-Lint/ShadowingOuterLocalVariable:
-  Enabled: false
-
-# Checks for Object#to_s usage in string interpolation.
-Lint/RedundantStringCoercion:
-  Enabled: false
-
-# Do not use prefix `_` for a variable that is used.
-Lint/UnderscorePrefixedVariableName:
-  Enabled: false
-
-# This cop checks for using Fixnum or Bignum constant
-Lint/UnifiedInteger:
-  Enabled: false
-
-# Checks for rubocop:disable comments that can be removed.
-# Note: this cop is not disabled when disabling all cops.
-# It must be explicitly disabled.
-Lint/RedundantCopDisableDirective:
-  Enabled: false
-
-# This cop checks for unneeded usages of splat expansion
-Lint/RedundantSplatExpansion:
-  Enabled: false
-
 # Unreachable code.
 Lint/UnreachableCode:
   Enabled: true
-
-# This cop checks for unused block arguments.
-Lint/UnusedBlockArgument:
-  Enabled: false
-
-# This cop checks for unused method arguments.
-Lint/UnusedMethodArgument:
-  Enabled: false
-
-# Checks for useless access modifiers.
-Lint/UselessAccessModifier:
-  Enabled: false
-
-# Checks for useless assignment to a local variable.
-Lint/UselessAssignment:
-  Enabled: false
-
-# Checks for comparison of something with itself.
-Lint/BinaryOperatorWithIdenticalOperands:
-  Enabled: false
-
-# Checks for useless `else` in `begin..end` without `rescue`.
-Lint/UselessElseWithoutRescue:
-  Enabled: false
-
-# Checks for useless setter call to a local variable.
-Lint/UselessSetterCall:
-  Enabled: false
-
-# Possible use of operator/literal/variable in void context.
-Lint/Void:
-  Enabled: false

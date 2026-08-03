@@ -2,7 +2,37 @@
 module DIDWW
   module Resource
     class Did < Base
-      include ExclusiveRelationship
+      # voice_in_trunk and voice_in_trunk_group are mutually exclusive: assigning one
+      # clears the other, matching the server's own constraint.
+      class Relations < JsonApiClient::Relationships::Relations
+        EXCLUSIONS = { 'voice_in_trunk' => 'voice_in_trunk_group', 'voice_in_trunk_group' => 'voice_in_trunk' }.freeze
+
+        def initialize(record_class, relations)
+          @_initializing = true
+          super
+          @_initializing = false
+        end
+
+        def set_attribute(name, value)
+          super
+          return if @_initializing
+          exclusive = EXCLUSIONS[name.to_s]
+          super(exclusive, nil) if exclusive && !value.nil?
+        end
+      end
+
+      def relationships
+        @relationships ||= Relations.new(self.class, {})
+      end
+
+      def relationships=(rels)
+        attrs = case rels
+                when JsonApiClient::Relationships::Relations then rels.attributes
+                when Hash then rels
+                else rels || {}
+                end
+        @relationships = Relations.new(self.class, attrs)
+      end
 
       has_one :did_group
       has_one :order
@@ -14,8 +44,6 @@ module DIDWW
       has_one :emergency_calling_service, class_name: 'EmergencyCallingService'
       has_one :emergency_verification, class_name: 'EmergencyVerification'
       has_one :identity, class_name: 'Identity'
-
-      exclusive_relationships(voice_in_trunk: :voice_in_trunk_group)
 
       property :blocked, type: :boolean
       # Type: Boolean

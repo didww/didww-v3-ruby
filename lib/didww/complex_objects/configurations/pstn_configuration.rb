@@ -7,10 +7,6 @@ module DIDWW
         # Type: String
         # Nullable: No
         # Description: Phone number
-
-        DEFAULTS = {}.freeze
-
-        RECOMMENDED = {}.freeze
       end
     end
   end

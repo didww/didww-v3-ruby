@@ -13,8 +13,6 @@ end
 gem 'rake', '~> 13.0'
 gem 'rspec', '~> 3.0'
 gem 'pry'
-gem 'debug'
-gem 'awesome_print'
 gem 'http_logger'
 gem 'rubocop', '~> 1.50'
 gem 'rubocop-performance'

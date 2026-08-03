@@ -13,7 +13,7 @@ module DIDWW
       def serialize_complex_attributes(hash)
         # Replace complex objects with their json_api representation
         attributes = hash[:attributes]
-        hash[:attributes] = Hash[attributes.map do |k, v|
+        hash[:attributes] = attributes.to_h do |k, v|
           if v.respond_to?(:as_json_api)
             [k, v.as_json_api]
           elsif v.is_a?(Array)
@@ -21,7 +21,7 @@ module DIDWW
           else
             [k, v]
           end
-        end].with_indifferent_access
+        end.with_indifferent_access
         return hash
       end
     end
