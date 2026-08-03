@@ -26,6 +26,6 @@ RSpec.configure do |config|
 end
 
 DIDWW::Client.configure do |client|
-  client.api_key  = ENV['API_KEY']
+  client.api_key  = ENV.fetch('API_KEY', nil)
   client.api_mode = :sandbox
 end
