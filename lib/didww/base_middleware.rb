@@ -6,9 +6,9 @@ module DIDWW
       request_env[:request_headers].merge!(request_headers(request_env))
       request_env.url.host = URI(DIDWW::Client.api_base_url).host
 
-      @app.call(request_env).on_complete do |response_env|
+      @app.call(request_env).on_complete do |_response_env|
         # do something with the response
-        # response_env[:response_headers].merge!(...)
+        # _response_env[:response_headers].merge!(...)
       end
     end
 
