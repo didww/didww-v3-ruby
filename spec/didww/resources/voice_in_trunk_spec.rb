@@ -513,7 +513,80 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
         expect(trunk.pop).to be_kind_of(DIDWW::Resource::Pop)
       end
 
-      xit 'creates a SIP trunk with assigning to pop and including it to response'
+      it 'creates a SIP trunk with assigning to pop and including it to response' do
+        stub_didww_request(:post, '/voice_in_trunks?include=pop').
+          with(body:
+            {
+              "data": {
+                "type": 'voice_in_trunks',
+                "relationships": {
+                  "pop": {
+                    "data": {
+                      "type": 'pops',
+                      "id": 'b4d3ec87-8b2b-4e91-bcda-da67db8a76ca'
+                    }
+                  }
+                },
+                "attributes": {
+                  "name": 'Office SIP',
+                  "capacity_limit": 18,
+                  "cli_format": 'e164',
+                  "cli_prefix": '+1',
+                  "configuration": {
+                    "type": 'sip_configurations',
+                    "attributes": base_sip_config_attributes
+                  }
+                }
+              }
+            }.to_json).
+          to_return(
+            status: 201,
+            body: api_fixture('voice_in_trunks/post/create_sip_trunk_with_pop_included/201'),
+            headers: json_api_headers
+          )
+        trunk = client.voice_in_trunks.new(
+                    name: 'Office SIP',
+                    capacity_limit: 18,
+                    cli_format: 'e164',
+                    cli_prefix: '+1',
+                  )
+        trunk.configuration = DIDWW::ComplexObject::SipConfiguration.new.tap do |c|
+          c.username = 'username'
+          c.host = 'example.com'
+          c.codec_ids = [ 9, 7 ]
+          c.rx_dtmf_format_id = 1
+          c.tx_dtmf_format_id = 1
+          c.resolve_ruri = 'true'
+          c.auth_enabled = true
+          c.auth_user = 'username'
+          c.auth_password = 'password'
+          c.auth_from_user = 'Office'
+          c.auth_from_domain = 'example.com'
+          c.sst_enabled = 'false'
+          c.sst_min_timer = 600
+          c.sst_max_timer = 900
+          c.sst_refresh_method_id = 1
+          c.sst_accept_501 = 'true'
+          c.sip_timer_b = 8000
+          c.dns_srv_failover_timer = 2000
+          c.rtp_ping = 'false'
+          c.rtp_timeout = 30
+          c.force_symmetric_rtp = 'false'
+          c.symmetric_rtp_ignore_rtcp = 'false'
+          c.rerouting_disconnect_code_ids = [ 58, 59 ]
+          c.port = 5060
+          c.transport_protocol_id = 2
+          c.max_transfers = 0
+          c.max_30x_redirects = 0
+        end
+        trunk.relationships[:pop] = DIDWW::Resource::Pop.load(id: 'b4d3ec87-8b2b-4e91-bcda-da67db8a76ca')
+        trunk.request_includes(:pop)
+        trunk.save
+        expect(trunk).to be_persisted
+        expect(trunk.configuration).to be_kind_of(DIDWW::ComplexObject::SipConfiguration)
+        expect(trunk.pop).to be_kind_of(DIDWW::Resource::Pop)
+        expect(trunk.pop.id).to eq('b4d3ec87-8b2b-4e91-bcda-da67db8a76ca')
+      end
 
     end
 
@@ -858,7 +931,41 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
         expect(trunk.pop).to be_kind_of(DIDWW::Resource::Pop)
       end
 
-      xit 'updates a SIP Trunk, with assigning to pop and including it to response'
+      it 'updates a SIP Trunk, with assigning to pop and including it to response' do
+        id = '204f6568-a583-40ef-9bef-fff02273b183'
+        stub_didww_request(:patch, "/voice_in_trunks/#{id}?include=pop").
+          with(body:
+            {
+              "data": {
+                "id": '204f6568-a583-40ef-9bef-fff02273b183',
+                "type": 'voice_in_trunks',
+                "relationships": {
+                  "pop": {
+                    "data": {
+                      "type": 'pops',
+                      "id": 'b4d3ec87-8b2b-4e91-bcda-da67db8a76ca'
+                    }
+                  }
+                },
+                "attributes": {
+                  "name": 'New trunk'
+                }
+              }
+            }.to_json).
+          to_return(
+            status: 200,
+            body: api_fixture('voice_in_trunks/post/create_sip_trunk_with_pop_included/201'),
+            headers: json_api_headers
+          )
+        trunk = DIDWW::Resource::VoiceInTrunk.load(id: id)
+        trunk.name = 'New trunk'
+        trunk.relationships.pop = DIDWW::Resource::Pop.load(id: 'b4d3ec87-8b2b-4e91-bcda-da67db8a76ca')
+        trunk.request_includes(:pop)
+        trunk.save
+        expect(trunk.errors).to be_empty
+        expect(trunk.pop).to be_kind_of(DIDWW::Resource::Pop)
+        expect(trunk.pop.id).to eq('b4d3ec87-8b2b-4e91-bcda-da67db8a76ca')
+      end
 
     end
 

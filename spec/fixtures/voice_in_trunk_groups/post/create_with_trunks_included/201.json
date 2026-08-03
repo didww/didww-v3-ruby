@@ -1,0 +1,238 @@
+{
+  "data": {
+    "id": "709e77ec-eeb2-4527-88a9-4572c6a8fe3d",
+    "type": "voice_in_trunk_groups",
+    "attributes": {
+      "created_at": "2016-03-22T12:05:44.600Z",
+      "name": "trunk_group ololol",
+      "capacity_limit": 100,
+      "external_reference_id": null
+    },
+    "relationships": {
+      "voice_in_trunks": {
+        "links": {
+          "self": "https://sandbox-api.didww.com/v3/voice_in_trunk_groups/709e77ec-eeb2-4527-88a9-4572c6a8fe3d/relationships/voice_in_trunks",
+          "related": "https://sandbox-api.didww.com/v3/voice_in_trunk_groups/709e77ec-eeb2-4527-88a9-4572c6a8fe3d/voice_in_trunks"
+        },
+        "data": [
+          {
+            "type": "voice_in_trunks",
+            "id": "4380d9a3-0b04-4da3-8383-0fdf43c27fc5"
+          },
+          {
+            "type": "voice_in_trunks",
+            "id": "82d6875a-d84f-4d18-a47f-d2f470c074fd"
+          },
+          {
+            "type": "voice_in_trunks",
+            "id": "b2baa741-e886-499f-8e43-760c3fdd2924"
+          }
+        ]
+      }
+    },
+    "meta": {
+      "trunks_count": 4
+    }
+  },
+  "included": [
+    {
+      "id": "4380d9a3-0b04-4da3-8383-0fdf43c27fc5",
+      "type": "voice_in_trunks",
+      "attributes": {
+        "external_reference_id": null,
+        "priority": 20,
+        "capacity_limit": 77,
+        "weight": 65535,
+        "name": "yyy1",
+        "cli_format": "raw",
+        "cli_prefix": "",
+        "description": "",
+        "ringing_timeout": null,
+        "configuration": {
+          "type": "sip_configurations",
+          "attributes": {
+            "username": "{DID}",
+            "host": "didww.com",
+            "port": null,
+            "codec_ids": [
+              9,
+              10,
+              8,
+              7,
+              6
+            ],
+            "rx_dtmf_format_id": 1,
+            "tx_dtmf_format_id": 1,
+            "resolve_ruri": false,
+            "auth_enabled": false,
+            "auth_user": "",
+            "auth_password": "",
+            "auth_from_user": "",
+            "auth_from_domain": "",
+            "sst_enabled": false,
+            "sst_min_timer": 600,
+            "sst_max_timer": 900,
+            "sst_accept_501": true,
+            "sip_timer_b": 8000,
+            "dns_srv_failover_timer": 2000,
+            "rtp_ping": false,
+            "rtp_timeout": 30,
+            "force_symmetric_rtp": false,
+            "symmetric_rtp_ignore_rtcp": false,
+            "rerouting_disconnect_code_ids": [],
+            "sst_session_expires": null,
+            "sst_refresh_method_id": 1,
+            "transport_protocol_id": 1,
+            "max_transfers": 0,
+            "max_30x_redirects": 0,
+            "media_encryption_mode": "disabled",
+            "stir_shaken_mode": "disabled",
+            "allowed_rtp_ips": null,
+            "network_protocol_priority": "force_ipv4",
+            "enabled_sip_registration": false,
+            "use_did_in_ruri": false,
+            "diversion_relay_policy": "none",
+            "diversion_inject_mode": "did_number",
+            "cnam_lookup": false,
+            "incoming_auth_username": null,
+            "incoming_auth_password": null
+          }
+        },
+        "created_at": "2016-04-14T09:29:17.930Z"
+      },
+      "relationships": {
+        "voice_in_trunk_group": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/4380d9a3-0b04-4da3-8383-0fdf43c27fc5/relationships/voice_in_trunk_group",
+            "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/4380d9a3-0b04-4da3-8383-0fdf43c27fc5/voice_in_trunk_group"
+          }
+        },
+        "pop": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/4380d9a3-0b04-4da3-8383-0fdf43c27fc5/relationships/pop",
+            "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/4380d9a3-0b04-4da3-8383-0fdf43c27fc5/pop"
+          }
+        }
+      }
+    },
+    {
+      "id": "82d6875a-d84f-4d18-a47f-d2f470c074fd",
+      "type": "voice_in_trunks",
+      "attributes": {
+        "external_reference_id": null,
+        "priority": 25,
+        "capacity_limit": 2,
+        "weight": 65535,
+        "name": "test pstn",
+        "cli_format": "e164",
+        "cli_prefix": null,
+        "description": null,
+        "ringing_timeout": null,
+        "configuration": {
+          "type": "pstn_configurations",
+          "attributes": {
+            "dst": "3806723432423"
+          }
+        },
+        "created_at": "2018-08-16T14:31:33.565Z"
+      },
+      "relationships": {
+        "voice_in_trunk_group": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/82d6875a-d84f-4d18-a47f-d2f470c074fd/relationships/voice_in_trunk_group",
+            "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/82d6875a-d84f-4d18-a47f-d2f470c074fd/voice_in_trunk_group"
+          }
+        },
+        "pop": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/82d6875a-d84f-4d18-a47f-d2f470c074fd/relationships/pop",
+            "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/82d6875a-d84f-4d18-a47f-d2f470c074fd/pop"
+          }
+        }
+      }
+    },
+    {
+      "id": "b2baa741-e886-499f-8e43-760c3fdd2924",
+      "type": "voice_in_trunks",
+      "attributes": {
+        "external_reference_id": null,
+        "priority": 20,
+        "capacity_limit": null,
+        "weight": 65535,
+        "name": "test2342343266",
+        "cli_format": "raw",
+        "cli_prefix": "4",
+        "description": null,
+        "ringing_timeout": 25,
+        "configuration": {
+          "type": "sip_configurations",
+          "attributes": {
+            "username": "test",
+            "host": "didww.com",
+            "port": null,
+            "codec_ids": [
+              9,
+              10,
+              8,
+              7,
+              6
+            ],
+            "rx_dtmf_format_id": 1,
+            "tx_dtmf_format_id": 1,
+            "resolve_ruri": false,
+            "auth_enabled": false,
+            "auth_user": null,
+            "auth_password": null,
+            "auth_from_user": null,
+            "auth_from_domain": null,
+            "sst_enabled": false,
+            "sst_min_timer": 600,
+            "sst_max_timer": 900,
+            "sst_accept_501": true,
+            "sip_timer_b": 8000,
+            "dns_srv_failover_timer": 2000,
+            "rtp_ping": false,
+            "rtp_timeout": 30,
+            "force_symmetric_rtp": false,
+            "symmetric_rtp_ignore_rtcp": false,
+            "rerouting_disconnect_code_ids": null,
+            "sst_session_expires": null,
+            "sst_refresh_method_id": 1,
+            "transport_protocol_id": 1,
+            "max_transfers": 0,
+            "max_30x_redirects": 0,
+            "media_encryption_mode": "disabled",
+            "stir_shaken_mode": "disabled",
+            "allowed_rtp_ips": null,
+            "network_protocol_priority": "force_ipv4",
+            "enabled_sip_registration": false,
+            "use_did_in_ruri": false,
+            "diversion_relay_policy": "none",
+            "diversion_inject_mode": "did_number",
+            "cnam_lookup": false,
+            "incoming_auth_username": null,
+            "incoming_auth_password": null
+          }
+        },
+        "created_at": "2016-03-03T08:46:28.184Z"
+      },
+      "relationships": {
+        "voice_in_trunk_group": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/b2baa741-e886-499f-8e43-760c3fdd2924/relationships/voice_in_trunk_group",
+            "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/b2baa741-e886-499f-8e43-760c3fdd2924/voice_in_trunk_group"
+          }
+        },
+        "pop": {
+          "links": {
+            "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/b2baa741-e886-499f-8e43-760c3fdd2924/relationships/pop",
+            "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/b2baa741-e886-499f-8e43-760c3fdd2924/pop"
+          }
+        }
+      }
+    }
+  ],
+  "meta": {
+    "api_version": "2026-04-16"
+  }
+}

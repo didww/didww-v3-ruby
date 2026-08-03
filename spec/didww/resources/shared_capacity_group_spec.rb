@@ -200,7 +200,52 @@ RSpec.describe DIDWW::Resource::SharedCapacityGroup do
         expect(shared_capacity_group).to be_persisted
       end
 
-      xit 'creates a SharedCapacityGroup, assign Dids and include them in response'
+      it 'creates a SharedCapacityGroup, assign Dids and include them in response' do
+        stub_didww_request(:post, '/shared_capacity_groups?include=dids').
+          with(body:
+            {
+              "data": {
+                "type": 'shared_capacity_groups',
+                "relationships": {
+                  "capacity_pool": {
+                    "data": {
+                      "type": 'capacity_pools',
+                      "id": '71185c2a-fcc7-468b-87e3-85260fbc3b86'
+                    }
+                  },
+                  "dids": {
+                    "data": [
+                      {
+                        "type": 'dids',
+                        "id": 'c208e97e-d3ce-4be6-ba48-ffb459f64ec0'
+                      }
+                    ]
+                  }
+                },
+                "attributes": {
+                  "name": 'Sample Capacity Group',
+                  "shared_channels_count": 3,
+                  "metered_channels_count": 5
+                }
+              }
+            }.to_json).
+          to_return(
+            status: 201,
+            body: api_fixture('shared_capacity_groups/post/create_with_dids_included/201'),
+            headers: json_api_headers
+          )
+
+        shared_capacity_group = client.shared_capacity_groups.new(name: 'Sample Capacity Group', shared_channels_count: 3, metered_channels_count: 5)
+        shared_capacity_group.relationships[:capacity_pool] = DIDWW::Resource::CapacityPool.load(id: '71185c2a-fcc7-468b-87e3-85260fbc3b86')
+        shared_capacity_group.relationships[:dids] = [
+          DIDWW::Resource::Did.load(id: 'c208e97e-d3ce-4be6-ba48-ffb459f64ec0')
+        ]
+        shared_capacity_group.request_includes(:dids)
+        shared_capacity_group.save
+        expect(shared_capacity_group).to be_persisted
+        expect(shared_capacity_group.dids).to all(be_kind_of(DIDWW::Resource::Did))
+        expect(shared_capacity_group.dids.map(&:id)).to contain_exactly('c208e97e-d3ce-4be6-ba48-ffb459f64ec0')
+      end
     end
 
     describe 'with incorrect attributes' do
