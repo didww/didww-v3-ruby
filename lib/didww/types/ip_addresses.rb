@@ -3,7 +3,7 @@
 module DIDWW
   module Types
     module IpAddresses
-      module_function
+      extend self
 
       def cast(values, default)
         return default unless values.is_a?(Array)
