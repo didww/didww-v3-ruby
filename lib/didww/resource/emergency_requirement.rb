@@ -6,7 +6,8 @@ module DIDWW
     # calling service for a given country/did_group_type. Introduced in API 2026-04-16.
     #
     # Each record also reports a price preview in `meta` (setup_price,
-    # monthly_price) when the customer has a matching emergency plan.
+    # monthly_price), both decimal strings, when the customer has a matching
+    # emergency plan.
     #
     # Server-side filters: country.id, did_group_type.id
     class EmergencyRequirement < Base
@@ -20,15 +21,17 @@ module DIDWW
 
       property :address_area_level, type: :string
       # Type: String
-      # Description: How precise the service address must be (city, region, etc.).
+      # Description: How precise the service address must be: country, area or city.
 
       property :personal_area_level, type: :string
-      # Type: String
-      # Description: How precise a personal identity address must be.
+      # Type: String, nullable
+      # Description: How precise a personal identity address must be: world_wide or country.
+      # Nil when the country does not accept a personal identity for emergency calling.
 
       property :business_area_level, type: :string
-      # Type: String
-      # Description: How precise a business identity address must be.
+      # Type: String, nullable
+      # Description: How precise a business identity address must be: world_wide or country.
+      # Nil when the country does not accept a business identity for emergency calling.
 
       property :address_mandatory_fields, type: :array
       # Type: String[]
@@ -47,9 +50,9 @@ module DIDWW
       # Description: Estimated time before emergency calling is enabled (e.g. "7-14 days").
 
       property :requirement_restriction_message, type: :string
-      # Type: String
+      # Type: String, nullable
       # Description: Human-readable message describing any restrictions that
-      # apply to ordering the service. May be null.
+      # apply to ordering the service. Nil when the country places none.
     end
   end
 end

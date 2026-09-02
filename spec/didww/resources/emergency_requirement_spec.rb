@@ -13,6 +13,9 @@ RSpec.describe DIDWW::Resource::EmergencyRequirement do
       expect(records).to all be_an_instance_of(described_class)
       first = records.first
       expect(first.identity_type).to be_kind_of(String)
+      expect(first.personal_area_level).to eq('country')
+      expect(first.business_area_level).to be_nil
+      expect(first.meta[:setup_price]).to eq('0.0')
       expect(first.address_mandatory_fields).to be_kind_of(Array)
       expect(first.personal_mandatory_fields).to be_kind_of(Array)
       expect(first.business_mandatory_fields).to be_kind_of(Array)
@@ -32,6 +35,8 @@ RSpec.describe DIDWW::Resource::EmergencyRequirement do
       expect(record).to be_kind_of(described_class)
       expect(record.id).to eq(id)
       expect(record.estimate_setup_time).to be_kind_of(String)
+      expect(record.personal_area_level).to be_nil
+      expect(record.business_area_level).to eq('world_wide')
       expect(record.requirement_restriction_message).to be_kind_of(String).or be_nil
     end
   end

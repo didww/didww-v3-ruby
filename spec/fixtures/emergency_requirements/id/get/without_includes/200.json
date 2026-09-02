@@ -4,11 +4,11 @@
     "type": "emergency_requirements",
     "attributes": {
       "identity_type": "business",
-      "address_area_level": "region",
-      "personal_area_level": "city",
-      "business_area_level": "region",
-      "address_mandatory_fields": ["street", "city", "region", "postal_code"],
-      "personal_mandatory_fields": ["first_name", "last_name", "date_of_birth"],
+      "address_area_level": "area",
+      "personal_area_level": null,
+      "business_area_level": "world_wide",
+      "address_mandatory_fields": ["street", "city", "postal_code"],
+      "personal_mandatory_fields": [],
       "business_mandatory_fields": ["company_name", "tax_number", "registration_number"],
       "estimate_setup_time": "7-14 days",
       "requirement_restriction_message": "Additional compliance review is required for this country."
