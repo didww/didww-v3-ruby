@@ -27,7 +27,7 @@ filtered.each do |country|
 end
 
 # Find a specific country
-if !filtered.empty?
+unless filtered.empty?
   puts "\n=== Specific Country ==="
   country = DIDWW::Client.countries.find(filtered.first.id).first
   puts "Found: #{country.name}"

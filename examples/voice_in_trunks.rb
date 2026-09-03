@@ -33,7 +33,7 @@ trunks.first(10).each do |trunk|
 end
 
 # Find a specific trunk by ID
-if !trunks.empty?
+unless trunks.empty?
   puts "\n=== Specific Trunk Details ==="
   specific_trunk = DIDWW::Client.voice_in_trunks.find(trunks.first.id).first
   puts "Trunk: #{specific_trunk.name}"

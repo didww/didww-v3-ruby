@@ -35,7 +35,7 @@ regions.first(5).each do |region|
 end
 
 # Fetch a specific region
-if !regions.empty?
+unless regions.empty?
   puts "\n=== Specific Region ==="
   region = DIDWW::Client.regions
             .includes(:country)

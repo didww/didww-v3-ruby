@@ -36,7 +36,7 @@ puts "Available DID 2: #{available_did2.number}"
 # Helper to get SKU from available DID
 def get_sku(available_did)
   if available_did.did_group.nil? || available_did.did_group.stock_keeping_units.nil? || available_did.did_group.stock_keeping_units.empty?
-    raise "No stock_keeping_units for available DID #{available_did.id}"
+    raise StandardError, "No stock_keeping_units for available DID #{available_did.id}"
   end
   available_did.did_group.stock_keeping_units.first
 end
@@ -53,14 +53,9 @@ did_groups = DIDWW::Client.did_groups
               .includes(:stock_keeping_units)
               .all
 
-sku_for_qty = nil
-did_groups.each do |dg|
-  if !dg.stock_keeping_units.nil? && !dg.stock_keeping_units.empty?
-    sku_for_qty = dg.stock_keeping_units.first
-    puts "SKU for qty order: #{sku_for_qty.id}"
-    break
-  end
-end
+group_with_skus = did_groups.find { |dg| !dg.stock_keeping_units.nil? && !dg.stock_keeping_units.empty? }
+sku_for_qty = group_with_skus&.stock_keeping_units&.first
+puts "SKU for qty order: #{sku_for_qty.id}" if sku_for_qty
 
 if sku_for_qty.nil?
   puts 'No DID group with stock_keeping_units found'
@@ -72,7 +67,7 @@ puts "\n=== Reserving DID ==="
 reservation = DIDWW::Client.did_reservations.new
 reservation.available_did = available_did2
 
-if !reservation.save
+unless reservation.save
   puts "Error creating reservation: #{reservation.errors.full_messages}"
   exit 1
 end

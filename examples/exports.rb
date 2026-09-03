@@ -60,7 +60,7 @@ else
 end
 
 # Find and inspect a specific export
-if !exports.empty?
+unless exports.empty?
   puts "\n=== Specific Export Details ==="
   specific_export = DIDWW::Client.exports
                     .find(exports.first.id)

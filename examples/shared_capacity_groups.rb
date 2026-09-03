@@ -36,7 +36,7 @@ capacity_pools = DIDWW::Client.capacity_pools
                   .includes(:shared_capacity_groups)
                   .all
 
-if !capacity_pools.empty?
+unless capacity_pools.empty?
   pool = capacity_pools.first
   puts "Capacity Pool: #{pool.name}"
   if pool.shared_capacity_groups && !pool.shared_capacity_groups.empty?
