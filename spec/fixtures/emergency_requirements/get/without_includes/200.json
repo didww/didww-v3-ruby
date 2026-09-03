@@ -6,11 +6,11 @@
       "attributes": {
         "identity_type": "personal",
         "address_area_level": "city",
-        "personal_area_level": "city",
-        "business_area_level": "city",
+        "personal_area_level": "country",
+        "business_area_level": null,
         "address_mandatory_fields": ["street", "city", "postal_code"],
         "personal_mandatory_fields": ["first_name", "last_name"],
-        "business_mandatory_fields": ["company_name", "tax_number"],
+        "business_mandatory_fields": [],
         "estimate_setup_time": "7-14 days",
         "requirement_restriction_message": null
       },
