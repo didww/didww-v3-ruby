@@ -24,11 +24,12 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 3.3'
 
-  # Lower bounds match the oldest version verified by CI; upper bounds
-  # cap on the next known-incompatible major so consumers get a clear
-  # constraint failure rather than a runtime surprise. The CI matrix in
-  # .github/workflows/tests.yml exercises activesupport ~> 7.2 / 8.0 /
-  # 8.1 — declaring a wider lower bound than that would be aspirational.
+  # Upper bounds cap on the next known-incompatible major so consumers get
+  # a clear constraint failure rather than a runtime surprise. The CI matrix
+  # in .github/workflows/tests.yml exercises activesupport ~> 8.0 / 8.1;
+  # the `>= 7.2` floor is kept deliberately — 7.2 is no longer tested, but
+  # raising a runtime floor is a breaking change for consumers and nothing
+  # indicates the gem stopped working there.
   spec.add_dependency 'activesupport',     '>= 7.2', '< 9'
   spec.add_dependency 'faraday',           '~> 2.0'
   spec.add_dependency 'faraday-multipart', '~> 1.0'
