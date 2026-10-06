@@ -4,7 +4,7 @@ require 'openssl'
 module DIDWW
   module Callback
     # @example
-    #   validator = DIDWW::Callback::RequestValidator.new(api_key)
+    #   validator = DIDWW::Callback::RequestValidator.new(callback_secret)
     #   uri = request.original_url
     #   if request.post?
     #     # Collect all parameters passed from DIDWW.
@@ -20,8 +20,9 @@ module DIDWW
       DIGEST_ALGO = 'SHA1'
       HEADER = 'X-DIDWW-Signature'
 
-      def initialize(api_key)
-        @api_key = api_key
+      # @param callback_secret [String] the callback secret enabled in the DIDWW User Panel.
+      def initialize(callback_secret)
+        @callback_secret = callback_secret
       end
 
       # @param url [String]
@@ -41,7 +42,7 @@ module DIDWW
       # @return [String] generated signature in URL safe format.
       def valid_signature(url, payload)
         data = normalize_url(url) + normalize_payload(payload)
-        OpenSSL::HMAC.hexdigest(DIGEST_ALGO, @api_key, data)
+        OpenSSL::HMAC.hexdigest(DIGEST_ALGO, @callback_secret, data)
       end
 
       # @param payload [Hash,Array]
