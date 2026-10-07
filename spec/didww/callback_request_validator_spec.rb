@@ -2,18 +2,18 @@
 
 RSpec.describe DIDWW::Callback::RequestValidator, '#validate' do
   subject do
-    validator = DIDWW::Callback::RequestValidator.new(api_key)
+    validator = DIDWW::Callback::RequestValidator.new(callback_secret)
     validator.validate(url, payload, signature)
   end
 
-  let(:api_key) { SecureRandom.hex(16) }
+  let(:callback_secret) { SecureRandom.hex(16) }
   let(:url) { 'http://foo.com/bar' }
   let(:payload) { { foo: 'bar', baz: 1 } }
 
   context 'with valid signature' do
     let(:signature) do
       data = 'http://foo.com:80/bar' + payload.sort.join
-      OpenSSL::HMAC.hexdigest(DIDWW::Callback::RequestValidator::DIGEST_ALGO, api_key, data)
+      OpenSSL::HMAC.hexdigest(DIDWW::Callback::RequestValidator::DIGEST_ALGO, callback_secret, data)
     end
 
     it { is_expected.to eq(true) }
@@ -24,7 +24,7 @@ RSpec.describe DIDWW::Callback::RequestValidator, '#validate' do
     let(:signature) do
       another_payload = { foo: 'bar', baz: 2 }
       data = 'http://foo.com:80/bar' + another_payload.sort.join
-      OpenSSL::HMAC.hexdigest(DIDWW::Callback::RequestValidator::DIGEST_ALGO, api_key, data)
+      OpenSSL::HMAC.hexdigest(DIDWW::Callback::RequestValidator::DIGEST_ALGO, callback_secret, data)
     end
 
     it { is_expected.to eq(false) }
@@ -52,7 +52,7 @@ RSpec.describe DIDWW::Callback::RequestValidator, '#validate' do
     cross_sdk_vectors = [
       {
         name: 'sandbox callback',
-        api_key: 'SOMEAPIKEY',
+        callback_secret: 'SOMEAPIKEY',
         url: 'http://example.com/callback.php?id=7ae7c48f-d48a-499f-9dc1-c9217014b457&reject_reason=&status=approved&type=address_verifications',
         payload: {
           'status' => 'approved',
@@ -65,7 +65,7 @@ RSpec.describe DIDWW::Callback::RequestValidator, '#validate' do
       },
       {
         name: 'valid request',
-        api_key: 'SOMEAPIKEY',
+        callback_secret: 'SOMEAPIKEY',
         url: 'http://example.com/callbacks',
         payload: {
           'status' => 'completed',
@@ -79,7 +79,7 @@ RSpec.describe DIDWW::Callback::RequestValidator, '#validate' do
         # Synthetic: URL fragments are never sent to the server in real HTTP requests.
         # Included to verify normalize_url handles fragments consistently across SDKs.
         name: 'valid request with query and fragment',
-        api_key: 'OTHERAPIKEY',
+        callback_secret: 'OTHERAPIKEY',
         url: 'http://example.com/callbacks?foo=bar#baz',
         payload: {
           'status' => 'completed',
@@ -91,7 +91,7 @@ RSpec.describe DIDWW::Callback::RequestValidator, '#validate' do
       },
       {
         name: 'empty signature',
-        api_key: 'SOMEAPIKEY',
+        callback_secret: 'SOMEAPIKEY',
         url: 'http://example.com/callbacks',
         payload: {
           'status' => 'completed',
@@ -103,7 +103,7 @@ RSpec.describe DIDWW::Callback::RequestValidator, '#validate' do
       },
       {
         name: 'invalid signature',
-        api_key: 'SOMEAPIKEY',
+        callback_secret: 'SOMEAPIKEY',
         url: 'http://example.com/callbacks',
         payload: {
           'status' => 'completed',
@@ -117,7 +117,7 @@ RSpec.describe DIDWW::Callback::RequestValidator, '#validate' do
         # From the official DIDWW API documentation example:
         # https://doc.didww.com/api3/2022-05-10/callbacks-details.html#algorithm-implementation-details
         name: 'documentation example',
-        api_key: 'szrdgh6547umt7tht7xbqhj6g9gdbyp7',
+        callback_secret: 'szrdgh6547umt7tht7xbqhj6g9gdbyp7',
         url: 'https://mycompany.com/didww_callbacks?opaque=123',
         payload: {
           'id' => 'bf2cee72-6caa-4ae2-917e-bea01945691e',
@@ -131,7 +131,7 @@ RSpec.describe DIDWW::Callback::RequestValidator, '#validate' do
 
     cross_sdk_vectors.each do |vector|
       context vector[:name] do
-        let(:api_key) { vector[:api_key] }
+        let(:callback_secret) { vector[:callback_secret] }
         let(:url) { vector[:url] }
         let(:payload) { vector[:payload] }
         let(:signature) { vector[:signature] }
@@ -141,7 +141,7 @@ RSpec.describe DIDWW::Callback::RequestValidator, '#validate' do
     end
 
     context 'URL normalization vectors' do
-      let(:api_key) { 'SOMEAPIKEY' }
+      let(:callback_secret) { 'SOMEAPIKEY' }
       let(:payload) do
         {
           'id' => '1dd7a68b-e235-402b-8912-fe73ee14243a',

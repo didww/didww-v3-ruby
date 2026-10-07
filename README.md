@@ -442,10 +442,12 @@ See [docs/resource_relationships.md](docs/resource_relationships.md) for a Merma
 
 Validate incoming webhook callbacks from DIDWW using HMAC-SHA1 signature verification.
 
+Initialize the validator with the callback secret that is enabled in the DIDWW User Panel (**APIs → DIDWW API 3 → Callback Secrets**). DIDWW signs every callback with it and sends callbacks only while a callback secret is enabled.
+
 ```ruby
 require 'didww/callback/request_validator'
 
-validator = DIDWW::Callback::RequestValidator.new("YOUR_API_KEY")
+validator = DIDWW::Callback::RequestValidator.new("YOUR_CALLBACK_SECRET")
 
 # In your webhook handler:
 valid = validator.validate(
@@ -464,7 +466,7 @@ class WebhooksController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def create
-    validator = DIDWW::Callback::RequestValidator.new("YOUR_API_KEY")
+    validator = DIDWW::Callback::RequestValidator.new("YOUR_CALLBACK_SECRET")
     signature = request.headers[DIDWW::Callback::RequestValidator::HEADER]
     params_hash = request.POST
 
