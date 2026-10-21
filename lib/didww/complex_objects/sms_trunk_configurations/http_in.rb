@@ -46,10 +46,10 @@ module DIDWW
         # Nullable: Yes
         # Description: Query parameters added to the request
 
-        property :headers
+        property :headers, sensitive: true
         # Type: Hash
         # Nullable: Yes
-        # Description: Headers added to the request
+        # Description: Headers added to the request. Redacted in #inspect, as they may carry credentials.
 
         property :body_type, type: :string
         # Type: String

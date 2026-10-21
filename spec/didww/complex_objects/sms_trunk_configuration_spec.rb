@@ -122,5 +122,12 @@ RSpec.describe DIDWW::ComplexObject::SmsTrunkConfiguration do
       expect(smpp_esme).not_to include('gen12345')
       expect(described_class::SmppSmsc.new(password: 'secret').inspect).to include('password="[FILTERED]"')
     end
+
+    it 'redacts the headers of an http_in configuration' do
+      http_in = described_class::HttpIn.new(headers: { 'Authorization' => 'Bearer webhook-secret' }).inspect
+
+      expect(http_in).not_to include('webhook-secret')
+      expect(http_in).to include('headers="[FILTERED]"')
+    end
   end
 end

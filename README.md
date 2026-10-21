@@ -431,7 +431,7 @@ trunk.save
 DIDWW::Client.sms_trunks.where('configuration.type': 'http_in,sms_to_email').includes(:sms_trunk_group).all
 ```
 
-The generated credentials of `http_out` and `smpp_esme` trunks are read-only and are never sent back on update. They are redacted in `#inspect`. To rotate them:
+The generated credentials of `http_out` and `smpp_esme` trunks are read-only and are never sent back on update. They are redacted in `#inspect`, as are the `headers` of an `http_in` configuration, which may carry the credentials of your endpoint. To rotate them:
 
 ```ruby
 trunk = DIDWW::Client.sms_trunks.find('uuid').first

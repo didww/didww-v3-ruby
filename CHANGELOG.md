@@ -29,7 +29,7 @@ Support for DIDWW API version **2026-10-22**, which authenticates with short-liv
   - `head`, `download(to:)` and `fetch(path)` for the gzipped price files, which are written unchanged; a downloaded file is dated with its `Last-Modified`, and `fetch` sends the modification time of the file at the path as `If-Modified-Since`;
   - `DIDWW::Prices.each_row(path)` to read a downloaded file;
   - errors `DIDWW::Prices::BadRequest`, `NotAuthorized`, `AccessDenied`, `PricePlanNotAssigned`, `PriceNotFound`, `NotAcceptable`, `TooManyRequests`, `ServiceUnavailable`, `UnexpectedStatus` and `ConnectionError`.
-- New resource `SmsTrunk` (`/v3/sms_trunks`) with configurations `sms_to_email`, `http_in`, `http_out`, `smpp_esme` and `smpp_smsc` under `DIDWW::ComplexObject::SmsTrunkConfiguration`, plus `Generic` for unknown types. Generated credentials are read-only and redacted in `#inspect`. `#host` returns the submit URL of an `http_out` trunk.
+- New resource `SmsTrunk` (`/v3/sms_trunks`) with configurations `sms_to_email`, `http_in`, `http_out`, `smpp_esme` and `smpp_smsc` under `DIDWW::ComplexObject::SmsTrunkConfiguration`, plus `Generic` for unknown types. Generated credentials are read-only and redacted in `#inspect`, as are `http_in` headers. `#host` returns the submit URL of an `http_out` trunk.
 - New resource `SmsTrunkGroup` (`/v3/sms_trunk_groups`) with `#sms_trunks_count`.
 - New resource `SmsTrunkRegenerateCredential` (`/v3/sms_trunk_regenerate_credentials`) and `SmsTrunk#regenerate_credentials`.
 - `Did`: `sms_trunk` and `sms_trunk_group` relationships. They are mutually exclusive, like `voice_in_trunk` and `voice_in_trunk_group`.
