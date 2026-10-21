@@ -34,8 +34,9 @@ DIDWW_API_KEY=your_api_key ruby examples/orders_nanpa.rb
 | [`regions.rb`](regions.rb) | Lists regions with filters/includes and fetches a specific region. |
 | [`did_groups.rb`](did_groups.rb) | Fetches DID groups with included SKUs and shows group details. |
 | [`dids.rb`](dids.rb) | Updates DID routing/capacity by assigning trunk and capacity pool. |
-| [`did_history.rb`](did_history.rb) | Lists DID ownership history (last 90 days, 2026-04-16). |
-| [`exports.rb`](exports.rb) | Creates and lists CDR exports, with 2026-04-16 external_reference_id. |
+| [`did_history.rb`](did_history.rb) | Lists DID ownership history (last 90 days). |
+| [`exports.rb`](exports.rb) | Creates and lists CDR exports, with external_reference_id. |
+| [`exports_sms.rb`](exports_sms.rb) | Creates SMS-In and SMS-Out exports with their filters and reads a completed one. |
 
 ### Voice In (Inbound)
 | Script | Description |
@@ -43,6 +44,19 @@ DIDWW_API_KEY=your_api_key ruby examples/orders_nanpa.rb
 | [`voice_in_trunks.rb`](voice_in_trunks.rb) | Lists voice in trunks and their configurations. |
 | [`voice_in_trunk_sip_registration.rb`](voice_in_trunk_sip_registration.rb) | End-to-end SIP registration flow: create with `enabled_sip_registration: true`, rename, disable by setting `host`, re-enable by toggling the flag. The SDK keeps the dependent fields (`host`, `port`, `use_did_in_ruri`) aligned with the server's validation rules automatically. |
 | [`voice_in_trunk_groups.rb`](voice_in_trunk_groups.rb) | CRUD for trunk groups with trunk relationships. |
+
+### SMS
+| Script | Description |
+|---|---|
+| [`sms_trunks.rb`](sms_trunks.rb) | Lists SMS trunks, creates an HTTP IN trunk, updates its configuration and deletes it; shows how to rotate generated credentials. |
+| [`sms_trunk_groups.rb`](sms_trunk_groups.rb) | Creates two inbound SMS trunks, groups them by priority, lists groups and deletes the group with its trunks. |
+| [`did_sms_routing.rb`](did_sms_routing.rb) | Routes a DID's inbound SMS to an SMS trunk, then to an SMS trunk group (exclusive assignment). |
+
+### Prices
+| Script | Description |
+|---|---|
+| [`prices_lookup.rb`](prices_lookup.rb) | Looks up Voice IN, Voice OUT, SMS OUT (A2P, P2P, OTP) and SMS IN prices for a number. |
+| [`prices_download.rb`](prices_download.rb) | Downloads the gzipped Voice IN price file, re-checks it with If-Modified-Since and reads a few rows. |
 
 ### Voice Out (Outbound)
 | Script | Description |
@@ -79,13 +93,13 @@ DIDWW_API_KEY=your_api_key ruby examples/orders_nanpa.rb
 ### Compliance & Verification
 | Script | Description |
 |---|---|
-| [`identities_and_proofs.rb`](identities_and_proofs.rb) | Creates identities, addresses, and demonstrates proof workflow (2026-04-16 birth_country). |
-| [`address_verifications.rb`](address_verifications.rb) | Lists address verifications with 2026-04-16 reject_comment / external_reference_id. |
+| [`identities_and_proofs.rb`](identities_and_proofs.rb) | Creates identities, addresses, and demonstrates proof workflow (with birth_country). |
+| [`address_verifications.rb`](address_verifications.rb) | Lists address verifications with reject_comment / external_reference_id. |
 
-### Emergency Services (2026-04-16)
+### Emergency Services
 | Script | Description |
 |---|---|
-| [`emergency_requirements.rb`](emergency_requirements.rb) | Lists emergency service requirements per country/did_group_type. |
+| [`emergency_requirements.rb`](emergency_requirements.rb) | Lists emergency service requirements per country/number_type. |
 | [`emergency_calling_services.rb`](emergency_calling_services.rb) | Lists and cancels customer emergency calling services. |
 | [`emergency_verifications.rb`](emergency_verifications.rb) | Lists and creates emergency verifications. |
 | [`emergency_requirement_validations.rb`](emergency_requirement_validations.rb) | Pre-validates an emergency order triple (requirement + address + identity). |

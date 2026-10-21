@@ -2,20 +2,29 @@
 module DIDWW
   module Resource
     class Did < Base
-      # voice_in_trunk and voice_in_trunk_group are mutually exclusive: assigning one
-      # clears the other, matching the server's own constraint.
+      # voice_in_trunk and voice_in_trunk_group are mutually exclusive, and so are
+      # sms_trunk and sms_trunk_group: assigning one clears the other, matching the
+      # server's own constraint.
       class Relations < JsonApiClient::Relationships::Relations
-        EXCLUSIONS = { 'voice_in_trunk' => 'voice_in_trunk_group', 'voice_in_trunk_group' => 'voice_in_trunk' }.freeze
+        EXCLUSIONS = {
+          'voice_in_trunk' => 'voice_in_trunk_group',
+          'voice_in_trunk_group' => 'voice_in_trunk',
+          'sms_trunk' => 'sms_trunk_group',
+          'sms_trunk_group' => 'sms_trunk'
+        }.freeze
 
-        def initialize(record_class, relations)
-          @_initializing = true
+        # Bulk assignment (construction, or the server response applied after save)
+        # mirrors the server state as-is; only a single assignment clears its pair.
+        def attributes=(attrs = {})
+          @_bulk_assigning = true
           super
-          @_initializing = false
+        ensure
+          @_bulk_assigning = false
         end
 
         def set_attribute(name, value)
           super
-          return if @_initializing
+          return if @_bulk_assigning
           exclusive = EXCLUSIONS[name.to_s]
           super(exclusive, nil) if exclusive && !value.nil?
         end
@@ -38,6 +47,8 @@ module DIDWW
       has_one :order
       has_one :voice_in_trunk
       has_one :voice_in_trunk_group
+      has_one :sms_trunk, class_name: 'SmsTrunk'
+      has_one :sms_trunk_group, class_name: 'SmsTrunkGroup'
       has_one :capacity_pool
       has_one :shared_capacity_group
       has_one :address_verification

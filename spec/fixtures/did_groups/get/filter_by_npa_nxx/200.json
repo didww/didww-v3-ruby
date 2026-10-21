@@ -10,7 +10,9 @@
         ],
         "is_metered": false,
         "area_name": "Anderson",
-        "allow_additional_channels": true
+        "allow_additional_channels": true,
+        "number_type": "local",
+        "is_demo": false
       },
       "relationships": {
         "country": {
@@ -23,12 +25,6 @@
           "links": {
             "self": "https://sandbox-api.didww.com/v3/did_groups/f69196cc-2b00-4310-a550-3c433c350d35/relationships/city",
             "related": "https://sandbox-api.didww.com/v3/did_groups/f69196cc-2b00-4310-a550-3c433c350d35/city"
-          }
-        },
-        "did_group_type": {
-          "links": {
-            "self": "https://sandbox-api.didww.com/v3/did_groups/f69196cc-2b00-4310-a550-3c433c350d35/relationships/did_group_type",
-            "related": "https://sandbox-api.didww.com/v3/did_groups/f69196cc-2b00-4310-a550-3c433c350d35/did_group_type"
           }
         },
         "region": {

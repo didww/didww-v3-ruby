@@ -38,6 +38,13 @@ RSpec.describe DIDWW::Resource::EmergencyRequirement do
       expect(record.personal_area_level).to be_nil
       expect(record.business_area_level).to eq('world_wide')
       expect(record.requirement_restriction_message).to be_kind_of(String).or be_nil
+      expect(record.number_type).to eq(described_class::NUMBER_TYPE_LOCAL)
+    end
+  end
+
+  describe 'associations' do
+    it 'has no did_group_type relationship' do
+      expect(described_class.associations.map(&:attr_name)).not_to include(:did_group_type)
     end
   end
 end

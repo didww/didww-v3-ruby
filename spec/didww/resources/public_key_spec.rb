@@ -2,7 +2,7 @@
 RSpec.describe DIDWW::Resource::PublicKey do
   describe 'GET /public_keys' do
     it 'returns a collection of PublicKeys' do
-      stub_didww_request(:get, '/public_keys').to_return(
+      stub_request(:get, api_uri('/public_keys')).to_return(
         status: 200,
         body: api_fixture('public_keys/get/without_includes/200'),
         headers: json_api_headers
@@ -14,9 +14,9 @@ RSpec.describe DIDWW::Resource::PublicKey do
   end
 
   describe 'request headers' do
-    it 'does not send Api-Key header' do
+    it 'sends neither Authorization nor Api-Key header' do
       stub = stub_request(:get, api_uri('/public_keys'))
-        .with { |req| !req.headers.key?('Api-Key') }
+        .with { |req| !req.headers.key?('Api-Key') && !req.headers.key?('Authorization') }
         .to_return(
           status: 200,
           body: api_fixture('public_keys/get/without_includes/200'),
@@ -25,11 +25,21 @@ RSpec.describe DIDWW::Resource::PublicKey do
       DIDWW::Resource::PublicKey.all
       expect(stub).to have_been_requested
     end
+
+    it 'does not mint a token' do
+      stub_request(:get, api_uri('/public_keys')).to_return(
+        status: 200,
+        body: api_fixture('public_keys/get/without_includes/200'),
+        headers: json_api_headers
+      )
+      DIDWW::Resource::PublicKey.all
+      expect(a_request(:post, token_uri)).not_to have_been_made
+    end
   end
 
   describe 'has correct attributes' do
     let(:public_key) do
-      stub_didww_request(:get, '/public_keys').to_return(
+      stub_request(:get, api_uri('/public_keys')).to_return(
         status: 200,
         body: api_fixture('public_keys/get/without_includes/200'),
         headers: json_api_headers

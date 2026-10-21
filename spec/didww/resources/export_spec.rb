@@ -9,6 +9,10 @@ RSpec.describe DIDWW::Resource::Export do
       expect(described_class::STATUS_COMPLETED).to eq('completed')
     end
 
+    it 'has EXPORT_TYPES covering CDR and SMS exports' do
+      expect(described_class::EXPORT_TYPES).to eq(%w[cdr_in cdr_out sms_in sms_out])
+    end
+
     it 'has STATUSES array covering all three values' do
       expect(described_class::STATUSES).to eq(%w[pending processing completed])
     end
@@ -65,12 +69,13 @@ RSpec.describe DIDWW::Resource::Export do
 
       describe '#download' do
         let (:download_io) { export.download }
+        let (:gzip_fixture) { File.binread(File.expand_path('../../fixtures/exports/id/get/csv_download/200.csv.gz', __dir__)) }
 
         describe 'when file is ready' do
           before do
             stub_request(:get, export.url).to_return(
               status: 200,
-              body: File.binread(File.expand_path('../../fixtures/exports/id/get/csv_download/200.csv.gz', __dir__)),
+              body: gzip_fixture,
               headers: { 'Content-Type' => 'application/octet-stream' }
             )
           end
@@ -78,8 +83,11 @@ RSpec.describe DIDWW::Resource::Export do
             expect { export.download }.to_not raise_error
           end
           it 'returns a readable object' do
-            expect(download_io).to be_kind_of(Down::ChunkedIO)
+            expect(download_io).to be_kind_of(Tempfile)
             expect(download_io.read).to be_kind_of(String)
+          end
+          it 'returns the downloaded bytes unchanged' do
+            expect(download_io.read).to eq(gzip_fixture)
           end
           it 'returns gzip data' do
             magic = download_io.read(2)
@@ -90,6 +98,33 @@ RSpec.describe DIDWW::Resource::Export do
             expect(
               a_request(:get, export.url).with(headers: { 'User-Agent' => /didww-v3 Ruby gem v\d+\.\d+\.\d+/ })
             ).to have_been_made.once
+          end
+          it 'sends a bearer token and neither Api-Key nor X-DIDWW-API-Version' do
+            export.download
+            expect(
+              a_request(:get, export.url).with(headers: { 'Authorization' => "Bearer #{StubRequestHelper::TEST_ACCESS_TOKEN}" }) { |req|
+                (req.headers.keys.map(&:downcase) & ['api-key', 'x-didww-api-version']).empty?
+              }
+            ).to have_been_made.once
+          end
+        end
+
+        describe 'when the token is refused' do
+          before do
+            url = export.url
+            stub_request(:post, token_uri)
+              .to_return(status: 200, body: token_body(access_token: 'second-token').to_json, headers: { 'Content-Type' => 'application/json' })
+            stub_request(:get, url)
+              .with(headers: { 'Authorization' => "Bearer #{StubRequestHelper::TEST_ACCESS_TOKEN}" })
+              .to_return(status: 401, body: '{"errors":[{"title":"Unauthorized","status":"401"}]}', headers: json_api_headers)
+            stub_request(:get, url)
+              .with(headers: { 'Authorization' => 'Bearer second-token' })
+              .to_return(status: 200, body: gzip_fixture, headers: { 'Content-Type' => 'application/octet-stream' })
+          end
+          it 'retries once with a new token and returns only the file bytes' do
+            expect(download_io.read).to eq(gzip_fixture)
+            expect(a_request(:get, export.url)).to have_been_made.twice
+            expect(a_request(:post, token_uri)).to have_been_made.twice
           end
         end
 
@@ -112,7 +147,34 @@ RSpec.describe DIDWW::Resource::Export do
             stub_request(:get, export.url).to_return(status: 404, body: '')
           end
           it 'raises a NotFound error' do
-            expect { export.download }.to raise_error(Down::ClientError)
+            expect { export.download }.to raise_error(JsonApiClient::Errors::NotFound)
+          end
+        end
+
+        describe 'when the file is redirected' do
+          before do
+            stub_request(:get, export.url).to_return(status: 302, headers: { 'Location' => 'https://example.com/export.csv.gz' })
+          end
+          it 'raises UnexpectedStatus without following the redirect' do
+            expect { export.download }.to raise_error(JsonApiClient::Errors::UnexpectedStatus)
+            expect(a_request(:get, 'https://example.com/export.csv.gz')).to_not have_been_made
+          end
+          it 'removes the temp file' do
+            tmp_path = nil
+            allow(Tempfile).to receive(:new).and_wrap_original { |m, *args, **options| m.call(*args, **options).tap { |file| tmp_path = file.path } }
+
+            expect { export.download }.to raise_error(JsonApiClient::Errors::UnexpectedStatus)
+            expect(tmp_path).to be_a(String)
+            expect(File.exist?(tmp_path)).to eq(false)
+          end
+        end
+
+        describe 'when the answer has no content' do
+          before do
+            stub_request(:get, export.url).to_return(status: 204)
+          end
+          it 'raises UnexpectedStatus' do
+            expect { export.download }.to raise_error(JsonApiClient::Errors::UnexpectedStatus)
           end
         end
 
@@ -145,6 +207,29 @@ RSpec.describe DIDWW::Resource::Export do
         end
         it 'has csv caption' do
           expect(export.csv.read).to start_with('Date/Time Start (UTC)')
+        end
+        it 'removes the downloaded temp file' do
+          downloaded_path = nil
+          allow(export).to receive(:download).and_wrap_original { |m| m.call.tap { |file| downloaded_path = file.path } }
+
+          export.csv
+
+          expect(downloaded_path).to be_a(String)
+          expect(File.exist?(downloaded_path)).to eq(false)
+        end
+      end
+
+      describe 'when the file is not gzip' do
+        before do
+          stub_request(:get, export.url).to_return(status: 200, body: 'not gzip')
+        end
+        it 'removes the downloaded temp file' do
+          downloaded_path = nil
+          allow(export).to receive(:download).and_wrap_original { |m| m.call.tap { |file| downloaded_path = file.path } }
+
+          expect { export.csv }.to raise_error(Zlib::GzipFile::Error)
+          expect(downloaded_path).to be_a(String)
+          expect(File.exist?(downloaded_path)).to eq(false)
         end
       end
 
@@ -218,6 +303,58 @@ RSpec.describe DIDWW::Resource::Export do
 
       it 'creates a Export' do
         expect(export).to be_persisted
+      end
+    end
+
+    describe 'with an SMS export type' do
+      subject(:export) do
+        client.exports.create(
+          export_type: DIDWW::Resource::Export::EXPORT_TYPE_SMS_OUT,
+          filters: {
+            from: '2026-10-01 00:00:00',
+            to: '2026-10-15 00:00:00',
+            sms_trunk_id: sms_trunk_ids,
+            service_type: 'a2p',
+            sender_id_verification_id: sender_id_verification_id
+          }
+        )
+      end
+
+      let(:sms_trunk_ids) { %w[b2c3d4e5-0000-4000-8000-000000000001 b2c3d4e5-0000-4000-8000-000000000003] }
+      let(:sender_id_verification_id) { 'c3d4e5f6-0000-4000-8000-000000000002' }
+      let(:request_body) do
+        {
+          data: {
+            type: 'exports',
+            attributes: {
+              filters: {
+                from: '2026-10-01 00:00:00',
+                to: '2026-10-15 00:00:00',
+                service_type: 'a2p',
+                'sms_trunk.id': sms_trunk_ids,
+                'sender_id_verification.id': sender_id_verification_id
+              },
+              export_type: DIDWW::Resource::Export::EXPORT_TYPE_SMS_OUT
+            }
+          }
+        }
+      end
+
+      before do
+        stub_didww_request(:post, '/exports')
+          .with(body: request_body.to_json)
+          .to_return(
+            status: 201,
+            body: api_fixture('exports/post/create_sms_out/201'),
+            headers: json_api_headers
+          )
+      end
+
+      it 'creates an Export with the SMS filters under their wire keys' do
+        expect(export).to be_persisted
+        expect(export.export_type).to eq('sms_out')
+        expect(export.filters.sms_trunk_id).to eq(sms_trunk_ids)
+        expect(export.filters.sender_id_verification_id).to eq(sender_id_verification_id)
       end
     end
   end

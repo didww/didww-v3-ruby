@@ -23,6 +23,14 @@ RSpec.describe DIDWW::Resource::Did do
     end
   end
 
+  describe 'sms_trunk relationship' do
+    it 'has sms_trunk and sms_trunk_group has_one relationships' do
+      did = described_class.new
+      expect(did).to respond_to(:sms_trunk)
+      expect(did).to respond_to(:sms_trunk_group)
+    end
+  end
+
   describe 'GET /dids/:id' do
     let (:id) { '44957076-778a-4802-b60c-d22db0cda284' }
 
@@ -156,6 +164,8 @@ RSpec.describe DIDWW::Resource::Did do
     let(:voice_in_trunk_group_id) { '1dc6e448-d9d8-4da8-a34b-21459b03112f' }
     let(:capacity_pool_id) { '1e9e4362-bc5c-47f3-a2bb-c17afa66f3fa' }
     let(:shared_capacity_group_id) { '31e08e8f-f3c6-49dd-acb2-d9335828879e' }
+    let(:sms_trunk_id) { '5f7a2c1e-3b4d-4e6f-8a9b-0c1d2e3f4a5b' }
+    let(:sms_trunk_group_id) { '8c3d5e7f-0a1b-4c2d-9e3f-4a5b6c7d8e9f' }
 
     describe 'with correct attributes' do
       it 'updates a Did' do
@@ -237,6 +247,56 @@ RSpec.describe DIDWW::Resource::Did do
 
         expect(did.save)
         expect(did.errors).to be_empty
+      end
+
+      it 'assigns an SmsTrunk to Did' do
+        id = '6a1a3c5e-8f0b-4f5e-9d4a-2b7c1e9f3a10'
+        stub_didww_request(:patch, "/dids/#{id}").
+          with(body: json_api_body(
+            id: id,
+            type: 'dids',
+            relationships: {
+              sms_trunk: {
+                data: { type: 'sms_trunks', id: sms_trunk_id }
+              },
+              sms_trunk_group: { data: nil }
+            }
+          )).
+          to_return(
+            status: 200,
+            body: api_fixture('dids/id/patch/assign_sms_trunk/200'),
+            headers: json_api_headers
+          )
+        did = DIDWW::Resource::Did.load(id: id)
+        did.relationships[:sms_trunk] = DIDWW::Resource::SmsTrunk.load(id: sms_trunk_id)
+        expect(did.save)
+        expect(did.errors).to be_empty
+        expect(did.relationships.sms_trunk['data']).to eq('type' => 'sms_trunks', 'id' => sms_trunk_id)
+      end
+
+      it 'assigns an SmsTrunkGroup to Did' do
+        id = '7b2b4d6f-9a1c-4b6f-8e5b-3c8d2f0a4b21'
+        stub_didww_request(:patch, "/dids/#{id}").
+          with(body: json_api_body(
+            id: id,
+            type: 'dids',
+            relationships: {
+              sms_trunk_group: {
+                data: { type: 'sms_trunk_groups', id: sms_trunk_group_id }
+              },
+              sms_trunk: { data: nil }
+            }
+          )).
+          to_return(
+            status: 200,
+            body: api_fixture('dids/id/patch/assign_sms_trunk_group/200'),
+            headers: json_api_headers
+          )
+        did = DIDWW::Resource::Did.load(id: id)
+        did.relationships[:sms_trunk_group] = DIDWW::Resource::SmsTrunkGroup.load(id: sms_trunk_group_id)
+        expect(did.save)
+        expect(did.errors).to be_empty
+        expect(did.relationships.sms_trunk_group['data']).to eq('type' => 'sms_trunk_groups', 'id' => sms_trunk_group_id)
       end
 
       it 'assigns a CapacityPool to Did' do

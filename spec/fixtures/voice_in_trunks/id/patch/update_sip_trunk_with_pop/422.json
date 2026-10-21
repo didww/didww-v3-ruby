@@ -5,7 +5,7 @@
       "detail": "pop - is invalid",
       "code": "100",
       "source": {
-        "pointer": "/data/relationships/pop"
+        "pointer": "/data/attributes/pop"
       },
       "status": "422"
     }

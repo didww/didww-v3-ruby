@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 require 'faraday/multipart'
+require 'didww/errors'
 
 module DIDWW
   module Resource
     class EncryptedFile < Base
-      class UploadError < StandardError
+      class UploadError < DIDWW::Error
       end
 
       property :description, type: :string
@@ -17,11 +18,9 @@ module DIDWW
 
       # @return [Faraday::Connection]
       def self.upload_connection
-        Faraday.new(url: site) do |connection|
+        DIDWW::Http.connection(DIDWW::Client.api_base_url, audience: DIDWW::Client::API_AUDIENCE) do |connection|
           connection.request :multipart
           connection.request :url_encoded
-          connection.adapter Faraday.default_adapter
-          connection.use DIDWW::BaseMiddleware
         end
       end
 
@@ -47,7 +46,7 @@ module DIDWW
       # @raise [DIDWW::Resource::EncryptedFile::UploadError]
       def self.upload(payload)
         connection = upload_connection
-        response = connection.post('/v3/encrypted_files', encrypted_files: payload)
+        response = connection.post('encrypted_files', encrypted_files: payload)
         if response.status == 201
           JSON.parse(response.body, symbolize_names: true).dig(:data, :id)
         else

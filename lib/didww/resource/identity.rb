@@ -72,6 +72,10 @@ module DIDWW
       # Type: String
       # Description:
 
+      property :company_website, type: :string
+      # Type: String
+      # Description: Company website. Rejected on a personal identity.
+
       def personal?
         identity_type == IDENTITY_TYPE_PERSONAL
       end

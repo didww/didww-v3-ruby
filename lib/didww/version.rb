@@ -1,4 +1,4 @@
 # frozen_string_literal: true
 module DIDWW
-  VERSION = '6.2.0'.freeze
+  VERSION = '7.0.0-dev'.freeze
 end

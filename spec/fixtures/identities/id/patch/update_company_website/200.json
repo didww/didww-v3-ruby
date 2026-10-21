@@ -1,0 +1,56 @@
+{
+  "data": {
+    "id": "3b9b6c1a-4d2e-4f8a-9c7b-1e2d3f4a5b6c",
+    "type": "identities",
+    "attributes": {
+      "first_name": null,
+      "last_name": null,
+      "phone_number": "12125550100",
+      "id_number": null,
+      "birth_date": null,
+      "company_name": "Acme Corp",
+      "company_reg_number": "123456",
+      "vat_id": null,
+      "description": null,
+      "personal_tax_id": null,
+      "identity_type": "business",
+      "created_at": "2026-10-01T10:00:00.000Z",
+      "external_reference_id": null,
+      "verified": false,
+      "contact_email": "ops@example.com",
+      "company_website": "https://www.example.org"
+    },
+    "relationships": {
+      "country": {
+        "links": {
+          "self": "https://sandbox-api.didww.com/v3/identities/3b9b6c1a-4d2e-4f8a-9c7b-1e2d3f4a5b6c/relationships/country",
+          "related": "https://sandbox-api.didww.com/v3/identities/3b9b6c1a-4d2e-4f8a-9c7b-1e2d3f4a5b6c/country"
+        }
+      },
+      "birth_country": {
+        "links": {
+          "self": "https://sandbox-api.didww.com/v3/identities/3b9b6c1a-4d2e-4f8a-9c7b-1e2d3f4a5b6c/relationships/birth_country",
+          "related": "https://sandbox-api.didww.com/v3/identities/3b9b6c1a-4d2e-4f8a-9c7b-1e2d3f4a5b6c/birth_country"
+        }
+      },
+      "proofs": {
+        "links": {
+          "self": "https://sandbox-api.didww.com/v3/identities/3b9b6c1a-4d2e-4f8a-9c7b-1e2d3f4a5b6c/relationships/proofs",
+          "related": "https://sandbox-api.didww.com/v3/identities/3b9b6c1a-4d2e-4f8a-9c7b-1e2d3f4a5b6c/proofs"
+        }
+      },
+      "addresses": {
+        "links": {
+          "self": "https://sandbox-api.didww.com/v3/identities/3b9b6c1a-4d2e-4f8a-9c7b-1e2d3f4a5b6c/relationships/addresses",
+          "related": "https://sandbox-api.didww.com/v3/identities/3b9b6c1a-4d2e-4f8a-9c7b-1e2d3f4a5b6c/addresses"
+        }
+      },
+      "permanent_documents": {
+        "links": {
+          "self": "https://sandbox-api.didww.com/v3/identities/3b9b6c1a-4d2e-4f8a-9c7b-1e2d3f4a5b6c/relationships/permanent_documents",
+          "related": "https://sandbox-api.didww.com/v3/identities/3b9b6c1a-4d2e-4f8a-9c7b-1e2d3f4a5b6c/permanent_documents"
+        }
+      }
+    }
+  }
+}

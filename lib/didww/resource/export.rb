@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'forwardable'
 require 'didww/resource/concerns/has_status_helpers'
-require 'down/http'
+require 'tempfile'
 require 'zlib'
 require 'stringio'
 require 'didww/callback/const'
@@ -25,15 +25,19 @@ module DIDWW
 
       EXPORT_TYPE_CDR_IN = 'cdr_in'
       EXPORT_TYPE_CDR_OUT = 'cdr_out'
+      EXPORT_TYPE_SMS_IN = 'sms_in'
+      EXPORT_TYPE_SMS_OUT = 'sms_out'
       EXPORT_TYPES = [
         EXPORT_TYPE_CDR_IN,
-        EXPORT_TYPE_CDR_OUT
+        EXPORT_TYPE_CDR_OUT,
+        EXPORT_TYPE_SMS_IN,
+        EXPORT_TYPE_SMS_OUT
       ].freeze
 
       property :filters, type: :export_filters
-      # Type: CDR Export Filters Object
+      # Type: Export Filters Object
       # Nullable: No
-      # Description: Filters
+      # Description: Filters; the accepted keys depend on export_type (see ComplexObject::ExportFilters)
 
       property :status, type: :string
       # Type: String
@@ -59,6 +63,8 @@ module DIDWW
       # Description: GET or POST
 
       property :export_type, type: :string
+      # Type: String
+      # Description: One of EXPORT_TYPES
 
       property :external_reference_id, type: :string
       # Type: String
@@ -68,24 +74,32 @@ module DIDWW
         super params.reverse_merge(filters: {})
       end
 
+      # @return [Tempfile,nil] the gzipped CSV, rewound and opened in binary mode
+      # @raise [JsonApiClient::Errors::ApiError]
       def download
         return unless url.present?
-        Down::Http.new(headers: {
-          'Api-Key' => DIDWW::Client.api_key,
-          'X-DIDWW-API-Version' => DIDWW::Client.api_version,
-          'User-Agent' => "didww-v3 Ruby gem v#{DIDWW::VERSION}"
-        }).open(url)
+        file = Tempfile.new(['export', '.csv.gz'], binmode: true)
+        response = download_connection.get do |request|
+          request.options.on_data = proc { |chunk, _received, env| file.write(chunk) if env.status == 200 }
+        end
+        raise JsonApiClient::Errors::UnexpectedStatus.new(response.status, url) unless response.status == 200
+
+        file.rewind
+        file
+      rescue StandardError
+        file&.close!
+        raise
       end
 
       def csv
         file = download
         return unless file
-        gz = Zlib::GzipReader.new(file)
         begin
+          gz = Zlib::GzipReader.new(file)
           StringIO.new(gz.read)
         ensure
-          gz.close unless gz.closed?
-          file.close if file.respond_to?(:close) && !file.closed?
+          gz.close if gz && !gz.closed?
+          file.close!
         end
       end
 
@@ -93,6 +107,14 @@ module DIDWW
       status_helper :processing, STATUS_PROCESSING
       status_helper :complete, STATUS_COMPLETED
       alias_method :completed?, :complete?
+
+      private
+
+      def download_connection
+        DIDWW::Http.connection(url, audience: DIDWW::Client::API_AUDIENCE) do |connection|
+          connection.use JsonApiClient::Middleware::Status, {}
+        end
+      end
     end
   end
 end

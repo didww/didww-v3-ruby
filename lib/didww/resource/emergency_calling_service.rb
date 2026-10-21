@@ -1,18 +1,20 @@
 # frozen_string_literal: true
 
 require 'didww/resource/concerns/has_status_helpers'
+require 'didww/resource/concerns/number_types'
 
 module DIDWW
   module Resource
     # Customer-owned subscription to emergency calling on one or more DIDs.
     # Supported operations: index, show, destroy. Introduced in API 2026-04-16.
     #
-    # Server-side filters: name, reference, country.id, did_group_type.id,
+    # Server-side filters: name, reference, country.id, number_type,
     # address.id, identity.id, status.
     #
     # meta carries: setup_price, monthly_price.
     class EmergencyCallingService < Base
       include HasStatusHelpers
+      include NumberTypes
 
       STATUS_ACTIVE = 'active'
       STATUS_CANCELED = 'canceled'
@@ -31,7 +33,6 @@ module DIDWW
       ].freeze
 
       has_one :country, class_name: 'Country'
-      has_one :did_group_type, class_name: 'DidGroupType'
       has_one :order, class_name: 'Order'
       has_one :address, class_name: 'Address'
       has_one :emergency_requirement, class_name: 'EmergencyRequirement'
@@ -65,6 +66,10 @@ module DIDWW
       property :renew_date, type: :time
       # Type: Time
       # Description: Next renewal date. nil when canceled.
+
+      property :number_type, type: :string
+      # Type: String
+      # Description: Number type the subscription covers, one of NUMBER_TYPES.
 
       status_helper :active,            STATUS_ACTIVE
       status_helper :canceled,          STATUS_CANCELED

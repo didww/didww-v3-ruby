@@ -14,7 +14,9 @@
         ],
         "is_metered": false,
         "area_name": "National",
-        "allow_additional_channels": true
+        "allow_additional_channels": true,
+        "number_type": "local",
+        "is_demo": false
       },
       "relationships": {
         "country": {
@@ -27,12 +29,6 @@
           "links": {
             "self": "https://sandbox-api.didww.com/v3/did_groups/d35148e7-8858-446e-ae53-2f5ae17501ef/relationships/city",
             "related": "https://sandbox-api.didww.com/v3/did_groups/d35148e7-8858-446e-ae53-2f5ae17501ef/city"
-          }
-        },
-        "did_group_type": {
-          "links": {
-            "self": "https://sandbox-api.didww.com/v3/did_groups/d35148e7-8858-446e-ae53-2f5ae17501ef/relationships/did_group_type",
-            "related": "https://sandbox-api.didww.com/v3/did_groups/d35148e7-8858-446e-ae53-2f5ae17501ef/did_group_type"
           }
         },
         "region": {
@@ -72,7 +68,9 @@
         ],
         "is_metered": false,
         "area_name": "Tel Aviv",
-        "allow_additional_channels": true
+        "allow_additional_channels": true,
+        "number_type": "local",
+        "is_demo": false
       },
       "relationships": {
         "country": {
@@ -85,12 +83,6 @@
           "links": {
             "self": "https://sandbox-api.didww.com/v3/did_groups/9e31a4a5-38ef-4e1e-8a83-f6ae10d61d51/relationships/city",
             "related": "https://sandbox-api.didww.com/v3/did_groups/9e31a4a5-38ef-4e1e-8a83-f6ae10d61d51/city"
-          }
-        },
-        "did_group_type": {
-          "links": {
-            "self": "https://sandbox-api.didww.com/v3/did_groups/9e31a4a5-38ef-4e1e-8a83-f6ae10d61d51/relationships/did_group_type",
-            "related": "https://sandbox-api.didww.com/v3/did_groups/9e31a4a5-38ef-4e1e-8a83-f6ae10d61d51/did_group_type"
           }
         },
         "region": {

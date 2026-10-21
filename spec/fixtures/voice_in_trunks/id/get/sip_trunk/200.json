@@ -60,19 +60,14 @@
           "incoming_auth_username": null,
           "incoming_auth_password": null
         }
-      }
+      },
+      "pop": null
     },
     "relationships": {
       "voice_in_trunk_group": {
         "links": {
           "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/df78e081-b7d1-4769-80ce-f349af4f612e/relationships/voice_in_trunk_group",
           "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/df78e081-b7d1-4769-80ce-f349af4f612e/voice_in_trunk_group"
-        }
-      },
-      "pop": {
-        "links": {
-          "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/df78e081-b7d1-4769-80ce-f349af4f612e/relationships/pop",
-          "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/df78e081-b7d1-4769-80ce-f349af4f612e/pop"
         }
       }
     }

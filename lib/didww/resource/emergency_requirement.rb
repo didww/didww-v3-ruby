@@ -1,18 +1,21 @@
 # frozen_string_literal: true
 
+require 'didww/resource/concerns/number_types'
+
 module DIDWW
   module Resource
     # Requirements that must be satisfied before ordering an emergency
-    # calling service for a given country/did_group_type. Introduced in API 2026-04-16.
+    # calling service for a given country/number_type. Introduced in API 2026-04-16.
     #
     # Each record also reports a price preview in `meta` (setup_price,
     # monthly_price), both decimal strings, when the customer has a matching
     # emergency plan.
     #
-    # Server-side filters: country.id, did_group_type.id
+    # Server-side filters: country.id, number_type
     class EmergencyRequirement < Base
+      include NumberTypes
+
       has_one :country, class_name: 'Country'
-      has_one :did_group_type, class_name: 'DidGroupType'
 
       property :identity_type, type: :string
       # Type: String
@@ -53,6 +56,10 @@ module DIDWW
       # Type: String, nullable
       # Description: Human-readable message describing any restrictions that
       # apply to ordering the service. Nil when the country places none.
+
+      property :number_type, type: :string
+      # Type: String
+      # Description: Number type the rules apply to, one of NUMBER_TYPES.
     end
   end
 end

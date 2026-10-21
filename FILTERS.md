@@ -1,17 +1,17 @@
-# DIDWW 2026-04-16 — Server-side filter reference
+# DIDWW 2026-10-22 — Server-side filter reference
 
-This is the canonical list of `filter[KEY]` query parameters accepted by each list endpoint of the DIDWW API at version `2026-04-16` — the default API version targeted by this SDK.
+This is the canonical list of `filter[KEY]` query parameters accepted by each list endpoint of the DIDWW API at version `2026-10-22` — the default API version targeted by this SDK.
 
 The SDK passes filters through as untyped string→string maps (e.g. `DIDWW::Client.regions.where(iso: "US")`), so this document is the authoritative source for which keys actually do something on the server.
 
-Every key listed here was verified live against the DIDWW API at version `2026-04-16`.
+Keys that already existed at version `2026-04-16` were verified live against the DIDWW API at that version. Keys added at version `2026-10-22` are taken from its published OpenAPI document.
 
 Pass values URL-encoded as strings. Where the server accepts arrays, comma-separate the values.
 
 ## AddressRequirement — `GET /v3/address_requirements`
 
 - `filter[country.id]`
-- `filter[did_group_type.id]`
+- `filter[number_type]`
 
 ## Address — `GET /v3/addresses`
 
@@ -51,7 +51,7 @@ Pass values URL-encoded as strings. Where the server accepts arrays, comma-separ
 - `filter[did_group.features]`
 - `filter[did_group.id]`
 - `filter[did_group.needs_registration]`
-- `filter[did_group_type.id]`
+- `filter[did_group.number_type]`
 - `filter[nanpa_prefix.id]`
 - `filter[number_contains]`
 - `filter[region.id]`
@@ -84,20 +84,17 @@ Pass values URL-encoded as strings. Where the server accepts arrays, comma-separ
 - `filter[available_dids_enabled]`
 - `filter[city.id]`
 - `filter[country.id]`
-- `filter[did_group_type.id]`
 - `filter[features]`
 - `filter[is_available]`
+- `filter[is_demo]`
 - `filter[is_metered]`
 - `filter[meta.total_count_gteq]`
 - `filter[nanpa_prefix.id]`
 - `filter[nanpa_prefix.npanxx]`
 - `filter[needs_registration]`
+- `filter[number_type]`
 - `filter[prefix]`
 - `filter[region.id]`
-
-## DidGroupType — `GET /v3/did_group_types`
-
-- `filter[name]`
 
 ## DidHistory — `GET /v3/did_history`
 
@@ -130,6 +127,8 @@ Pass values URL-encoded as strings. Where the server accepts arrays, comma-separ
 - `filter[order.reference]`
 - `filter[region.id]`
 - `filter[shared_capacity_group.id]`
+- `filter[sms_trunk.id]`
+- `filter[sms_trunk_group.id]`
 - `filter[terminated]`
 - `filter[voice_in_trunk.id]`
 - `filter[voice_in_trunk_group.id]`
@@ -139,16 +138,16 @@ Pass values URL-encoded as strings. Where the server accepts arrays, comma-separ
 
 - `filter[address.id]`
 - `filter[country.id]`
-- `filter[did_group_type.id]`
 - `filter[identity.id]`
 - `filter[name]`
+- `filter[number_type]`
 - `filter[reference]`
 - `filter[status]`
 
 ## EmergencyRequirement — `GET /v3/emergency_requirements`
 
 - `filter[country.id]`
-- `filter[did_group_type.id]`
+- `filter[number_type]`
 
 ## EmergencyVerification — `GET /v3/emergency_verifications`
 
@@ -158,7 +157,11 @@ Pass values URL-encoded as strings. Where the server accepts arrays, comma-separ
 
 ## Export — `GET /v3/exports`
 
+- `filter[created_at_gteq]`
+- `filter[created_at_lteq]`
+- `filter[export_type]`
 - `filter[external_reference_id]`
+- `filter[status]`
 
 ## Identity — `GET /v3/identities`
 
@@ -167,6 +170,8 @@ Pass values URL-encoded as strings. Where the server accepts arrays, comma-separ
 - `filter[company_name_contains]`
 - `filter[company_reg_number]`
 - `filter[company_reg_number_contains]`
+- `filter[company_website]`
+- `filter[company_website_contains]`
 - `filter[country.id]`
 - `filter[description]`
 - `filter[description_contains]`
@@ -224,6 +229,17 @@ Pass values URL-encoded as strings. Where the server accepts arrays, comma-separ
 ## SharedCapacityGroup — `GET /v3/shared_capacity_groups`
 
 - `filter[capacity_pool.id]`
+- `filter[external_reference_id]`
+- `filter[name]`
+
+## SmsTrunkGroup — `GET /v3/sms_trunk_groups`
+
+- `filter[external_reference_id]`
+- `filter[name]`
+
+## SmsTrunk — `GET /v3/sms_trunks`
+
+- `filter[configuration.type]` — `sms_to_email`, `http_in`, `http_out`, `smpp_esme` or `smpp_smsc`; comma-separate several
 - `filter[external_reference_id]`
 - `filter[name]`
 

@@ -65,6 +65,10 @@ RSpec.describe DIDWW::Resource::AddressRequirement do
         it '"restriction_message", type: String' do
           expect(requirement.restriction_message).to be_kind_of(String)
         end
+
+        it '"number_type", type: String' do
+          expect(requirement.number_type).to eq(DIDWW::Resource::AddressRequirement::NUMBER_TYPE_LOCAL)
+        end
       end
 
       it 'lazily fetches Country' do
@@ -74,16 +78,6 @@ RSpec.describe DIDWW::Resource::AddressRequirement do
           headers: json_api_headers
         )
         expect(requirement.country).to be_kind_of(DIDWW::Resource::Country)
-        expect(request).to have_been_made.once
-      end
-
-      it 'lazily fetches DidGroupType' do
-        request = stub_request(:get, requirement.relationships.did_group_type[:links][:related]).to_return(
-          status: 200,
-          body: api_fixture('did_group_types/id/get/without_includes/200'),
-          headers: json_api_headers
-        )
-        expect(requirement.did_group_type).to be_kind_of(DIDWW::Resource::DidGroupType)
         expect(request).to have_been_made.once
       end
 
@@ -119,8 +113,8 @@ RSpec.describe DIDWW::Resource::AddressRequirement do
       end
     end
 
-    it 'optionally includes Country, Did group type, Supporting documents and Proof types' do
-      path_with_included = "/address_requirements/#{id}?include=country,did_group_type,personal_permanent_document,business_permanent_document,personal_onetime_document,business_onetime_document,personal_proof_types,business_proof_types,address_proof_types"
+    it 'optionally includes Country, Supporting documents and Proof types' do
+      path_with_included = "/address_requirements/#{id}?include=country,personal_permanent_document,business_permanent_document,personal_onetime_document,business_onetime_document,personal_proof_types,business_proof_types,address_proof_types"
       stub_didww_request(:get, path_with_included).to_return(
         status: 200,
         body: api_fixture('address_requirements/id/get/with_included_relationships/200'),
@@ -128,7 +122,6 @@ RSpec.describe DIDWW::Resource::AddressRequirement do
       )
       requirement = client.address_requirements.includes(
         :country,
-        :did_group_type,
         :personal_permanent_document,
         :business_permanent_document,
         :personal_onetime_document,
@@ -139,7 +132,6 @@ RSpec.describe DIDWW::Resource::AddressRequirement do
       ).find(id).first
 
       expect(requirement.country).to be_an_instance_of(DIDWW::Resource::Country)
-      expect(requirement.did_group_type).to be_an_instance_of(DIDWW::Resource::DidGroupType)
       expect(requirement.personal_permanent_document).to eq nil
       expect(requirement.business_permanent_document).to eq nil
       expect(requirement.personal_onetime_document).to eq nil
@@ -160,8 +152,8 @@ RSpec.describe DIDWW::Resource::AddressRequirement do
       expect(client.address_requirements.all).to all be_an_instance_of(DIDWW::Resource::AddressRequirement)
     end
 
-    it 'optionally includes Country, Did group type, Supporting documents and Proof types' do
-      path_with_included = '/address_requirements?include=country,did_group_type,personal_permanent_document,business_permanent_document,personal_onetime_document,business_onetime_document,personal_proof_types,business_proof_types,address_proof_types'
+    it 'optionally includes Country, Supporting documents and Proof types' do
+      path_with_included = '/address_requirements?include=country,personal_permanent_document,business_permanent_document,personal_onetime_document,business_onetime_document,personal_proof_types,business_proof_types,address_proof_types'
       stub_didww_request(:get, path_with_included).to_return(
         status: 200,
         body: api_fixture('address_requirements/get/with_included_relationships/200'),
@@ -169,7 +161,6 @@ RSpec.describe DIDWW::Resource::AddressRequirement do
       )
       address_requirements = client.address_requirements.includes(
         :country,
-        :did_group_type,
         :personal_permanent_document,
         :business_permanent_document,
         :personal_onetime_document,
@@ -180,7 +171,6 @@ RSpec.describe DIDWW::Resource::AddressRequirement do
       ).all
 
       expect(address_requirements.first.country).to be_an_instance_of(DIDWW::Resource::Country)
-      expect(address_requirements.first.did_group_type).to be_an_instance_of(DIDWW::Resource::DidGroupType)
       expect(address_requirements.first.personal_permanent_document).to eq nil
       expect(address_requirements.first.business_permanent_document).to eq nil
       expect(address_requirements.first.personal_onetime_document).to eq nil
@@ -189,5 +179,9 @@ RSpec.describe DIDWW::Resource::AddressRequirement do
       expect(address_requirements.first.business_proof_types).to all be_an_instance_of(DIDWW::Resource::ProofType)
       expect(address_requirements.first.address_proof_types).to all be_an_instance_of(DIDWW::Resource::ProofType)
     end
+  end
+
+  it 'has no did_group_type relationship' do
+    expect(described_class.associations.map(&:attr_name)).not_to include(:did_group_type)
   end
 end

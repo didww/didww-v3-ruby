@@ -14,7 +14,9 @@
         ],
         "is_metered": false,
         "area_name": "National",
-        "allow_additional_channels": true
+        "allow_additional_channels": true,
+        "number_type": "national",
+        "is_demo": false
       },
       "relationships": {
         "country": {
@@ -33,16 +35,6 @@
             "related": "https://sandbox-api.didww.com/v3/did_groups/d0163fe0-001f-4a03-87ea-84224822708e/city"
           },
           "data": null
-        },
-        "did_group_type": {
-          "links": {
-            "self": "https://sandbox-api.didww.com/v3/did_groups/d0163fe0-001f-4a03-87ea-84224822708e/relationships/did_group_type",
-            "related": "https://sandbox-api.didww.com/v3/did_groups/d0163fe0-001f-4a03-87ea-84224822708e/did_group_type"
-          },
-          "data": {
-            "type": "did_group_types",
-            "id": "db2751a3-640c-4088-912d-8670b4698438"
-          }
         },
         "region": {
           "links": {
@@ -86,7 +78,9 @@
         ],
         "is_metered": false,
         "area_name": "Tel Aviv",
-        "allow_additional_channels": true
+        "allow_additional_channels": true,
+        "number_type": "local",
+        "is_demo": false
       },
       "relationships": {
         "country": {
@@ -107,16 +101,6 @@
           "data": {
             "type": "cities",
             "id": "9d9f39e5-cf3e-446a-8e7b-f9e74be5f3e9"
-          }
-        },
-        "did_group_type": {
-          "links": {
-            "self": "https://sandbox-api.didww.com/v3/did_groups/952b0724-45bc-4f87-b31b-ff04579357ef/relationships/did_group_type",
-            "related": "https://sandbox-api.didww.com/v3/did_groups/952b0724-45bc-4f87-b31b-ff04579357ef/did_group_type"
-          },
-          "data": {
-            "type": "did_group_types",
-            "id": "a0cfd563-ebb0-4492-b046-74ab4609f9cb"
           }
         },
         "region": {
@@ -157,20 +141,6 @@
         "name": "Israel",
         "prefix": "972",
         "iso": "IL"
-      }
-    },
-    {
-      "id": "db2751a3-640c-4088-912d-8670b4698438",
-      "type": "did_group_types",
-      "attributes": {
-        "name": "National"
-      }
-    },
-    {
-      "id": "a0cfd563-ebb0-4492-b046-74ab4609f9cb",
-      "type": "did_group_types",
-      "attributes": {
-        "name": "Local"
       }
     },
     {
@@ -235,7 +205,7 @@
     "total_records": 2
   },
   "links": {
-    "first": "https://sandbox-api.didww.com/v3/did_groups?include=country%2Ccity%2Cregion%2Cdid_group_type%2Cstock_keeping_units&page%5Bnumber%5D=1&page%5Bsize%5D=50",
-    "next": "https://sandbox-api.didww.com/v3/did_groups?include=country%2Ccity%2Cregion%2Cdid_group_type%2Cstock_keeping_units&page%5Bnumber%5D=1&page%5Bsize%5D=50"
+    "first": "https://sandbox-api.didww.com/v3/did_groups?include=country%2Ccity%2Cregion%2Cstock_keeping_units&page%5Bnumber%5D=1&page%5Bsize%5D=50",
+    "next": "https://sandbox-api.didww.com/v3/did_groups?include=country%2Ccity%2Cregion%2Cstock_keeping_units&page%5Bnumber%5D=1&page%5Bsize%5D=50"
   }
 }

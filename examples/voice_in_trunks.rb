@@ -14,7 +14,7 @@ end
 # List voice in trunks with included relationships
 puts '=== Existing Trunks ==='
 trunks = DIDWW::Client.voice_in_trunks
-          .includes(:pop, :voice_in_trunk_group)
+          .includes(:voice_in_trunk_group)
           .all
 
 puts "Found #{trunks.size} trunks"
@@ -26,9 +26,7 @@ trunks.first(10).each do |trunk|
   puts "  Weight: #{trunk.weight}"
   puts "  CLI Format: #{trunk.cli_format}"
   puts "  Ringing Timeout: #{trunk.ringing_timeout}"
-  if trunk.pop
-    puts "  POP: #{trunk.pop.name}"
-  end
+  puts "  POP: #{trunk.pop}" if trunk.pop
   puts ''
 end
 

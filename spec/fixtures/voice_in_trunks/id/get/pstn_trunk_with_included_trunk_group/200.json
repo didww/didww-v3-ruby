@@ -17,7 +17,8 @@
         "attributes": {
           "dst": "1xxxxxxxxx"
         }
-      }
+      },
+      "pop": null
     },
     "relationships": {
       "voice_in_trunk_group": {
@@ -28,12 +29,6 @@
         "data": {
           "type": "voice_in_trunk_groups",
           "id": "6c5fbe50-1384-4de0-9d88-67b68aa12607"
-        }
-      },
-      "pop": {
-        "links": {
-          "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/6de72e61-9b7b-40e8-a690-dd8e62017acb/relationships/pop",
-          "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/6de72e61-9b7b-40e8-a690-dd8e62017acb/pop"
         }
       }
     }

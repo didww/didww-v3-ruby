@@ -13,7 +13,8 @@
         "personal_mandatory_fields":["Country"],
         "business_mandatory_fields":null,
         "service_description_required":false,
-        "restriction_message":"restriction_message"
+        "restriction_message":"restriction_message",
+        "number_type":"local"
       },
       "relationships":{
         "country":{
@@ -24,16 +25,6 @@
           "data":{
             "type":"countries",
             "id":"f25136bb-a336-43fa-b05f-34e52d75adaa"
-          }
-        },
-        "did_group_type":{
-          "links":{
-            "self":"https://sandbox-api.didww.com/v3/address_requirements/bf22f685-c036-49d9-b3ee-d5e6092f472e/relationships/did_group_type",
-            "related":"https://sandbox-api.didww.com/v3/address_requirements/bf22f685-c036-49d9-b3ee-d5e6092f472e/did_group_type"
-          },
-          "data":{
-            "type":"did_group_types",
-            "id":"994ea201-4a4d-4b27-ac4b-b5916ac969a3"
           }
         },
         "personal_permanent_document":{
@@ -252,27 +243,6 @@
             "related":"https://sandbox-api.didww.com/v3/countries/d17c184d-6f7d-4848-a87d-c5ed88020015/regions"
           }
         }
-      }
-    },
-    {
-      "id":"994ea201-4a4d-4b27-ac4b-b5916ac969a3",
-      "type":"did_group_types",
-      "attributes":{
-        "name":"Local"
-      }
-    },
-    {
-      "id":"2c165e9d-c6f5-4fe1-ad0e-bacf5bab3d86",
-      "type":"did_group_types",
-      "attributes":{
-        "name":"National"
-      }
-    },
-    {
-      "id":"6bba60f1-e724-4d12-9ea4-a3a64705800f",
-      "type":"did_group_types",
-      "attributes":{
-        "name":"Mobile"
       }
     },
     {

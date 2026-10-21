@@ -1,0 +1,39 @@
+{
+  "data": {
+    "id": "2b3c4d5e-0001-4b6c-9d7e-8f9a0b1c2d01",
+    "type": "sms_trunk_groups",
+    "attributes": {
+      "name": "Inbound SMS",
+      "external_reference_id": null,
+      "created_at": "2026-10-01T10:00:00.000Z",
+      "updated_at": "2026-10-01T10:00:00.000Z"
+    },
+    "relationships": {
+      "sms_trunks": {
+        "links": {
+          "self": "https://sandbox-api.didww.com/v3/sms_trunk_groups/2b3c4d5e-0001-4b6c-9d7e-8f9a0b1c2d01/relationships/sms_trunks",
+          "related": "https://sandbox-api.didww.com/v3/sms_trunk_groups/2b3c4d5e-0001-4b6c-9d7e-8f9a0b1c2d01/sms_trunks"
+        },
+        "data": [
+          {
+            "type": "sms_trunks",
+            "id": "1a2b3c4d-0002-4a5b-8c6d-7e8f9a0b1c02"
+          },
+          {
+            "type": "sms_trunks",
+            "id": "1a2b3c4d-0005-4a5b-8c6d-7e8f9a0b1c05"
+          }
+        ]
+      },
+      "incoming_dids": {
+        "links": {
+          "self": "https://sandbox-api.didww.com/v3/sms_trunk_groups/2b3c4d5e-0001-4b6c-9d7e-8f9a0b1c2d01/relationships/incoming_dids",
+          "related": "https://sandbox-api.didww.com/v3/sms_trunk_groups/2b3c4d5e-0001-4b6c-9d7e-8f9a0b1c2d01/incoming_dids"
+        }
+      }
+    },
+    "meta": {
+      "sms_trunks_count": 2
+    }
+  }
+}

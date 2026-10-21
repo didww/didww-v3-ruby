@@ -1,10 +1,12 @@
 # frozen_string_literal: true
+require 'didww/resource/concerns/number_types'
+
 module DIDWW
   module Resource
     class AddressRequirement < Base
+      include NumberTypes
 
       has_one :country, class_name: 'Country'
-      has_one :did_group_type, class_name: 'DidGroupType', relation_name: :group_type
       has_one :personal_permanent_document, class_name: 'SupportingDocumentTemplate'
       has_one :business_permanent_document, class_name: 'SupportingDocumentTemplate'
       has_one :personal_onetime_document, class_name: 'SupportingDocumentTemplate'
@@ -56,6 +58,10 @@ module DIDWW
       property :restriction_message, type: :string
       # Type: String
       # Description:
+
+      property :number_type, type: :string
+      # Type: String
+      # Description: Number type the rules apply to, one of NUMBER_TYPES.
     end
   end
 end
