@@ -260,8 +260,8 @@ module DIDWW
         require 'didww/resource/area'
         require 'didww/resource/voice_out_trunk'
         require 'didww/resource/voice_out_trunk_regenerate_credential'
-        require 'didww/resource/sms_trunk'
-        require 'didww/resource/sms_trunk_group'
+        require 'didww/resource/sms_trunk' # NOSONAR
+        require 'didww/resource/sms_trunk_group' # NOSONAR
         require 'didww/resource/sms_trunk_regenerate_credential' # NOSONAR
         require 'didww/resource/nanpa_prefix'
         require 'didww/resource/did_history' # NOSONAR

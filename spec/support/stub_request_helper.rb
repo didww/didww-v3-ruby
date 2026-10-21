@@ -2,6 +2,7 @@
 module StubRequestHelper
   TEST_API_KEY = 'test-key'
   TEST_ACCESS_TOKEN = 'test-access-token'
+  CONTENT_TYPE = 'Content-Type'
 
   # stub_request shortcut
   def stub_didww_request(method, uri)
@@ -18,12 +19,12 @@ module StubRequestHelper
   end
 
   def json_api_headers
-    { 'Content-Type' => 'application/vnd.api+json' }
+    { CONTENT_TYPE => 'application/vnd.api+json' }
   end
 
   def request_headers
     {
-      'Content-Type' => 'application/vnd.api+json',
+      CONTENT_TYPE => 'application/vnd.api+json',
       'User-Agent' => /didww-v3 Ruby gem v\d+\.\d+\.\d+/,
       'Authorization' => "Bearer #{TEST_ACCESS_TOKEN}"
     }
@@ -51,7 +52,7 @@ module StubRequestHelper
     response ||= token_body(aud: aud, scope: (scope || :full).to_s, api_version: api_version)
     stub_request(:post, token_uri)
       .with(body: hash_including(request_body), headers: { 'Api-Key' => TEST_API_KEY })
-      .to_return(status: status, body: response.to_json, headers: { 'Content-Type' => 'application/json' }.merge(headers))
+      .to_return(status: status, body: response.to_json, headers: { CONTENT_TYPE => 'application/json' }.merge(headers))
   end
 
   def prices_uri(service, path)

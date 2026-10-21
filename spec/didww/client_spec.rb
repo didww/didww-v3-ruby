@@ -177,8 +177,8 @@ RSpec.describe DIDWW::Client do
 
     it 'restores the version when the block raises' do
       expect {
-        DIDWW::Client.with_api_version('2099-01-01') { raise 'boom' }
-      }.to raise_error(RuntimeError, 'boom')
+        DIDWW::Client.with_api_version('2099-01-01') { raise ArgumentError, 'boom' }
+      }.to raise_error(ArgumentError, 'boom')
       expect(DIDWW::Client.api_version).to eq(DIDWW::Client::DEFAULT_API_VERSION)
     end
 

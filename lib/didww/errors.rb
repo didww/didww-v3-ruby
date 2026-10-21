@@ -18,22 +18,22 @@ module DIDWW
       end
     end
 
-    class InvalidClient < Error
+    class InvalidClient < Auth::Error
     end
 
-    class InvalidRequest < Error
+    class InvalidRequest < Auth::Error
     end
 
-    class RateLimited < Error
+    class RateLimited < Auth::Error
     end
 
-    class ServerError < Error
+    class ServerError < Auth::Error
     end
 
-    class ConnectionError < Error
+    class ConnectionError < Auth::Error
     end
 
-    class InvalidGrant < Error
+    class InvalidGrant < Auth::Error
     end
   end
 
@@ -50,34 +50,34 @@ module DIDWW
       end
     end
 
-    class BadRequest < Error
+    class BadRequest < Prices::Error
     end
 
-    class NotAuthorized < Error
+    class NotAuthorized < Prices::Error
     end
 
-    class AccessDenied < Error
+    class AccessDenied < Prices::Error
     end
 
-    class PricePlanNotAssigned < Error
+    class PricePlanNotAssigned < Prices::Error
     end
 
-    class PriceNotFound < Error
+    class PriceNotFound < Prices::Error
     end
 
-    class NotAcceptable < Error
+    class NotAcceptable < Prices::Error
     end
 
-    class TooManyRequests < Error
+    class TooManyRequests < Prices::Error
     end
 
-    class ServiceUnavailable < Error
+    class ServiceUnavailable < Prices::Error
     end
 
-    class ConnectionError < Error
+    class ConnectionError < Prices::Error
     end
 
-    class UnexpectedStatus < Error
+    class UnexpectedStatus < Prices::Error
     end
   end
 end
