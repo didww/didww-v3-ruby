@@ -197,7 +197,7 @@ Every request carries `Authorization: Bearer <token>`. The SDK mints the token i
   | SMS OUT (A2P, P2P, OTP) and SMS IN prices | `api-sms.didww.com` |
 
   A token is minted on the first call to a service and reused until it expires. `GET /public_keys` is sent without a token.
-- **Expiry and 401.** A cached token expires with its `expires_in`; the SDK adds no local expiry margin. When a request is answered 401, the SDK drops that token, mints a new one and sends the request again, once. A second 401 is raised (see [Error Handling](#error-handling)). A 403 is never retried.
+- **Expiry and 401.** A cached token expires with its `expires_in`; the SDK adds no local expiry margin. When a request is answered 401, the SDK drops that token, mints a new one and sends the request again, once. A second 401 drops the new token too and is raised (see [Error Handling](#error-handling)). A 403 is never retried.
 - **Token service errors.** A 429 raises `DIDWW::Auth::RateLimited` with `retry_after`; until that time has passed, every further mint in the process raises the same error without a request. A 5xx answer, a connection failure or a timeout is retried with exponential backoff and jitter (0.5 s base, 8 s cap, 4 attempts in all). A 400, a 401 or a TLS failure is raised at once. See [Error Handling](#error-handling) for the error classes.
 
 ### Scope

@@ -60,6 +60,20 @@ RSpec.describe DIDWW::Auth::BearerMiddleware do
       expect(a_request(:post, token_uri)).to have_been_made.twice
     end
 
+    it 'drops the new token when it is refused too' do
+      stub_request(:get, api_uri('/countries'))
+        .with(headers: { 'Authorization' => 'Bearer third-token' })
+        .to_return(status: 200, body: api_fixture('countries/get/without_includes/200'), headers: json_api_headers)
+      stub_request(:get, api_uri('/countries'))
+        .with { |request| request.headers['Authorization'] != 'Bearer third-token' }
+        .to_return(status: 401, body: unauthorized_body, headers: unauthorized_headers)
+
+      expect { DIDWW::Client.countries.all }.to raise_error(JsonApiClient::Errors::NotAuthorized)
+      expect(DIDWW::Client.countries.all).to all be_an_instance_of(DIDWW::Resource::Country)
+      expect(a_request(:get, api_uri('/countries')).with(headers: { 'Authorization' => 'Bearer second-token' })).to have_been_made.once
+      expect(a_request(:post, token_uri)).to have_been_made.times(3)
+    end
+
     it 'raises AccessDenied on insufficient scope without minting again' do
       stub_request(:get, api_uri('/countries')).to_return(
         status: 403,

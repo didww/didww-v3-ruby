@@ -24,8 +24,10 @@ module DIDWW
         DIDWW::Client.token_provider.invalidate(audience, token.access_token)
         return response unless restore!(env, request_body)
 
-        authorize!(env)
-        @app.call(env)
+        token = authorize!(env)
+        @app.call(env).tap do |retried|
+          DIDWW::Client.token_provider.invalidate(audience, token.access_token) if retried.status == 401
+        end
       end
 
       private
