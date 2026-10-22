@@ -28,9 +28,9 @@ module DIDWW
       # Type: String
       # Description:
 
-      property :birth_date, type: :date
-      # Type: Date
-      # Description:
+      property :birth_date, type: :string
+      # Type: String
+      # Description: Date of birth, "YYYY-MM-DD"
 
       property :company_name, type: :string
       # Type: String

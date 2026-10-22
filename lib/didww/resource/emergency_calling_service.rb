@@ -63,9 +63,9 @@ module DIDWW
       property :created_at, type: :time
       # Type: Time
 
-      property :renew_date, type: :time
-      # Type: Time
-      # Description: Next renewal date. nil when canceled.
+      property :renew_date, type: :string
+      # Type: String
+      # Description: Next renewal date, "YYYY-MM-DD". nil when canceled.
 
       property :number_type, type: :string
       # Type: String

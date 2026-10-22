@@ -31,7 +31,7 @@ RSpec.describe DIDWW::Resource::EmergencyCallingService do
       expect(record).to be_kind_of(described_class)
       expect(record.id).to eq(id)
       expect(record.reference).to be_kind_of(String).or be_nil
-      expect(record.renew_date).to be_kind_of(Time).or be_nil
+      expect(record.renew_date).to eq('2026-06-15')
       expect(record.number_type).to eq(described_class::NUMBER_TYPE_LOCAL)
     end
   end

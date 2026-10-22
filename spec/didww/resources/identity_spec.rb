@@ -41,6 +41,10 @@ RSpec.describe DIDWW::Resource::Identity do
       expect(identity.identity_type).to be_kind_of(String)
     end
 
+    it '"birth_date", type: String' do
+      expect(identity.birth_date).to eq('1990-05-20')
+    end
+
     it '"created_at", type: Time' do
       expect(identity.created_at).to be_kind_of(Time)
     end

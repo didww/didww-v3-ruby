@@ -16,6 +16,7 @@ Support for DIDWW API version **2026-10-22**, which authenticates with short-liv
 - Resource `Pop` and `DIDWW::Client.pops` removed. `VoiceInTrunk#pop` is now a string attribute (`VoiceInTrunk::POP_*`, `VoiceInTrunk::POPS`) and can no longer be included.
 - `Export#download` streams through Faraday into a binary `Tempfile`, rewound. HTTP errors raise `JsonApiClient::Errors` (`NotFound`, `NotAuthorized`, ...) instead of `Down` errors. Redirects are not followed: any status other than 200 raises, a 3xx or 204 as `UnexpectedStatus`.
 - Runtime dependency `faraday` raised to `~> 2.5`, and `faraday-net_http >= 3.0` added.
+- `EmergencyCallingService#renew_date` is the `"YYYY-MM-DD"` string the API sends, like the other date-only fields, instead of a `Time` at midnight in the local time zone.
 
 ### Added
 - Configuration: `DIDWW::Client.scope` (`nil`, `:read`, `:full`), `token_store`, `logger` (default `Logger.new($stderr, level: :warn)`) and `customize_faraday`, which customizes the token service, prices, export download and file upload connections.

@@ -751,10 +751,9 @@ The SDK distinguishes between date-only and datetime fields:
   - `canceled_at` — `EmergencyCallingService` (nullable)
   - `closed_at` — `SenderIdVerification` (nullable)
   - `effective_at` — `DIDWW::Prices::VoiceOutPrice` (nullable)
-- **Date-only fields** — deserialized as `Date`:
-  - `Identity#birth_date`
-- **Date-only fields kept as strings** — remain as `String`:
-  - `CapacityPool#renew_date`, `EmergencyCallingService#renew_date`, `SenderIdVerification#renew_date` — `"YYYY-MM-DD"` (nullable)
+- **Date-only fields** — kept as the `String` the API sends, `"YYYY-MM-DD"`; use `Date.iso8601` when a `Date` is needed:
+  - `CapacityPool#renew_date`
+  - `EmergencyCallingService#renew_date`, `SenderIdVerification#renew_date`, `Identity#birth_date` (nullable)
 - **String fields** (not numeric):
   - `EmergencyRequirement#estimate_setup_time` — e.g. `"7-14 days"`, `"1"`
   - `EmergencyRequirement#requirement_restriction_message` — nullable
@@ -770,7 +769,7 @@ puts did.created_at   # => 2024-01-15 10:00:00 UTC  (Time)
 puts did.expires_at   # => nil or 2025-01-15 10:00:00 UTC  (Time)
 
 identity = DIDWW::Client.identities.find("uuid").first
-puts identity.birth_date  # => 1990-05-20  (Date)
+puts identity.birth_date  # => 1990-05-20  (String)
 ```
 
 ## Resource Relationships
