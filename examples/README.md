@@ -49,6 +49,7 @@ DIDWW_API_KEY=your_api_key ruby examples/orders_nanpa.rb
 | Script | Description |
 |---|---|
 | [`sms_trunks.rb`](sms_trunks.rb) | Lists SMS trunks, creates an HTTP IN trunk, updates its configuration and deletes it; shows how to rotate generated credentials. |
+| [`sender_id_verifications.rb`](sender_id_verifications.rb) | Lists Sender ID verifications with their SMS trunks and routes an active one through an SMS trunk that sends messages. |
 | [`sms_trunk_groups.rb`](sms_trunk_groups.rb) | Creates two inbound SMS trunks, groups them by priority, lists groups and deletes the group with its trunks. |
 | [`did_sms_routing.rb`](did_sms_routing.rb) | Routes a DID's inbound SMS to an SMS trunk, then to an SMS trunk group (exclusive assignment). |
 

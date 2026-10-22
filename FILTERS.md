@@ -226,6 +226,14 @@ Pass values URL-encoded as strings. Where the server accepts arrays, comma-separ
 - `filter[iso]`
 - `filter[name]`
 
+## SenderIdVerification — `GET /v3/sender_id_verifications`
+
+- `filter[name]` — contains
+- `filter[reference]`
+- `filter[sender_type]` — one of `SenderIdVerification::SENDER_TYPES`
+- `filter[sms_trunk.id]` — comma-separate several
+- `filter[status]` — one of `SenderIdVerification::STATUSES`
+
 ## SharedCapacityGroup — `GET /v3/shared_capacity_groups`
 
 - `filter[capacity_pool.id]`

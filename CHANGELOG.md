@@ -31,6 +31,7 @@ Support for DIDWW API version **2026-10-22**, which authenticates with short-liv
   - errors `DIDWW::Prices::BadRequest`, `NotAuthorized`, `AccessDenied`, `PricePlanNotAssigned`, `PriceNotFound`, `NotAcceptable`, `TooManyRequests`, `ServiceUnavailable`, `UnexpectedStatus` and `ConnectionError`.
 - New resource `SmsTrunk` (`/v3/sms_trunks`) with configurations `sms_to_email`, `http_in`, `http_out`, `smpp_esme` and `smpp_smsc` under `DIDWW::ComplexObject::SmsTrunkConfiguration`, plus `Generic` for unknown types. Generated credentials are read-only and redacted in `#inspect`, as are `http_in` headers. `#host` returns the submit URL of an `http_out` trunk.
 - New resource `SmsTrunkGroup` (`/v3/sms_trunk_groups`) with `#sms_trunks_count`.
+- New resource `SenderIdVerification` (`/v3/sender_id_verifications`): list, read, and update of `name` and `sms_trunk`, with `STATUSES` and `SENDER_TYPES`. `SmsTrunk#sender_id_verifications`.
 - New resource `SmsTrunkRegenerateCredential` (`/v3/sms_trunk_regenerate_credentials`) and `SmsTrunk#regenerate_credentials`.
 - `Did`: `sms_trunk` and `sms_trunk_group` relationships. They are mutually exclusive, like `voice_in_trunk` and `voice_in_trunk_group`.
 - `number_type` attribute and `NUMBER_TYPE_*` / `NUMBER_TYPES` constants on `DidGroup`, `AddressRequirement`, `EmergencyRequirement` and `EmergencyCallingService`.

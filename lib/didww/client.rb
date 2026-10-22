@@ -148,6 +148,7 @@ module DIDWW
         voice_out_trunks: 'VoiceOutTrunk',
         sms_trunks: 'SmsTrunk',
         sms_trunk_groups: 'SmsTrunkGroup',
+        sender_id_verifications: 'SenderIdVerification',
         available_dids: 'AvailableDid',
         did_reservations: 'DidReservation',
         address_requirements: 'AddressRequirement',
@@ -263,6 +264,7 @@ module DIDWW
         require 'didww/resource/sms_trunk' # NOSONAR
         require 'didww/resource/sms_trunk_group' # NOSONAR
         require 'didww/resource/sms_trunk_regenerate_credential' # NOSONAR
+        require 'didww/resource/sender_id_verification' # NOSONAR
         require 'didww/resource/nanpa_prefix'
         require 'didww/resource/did_history' # NOSONAR
         require 'didww/resource/emergency_requirement' # NOSONAR

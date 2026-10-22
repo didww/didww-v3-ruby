@@ -451,6 +451,26 @@ group.save
 group.sms_trunks_count # => 1
 ```
 
+### Sender ID Verifications
+
+A Sender ID verification covers the sender IDs your outbound messages use. It is created and reviewed outside the API: the API lists and reads verifications, and changes only their `name` and the SMS trunk their messages are routed through. A `closed` verification cannot be changed. `status` is one of `SenderIdVerification::STATUSES` and `sender_type` one of `SenderIdVerification::SENDER_TYPES`; `meta` carries `setup_price` and `monthly_price` as decimal strings.
+
+```ruby
+verifications = DIDWW::Client.sender_id_verifications
+                             .where(status: DIDWW::Resource::SenderIdVerification::STATUS_ACTIVE)
+                             .includes(:sms_trunk)
+                             .all
+
+verification = verifications.first
+verification.sms_trunk = DIDWW::Resource::SmsTrunk.load(id: 'sms-trunk-uuid') # http_out, smpp_esme or smpp_smsc
+verification.save
+
+verification.sms_trunk = nil # outbound messages stop until a trunk is assigned again
+verification.save
+```
+
+Deleting an SMS trunk leaves the verifications routed through it without a trunk.
+
 ### Exports
 
 ```ruby
@@ -727,13 +747,14 @@ The SDK distinguishes between date-only and datetime fields:
   - `created_at` — present on most resources
   - `updated_at` — `SmsTrunk`, `SmsTrunkGroup`
   - `expires_at` — `Did`, `DidReservation`, `Proof`, `EncryptedFile` (nullable)
-  - `activated_at` — `EmergencyCallingService` (nullable)
+  - `activated_at` — `EmergencyCallingService`, `SenderIdVerification` (nullable)
   - `canceled_at` — `EmergencyCallingService` (nullable)
+  - `closed_at` — `SenderIdVerification` (nullable)
   - `effective_at` — `DIDWW::Prices::VoiceOutPrice` (nullable)
 - **Date-only fields** — deserialized as `Date`:
   - `Identity#birth_date`
 - **Date-only fields kept as strings** — remain as `String`:
-  - `CapacityPool#renew_date`, `EmergencyCallingService#renew_date` — `"YYYY-MM-DD"` (nullable)
+  - `CapacityPool#renew_date`, `EmergencyCallingService#renew_date`, `SenderIdVerification#renew_date` — `"YYYY-MM-DD"` (nullable)
 - **String fields** (not numeric):
   - `EmergencyRequirement#estimate_setup_time` — e.g. `"7-14 days"`, `"1"`
   - `EmergencyRequirement#requirement_restriction_message` — nullable
@@ -808,11 +829,11 @@ The SDK provides constants for all API option fields. These are defined as const
 `TransportProtocol`, `Codec`, `RxDtmfFormat`, `TxDtmfFormat`, `SstRefreshMethod`,
 `ReroutingDisconnectCode`, `Feature`, `AreaLevel`, `AddressVerificationStatus`, `StirShakenMode`,
 `NumberType`, `Pop`, `ExportSmsTrunkType`, `SmsHttpMethod`, `SmsBodyType`, `SmsServerLocation`,
-`VoiceOutPriceCategory`
+`VoiceOutPriceCategory`, `SenderIdVerificationStatus`, `SenderIdVerificationSenderType`
 
 \* `REPLACE_CLI` and `RANDOMIZE_CLI` require additional account configuration. Contact DIDWW support to enable these values.
 
-The constants for `NumberType`, `Pop`, `ExportSmsTrunkType`, `SmsHttpMethod`, `SmsBodyType`, `SmsServerLocation` and `VoiceOutPriceCategory` are `DIDWW::Resource::NumberTypes::NUMBER_TYPES`, `DIDWW::Resource::VoiceInTrunk::POPS`, `DIDWW::ComplexObject::ExportFilters::TRUNK_TYPES`, `DIDWW::ComplexObject::SmsTrunkConfiguration::HttpIn::HTTP_METHODS` and `BODY_TYPES`, `DIDWW::ComplexObject::SmsTrunkConfiguration::SERVER_LOCATIONS` and `DIDWW::Prices::VoiceOutPrice::CATEGORIES`.
+The constants for `NumberType`, `Pop`, `ExportSmsTrunkType`, `SmsHttpMethod`, `SmsBodyType`, `SmsServerLocation`, `VoiceOutPriceCategory`, `SenderIdVerificationStatus` and `SenderIdVerificationSenderType` are `DIDWW::Resource::NumberTypes::NUMBER_TYPES`, `DIDWW::Resource::VoiceInTrunk::POPS`, `DIDWW::ComplexObject::ExportFilters::TRUNK_TYPES`, `DIDWW::ComplexObject::SmsTrunkConfiguration::HttpIn::HTTP_METHODS` and `BODY_TYPES`, `DIDWW::ComplexObject::SmsTrunkConfiguration::SERVER_LOCATIONS`, `DIDWW::Prices::VoiceOutPrice::CATEGORIES`, and `DIDWW::Resource::SenderIdVerification::STATUSES` and `SENDER_TYPES`.
 
 ## Development
 

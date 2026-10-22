@@ -83,12 +83,20 @@ erDiagram
     RequirementValidation ||--o| Address : "has_one address"
     RequirementValidation ||--o| Identity : "has_one identity"
 
+    SenderIdVerification ||--o| SmsTrunk : "has_one sms_trunk"
+    SenderIdVerification ||--o{ Country : "has_many countries"
+    SenderIdVerification ||--o{ Did : "has_many dids"
+    SenderIdVerification ||--o| Order : "has_one order"
+    SenderIdVerification ||--o| Identity : "has_one identity"
+    SenderIdVerification ||--o| Address : "has_one address"
+
     SharedCapacityGroup ||--o| CapacityPool : "has_one capacity_pool"
     SharedCapacityGroup ||--o{ Did : "has_many dids"
 
     SmsTrunk ||--o{ Did : "has_many outgoing_dids"
     SmsTrunk ||--o{ Did : "has_many incoming_dids"
     SmsTrunk ||--o| SmsTrunkGroup : "has_one sms_trunk_group"
+    SmsTrunk ||--o{ SenderIdVerification : "has_many sender_id_verifications"
 
     SmsTrunkGroup ||--o{ SmsTrunk : "has_many sms_trunks"
     SmsTrunkGroup ||--o{ Did : "has_many incoming_dids"
@@ -135,8 +143,9 @@ erDiagram
 | Region | country | — | — |
 | Requirement | country, personal_permanent_document, business_permanent_document, personal_onetime_document, business_onetime_document | personal_proof_types, business_proof_types, address_proof_types | — |
 | RequirementValidation | requirement, address, identity | — | — |
+| SenderIdVerification | sms_trunk, order, identity, address | countries, dids | — |
 | SharedCapacityGroup | capacity_pool | dids | — |
-| SmsTrunk | sms_trunk_group | outgoing_dids, incoming_dids | — |
+| SmsTrunk | sms_trunk_group | outgoing_dids, incoming_dids, sender_id_verifications | — |
 | SmsTrunkGroup | — | sms_trunks, incoming_dids | — |
 | SmsTrunkRegenerateCredential | sms_trunk | — | — |
 | StockKeepingUnit | — | — | did_group |

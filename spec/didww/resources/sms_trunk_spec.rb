@@ -75,6 +75,25 @@ RSpec.describe DIDWW::Resource::SmsTrunk do
         expect { client.sms_trunks.find(id) }.to raise_error(JsonApiClient::Errors::NotFound)
       end
     end
+
+    it 'optionally includes the SenderIdVerifications' do
+      stub_didww_request(:get, "/sms_trunks/#{id}?include=sender_id_verifications").to_return(
+        status: 200,
+        body: api_fixture('sms_trunks/id/get/with_included_sender_id_verifications/200'),
+        headers: json_api_headers
+      )
+
+      trunk = client.sms_trunks.includes(:sender_id_verifications).find(id).first
+
+      expect(trunk.sender_id_verifications).to all be_an_instance_of(DIDWW::Resource::SenderIdVerification)
+      expect(trunk.sender_id_verifications.map(&:reference)).to eq(['SID-1234'])
+    end
+
+    it 'declares sender_id_verifications as a has_many' do
+      association = described_class.associations.find { |a| a.attr_name == :sender_id_verifications }
+
+      expect(association).to be_an_instance_of(JsonApiClient::Associations::HasMany::Association)
+    end
   end
 
   describe 'GET /sms_trunks' do

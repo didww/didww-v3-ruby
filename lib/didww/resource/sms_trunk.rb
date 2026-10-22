@@ -8,6 +8,7 @@ module DIDWW
       has_many :outgoing_dids, class_name: 'Did'
       has_many :incoming_dids, class_name: 'Did'
       has_one :sms_trunk_group, class_name: 'SmsTrunkGroup'
+      has_many :sender_id_verifications, class_name: 'SenderIdVerification'
 
       property :name, type: :string
       # Type: String
