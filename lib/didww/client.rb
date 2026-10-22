@@ -84,7 +84,7 @@ module DIDWW
       end
 
       def api_version
-        Thread.current[API_VERSION_OVERRIDE_KEY] || @@api_version
+        Thread.current[API_VERSION_OVERRIDE_KEY] || @@api_version # NOSONAR
       end
 
       def api_version=(value)
@@ -93,11 +93,11 @@ module DIDWW
 
       # The override is visible only to the calling thread.
       def with_api_version(api_version)
-        previous_api_version = Thread.current[API_VERSION_OVERRIDE_KEY]
-        Thread.current[API_VERSION_OVERRIDE_KEY] = validate_api_version!(api_version)
+        previous_api_version = Thread.current[API_VERSION_OVERRIDE_KEY] # NOSONAR
+        Thread.current[API_VERSION_OVERRIDE_KEY] = validate_api_version!(api_version) # NOSONAR
         yield
       ensure
-        Thread.current[API_VERSION_OVERRIDE_KEY] = previous_api_version
+        Thread.current[API_VERSION_OVERRIDE_KEY] = previous_api_version # NOSONAR
       end
 
       def scope=(value)
