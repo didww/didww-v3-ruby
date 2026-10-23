@@ -142,6 +142,80 @@ RSpec.describe DIDWW::Resource::Export do
           end
         end
 
+        describe 'when url is not on the API host' do
+          {
+            'another host' => 'https://files.example.com/exports/export.csv.gz',
+            'http on the API host' => 'http://sandbox-api.didww.com/v3/exports/a4f6b765-f20c-45c7-98d2-80c2f3a41517.csv.gz',
+            'http on the API host and port' => 'http://sandbox-api.didww.com:443/v3/exports/a4f6b765-f20c-45c7-98d2-80c2f3a41517.csv.gz',
+            'another port on the API host' => 'https://sandbox-api.didww.com:8443/v3/exports/a4f6b765-f20c-45c7-98d2-80c2f3a41517.csv.gz'
+          }.each do |name, foreign_url|
+            it "raises ArgumentError for #{name} without minting a token or downloading" do
+              export.url = foreign_url
+              stub_request(:get, foreign_url).to_return(status: 200, body: gzip_fixture)
+              DIDWW::Client.token_store = DIDWW::Auth::MemoryStore.new
+              WebMock::RequestRegistry.instance.reset!
+
+              expect { export.download }.to raise_error(ArgumentError, 'Export url must be on the API host https://sandbox-api.didww.com.')
+              expect { export.csv }.to raise_error(ArgumentError)
+              expect(a_request(:any, /.*/)).to_not have_been_made
+            end
+          end
+
+          {
+            'an unparsable url' => 'https://sandbox-api.didww.com/v3/exports/a b.csv.gz',
+            'a url without a host' => 'https:/v3/exports/export.csv.gz'
+          }.each do |name, malformed_url|
+            it "raises ArgumentError for #{name} without minting a token" do
+              export.url = malformed_url
+              DIDWW::Client.token_store = DIDWW::Auth::MemoryStore.new
+              WebMock::RequestRegistry.instance.reset!
+
+              expect { export.download }.to raise_error(ArgumentError, 'Export url must be on the API host https://sandbox-api.didww.com.')
+              expect(a_request(:any, /.*/)).to_not have_been_made
+            end
+          end
+
+          it 'downloads a url on the API host written in another case, with a trailing dot and the default port' do
+            export.url = 'https://SANDBOX-API.didww.com.:443/v3/exports/a4f6b765-f20c-45c7-98d2-80c2f3a41517.csv.gz'
+            stub_request(:get, export.url).to_return(status: 200, body: gzip_fixture)
+
+            expect(download_io.read).to eq(gzip_fixture)
+          end
+        end
+
+        describe 'when DIDWW_API_URL points at another host' do
+          before do
+            export
+            allow(ENV).to receive(:[]).and_call_original
+            allow(ENV).to receive(:[]).with('DIDWW_API_URL').and_return('https://didww-proxy.example.com/v3/')
+          end
+
+          it 'downloads the url on the canonical API host of the mode' do
+            stub_request(:get, export.url).to_return(status: 200, body: gzip_fixture)
+
+            expect(download_io.read).to eq(gzip_fixture)
+            expect(a_request(:get, export.url)).to have_been_made.once
+          end
+
+          it 'downloads a url on the DIDWW_API_URL host' do
+            export.url = 'https://didww-proxy.example.com/v3/exports/a4f6b765-f20c-45c7-98d2-80c2f3a41517.csv.gz'
+            stub_request(:get, export.url).to_return(status: 200, body: gzip_fixture)
+
+            expect(download_io.read).to eq(gzip_fixture)
+          end
+
+          it 'raises ArgumentError for another host without a request' do
+            export.url = 'https://files.example.com/exports/export.csv.gz'
+            stub_request(:get, export.url).to_return(status: 200, body: gzip_fixture)
+            WebMock::RequestRegistry.instance.reset!
+
+            expect { export.download }.to raise_error(
+              ArgumentError, 'Export url must be on the API host https://didww-proxy.example.com or https://sandbox-api.didww.com.'
+            )
+            expect(a_request(:any, /.*/)).to_not have_been_made
+          end
+        end
+
         describe 'when file is not found' do
           before do
             stub_request(:get, export.url).to_return(status: 404, body: '')

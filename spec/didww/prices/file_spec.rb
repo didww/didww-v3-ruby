@@ -252,6 +252,8 @@ RSpec.describe DIDWW::Prices::Service do
     context 'when the file is not generated yet' do
       let(:unavailable) { { status: 503, body: api_fixture('prices/errors/serving_failure'), headers: json_api_headers.merge('Retry-After' => '1') } }
 
+      before { allow(service).to receive(:rand).and_return(0.0) }
+
       it 'waits Retry-After and retries' do
         stub_prices_request(:voice_in, :get, '/prices.csv.gz')
           .to_return(unavailable)
@@ -260,6 +262,38 @@ RSpec.describe DIDWW::Prices::Service do
         service.download(to: io)
 
         expect(io.string).to eq(gzip_fixture)
+        expect(sleeps).to eq([1])
+      end
+
+      it 'waits at most one second more on a short Retry-After' do
+        allow(service).to receive(:rand).and_return(1.0)
+        stub_prices_request(:voice_in, :get, '/prices.csv.gz')
+          .to_return(unavailable)
+          .then.to_return(status: 200, body: gzip_fixture, headers: file_headers)
+
+        service.download(to: io)
+
+        expect(sleeps).to eq([2])
+      end
+
+      it 'waits at most a fifth of Retry-After more' do
+        allow(service).to receive(:rand).and_return(1.0)
+        stub_prices_request(:voice_in, :get, '/prices.csv.gz')
+          .to_return(unavailable.merge(headers: json_api_headers.merge('Retry-After' => '10')))
+          .then.to_return(status: 200, body: gzip_fixture, headers: file_headers)
+
+        service.download(to: io)
+
+        expect(sleeps).to eq([12])
+      end
+
+      it 'waits one second on a Retry-After of 0' do
+        stub_prices_request(:voice_in, :get, '/prices.csv.gz')
+          .to_return(unavailable.merge(headers: json_api_headers.merge('Retry-After' => '0')))
+          .then.to_return(status: 200, body: gzip_fixture, headers: file_headers)
+
+        service.download(to: io)
+
         expect(sleeps).to eq([1])
       end
 
@@ -332,6 +366,7 @@ RSpec.describe DIDWW::Prices::Service do
     end
 
     it 'waits Retry-After and retries on 503' do
+      allow(service).to receive(:rand).and_return(0.0)
       stub_prices_request(:voice_in, :head, '/prices.csv.gz')
         .to_return(status: 503, body: '', headers: { 'Retry-After' => '2' })
         .then.to_return(status: 200, body: '', headers: file_headers)

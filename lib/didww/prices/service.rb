@@ -23,6 +23,8 @@ module DIDWW
       ].freeze
       MAX_UNAVAILABLE_RETRIES = 2
       MAX_RETRY_AFTER = 60
+      RETRY_SPREAD_RATIO = 0.2
+      MIN_RETRY_SPREAD = 1
       ERROR_CLASSES = {
         400 => BadRequest,
         401 => NotAuthorized,
@@ -75,7 +77,7 @@ module DIDWW
       # @param path_prefix [String] price domain path below /v3/, such as 'sms_out/a2p/'
       # @param price_class [Class] DIDWW::Prices::Price subclass of the lookup rows
       # @param lookup_filters [Hash] filter names under :required, :optional and :any_of
-      # @param sleeper [#call] waits the Retry-After of a 503 on a price file
+      # @param sleeper [#call] waits the Retry-After of a 503 on a price file, plus a random spread
       def initialize(host:, path_prefix:, price_class:, lookup_filters:, sleeper: ->(seconds) { sleep(seconds) })
         @host = host
         @path_prefix = path_prefix
@@ -190,7 +192,7 @@ module DIDWW
         if [200, 304].include?(response.status)
           response
         elsif response.status == 503 && attempt <= MAX_UNAVAILABLE_RETRIES && retry_after && retry_after <= MAX_RETRY_AFTER
-          @sleeper.call(retry_after)
+          @sleeper.call(retry_delay(retry_after))
           file_request!(method, if_modified_since, sink, attempt + 1)
         else
           raise_error!(response, sink ? sink.error_body : response.body)
@@ -234,6 +236,12 @@ module DIDWW
 
       def retry_after(response)
         Integer(response.headers['Retry-After'], exception: false)
+      end
+
+      # Spreads the retries of clients that got the same Retry-After.
+      def retry_delay(retry_after)
+        seconds = [retry_after, 1].max
+        seconds + (rand * [MIN_RETRY_SPREAD, RETRY_SPREAD_RATIO * seconds].max)
       end
     end
   end

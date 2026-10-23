@@ -4,6 +4,7 @@ require 'didww/resource/concerns/has_status_helpers'
 require 'tempfile'
 require 'zlib'
 require 'stringio'
+require 'uri'
 require 'didww/callback/const'
 
 module DIDWW
@@ -75,9 +76,11 @@ module DIDWW
       end
 
       # @return [Tempfile,nil] the gzipped CSV, rewound and opened in binary mode
+      # @raise [ArgumentError] url is not on the scheme, host and port of the API base URL or of the canonical API URL of the mode
       # @raise [JsonApiClient::Errors::ApiError]
       def download
         return unless url.present?
+        verify_url_on_api_host!
         file = Tempfile.new(['export', '.csv.gz'], binmode: true)
         response = download_connection.get do |request|
           request.options.on_data = proc { |chunk, _received, env| file.write(chunk) if env.status == 200 }
@@ -109,6 +112,28 @@ module DIDWW
       alias_method :completed?, :complete?
 
       private
+
+      # The download sends the API bearer token, so it goes only to the API host:
+      # that of the API base URL, or the canonical one of the mode, which the API builds export urls from.
+      def verify_url_on_api_host!
+        allowed = [DIDWW::Client.api_base_url, DIDWW::Client::BASE_URLS[DIDWW::Client.api_mode]].map { |base| URI.parse(base) }
+        target = begin
+          URI.parse(url)
+        rescue URI::InvalidURIError
+          nil
+        end
+        return if target && allowed.any? { |api| same_origin?(target, api) }
+
+        hosts = allowed.map { |api| "#{api.scheme}://#{api.host}#{":#{api.port}" unless api.port == api.default_port}" }.uniq
+        raise ArgumentError.new("Export url must be on the API host #{hosts.join(' or ')}.")
+      end
+
+      def same_origin?(target, api)
+        target.is_a?(URI::HTTP) && target.host.present? &&
+          target.scheme.casecmp?(api.scheme) &&
+          target.host.chomp('.').casecmp?(api.host.chomp('.')) &&
+          target.port == api.port
+      end
 
       def download_connection
         DIDWW::Http.connection(url, audience: DIDWW::Client::API_AUDIENCE) do |connection|

@@ -14,6 +14,8 @@ module DIDWW
       BACKOFF_BASE = 0.5
       BACKOFF_CAP = 8
       MAX_ATTEMPTS = 4
+      RETRY_SPREAD_RATIO = 0.2
+      MIN_RETRY_SPREAD = 1
       TIMEOUT = 10
       TRANSPORT_ERRORS = [
         Faraday::ConnectionFailed,
@@ -159,6 +161,11 @@ module DIDWW
         @sleeper.call(rand * [BACKOFF_CAP, BACKOFF_BASE * (2**attempt)].min)
       end
 
+      # Spreads the next mints of processes that got the same Retry-After.
+      def retry_window(retry_after)
+        retry_after + (rand * [MIN_RETRY_SPREAD, RETRY_SPREAD_RATIO * retry_after].max)
+      end
+
       def token_from!(response)
         body = parse_body(response.body)
         error_fields = { status: response.status, error: body['error'], error_description: body['error_description'] }
@@ -171,7 +178,7 @@ module DIDWW
           raise InvalidClient.new(**error_fields)
         when 429
           retry_after = [response.headers['Retry-After'].to_i, 1].max
-          @lock.synchronize { @blocked_until[rate_limit_key] = @clock.call + retry_after }
+          @lock.synchronize { @blocked_until[rate_limit_key] = @clock.call + retry_window(retry_after) }
           raise RateLimited.new(**error_fields, retry_after: retry_after)
         when 500..599
           raise ServerError.new(**error_fields)

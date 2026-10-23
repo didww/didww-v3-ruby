@@ -129,5 +129,26 @@ RSpec.describe DIDWW::ComplexObject::SmsTrunkConfiguration do
       expect(http_in).not_to include('webhook-secret')
       expect(http_in).to include('headers="[FILTERED]"')
     end
+
+    it 'redacts every value of an unknown configuration type' do
+      generic = base.cast(
+        {
+          type: 'future_sms_type',
+          attributes: {
+            url: 'https://hooks.example.com/sms',
+            password: 'future-secret',
+            headers: { 'Authorization' => 'Bearer future-token' },
+            note: nil
+          }
+        },
+        nil
+      )
+
+      expect(generic.inspect).to eq(
+        '#<DIDWW::ComplexObject::SmsTrunkConfiguration::Generic type="future_sms_type" ' \
+        'url="[FILTERED]" password="[FILTERED]" headers="[FILTERED]" note=nil>'
+      )
+      expect(generic.as_json[:attributes]).to include('password' => 'future-secret', 'url' => 'https://hooks.example.com/sms')
+    end
   end
 end

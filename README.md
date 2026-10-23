@@ -198,7 +198,7 @@ Every request carries `Authorization: Bearer <token>`. The SDK mints the token i
 
   A token is minted on the first call to a service and reused until it expires. `GET /public_keys` is sent without a token.
 - **Expiry and 401.** A cached token expires with its `expires_in`; the SDK adds no local expiry margin. When a request is answered 401, the SDK drops that token, mints a new one and sends the request again, once. A second 401 drops the new token too and is raised (see [Error Handling](#error-handling)). A 403 is never retried.
-- **Token service errors.** A 429 raises `DIDWW::Auth::RateLimited` with `retry_after`; until that time has passed, every further mint in the process raises the same error without a request. A 5xx answer, a connection failure or a timeout is retried with exponential backoff and jitter (0.5 s base, 8 s cap, 4 attempts in all). A 400, a 401 or a TLS failure is raised at once. See [Error Handling](#error-handling) for the error classes.
+- **Token service errors.** A 429 raises `DIDWW::Auth::RateLimited` with `retry_after`; until that time has passed, plus a small random delay so that clients do not retry in step, every further mint in the process raises the same error without a request. A 5xx answer, a connection failure or a timeout is retried with exponential backoff and jitter (0.5 s base, 8 s cap, 4 attempts in all). A 400, a 401 or a TLS failure is raised at once. See [Error Handling](#error-handling) for the error classes.
 
 ### Scope
 
@@ -431,7 +431,7 @@ trunk.save
 DIDWW::Client.sms_trunks.where('configuration.type': 'http_in,sms_to_email').includes(:sms_trunk_group).all
 ```
 
-The generated credentials of `http_out` and `smpp_esme` trunks are read-only and are never sent back on update. They are redacted in `#inspect`, as are the `headers` of an `http_in` configuration, which may carry the credentials of your endpoint. To rotate them:
+The generated credentials of `http_out` and `smpp_esme` trunks are read-only and are never sent back on update. They are redacted in `#inspect`, as are the `headers` of an `http_in` configuration, which may carry the credentials of your endpoint, and every value of a configuration type this gem version does not know (`Generic`). To rotate them:
 
 ```ruby
 trunk = DIDWW::Client.sms_trunks.find('uuid').first
@@ -489,6 +489,8 @@ export.save
 file = export.download # binary Tempfile with the gzipped CSV
 csv  = export.csv      # StringIO with the decompressed CSV
 ```
+
+`download` and `csv` send the API bearer token, so they accept only a `url` on the scheme, host and port of the API base URL or of the canonical API URL of `api_mode`, which the API builds export urls from even when `DIDWW_API_URL` points elsewhere. They raise `ArgumentError` for any other, without sending a request.
 
 `from` and `to` are required for every export type. The other filter keys depend on `export_type` (`cdr_in`, `cdr_out`, `sms_in`, `sms_out`); see `DIDWW::ComplexObject::ExportFilters`. `sms_trunk_id`, `sender_id_verification_id` and `voice_out_trunk_id` are sent as the dotted keys `sms_trunk.id`, `sender_id_verification.id` and `voice_out_trunk.id`.
 
@@ -657,7 +659,7 @@ File.open('/tmp/copy.csv.gz', 'wb') { |io| prices.download(to: io) }
 - `download(to:)` streams the body into an IO, or into a temp file next to `path` that is unique to the call and replaces `path` only on a 200. A 304 or an error leaves an existing file untouched, and concurrent downloads to one path do not mix their bytes. An IO target receives the body as it arrives, so after an error it may hold part of it.
 - `head` and `download` return a `DIDWW::Prices::PriceFile`: `status`, `last_modified`, `content_length`, `filename`, `bytes_written`, `modified?` and `not_modified?`.
 - Only `Last-Modified` and `If-Modified-Since` are used. The service sends no `ETag`, and the SDK never sends `If-None-Match`, which would make the service ignore `If-Modified-Since`.
-- A 503 on a price file is retried up to 2 times when its `Retry-After` is 60 seconds or less, after waiting that long. Otherwise it raises `DIDWW::Prices::ServiceUnavailable` with `retry_after`.
+- A 503 on a price file is retried up to 2 times when its `Retry-After` is 60 seconds or less, after waiting that long, at least 1 second, plus a random delay of up to a fifth of that wait (at least up to 1 s) so that clients do not retry in step. Otherwise it raises `DIDWW::Prices::ServiceUnavailable` with `retry_after`.
 - Redirects are not followed. Any status the API does not document for the call, such as a 3xx or a 202, raises `DIDWW::Prices::UnexpectedStatus`. An error is never turned into an empty file or an empty result.
 
 ## Filter Reference
@@ -707,7 +709,7 @@ Errors raised by the SDK itself inherit from `DIDWW::Error`.
 |-------|-------------|
 | `DIDWW::Auth::InvalidClient` | 401: the API key is missing, unknown or disabled, or the caller's IP is not allowed. Not retried. |
 | `DIDWW::Auth::InvalidRequest` | 400 `invalid_request` or `invalid_scope`. |
-| `DIDWW::Auth::RateLimited` | 429. `retry_after` is the number of seconds to wait. |
+| `DIDWW::Auth::RateLimited` | 429. `retry_after` is the token service's `Retry-After` in seconds, at least 1. The SDK keeps refusing mints for a random extra of up to a fifth of it (at least up to 1 s) on top of it, and a mint refused in that window raises `RateLimited` with the seconds left, so retry in a loop rather than once. |
 | `DIDWW::Auth::ServerError` | 5xx on every attempt. |
 | `DIDWW::Auth::ConnectionError` | Connection failure or timeout on every attempt, or a TLS failure. |
 | `DIDWW::Auth::InvalidGrant` | The token does not cover the requested audience. |

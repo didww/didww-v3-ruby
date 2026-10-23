@@ -289,12 +289,35 @@ RSpec.describe DIDWW::Auth::TokenProvider do
           response: { error: 'rate_limit_exceeded', error_description: 'Too many token requests from this address.' },
           headers: { 'Retry-After' => '30' }
         ).then.to_return(status: 200, body: token_body.to_json, headers: json_headers)
+        allow(provider).to receive(:rand).and_return(0.0)
       end
 
       it 'raises RateLimited with retry_after' do
         expect { provider.token_for(audience) }.to raise_error(DIDWW::Auth::RateLimited) { |error|
           expect(error).to have_attributes(status: 429, retry_after: 30)
         }
+      end
+
+      it 'raises the Retry-After of the token service whatever the spread' do
+        allow(provider).to receive(:rand).and_return(1.0)
+
+        expect { provider.token_for(audience) }.to raise_error(DIDWW::Auth::RateLimited) { |error|
+          expect(error.retry_after).to eq(30)
+        }
+      end
+
+      it 'extends the window by at most a fifth of Retry-After' do
+        allow(provider).to receive(:rand).and_return(1.0)
+        expect { provider.token_for(audience) }.to raise_error(DIDWW::Auth::RateLimited)
+        clock.now += 35
+
+        expect { provider.token_for(audience) }.to raise_error(DIDWW::Auth::RateLimited) { |error|
+          expect(error.retry_after).to eq(1)
+        }
+        clock.now += 1
+
+        expect(provider.token_for(audience).access_token).to eq(StubRequestHelper::TEST_ACCESS_TOKEN)
+        expect(a_request(:post, token_uri)).to have_been_made.twice
       end
 
       it 'raises without a request while the window is open' do
@@ -338,6 +361,36 @@ RSpec.describe DIDWW::Auth::TokenProvider do
         expect { provider.token_for(audience) }.to raise_error(DIDWW::Auth::RateLimited)
         expect { provider.token_for('api-vin.didww.com') }.to raise_error(DIDWW::Auth::RateLimited)
         expect(a_request(:post, token_uri)).to have_been_made.once
+      end
+    end
+
+    context 'when the token service rate-limits the caller with a short Retry-After' do
+      before do
+        stub_didww_token(status: 429, response: { error: 'rate_limit_exceeded' }, headers: { 'Retry-After' => '0' })
+          .then.to_return(status: 200, body: token_body.to_json, headers: json_headers)
+      end
+
+      it 'keeps the window for one second' do
+        allow(provider).to receive(:rand).and_return(0.0)
+        expect { provider.token_for(audience) }.to raise_error(DIDWW::Auth::RateLimited) { |error| expect(error.retry_after).to eq(1) }
+        clock.now += 0.5
+
+        expect { provider.token_for(audience) }.to raise_error(DIDWW::Auth::RateLimited)
+        expect(a_request(:post, token_uri)).to have_been_made.once
+        clock.now += 0.5
+
+        expect(provider.token_for(audience).access_token).to eq(StubRequestHelper::TEST_ACCESS_TOKEN)
+      end
+
+      it 'extends the window by at most one second' do
+        allow(provider).to receive(:rand).and_return(1.0)
+        expect { provider.token_for(audience) }.to raise_error(DIDWW::Auth::RateLimited)
+        clock.now += 1.5
+
+        expect { provider.token_for(audience) }.to raise_error(DIDWW::Auth::RateLimited)
+        clock.now += 0.5
+
+        expect(provider.token_for(audience).access_token).to eq(StubRequestHelper::TEST_ACCESS_TOKEN)
       end
     end
 
