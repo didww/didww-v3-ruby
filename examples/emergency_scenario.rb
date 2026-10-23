@@ -5,7 +5,7 @@
 # Calling Service:
 #
 #   1. Find a DID with the emergency feature that is not yet emergency-enabled.
-#   2. Look up emergency requirements for that DID's country + did_group_type.
+#   2. Look up emergency requirements for that DID's country + number_type.
 #   3. Find an existing identity on the account.
 #   4. Find an existing address for that identity.
 #   5. Validate the (emergency_requirement, address, identity) triple.
@@ -69,7 +69,7 @@ puts '  Order completed'
 puts "\n=== Step 1: Find the newly ordered DID ==="
 dids = DIDWW::Client.dids
         .where('did_group.features': 'emergency', emergency_enabled: false)
-        .includes(:did_group, 'did_group.country', 'did_group.did_group_type', :emergency_calling_service)
+        .includes(:did_group, 'did_group.country', :emergency_calling_service)
         .order('-created_at')
         .page(1).per(10)
         .all
@@ -80,21 +80,21 @@ abort 'No available DID without an existing Emergency Calling Service.' unless d
 
 did_group = did.did_group
 country   = did_group.country
-dgt       = did_group.did_group_type
+number_type = did_group.number_type
 
 puts "  DID:            #{did.number} (#{did.id})"
 puts "  DID Group:      #{did_group.id}"
 puts "  Country:        #{country&.name} (#{country&.id})"
-puts "  DID Group Type: #{dgt&.name} (#{dgt&.id})"
+puts "  Number type:    #{number_type}"
 
 # === Step 2: Get emergency requirements ===
-puts "\n=== Step 2: Get emergency requirements for country + did_group_type ==="
+puts "\n=== Step 2: Get emergency requirements for country + number_type ==="
 requirements = DIDWW::Client.emergency_requirements
-                .where('country.id': country.id, 'did_group_type.id': dgt.id)
+                .where('country.id': country.id, number_type: number_type)
                 .all
 
 requirement = requirements.first
-abort "No emergency requirements found for country #{country.name} / #{dgt.name}." unless requirement
+abort "No emergency requirements found for country #{country.name} / #{number_type}." unless requirement
 
 puts "  Emergency Requirement: #{requirement.id}"
 puts "  Identity type:         #{requirement.identity_type}"
@@ -182,7 +182,7 @@ ecs = fetched.emergency_calling_service
 if ecs
   # Re-fetch with includes for full details
   service = DIDWW::Client.emergency_calling_services
-              .includes(:country, :did_group_type, :dids)
+              .includes(:country, :dids)
               .find(ecs.id)
               .first
 
@@ -191,7 +191,7 @@ if ecs
   puts "  Reference:      #{service.reference}"
   puts "  Status:         #{service.status}"
   puts "  Country:        #{service.country&.name}"
-  puts "  DID Group Type: #{service.did_group_type&.name}"
+  puts "  Number type:    #{service.number_type}"
   puts "  Attached DIDs:  #{service.dids.map(&:number).join(', ')}" if service.dids&.any?
   if service.meta
     puts "  Setup price:    #{service.meta[:setup_price]}"   if service.meta[:setup_price]

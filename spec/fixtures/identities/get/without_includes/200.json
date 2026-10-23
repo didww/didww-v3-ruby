@@ -8,7 +8,7 @@
         "last_name": "Smith",
         "phone_number": "1276813663",
         "id_number": "",
-        "birth_date": null,
+        "birth_date": "1990-05-20",
         "company_name": null,
         "company_reg_number": null,
         "vat_id": null,
@@ -18,7 +18,8 @@
         "created_at": "2021-04-20T13:37:21.594Z",
         "external_reference_id": null,
         "verified": false,
-        "contact_email": "jane.smith@example.com"
+        "contact_email": "jane.smith@example.com",
+        "company_website": null
       },
       "relationships": {
         "country": {

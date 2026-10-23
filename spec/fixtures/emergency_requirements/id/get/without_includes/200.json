@@ -11,14 +11,12 @@
       "personal_mandatory_fields": [],
       "business_mandatory_fields": ["company_name", "tax_number", "registration_number"],
       "estimate_setup_time": "7-14 days",
-      "requirement_restriction_message": "Additional compliance review is required for this country."
+      "requirement_restriction_message": "Additional compliance review is required for this country.",
+      "number_type": "local"
     },
     "relationships": {
       "country": {
         "data": { "id": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee", "type": "countries" }
-      },
-      "did_group_type": {
-        "data": { "id": "ffffffff-0000-1111-2222-333333333333", "type": "did_group_types" }
       }
     },
     "meta": {

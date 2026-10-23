@@ -57,7 +57,8 @@
           "max_transfers": 0,
           "max_30x_redirects": 0
         }
-      }
+      },
+      "pop": "NYC"
     },
     "relationships": {
       "voice_in_trunk_group": {
@@ -65,29 +66,10 @@
           "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/389deacb-5be5-46d7-8cbd-aba11f66d6c2/relationships/voice_in_trunk_group",
           "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/389deacb-5be5-46d7-8cbd-aba11f66d6c2/voice_in_trunk_group"
         }
-      },
-      "pop": {
-        "links": {
-          "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/389deacb-5be5-46d7-8cbd-aba11f66d6c2/relationships/pop",
-          "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/389deacb-5be5-46d7-8cbd-aba11f66d6c2/pop"
-        },
-        "data": {
-          "type": "pops",
-          "id": "240416e4-aeb2-4ca5-9df2-f37f01e930cf"
-        }
       }
     }
   },
   "included": [
-    {
-      "id": "240416e4-aeb2-4ca5-9df2-f37f01e930cf",
-      "type": "pops",
-      "links": {
-        "self": "https://sandbox-api.didww.com/v3/pops/240416e4-aeb2-4ca5-9df2-f37f01e930cf"
-      },
-      "attributes": {
-        "name": "USA, NY"
-      }
-    }
+    
   ]
 }

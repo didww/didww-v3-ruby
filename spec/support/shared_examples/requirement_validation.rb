@@ -82,7 +82,7 @@ RSpec.shared_examples 'a requirement validation' do |resource_class, requirement
         status: 201,
         body: {
           data: { id: requirement_id, type: path },
-          meta: { api_version: '2026-04-16' }
+          meta: { api_version: DIDWW::Client::DEFAULT_API_VERSION }
         }.to_json,
         headers: json_api_headers
       )

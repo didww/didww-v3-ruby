@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# Lists emergency service requirements for a country/did_group_type (2026-04-16).
+# Lists emergency service requirements for a country/number_type.
 #
 # Emergency requirements describe what address precision, identity type,
 # and supporting fields an end-customer must provide to enable 911/112
@@ -18,14 +18,14 @@ end
 
 puts '=== Emergency Requirements ==='
 requirements = DIDWW::Client.emergency_requirements
-               .includes(:country, :did_group_type)
+               .includes(:country)
                .all
 puts "Found #{requirements.size} emergency requirements"
 
 requirements.first(5).each do |req|
   puts "\nRequirement: #{req.id}"
   puts "  Country: #{req.country&.name}"
-  puts "  DID Group Type: #{req.did_group_type&.name}"
+  puts "  Number type: #{req.number_type}"
   puts "  Identity type required: #{req.identity_type}"
   puts "  Address area level: #{req.address_area_level}"
   puts "  Address mandatory fields: #{req.address_mandatory_fields&.join(', ')}"

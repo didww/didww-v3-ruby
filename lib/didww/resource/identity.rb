@@ -28,9 +28,9 @@ module DIDWW
       # Type: String
       # Description:
 
-      property :birth_date, type: :date
-      # Type: Date
-      # Description:
+      property :birth_date, type: :string
+      # Type: String
+      # Description: Date of birth, "YYYY-MM-DD"
 
       property :company_name, type: :string
       # Type: String
@@ -71,6 +71,10 @@ module DIDWW
       property :contact_email, type: :string
       # Type: String
       # Description:
+
+      property :company_website, type: :string
+      # Type: String
+      # Description: Company website. Rejected on a personal identity.
 
       def personal?
         identity_type == IDENTITY_TYPE_PERSONAL

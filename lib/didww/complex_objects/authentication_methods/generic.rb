@@ -28,6 +28,12 @@ module DIDWW
         def as_json(*)
           { type: type, attributes: attributes.as_json }.with_indifferent_access
         end
+
+        # Every value is redacted: which attributes of an unknown type carry credentials is not known.
+        def inspect
+          formatted = attributes.map { |k, v| "#{k}=#{(v.nil? ? v : FILTERED).inspect}" }
+          "#<#{self.class.name} type=#{type.inspect} #{formatted.join(' ')}>"
+        end
       end
     end
   end

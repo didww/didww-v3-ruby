@@ -14,19 +14,14 @@
         "personal_mandatory_fields":null,
         "business_mandatory_fields":null,
         "service_description_required":false,
-        "restriction_message":"restriction_message"
+        "restriction_message":"restriction_message",
+        "number_type":"local"
       },
       "relationships":{
         "country":{
           "links":{
             "self":"https://sandbox-api.didww.com/v3/address_requirements/bf22f685-c036-49d9-b3ee-d5e6092f472e/relationships/country",
             "related":"https://sandbox-api.didww.com/v3/address_requirements/bf22f685-c036-49d9-b3ee-d5e6092f472e/country"
-          }
-        },
-        "did_group_type":{
-          "links":{
-            "self":"https://sandbox-api.didww.com/v3/address_requirements/bf22f685-c036-49d9-b3ee-d5e6092f472e/relationships/did_group_type",
-            "related":"https://sandbox-api.didww.com/v3/address_requirements/bf22f685-c036-49d9-b3ee-d5e6092f472e/did_group_type"
           }
         },
         "personal_permanent_document":{
@@ -87,19 +82,14 @@
         "personal_mandatory_fields":null,
         "business_mandatory_fields":null,
         "service_description_required":false,
-        "restriction_message":"restriction_message"
+        "restriction_message":"restriction_message",
+        "number_type":"local"
       },
       "relationships":{
         "country":{
           "links":{
             "self":"https://sandbox-api.didww.com/v3/address_requirements/18189a49-bbd3-4912-943f-199cf9c4823d/relationships/country",
             "related":"https://sandbox-api.didww.com/v3/address_requirements/18189a49-bbd3-4912-943f-199cf9c4823d/country"
-          }
-        },
-        "did_group_type":{
-          "links":{
-            "self":"https://sandbox-api.didww.com/v3/address_requirements/18189a49-bbd3-4912-943f-199cf9c4823d/relationships/did_group_type",
-            "related":"https://sandbox-api.didww.com/v3/address_requirements/18189a49-bbd3-4912-943f-199cf9c4823d/did_group_type"
           }
         },
         "personal_permanent_document":{

@@ -58,19 +58,14 @@
           "max_transfers": 0,
           "max_30x_redirects": 0
         }
-      }
+      },
+      "pop": null
     },
     "relationships": {
       "voice_in_trunk_group": {
         "links": {
           "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/f36d1d17-bd16-42b9-af42-0cfe166bf3ec/relationships/voice_in_trunk_group",
           "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/f36d1d17-bd16-42b9-af42-0cfe166bf3ec/voice_in_trunk_group"
-        }
-      },
-      "pop": {
-        "links": {
-          "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/f36d1d17-bd16-42b9-af42-0cfe166bf3ec/relationships/pop",
-          "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/f36d1d17-bd16-42b9-af42-0cfe166bf3ec/pop"
         }
       }
     }

@@ -36,7 +36,9 @@
         ],
         "is_metered": false,
         "area_name": "National",
-        "allow_additional_channels": true
+        "allow_additional_channels": true,
+        "number_type": "local",
+        "is_demo": false
       },
       "relationships": {
         "country": {
@@ -49,12 +51,6 @@
           "links": {
             "self": "https://sandbox-api.didww.com/v3/did_groups/d04b6466-3d98-4be1-aac5-93ee241f57ca/relationships/city",
             "related": "https://sandbox-api.didww.com/v3/did_groups/d04b6466-3d98-4be1-aac5-93ee241f57ca/city"
-          }
-        },
-        "did_group_type": {
-          "links": {
-            "self": "https://sandbox-api.didww.com/v3/did_groups/d04b6466-3d98-4be1-aac5-93ee241f57ca/relationships/did_group_type",
-            "related": "https://sandbox-api.didww.com/v3/did_groups/d04b6466-3d98-4be1-aac5-93ee241f57ca/did_group_type"
           }
         },
         "region": {

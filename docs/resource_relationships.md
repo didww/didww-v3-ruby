@@ -41,10 +41,11 @@ erDiagram
     Did ||--o| CapacityPool : "has_one capacity_pool"
     Did ||--o| SharedCapacityGroup : "has_one shared_capacity_group"
     Did ||--o| AddressVerification : "has_one address_verification"
+    Did ||--o| SmsTrunk : "has_one sms_trunk"
+    Did ||--o| SmsTrunkGroup : "has_one sms_trunk_group"
 
     DidGroup ||--o| Country : "has_one country"
     DidGroup ||--o| City : "has_one city"
-    DidGroup ||--o| DidGroupType : "has_one did_group_type"
     DidGroup ||--o| Region : "has_one region"
     DidGroup ||--o{ StockKeepingUnit : "has_many stock_keeping_units"
 
@@ -70,7 +71,6 @@ erDiagram
     Region ||--o| Country : "has_one country"
 
     Requirement ||--o| Country : "has_one country"
-    Requirement ||--o| DidGroupType : "has_one did_group_type"
     Requirement ||--o| SupportingDocumentTemplate : "has_one personal_permanent_document"
     Requirement ||--o| SupportingDocumentTemplate : "has_one business_permanent_document"
     Requirement ||--o| SupportingDocumentTemplate : "has_one personal_onetime_document"
@@ -83,12 +83,28 @@ erDiagram
     RequirementValidation ||--o| Address : "has_one address"
     RequirementValidation ||--o| Identity : "has_one identity"
 
+    SenderIdVerification ||--o| SmsTrunk : "has_one sms_trunk"
+    SenderIdVerification ||--o{ Country : "has_many countries"
+    SenderIdVerification ||--o{ Did : "has_many dids"
+    SenderIdVerification ||--o| Order : "has_one order"
+    SenderIdVerification ||--o| Identity : "has_one identity"
+    SenderIdVerification ||--o| Address : "has_one address"
+
     SharedCapacityGroup ||--o| CapacityPool : "has_one capacity_pool"
     SharedCapacityGroup ||--o{ Did : "has_many dids"
 
+    SmsTrunk ||--o{ Did : "has_many outgoing_dids"
+    SmsTrunk ||--o{ Did : "has_many incoming_dids"
+    SmsTrunk ||--o| SmsTrunkGroup : "has_one sms_trunk_group"
+    SmsTrunk ||--o{ SenderIdVerification : "has_many sender_id_verifications"
+
+    SmsTrunkGroup ||--o{ SmsTrunk : "has_many sms_trunks"
+    SmsTrunkGroup ||--o{ Did : "has_many incoming_dids"
+
+    SmsTrunkRegenerateCredential ||--o| SmsTrunk : "has_one sms_trunk"
+
     StockKeepingUnit }o--|| DidGroup : "belongs_to did_group"
 
-    VoiceInTrunk ||--o| Pop : "has_one pop"
     VoiceInTrunk ||--o| VoiceInTrunkGroup : "has_one voice_in_trunk_group"
 
     VoiceInTrunkGroup ||--o{ VoiceInTrunk : "has_many voice_in_trunks"
@@ -111,9 +127,8 @@ erDiagram
 | CapacityPool | — | countries, shared_capacity_groups, qty_based_pricings | — |
 | City | country, region, area | — | — |
 | Country | — | regions | — |
-| Did | did_group, order, voice_in_trunk, voice_in_trunk_group, capacity_pool, shared_capacity_group, address_verification | — | — |
-| DidGroup | country, city, did_group_type, region | stock_keeping_units | — |
-| DidGroupType | — | — | — |
+| Did | did_group, order, voice_in_trunk, voice_in_trunk_group, sms_trunk, sms_trunk_group, capacity_pool, shared_capacity_group, address_verification | — | — |
+| DidGroup | country, city, region | stock_keeping_units | — |
 | DidReservation | available_did | — | — |
 | EncryptedFile | — | — | — |
 | Export | — | — | — |
@@ -121,18 +136,21 @@ erDiagram
 | NanpaPrefix | country, region | — | — |
 | Order | — | — | — |
 | PermanentSupportingDocument | template, identity | files | — |
-| Pop | — | — | — |
 | Proof | proof_type | files | — |
 | ProofType | — | — | — |
 | PublicKey | — | — | — |
 | QtyBasedPricing | — | — | capacity_pool |
 | Region | country | — | — |
-| Requirement | country, did_group_type, personal_permanent_document, business_permanent_document, personal_onetime_document, business_onetime_document | personal_proof_types, business_proof_types, address_proof_types | — |
+| Requirement | country, personal_permanent_document, business_permanent_document, personal_onetime_document, business_onetime_document | personal_proof_types, business_proof_types, address_proof_types | — |
 | RequirementValidation | requirement, address, identity | — | — |
+| SenderIdVerification | sms_trunk, order, identity, address | countries, dids | — |
 | SharedCapacityGroup | capacity_pool | dids | — |
+| SmsTrunk | sms_trunk_group | outgoing_dids, incoming_dids, sender_id_verifications | — |
+| SmsTrunkGroup | — | sms_trunks, incoming_dids | — |
+| SmsTrunkRegenerateCredential | sms_trunk | — | — |
 | StockKeepingUnit | — | — | did_group |
 | SupportingDocumentTemplate | — | — | — |
-| VoiceInTrunk | pop, voice_in_trunk_group | — | — |
+| VoiceInTrunk | voice_in_trunk_group | — | — |
 | VoiceInTrunkGroup | — | voice_in_trunks | — |
 | VoiceOutTrunk | default_did | dids | — |
 | VoiceOutTrunkRegenerateCredential | voice_out_trunk | — | — |

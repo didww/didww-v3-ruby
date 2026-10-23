@@ -23,9 +23,22 @@ RSpec.configure do |config|
   end
   config.include StubRequestHelper
   config.include RequestBodyHelper
+
+  config.before do
+    DIDWW::Client.api_key = StubRequestHelper::TEST_API_KEY
+    DIDWW::Client.token_store = DIDWW::Auth::MemoryStore.new
+    DIDWW::Client.token_provider = DIDWW::Auth::TokenProvider.new(sleeper: ->(_seconds) {})
+    stub_didww_token
+  end
+
+  config.after do
+    DIDWW::Client.scope = nil
+    DIDWW::Client.logger = Logger.new(nil)
+  end
 end
 
 DIDWW::Client.configure do |client|
-  client.api_key  = ENV.fetch('API_KEY', nil)
+  client.api_key  = StubRequestHelper::TEST_API_KEY
   client.api_mode = :sandbox
+  client.logger = Logger.new(nil)
 end

@@ -59,6 +59,18 @@ RSpec.describe DIDWW::ComplexObject::AuthenticationMethod do
       expect(obj.type).to eq('future_auth_method')
     end
 
+    it 'redacts every attribute value of Generic in #inspect' do
+      obj = base.cast(
+        { type: 'future_auth_method', attributes: { username: 'user', password: 's3cret', note: nil } },
+        nil
+      )
+      expect(obj.inspect).to eq(
+        '#<DIDWW::ComplexObject::AuthenticationMethod::Generic type="future_auth_method" ' \
+        'username="[FILTERED]" password="[FILTERED]" note=nil>'
+      )
+      expect(obj.as_json['attributes']).to include('password' => 's3cret')
+    end
+
     it 'preserves unknown attributes and round-trips through as_json' do
       obj = base.cast(
         { type: 'future_auth_method',

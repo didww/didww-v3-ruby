@@ -49,7 +49,9 @@
         ],
         "is_metered": false,
         "local_prefix": "",
-        "prefix": "636"
+        "prefix": "636",
+        "number_type": "local",
+        "is_demo": false
       },
       "id": "fe6cde1e-d68b-41e9-b1a0-8a617c65f3db",
       "meta": {
@@ -68,12 +70,6 @@
           "links": {
             "related": "https://sandbox-api.didww.com/v3/did_groups/fe6cde1e-d68b-41e9-b1a0-8a617c65f3db/country",
             "self": "https://sandbox-api.didww.com/v3/did_groups/fe6cde1e-d68b-41e9-b1a0-8a617c65f3db/relationships/country"
-          }
-        },
-        "did_group_type": {
-          "links": {
-            "related": "https://sandbox-api.didww.com/v3/did_groups/fe6cde1e-d68b-41e9-b1a0-8a617c65f3db/did_group_type",
-            "self": "https://sandbox-api.didww.com/v3/did_groups/fe6cde1e-d68b-41e9-b1a0-8a617c65f3db/relationships/did_group_type"
           }
         },
         "region": {
