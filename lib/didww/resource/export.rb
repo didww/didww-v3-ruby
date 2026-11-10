@@ -137,7 +137,7 @@ module DIDWW
 
       def download_connection
         DIDWW::Http.connection(url, audience: DIDWW::Client::API_AUDIENCE) do |connection|
-          connection.use JsonApiClient::Middleware::Status, {}
+          connection.use JsonApiClient::Middleware::Status, { custom_handlers: DIDWW::TooManyRequests::STATUS_HANDLERS }
         end
       end
     end

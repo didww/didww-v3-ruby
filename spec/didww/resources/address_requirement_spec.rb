@@ -51,11 +51,11 @@ RSpec.describe DIDWW::Resource::AddressRequirement do
         end
 
         it '"personal_mandatory_fields", type: String[]' do
-          expect(requirement.personal_mandatory_fields).to match_array(be_kind_of(String)).or be_nil
+          expect(requirement.personal_mandatory_fields).to eq(['country'])
         end
 
-        it '"business_mandatory_fields", type: String[]' do
-          expect(requirement.business_mandatory_fields).to match_array(be_kind_of(String)).or be_nil
+        it '"business_mandatory_fields", type: String[], empty when none are mandatory' do
+          expect(requirement.business_mandatory_fields).to eq([])
         end
 
         it '"service_description_required", type: Boolean' do

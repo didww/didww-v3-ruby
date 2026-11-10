@@ -4,7 +4,7 @@
     "type":"proof_types",
     "attributes":{
       "name":"Other",
-      "entity_type":"Business"
+      "entity_type":"business"
     }
   }
 }

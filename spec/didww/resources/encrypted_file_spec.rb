@@ -68,6 +68,74 @@ RSpec.describe DIDWW::Resource::EncryptedFile do
       }.to raise_error(DIDWW::Resource::EncryptedFile::UploadError)
     end
 
+    it 'raises UploadError with the status and no retry_after on a failure other than 429' do
+      stub = stub_request(:post, upload_uri).to_return(
+        status: 422,
+        body: '{"errors":[]}',
+        headers: { 'Retry-After' => '30' }
+      )
+
+      expect {
+        described_class.upload_file(upload_file, fingerprint)
+      }.to raise_error(described_class::UploadError, 'Code: 422 {"errors":[]}') do |error|
+        expect(error).to have_attributes(status: 422, retry_after: nil)
+      end
+      expect(stub).to have_been_requested.once
+    end
+
+    it 'raises UploadError with the Retry-After seconds on 429, without retrying' do
+      stub = stub_request(:post, upload_uri).to_return(
+        status: 429,
+        body: '{"errors":[{"code":"too_many_requests"}]}',
+        headers: json_api_headers.merge('Retry-After' => '12')
+      )
+
+      expect {
+        described_class.upload_file(upload_file, fingerprint)
+      }.to raise_error(described_class::UploadError, /\ACode: 429 /) do |error|
+        expect(error).to have_attributes(status: 429, retry_after: 12)
+      end
+      expect(stub).to have_been_requested.once
+    end
+
+    it 'raises UploadError without retry_after on 429 without Retry-After' do
+      stub_request(:post, upload_uri).to_return(
+        status: 429,
+        body: '{"errors":[{"code":"too_many_requests"}]}',
+        headers: json_api_headers
+      )
+
+      expect {
+        described_class.upload_file(upload_file, fingerprint)
+      }.to raise_error(described_class::UploadError) do |error|
+        expect(error).to have_attributes(status: 429, retry_after: nil)
+      end
+    end
+
+    it 'raises UploadError without retry_after on 429 with a Retry-After that is not a number of seconds' do
+      stub_request(:post, upload_uri).to_return(
+        status: 429,
+        body: '',
+        headers: { 'Retry-After' => 'Wed, 11 Nov 2026 07:28:00 GMT' }
+      )
+
+      expect {
+        described_class.upload_file(upload_file, fingerprint)
+      }.to raise_error(described_class::UploadError) do |error|
+        expect(error).to have_attributes(status: 429, retry_after: nil)
+      end
+    end
+
+    it 'keeps the bearer token out of the UploadError message' do
+      stub_request(:post, upload_uri).to_return(status: 429, body: '', headers: { 'Retry-After' => '1' })
+
+      expect {
+        described_class.upload_file(upload_file, fingerprint)
+      }.to raise_error(described_class::UploadError) do |error|
+        expect(error.message).not_to include(StubRequestHelper::TEST_ACCESS_TOKEN)
+      end
+    end
+
     it 'raises an UploadError that is a DIDWW::Error' do
       stub_request(:post, upload_uri).to_return(status: 422, body: '{"errors":[]}')
 

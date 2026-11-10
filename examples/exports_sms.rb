@@ -7,7 +7,7 @@
 #   * source_address_eq / _cont, destination_address_eq / _cont, status, sms_id
 #   * sms_trunk_id — one id or an array, sent as sms_trunk.id
 #   * sms_in only:  trunk_type, one or more of ExportFilters::TRUNK_TYPES
-#   * sms_out only: service_type (a2p or p2p), sender_id_verification_id
+#   * sms_out only: service_type (one of ExportFilters::SERVICE_TYPES), sender_id_verification_id
 #
 # Usage: DIDWW_API_KEY=your_api_key ruby examples/exports_sms.rb
 
@@ -30,7 +30,7 @@ sms_out_export = DIDWW::Client.exports.new(
   filters: DIDWW::ComplexObject::ExportFilters.new(
     from: "#{yesterday} 00:00:00",
     to:   "#{today} 00:00:00",
-    service_type: 'a2p'
+    service_type: DIDWW::ComplexObject::ExportFilters::SERVICE_TYPE_A2P
   ),
   external_reference_id: "ruby-sms-out-#{suffix}"
 )
@@ -48,7 +48,7 @@ sms_in_export = DIDWW::Client.exports.new(
     to:   "#{today} 00:00:00",
     trunk_type: [
       DIDWW::ComplexObject::ExportFilters::TRUNK_TYPE_HTTP_IN,
-      DIDWW::ComplexObject::ExportFilters::TRUNK_TYPE_EMAIL
+      DIDWW::ComplexObject::ExportFilters::TRUNK_TYPE_SMS_TO_EMAIL
     ]
   ),
   external_reference_id: "ruby-sms-in-#{suffix}"

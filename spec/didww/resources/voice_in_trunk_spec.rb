@@ -16,7 +16,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
   end
 
   it 'has POPS constant' do
-    expect(described_class::POPS).to eq(%w[NYC FRA LAC MIA SG HK AMS])
+    expect(described_class::POPS).to eq(%w[nyc fra lac mia sg hk ams])
   end
 
   it 'can be initialized with given configuration type' do
@@ -150,6 +150,16 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
         expect(trunk.configuration).to be_kind_of(DIDWW::ComplexObject::SipConfiguration)
       end
 
+      it 'parses codecs and the media modes' do
+        expect(trunk.configuration).to have_attributes(
+          codecs: %w[pcmu g723],
+          ice_mode: 'disabled',
+          rtcp_mux_mode: 'disabled',
+          rtcp_feedback_mode: 'disabled'
+        )
+        expect(trunk.configuration).not_to respond_to(:codec_ids)
+      end
+
       context 'with SIP registration enabled (2026-04-16)' do
         let (:trunk) do
           stub_didww_request(:get, "/voice_in_trunks/#{id}").to_return(
@@ -251,7 +261,10 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
         "enabled_sip_registration": false,
         "use_did_in_ruri": false,
         "host": 'example.com',
-        "codec_ids": [9, 7],
+        "codecs": %w[pcmu g723],
+        "ice_mode": 'accept',
+        "rtcp_mux_mode": 'initiate',
+        "rtcp_feedback_mode": 'disabled',
         "rx_dtmf_format_id": 1,
         "tx_dtmf_format_id": 1,
         "resolve_ruri": true,
@@ -325,7 +338,13 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
         trunk.configuration = DIDWW::ComplexObject::SipConfiguration.new.tap do |c|
           c.username = 'username'
           c.host = 'example.com'
-          c.codec_ids = [ 9, 7 ]
+          c.codecs = [
+            DIDWW::ComplexObject::SipConfiguration::CODEC_PCMU,
+            DIDWW::ComplexObject::SipConfiguration::CODEC_G723
+          ]
+          c.ice_mode = DIDWW::ComplexObject::SipConfiguration::ICE_MODE_ACCEPT
+          c.rtcp_mux_mode = DIDWW::ComplexObject::SipConfiguration::RTCP_MUX_MODE_INITIATE
+          c.rtcp_feedback_mode = DIDWW::ComplexObject::SipConfiguration::RTCP_FEEDBACK_MODE_DISABLED
           c.rx_dtmf_format_id = 1
           c.tx_dtmf_format_id = 1
           c.resolve_ruri = 'true'
@@ -462,7 +481,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
                   "capacity_limit": 18,
                   "cli_format": 'e164',
                   "cli_prefix": '+1',
-                  "pop": 'NYC',
+                  "pop": 'nyc',
                   "configuration": {
                     "type": 'sip_configurations',
                     "attributes": base_sip_config_attributes
@@ -485,7 +504,13 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
         trunk.configuration = DIDWW::ComplexObject::SipConfiguration.new.tap do |c|
           c.username = 'username'
           c.host = 'example.com'
-          c.codec_ids = [ 9, 7 ]
+          c.codecs = [
+            DIDWW::ComplexObject::SipConfiguration::CODEC_PCMU,
+            DIDWW::ComplexObject::SipConfiguration::CODEC_G723
+          ]
+          c.ice_mode = DIDWW::ComplexObject::SipConfiguration::ICE_MODE_ACCEPT
+          c.rtcp_mux_mode = DIDWW::ComplexObject::SipConfiguration::RTCP_MUX_MODE_INITIATE
+          c.rtcp_feedback_mode = DIDWW::ComplexObject::SipConfiguration::RTCP_FEEDBACK_MODE_DISABLED
           c.rx_dtmf_format_id = 1
           c.tx_dtmf_format_id = 1
           c.resolve_ruri = 'true'
@@ -607,7 +632,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
                   "capacity_limit": 18,
                   "cli_format": 'e164',
                   "cli_prefix": '+1',
-                  "pop": 'NYC',
+                  "pop": 'nyc',
                   "configuration": {
                     "type": 'sip_configurations',
                     "attributes": {
@@ -681,6 +706,47 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
         expect(trunk.errors).to be_empty
         expect(trunk.configuration).to be_kind_of(DIDWW::ComplexObject::SipConfiguration)
         expect(trunk.configuration.username).to eq('new_username')
+      end
+
+      it 'updates the codecs and media modes of a SIP Trunk' do
+        id = '57a939dd-1600-41a6-80b1-f624e22a1f4c'
+        stub_didww_request(:patch, "/voice_in_trunks/#{id}").
+          with(body:
+            {
+              "data": {
+                "id": '57a939dd-1600-41a6-80b1-f624e22a1f4c',
+                "type": 'voice_in_trunks',
+                "attributes": {
+                  "configuration": {
+                    "type": 'sip_configurations',
+                    "attributes": {
+                      "codecs": %w[amr_wb pcma telephone_event],
+                      "ice_mode": 'initiate',
+                      "rtcp_mux_mode": 'accept',
+                      "rtcp_feedback_mode": 'initiate'
+                    }
+                  }
+                }
+              }
+            }.to_json).
+          to_return(
+            status: 200,
+            body: api_fixture('voice_in_trunks/id/patch/update_sip_trunk/200'),
+            headers: json_api_headers
+          )
+        trunk = DIDWW::Resource::VoiceInTrunk.load(id: id)
+        trunk.configuration = DIDWW::ComplexObject::SipConfiguration.new.tap do |config|
+          config.codecs = [
+            DIDWW::ComplexObject::SipConfiguration::CODEC_AMR_WB,
+            DIDWW::ComplexObject::SipConfiguration::CODEC_PCMA,
+            DIDWW::ComplexObject::SipConfiguration::CODEC_TELEPHONE_EVENT
+          ]
+          config.ice_mode = DIDWW::ComplexObject::SipConfiguration::ICE_MODE_INITIATE
+          config.rtcp_mux_mode = DIDWW::ComplexObject::SipConfiguration::RTCP_MUX_MODE_ACCEPT
+          config.rtcp_feedback_mode = DIDWW::ComplexObject::SipConfiguration::RTCP_FEEDBACK_MODE_INITIATE
+        end
+        trunk.save
+        expect(trunk.errors).to be_empty
       end
 
       it 'enables SIP registration on an existing SIP Trunk' do
@@ -828,7 +894,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
                 "type": 'voice_in_trunks',
                 "attributes": {
                   "name": 'New trunk',
-                  "pop": 'FRA'
+                  "pop": 'fra'
                 }
               }
             }.to_json).
@@ -1045,7 +1111,7 @@ RSpec.describe DIDWW::Resource::VoiceInTrunk do
                 "type": 'voice_in_trunks',
                 "attributes": {
                   "name": 'New trunk',
-                  "pop": 'FRA'
+                  "pop": 'fra'
                 }
               }
             }.to_json).

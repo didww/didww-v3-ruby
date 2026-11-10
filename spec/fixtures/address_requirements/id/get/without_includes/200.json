@@ -10,8 +10,8 @@
         "personal_proof_qty":1,
         "business_proof_qty":1,
         "address_proof_qty":0,
-        "personal_mandatory_fields":["Country"],
-        "business_mandatory_fields":null,
+        "personal_mandatory_fields":["country"],
+        "business_mandatory_fields":[],
         "service_description_required":false,
         "restriction_message":"restriction_message",
         "number_type":"local"

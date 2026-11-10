@@ -41,7 +41,13 @@ RSpec.describe DIDWW::ComplexObject::ExportFilters do
   end
 
   it 'exposes TRUNK_TYPES' do
-    expect(described_class::TRUNK_TYPES).to eq(['SMPP SMSC', 'SMPP ESME', 'Email', 'HTTP IN'])
+    expect(described_class::TRUNK_TYPES).to eq(%w[smpp_smsc smpp_esme sms_to_email http_in])
+  end
+
+  it 'exposes SERVICE_TYPES' do
+    expect(described_class::SERVICE_TYPES).to eq(%w[a2p p2p])
+    expect(described_class::SERVICE_TYPE_A2P).to eq('a2p')
+    expect(described_class::SERVICE_TYPE_P2P).to eq('p2p')
   end
 
   describe '#as_json' do
@@ -72,10 +78,10 @@ RSpec.describe DIDWW::ComplexObject::ExportFilters do
     it 'passes array values through unchanged' do
       filters = described_class.new(
         sms_trunk_id: %w[b2c3d4e5-0000-4000-8000-000000000001 b2c3d4e5-0000-4000-8000-000000000003],
-        trunk_type: [described_class::TRUNK_TYPE_EMAIL, described_class::TRUNK_TYPE_HTTP_IN]
+        trunk_type: [described_class::TRUNK_TYPE_SMS_TO_EMAIL, described_class::TRUNK_TYPE_HTTP_IN]
       )
       expect(filters.as_json).to eq(
-        'trunk_type' => ['Email', 'HTTP IN'],
+        'trunk_type' => %w[sms_to_email http_in],
         'sms_trunk.id' => %w[b2c3d4e5-0000-4000-8000-000000000001 b2c3d4e5-0000-4000-8000-000000000003]
       )
     end

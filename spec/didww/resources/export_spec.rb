@@ -225,6 +225,18 @@ RSpec.describe DIDWW::Resource::Export do
           end
         end
 
+        describe 'when the request budget is spent' do
+          before do
+            stub_request(:get, export.url).to_return(status: 429, body: '', headers: { 'Retry-After' => '17' })
+          end
+          it 'raises TooManyRequests with retry_after, without retrying' do
+            expect { export.download }.to raise_error(DIDWW::TooManyRequests) do |error|
+              expect(error.retry_after).to eq(17)
+            end
+            expect(a_request(:get, export.url)).to have_been_made.once
+          end
+        end
+
         describe 'when the file is redirected' do
           before do
             stub_request(:get, export.url).to_return(status: 302, headers: { 'Location' => 'https://example.com/export.csv.gz' })
@@ -388,7 +400,7 @@ RSpec.describe DIDWW::Resource::Export do
             from: '2026-10-01 00:00:00',
             to: '2026-10-15 00:00:00',
             sms_trunk_id: sms_trunk_ids,
-            service_type: 'a2p',
+            service_type: DIDWW::ComplexObject::ExportFilters::SERVICE_TYPE_A2P,
             sender_id_verification_id: sender_id_verification_id
           }
         )

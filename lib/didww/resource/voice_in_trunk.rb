@@ -30,13 +30,13 @@ module DIDWW
                           }.freeze
 
       # Allowed values for trunk.pop
-      POP_NYC = 'NYC'
-      POP_FRA = 'FRA'
-      POP_LAC = 'LAC'
-      POP_MIA = 'MIA'
-      POP_SG = 'SG'
-      POP_HK = 'HK'
-      POP_AMS = 'AMS'
+      POP_NYC = 'nyc'
+      POP_FRA = 'fra'
+      POP_LAC = 'lac'
+      POP_MIA = 'mia'
+      POP_SG = 'sg'
+      POP_HK = 'hk'
+      POP_AMS = 'ams'
 
       POPS = [
         POP_NYC,

@@ -55,6 +55,10 @@ if sip_trunk
   puts "  diversion_relay_policy:    #{config.diversion_relay_policy.inspect}"
   puts "  diversion_inject_mode:     #{config.diversion_inject_mode.inspect}"
   puts "  cnam_lookup:               #{config.cnam_lookup.inspect}"
+  puts "  codecs:                    #{config.codecs.inspect}"
+  puts "  ice_mode:                  #{config.ice_mode.inspect}"
+  puts "  rtcp_mux_mode:             #{config.rtcp_mux_mode.inspect}"
+  puts "  rtcp_feedback_mode:        #{config.rtcp_feedback_mode.inspect}"
   if config.enabled_sip_registration
     puts "  incoming_auth_username:    #{config.incoming_auth_username.inspect}"
     puts "  incoming_auth_password:    #{config.incoming_auth_password.inspect}"
@@ -92,7 +96,11 @@ end
 #     diversion_relay_policy: 'as_is',
 #     diversion_inject_mode: 'did_number',
 #     network_protocol_priority: 'prefer_ipv4',
-#     codec_ids: [9, 7],
+#     codecs: [
+#       DIDWW::ComplexObject::SipConfiguration::CODEC_PCMU,
+#       DIDWW::ComplexObject::SipConfiguration::CODEC_G723
+#     ],
+#     ice_mode: DIDWW::ComplexObject::SipConfiguration::ICE_MODE_ACCEPT,
 #     transport_protocol_id: 1
 #   )
 # )

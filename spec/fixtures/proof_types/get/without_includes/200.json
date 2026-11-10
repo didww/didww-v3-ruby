@@ -5,7 +5,7 @@
       "type": "proof_types",
       "attributes": {
         "name": "Utility Bill",
-        "entity_type": "Address"
+        "entity_type": "address"
       }
     },
     {
@@ -13,7 +13,7 @@
       "type": "proof_types",
       "attributes": {
         "name": "Passport",
-        "entity_type": "Identity"
+        "entity_type": "personal"
       }
     }
   ],

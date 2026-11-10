@@ -42,7 +42,8 @@ module DIDWW
 
       property :vat_id, type: :string
       # Type: String
-      # Description:
+      # Description: VAT identification number, listed as tax_id in the mandatory fields of
+      # AddressRequirement and EmergencyRequirement.
 
       property :description, type: :string
       # Type: String

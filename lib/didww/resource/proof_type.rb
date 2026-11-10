@@ -8,7 +8,7 @@ module DIDWW
 
       property :entity_type, type: :string
       # Type: String
-      # Description:
+      # Description: What the document proves: address, business or personal.
     end
   end
 end

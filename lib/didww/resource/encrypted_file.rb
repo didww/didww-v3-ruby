@@ -6,6 +6,15 @@ module DIDWW
   module Resource
     class EncryptedFile < Base
       class UploadError < DIDWW::Error
+        attr_reader :status, :retry_after
+
+        # @param status [Integer,nil] HTTP status of the response
+        # @param retry_after [Integer,nil] Retry-After seconds of a 429
+        def initialize(message = nil, status: nil, retry_after: nil)
+          @status = status
+          @retry_after = retry_after
+          super(message)
+        end
       end
 
       property :description, type: :string
@@ -50,7 +59,12 @@ module DIDWW
         if response.status == 201
           JSON.parse(response.body, symbolize_names: true).dig(:data, :id)
         else
-          raise UploadError, "Code: #{response.status} #{response.body}"
+          retry_after = Integer(response.headers['Retry-After'], exception: false) if response.status == 429
+          raise UploadError.new(
+            "Code: #{response.status} #{response.body}",
+            status: response.status,
+            retry_after: retry_after
+          )
         end
       end
     end

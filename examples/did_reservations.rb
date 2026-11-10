@@ -22,7 +22,7 @@ reservations.first(10).each do |reservation|
   did_number = reservation.available_did ? reservation.available_did.number : 'unknown'
   puts "#{reservation.id}"
   puts "  DID: #{did_number}"
-  puts "  Expires: #{reservation.expire_at}"
+  puts "  Expires: #{reservation.expires_at}"
   puts "  Created: #{reservation.created_at}"
   puts ''
 end
@@ -50,6 +50,6 @@ unless reservations.empty?
                          .find(reservations.first.id)
                          .first
   puts "Reservation: #{specific_reservation.id}"
-  puts "  Expires at: #{specific_reservation.expire_at}"
+  puts "  Expires at: #{specific_reservation.expires_at}"
   puts "  Created at: #{specific_reservation.created_at}"
 end

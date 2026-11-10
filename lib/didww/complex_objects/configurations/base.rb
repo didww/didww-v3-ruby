@@ -79,22 +79,6 @@ module DIDWW
                                        1505 => 'Ringing timeout'
                                      }.freeze
 
-        CODECS = {
-                   6 => 'telephone-event',
-                   7 => 'G723',
-                   8 => 'G729',
-                   9 => 'PCMU',
-                   10 => 'PCMA',
-                   12 => 'speex',
-                   13 => 'GSM',
-                   14 => 'G726-32',
-                   15 => 'G721',
-                   16 => 'G726-24',
-                   17 => 'G726-40',
-                   18 => 'G726-16',
-                   19 => 'L16'
-                 }.freeze
-
         DEFAULT_REROUTING_DISCONNECT_CODE_IDS = [
                                                   56,
                                                   58,
@@ -142,8 +126,6 @@ module DIDWW
                                                   108,
                                                   1505
                                                 ].freeze
-
-        DEFAULT_CODEC_IDS = [9, 10, 8, 7, 6].freeze
 
         DID_PLACEHOLDER = '{DID}'
       end
