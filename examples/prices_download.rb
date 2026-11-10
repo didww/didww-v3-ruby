@@ -36,7 +36,7 @@ begin
 
   puts "\n=== First rows ==="
   DIDWW::Prices.each_row(path).first(5).each do |row|
-    puts "  #{row['Country']} #{row['Destination']} #{row['Source type']}: #{row['Rate (USD, excl. VAT)']}"
+    puts "  #{row['Country']} #{row['Destination']} #{row['Source type']}: #{row['Rate']}"
   end
 rescue DIDWW::Prices::PricePlanNotAssigned => e
   puts "No Voice IN price plan on this account: #{e.message}"

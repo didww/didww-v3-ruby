@@ -38,15 +38,18 @@ module DIDWW
 
       property :address_mandatory_fields, type: :array
       # Type: String[]
-      # Description: Fields the service address must contain.
+      # Description: Fields the service address must contain (area). Empty when none are.
 
       property :personal_mandatory_fields, type: :array
       # Type: String[]
-      # Description: Fields a personal identity must contain.
+      # Description: Fields a personal identity must contain, among birth_date, country,
+      # id_number, personal_tax_id and contact_email. Empty when none are.
 
       property :business_mandatory_fields, type: :array
       # Type: String[]
-      # Description: Fields a business identity must contain.
+      # Description: Fields a business identity must contain, among id_number,
+      # tax_id (Identity#vat_id), country, company_reg_number, personal_tax_id, contact_email
+      # and birth_date. Empty when none are.
 
       property :estimate_setup_time, type: :string
       # Type: String

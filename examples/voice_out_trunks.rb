@@ -39,6 +39,8 @@ trunks.first(5).each do |trunk|
   puts "  External Reference ID: #{trunk.external_reference_id}"
   puts "  Emergency Enable All: #{trunk.emergency_enable_all}"
   puts "  RTP Timeout: #{trunk.rtp_timeout}"
+  puts "  Codecs: #{trunk.codecs&.join(', ')}"
+  puts "  ICE / RTCP-mux / RTCP feedback: #{trunk.ice_mode} / #{trunk.rtcp_mux_mode} / #{trunk.rtcp_feedback_mode}"
   puts ''
 end
 
@@ -58,7 +60,14 @@ voice_out_trunk = DIDWW::Client.voice_out_trunks.new(
   default_dst_action: DIDWW::Resource::VoiceOutTrunk::DEFAULT_DST_ACTION_ALLOW_ALL,
   on_cli_mismatch_action: DIDWW::Resource::VoiceOutTrunk::ON_CLI_MISMATCH_ACTION_REJECT_CALL,
   external_reference_id: "ruby-example-#{suffix}",
-  rtp_timeout: 60
+  rtp_timeout: 60,
+  # Codecs in priority order: the first has the highest priority.
+  codecs: [
+    DIDWW::Resource::VoiceOutTrunk::CODEC_OPUS,
+    DIDWW::Resource::VoiceOutTrunk::CODEC_PCMA,
+    DIDWW::Resource::VoiceOutTrunk::CODEC_TELEPHONE_EVENT
+  ],
+  ice_mode: DIDWW::Resource::VoiceOutTrunk::ICE_MODE_ACCEPT
 )
 
 if voice_out_trunk.save
@@ -68,6 +77,7 @@ if voice_out_trunk.save
   puts "  Username: #{voice_out_trunk.authentication_method.username}"
   puts "  Status: #{voice_out_trunk.status}"
   puts "  External Reference: #{voice_out_trunk.external_reference_id}"
+  puts "  Codecs: #{voice_out_trunk.codecs.join(', ')}"
 
   # Update trunk - change name and tech_prefix
   puts "\n=== Updating Voice Out Trunk ==="

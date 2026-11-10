@@ -7,9 +7,9 @@
       "address_area_level": "area",
       "personal_area_level": null,
       "business_area_level": "world_wide",
-      "address_mandatory_fields": ["street", "city", "postal_code"],
+      "address_mandatory_fields": ["area"],
       "personal_mandatory_fields": [],
-      "business_mandatory_fields": ["company_name", "tax_number", "registration_number"],
+      "business_mandatory_fields": ["id_number", "tax_id", "company_reg_number"],
       "estimate_setup_time": "7-14 days",
       "requirement_restriction_message": "Additional compliance review is required for this country.",
       "number_type": "local"

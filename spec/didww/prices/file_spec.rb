@@ -21,6 +21,7 @@ RSpec.describe DIDWW::Prices::Service do
   let(:file_headers) { not_modified_headers.merge('Content-Type' => 'application/gzip', 'Content-Length' => gzip_fixture.bytesize.to_s) }
   let(:dir) { Dir.mktmpdir }
   let(:path) { File.join(dir, 'voice_in_prices.csv.gz') }
+  let(:concurrent_tmp_path) { File.join(dir, '.didww-0123456789abcdef.tmp') }
   let(:io) { StringIO.new(String.new(encoding: Encoding::BINARY)) }
 
   before { stub_didww_token(aud: 'api-vin.didww.com') }
@@ -73,19 +74,19 @@ RSpec.describe DIDWW::Prices::Service do
       end
 
       it 'leaves the temp file of a concurrent download to the same path alone' do
-        File.binwrite("#{path}.tmp", 'concurrent download')
+        File.binwrite(concurrent_tmp_path, 'concurrent download')
 
         service.download(to: path)
 
         expect(File.binread(path)).to eq(gzip_fixture)
-        expect(File.binread("#{path}.tmp")).to eq('concurrent download')
-        expect(Dir.children(dir)).to contain_exactly('voice_in_prices.csv.gz', 'voice_in_prices.csv.gz.tmp')
+        expect(File.binread(concurrent_tmp_path)).to eq('concurrent download')
+        expect(Dir.children(dir)).to contain_exactly('voice_in_prices.csv.gz', '.didww-0123456789abcdef.tmp')
       end
 
-      it 'writes each download through a temp file of its own' do
+      it 'writes each download through a temp file of its own in the directory of the path' do
         tmp_paths = []
         allow(File).to receive(:open).and_wrap_original do |original, file_path, *args, **options, &block|
-          tmp_paths << file_path if file_path.to_s.start_with?("#{path}.")
+          tmp_paths << file_path if file_path.to_s.start_with?(File.join(dir, '.didww-'))
           original.call(file_path, *args, **options, &block)
         end
 
@@ -93,7 +94,23 @@ RSpec.describe DIDWW::Prices::Service do
 
         expect(tmp_paths.size).to eq(2)
         expect(tmp_paths.uniq.size).to eq(2)
-        expect(tmp_paths).to all match(/\A#{Regexp.escape(path)}\.\h{16}\.tmp\z/)
+        expect(tmp_paths).to all match(/\A#{Regexp.escape(dir)}\/\.didww-\h{16}\.tmp\z/)
+      end
+
+      it 'writes to a path whose file name is 250 bytes long through a short temp file' do
+        long_name = "#{'p' * 243}.csv.gz"
+        long_path = File.join(dir, long_name)
+        tmp_paths = []
+        allow(File).to receive(:open).and_wrap_original do |original, file_path, *args, **options, &block|
+          tmp_paths << file_path if file_path.to_s.start_with?(File.join(dir, '.didww-'))
+          original.call(file_path, *args, **options, &block)
+        end
+
+        service.download(to: long_path)
+
+        expect(File.binread(long_path)).to eq(gzip_fixture)
+        expect(tmp_paths.map { |tmp_path| File.basename(tmp_path).bytesize }).to eq([27])
+        expect(Dir.children(dir)).to eq([long_name])
       end
 
       it 'writes the gzipped bytes unchanged to an IO' do
@@ -141,11 +158,11 @@ RSpec.describe DIDWW::Prices::Service do
       end
 
       it 'leaves the temp file of a concurrent download to the same path alone' do
-        File.binwrite("#{path}.tmp", 'concurrent download')
+        File.binwrite(concurrent_tmp_path, 'concurrent download')
 
         service.download(to: path, if_modified_since: last_modified)
 
-        expect(File.binread("#{path}.tmp")).to eq('concurrent download')
+        expect(File.binread(concurrent_tmp_path)).to eq('concurrent download')
       end
     end
 
@@ -162,6 +179,13 @@ RSpec.describe DIDWW::Prices::Service do
         expect(File.binread(path)).to eq(gzip_fixture)
         expect(a_request(:get, file_uri)).to have_been_made.twice
         expect(a_request(:post, token_uri).with(body: hash_including(aud: ['api-vin.didww.com']))).to have_been_made.twice
+      end
+    end
+
+    context 'when the path contains a NUL byte' do
+      it 'raises ArgumentError without a request' do
+        expect { service.download(to: "a\0b.csv.gz") }.to raise_error(ArgumentError)
+        expect(a_request(:get, file_uri)).not_to have_been_made
       end
     end
 
@@ -472,8 +496,8 @@ RSpec.describe DIDWW::Prices::Service do
         'Src country name' => nil,
         'Source type' => 'cellular',
         'Destination' => '44800',
-        'Rate (USD, excl. VAT)' => nil,
-        'Connection fee (USD, excl. VAT)' => nil,
+        'Rate' => nil,
+        'Connection fee' => nil,
         'Initial interval' => '60',
         'Next interval' => '60',
         'Reject calls' => 'true'

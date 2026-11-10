@@ -5,16 +5,25 @@ module DIDWW
   module ComplexObject
     class ExportFilters < Base
       # Allowed values for trunk_type (sms_in only)
-      TRUNK_TYPE_SMPP_SMSC = 'SMPP SMSC'
-      TRUNK_TYPE_SMPP_ESME = 'SMPP ESME'
-      TRUNK_TYPE_EMAIL = 'Email'
-      TRUNK_TYPE_HTTP_IN = 'HTTP IN'
+      TRUNK_TYPE_SMPP_SMSC = 'smpp_smsc'
+      TRUNK_TYPE_SMPP_ESME = 'smpp_esme'
+      TRUNK_TYPE_SMS_TO_EMAIL = 'sms_to_email'
+      TRUNK_TYPE_HTTP_IN = 'http_in'
 
       TRUNK_TYPES = [
         TRUNK_TYPE_SMPP_SMSC,
         TRUNK_TYPE_SMPP_ESME,
-        TRUNK_TYPE_EMAIL,
+        TRUNK_TYPE_SMS_TO_EMAIL,
         TRUNK_TYPE_HTTP_IN
+      ].freeze
+
+      # Allowed values for service_type (sms_out only)
+      SERVICE_TYPE_A2P = 'a2p'
+      SERVICE_TYPE_P2P = 'p2p'
+
+      SERVICE_TYPES = [
+        SERVICE_TYPE_A2P,
+        SERVICE_TYPE_P2P
       ].freeze
 
       # Ruby-friendly property names for the dotted keys on the wire
@@ -50,6 +59,7 @@ module DIDWW
       property :source_address_cont, type: :string
       property :destination_address_eq, type: :string
       property :destination_address_cont, type: :string
+      # sms_in: success, failed, queued; sms_out: routing_error, in_progress, queued, failed, success
       property :status, type: :string
       property :sms_trunk_id # String or Array of Strings, sent as sms_trunk.id
       property :sms_id, type: :string
@@ -58,7 +68,7 @@ module DIDWW
       property :trunk_type # String or Array of Strings from TRUNK_TYPES
 
       # sms_out only
-      property :service_type, type: :string # a2p or p2p, in any letter case
+      property :service_type, type: :string # one of SERVICE_TYPES, lowercase
       property :sender_id_verification_id # String or Array of Strings, sent as sender_id_verification.id
 
       # Returned on exports created at earlier API versions only

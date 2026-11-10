@@ -318,18 +318,25 @@ DIDWW::Client.dids.where('sms_trunk.id': 'sms-trunk-uuid').all
 trunk = DIDWW::Client.voice_in_trunks.new(
   name: 'My SIP Trunk',
   pop: DIDWW::Resource::VoiceInTrunk::POP_AMS,
-  configuration: {
-    type: 'sip_configurations',
+  configuration: DIDWW::ComplexObject::SipConfiguration.new(
     username: '{DID}',
     host: 'sip.example.com',
-    port: 5060
-  }
+    port: 5060,
+    codecs: [
+      DIDWW::ComplexObject::SipConfiguration::CODEC_PCMA,
+      DIDWW::ComplexObject::SipConfiguration::CODEC_PCMU,
+      DIDWW::ComplexObject::SipConfiguration::CODEC_TELEPHONE_EVENT
+    ],
+    ice_mode: DIDWW::ComplexObject::SipConfiguration::ICE_MODE_ACCEPT
+  )
 )
 
 trunk.save
 ```
 
-`pop` is a plain attribute, one of `DIDWW::Resource::VoiceInTrunk::POPS`. Leave it `nil` to let DIDWW choose.
+`pop` is a plain attribute, one of `DIDWW::Resource::VoiceInTrunk::POPS` (`nyc`, `fra`, `lac`, `mia`, `sg`, `hk`, `ams`). Leave it `nil` to let DIDWW choose.
+
+`codecs` lists the codecs offered on calls to the trunk by name, in priority order: the first has the highest priority. It replaces `codec_ids`; the names are `DIDWW::ComplexObject::SipConfiguration::CODECS`. Left out, the trunk offers `pcmu`, `pcma`, `g729`, `g723` and `telephone_event`. `ice_mode`, `rtcp_mux_mode` and `rtcp_feedback_mode` take `disabled` (the default), `accept` or `initiate` (`ICE_MODES`, `RTCP_MUX_MODES` and `RTCP_FEEDBACK_MODES` on `SipConfiguration`).
 
 #### SIP Registration (2026-04-16)
 
@@ -387,13 +394,20 @@ trunk = DIDWW::Client.voice_out_trunks.new(
   on_cli_mismatch_action: 'reject_call',
   authentication_method: DIDWW::ComplexObject::AuthenticationMethod::CredentialsAndIp.new(
     allowed_sip_ips: ['203.0.113.0/24']
-  )
+  ),
+  codecs: [
+    DIDWW::Resource::VoiceOutTrunk::CODEC_OPUS,
+    DIDWW::Resource::VoiceOutTrunk::CODEC_PCMA,
+    DIDWW::Resource::VoiceOutTrunk::CODEC_TELEPHONE_EVENT
+  ]
 )
 
 trunk.save
 # trunk.authentication_method.username -- server-generated
 # trunk.authentication_method.password -- server-generated
 ```
+
+`codecs` lists the codecs offered on calls from the trunk by name, in priority order: the first has the highest priority. The names are `DIDWW::Resource::VoiceOutTrunk::CODECS`, which differ from those of an inbound SIP trunk. Left out, the trunk offers `pcma`, `pcmu` and `telephone_event`. `ice_mode`, `rtcp_mux_mode` and `rtcp_feedback_mode` take `disabled`, `accept` (the default) or `initiate` (`ICE_MODES`, `RTCP_MUX_MODES` and `RTCP_FEEDBACK_MODES` on `VoiceOutTrunk`).
 
 ### SMS Trunks
 
@@ -479,7 +493,7 @@ export = DIDWW::Client.exports.new(
   filters: DIDWW::ComplexObject::ExportFilters.new(
     from: '2026-10-01 00:00:00', # inclusive
     to: '2026-10-02 00:00:00',   # exclusive
-    service_type: 'a2p',
+    service_type: DIDWW::ComplexObject::ExportFilters::SERVICE_TYPE_A2P,
     sms_trunk_id: ['sms-trunk-uuid'] # sent as "sms_trunk.id"
   )
 )
@@ -493,6 +507,8 @@ csv  = export.csv      # StringIO with the decompressed CSV
 `download` and `csv` send the API bearer token, so they accept only a `url` on the scheme, host and port of the API base URL or of the canonical API URL of `api_mode`, which the API builds export urls from even when `DIDWW_API_URL` points elsewhere. They raise `ArgumentError` for any other, without sending a request.
 
 `from` and `to` are required for every export type. The other filter keys depend on `export_type` (`cdr_in`, `cdr_out`, `sms_in`, `sms_out`); see `DIDWW::ComplexObject::ExportFilters`. `sms_trunk_id`, `sender_id_verification_id` and `voice_out_trunk_id` are sent as the dotted keys `sms_trunk.id`, `sender_id_verification.id` and `voice_out_trunk.id`.
+
+Filter values are lowercase: `service_type` is `a2p` or `p2p` (`ExportFilters::SERVICE_TYPES`), `trunk_type` is one or more of `smpp_smsc`, `smpp_esme`, `sms_to_email` and `http_in` (`ExportFilters::TRUNK_TYPES`), and `status` is `success`, `failed` or `queued` for `sms_in`, and `routing_error`, `in_progress`, `queued`, `failed` or `success` for `sms_out`.
 
 ### Orders
 
@@ -656,8 +672,9 @@ File.open('/tmp/copy.csv.gz', 'wb') { |io| prices.download(to: io) }
 ```
 
 - `fetch(path)` sends the modification time of the file at `path` as `If-Modified-Since`, when the file is there. A file written by `download(to: path)` or `fetch` gets the `Last-Modified` of the response as its modification time, so the date matches the copy on disk. `fetch` trusts the modification time of any file at `path`: a file copied or changed by other means can be answered 304 and kept, so replace such a file with `download(to: path)`.
-- `download(to:)` streams the body into an IO, or into a temp file next to `path` that is unique to the call and replaces `path` only on a 200. A 304 or an error leaves an existing file untouched, and concurrent downloads to one path do not mix their bytes. An IO target receives the body as it arrives, so after an error it may hold part of it.
+- `download(to:)` streams the body into an IO, or into a temp file `.didww-<16 hex digits>.tmp` in the directory of `path`, unique to the call, that replaces `path` only on a 200. A 304 or an error leaves an existing file untouched, and concurrent downloads to one path do not mix their bytes. An IO target receives the body as it arrives, so after an error it may hold part of it.
 - `head` and `download` return a `DIDWW::Prices::PriceFile`: `status`, `last_modified`, `content_length`, `filename`, `bytes_written`, `modified?` and `not_modified?`.
+- The files have a header row, and `each_row` yields each row by its column names. Prices are in USD with VAT excluded. Voice IN: Country, Src country name, Source type, Destination, Rate, Connection fee, Initial interval, Next interval and Reject calls. Voice OUT: Category, Country, Network, Prefix (one prefix per row), Rate, Connection fee, Initial increment, Recurring increment, Reject calls, Next rate, Next connection fee, Next initial increment, Next recurring increment, Effective date and Comment. SMS OUT: Source prefix, Destination prefix, Country, MCC, MCC name, MNC, MNC name, Reject SMS (`true` or `false`) and Price. SMS IN: Source prefix, Source number length min, Source number length max, Destination prefix, Destination number length min, Destination number length max, Country and Price.
 - Only `Last-Modified` and `If-Modified-Since` are used. The service sends no `ETag`, and the SDK never sends `If-None-Match`, which would make the service ignore `If-Modified-Since`.
 - A 503 on a price file is retried up to 2 times when its `Retry-After` is 60 seconds or less, after waiting that long, at least 1 second, plus a random delay of up to a fifth of that wait (at least up to 1 s) so that clients do not retry in step. Otherwise it raises `DIDWW::Prices::ServiceUnavailable` with `retry_after`.
 - Redirects are not followed. Any status the API does not document for the call, such as a 3xx or a 202, raises `DIDWW::Prices::UnexpectedStatus`. An error is never turned into an empty file or an empty result.
@@ -689,7 +706,7 @@ rescue JsonApiClient::Errors::NotAuthorized => e
 rescue JsonApiClient::Errors::AccessDenied => e
   puts "Access denied (e.g. a write with a read token): #{e.message}"
 rescue JsonApiClient::Errors::TooManyRequests => e
-  puts "Rate limited: #{e.message}"
+  puts "Rate limited, retry in #{e.retry_after.inspect} s: #{e.message}"
 rescue JsonApiClient::Errors::ServerError => e
   puts "Server error: #{e.message}"
 rescue JsonApiClient::Errors::ConnectionError => e
@@ -701,7 +718,9 @@ end
 
 `Export#download` raises the same `JsonApiClient::Errors` classes. It does not follow redirects: any status other than 200, such as a 3xx or 204, raises `JsonApiClient::Errors::UnexpectedStatus`.
 
-Errors raised by the SDK itself inherit from `DIDWW::Error`.
+A 429 (`too_many_requests`) means the request budget of the account for the current window is spent. Resource calls and `Export#download` raise it as `DIDWW::TooManyRequests`, a `JsonApiClient::Errors::TooManyRequests` whose `retry_after` is the `Retry-After` of the response in seconds (`nil` when it is missing). The SDK does not retry it, as a write may not be safe to send twice: wait `retry_after` seconds before sending the request again. `EncryptedFile.upload` raises `DIDWW::Resource::EncryptedFile::UploadError` for any status other than 201, with the `status` of the response; on a 429 its `retry_after` is the `Retry-After` in seconds (`nil` when it is missing), and the upload is not retried either.
+
+Errors raised by the SDK itself inherit from `DIDWW::Error`, except `DIDWW::TooManyRequests` described above.
 
 **Token service** (`DIDWW::Auth::Error`, with `status`, `error`, `error_description` and `retry_after`). They are raised from any call that needs a new token:
 
@@ -829,12 +848,15 @@ The SDK provides constants for all API option fields. These are defined as const
 `EmergencyCallingServiceStatus`, `EmergencyVerificationStatus`, `DiversionRelayPolicy`,
 `TransportProtocol`, `Codec`, `RxDtmfFormat`, `TxDtmfFormat`, `SstRefreshMethod`,
 `ReroutingDisconnectCode`, `Feature`, `AreaLevel`, `AddressVerificationStatus`, `StirShakenMode`,
-`NumberType`, `Pop`, `ExportSmsTrunkType`, `SmsHttpMethod`, `SmsBodyType`, `SmsServerLocation`,
-`VoiceOutPriceCategory`, `SenderIdVerificationStatus`, `SenderIdVerificationSenderType`
+`NumberType`, `Pop`, `ExportSmsTrunkType`, `ExportSmsServiceType`, `SmsHttpMethod`, `SmsBodyType`,
+`SmsServerLocation`, `VoiceOutPriceCategory`, `SenderIdVerificationStatus`, `SenderIdVerificationSenderType`,
+`IceMode`, `RtcpMuxMode`, `RtcpFeedbackMode`
 
 \* `REPLACE_CLI` and `RANDOMIZE_CLI` require additional account configuration. Contact DIDWW support to enable these values.
 
-The constants for `NumberType`, `Pop`, `ExportSmsTrunkType`, `SmsHttpMethod`, `SmsBodyType`, `SmsServerLocation`, `VoiceOutPriceCategory`, `SenderIdVerificationStatus` and `SenderIdVerificationSenderType` are `DIDWW::Resource::NumberTypes::NUMBER_TYPES`, `DIDWW::Resource::VoiceInTrunk::POPS`, `DIDWW::ComplexObject::ExportFilters::TRUNK_TYPES`, `DIDWW::ComplexObject::SmsTrunkConfiguration::HttpIn::HTTP_METHODS` and `BODY_TYPES`, `DIDWW::ComplexObject::SmsTrunkConfiguration::SERVER_LOCATIONS`, `DIDWW::Prices::VoiceOutPrice::CATEGORIES`, and `DIDWW::Resource::SenderIdVerification::STATUSES` and `SENDER_TYPES`.
+The constants for `NumberType`, `Pop`, `ExportSmsTrunkType`, `ExportSmsServiceType`, `SmsHttpMethod`, `SmsBodyType`, `SmsServerLocation`, `VoiceOutPriceCategory`, `SenderIdVerificationStatus` and `SenderIdVerificationSenderType` are `DIDWW::Resource::NumberTypes::NUMBER_TYPES`, `DIDWW::Resource::VoiceInTrunk::POPS`, `DIDWW::ComplexObject::ExportFilters::TRUNK_TYPES` and `SERVICE_TYPES`, `DIDWW::ComplexObject::SmsTrunkConfiguration::HttpIn::HTTP_METHODS` and `BODY_TYPES`, `DIDWW::ComplexObject::SmsTrunkConfiguration::SERVER_LOCATIONS`, `DIDWW::Prices::VoiceOutPrice::CATEGORIES`, and `DIDWW::Resource::SenderIdVerification::STATUSES` and `SENDER_TYPES`.
+
+`Codec`, `IceMode`, `RtcpMuxMode` and `RtcpFeedbackMode` are `CODECS`, `ICE_MODES`, `RTCP_MUX_MODES` and `RTCP_FEEDBACK_MODES`, with one constant per value (`CODEC_PCMA`, `ICE_MODE_ACCEPT`, ...), on `DIDWW::ComplexObject::SipConfiguration` for inbound SIP trunks and on `DIDWW::Resource::VoiceOutTrunk` for outbound trunks. The two codec lists differ.
 
 ## Development
 

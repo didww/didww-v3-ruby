@@ -51,6 +51,60 @@ module DIDWW
                                  MEDIA_ENCRYPTION_MODE_ZRTP
                                ].freeze
 
+      CODEC_TELEPHONE_EVENT = 'telephone_event'
+      CODEC_G723 = 'g723'
+      CODEC_G729 = 'g729'
+      CODEC_PCMU = 'pcmu'
+      CODEC_PCMA = 'pcma'
+      CODEC_GSM = 'gsm'
+      CODEC_G722 = 'g722'
+      CODEC_OPUS = 'opus'
+      CODEC_AMR = 'amr'
+      CODEC_AMR_WB = 'amr_wb'
+
+      CODECS = [
+        CODEC_TELEPHONE_EVENT,
+        CODEC_G723,
+        CODEC_G729,
+        CODEC_PCMU,
+        CODEC_PCMA,
+        CODEC_GSM,
+        CODEC_G722,
+        CODEC_OPUS,
+        CODEC_AMR,
+        CODEC_AMR_WB
+      ].freeze
+
+      ICE_MODE_DISABLED = 'disabled'
+      ICE_MODE_ACCEPT = 'accept'
+      ICE_MODE_INITIATE = 'initiate'
+
+      ICE_MODES = [
+        ICE_MODE_DISABLED,
+        ICE_MODE_ACCEPT,
+        ICE_MODE_INITIATE
+      ].freeze
+
+      RTCP_MUX_MODE_DISABLED = 'disabled'
+      RTCP_MUX_MODE_ACCEPT = 'accept'
+      RTCP_MUX_MODE_INITIATE = 'initiate'
+
+      RTCP_MUX_MODES = [
+        RTCP_MUX_MODE_DISABLED,
+        RTCP_MUX_MODE_ACCEPT,
+        RTCP_MUX_MODE_INITIATE
+      ].freeze
+
+      RTCP_FEEDBACK_MODE_DISABLED = 'disabled'
+      RTCP_FEEDBACK_MODE_ACCEPT = 'accept'
+      RTCP_FEEDBACK_MODE_INITIATE = 'initiate'
+
+      RTCP_FEEDBACK_MODES = [
+        RTCP_FEEDBACK_MODE_DISABLED,
+        RTCP_FEEDBACK_MODE_ACCEPT,
+        RTCP_FEEDBACK_MODE_INITIATE
+      ].freeze
+
       property :name, type: :string
       property :on_cli_mismatch_action, type: :string
       property :capacity_limit, type: :integer
@@ -80,6 +134,24 @@ module DIDWW
       # Description: Seconds of RTP inactivity before the trunk tears down the call.
       # (API 2026-04-16)
       property :rtp_timeout, type: :integer
+
+      # Type: Array of strings
+      # Description: Codecs offered on calls from the trunk, in priority order: the first has the
+      # highest priority. One or more of CODECS. Defaults to pcma, pcmu, telephone_event.
+      property :codecs, type: :strings
+
+      # Type: String
+      # Description: ICE (Interactive Connectivity Establishment) for calls from the trunk,
+      # one of ICE_MODES. Defaults to accept.
+      property :ice_mode, type: :string
+
+      # Type: String
+      # Description: RTP and RTCP multiplexed on one port, one of RTCP_MUX_MODES. Defaults to accept.
+      property :rtcp_mux_mode, type: :string
+
+      # Type: String
+      # Description: RTCP feedback (AVPF), one of RTCP_FEEDBACK_MODES. Defaults to accept.
+      property :rtcp_feedback_mode, type: :string
 
       # Polymorphic authentication_method (2026-04-16). One of:
       #   - ip_only:             { allowed_sip_ips, tech_prefix }

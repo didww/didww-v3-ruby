@@ -169,7 +169,7 @@ module DIDWW
       end
 
       def download_to_path!(path, if_modified_since)
-        tmp_path = "#{path}.#{SecureRandom.hex(8)}.tmp"
+        tmp_path = File.join(File.dirname(path), ".didww-#{SecureRandom.hex(8)}.tmp")
         price_file = File.open(tmp_path, 'wbx') do |file|
           download_to_io!(file, if_modified_since)
         end
@@ -179,7 +179,7 @@ module DIDWW
         end
         price_file
       ensure
-        FileUtils.rm_f(tmp_path)
+        FileUtils.rm_f(tmp_path) if tmp_path
       end
 
       def file_request!(method, if_modified_since, sink = nil, attempt = 1)

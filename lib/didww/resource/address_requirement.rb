@@ -45,11 +45,15 @@ module DIDWW
 
       property :personal_mandatory_fields, type: :array
       # Type: String[]
-      # Description:
+      # Description: Identity fields that must be filled in for a personal identity, among
+      # birth_date, country, birth_country, id_number, personal_tax_id and contact_email.
+      # Empty when none are.
 
       property :business_mandatory_fields, type: :array
       # Type: String[]
-      # Description:
+      # Description: Identity fields that must be filled in for a business identity, among
+      # id_number, tax_id (Identity#vat_id), country, company_reg_number, personal_tax_id and
+      # contact_email. Empty when none are.
 
       property :service_description_required, type: :boolean
       # Type: Boolean

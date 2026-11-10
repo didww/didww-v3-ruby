@@ -11,8 +11,8 @@
         "personal_proof_qty":1,
         "business_proof_qty":1,
         "address_proof_qty":0,
-        "personal_mandatory_fields":null,
-        "business_mandatory_fields":null,
+        "personal_mandatory_fields":[],
+        "business_mandatory_fields":[],
         "service_description_required":false,
         "restriction_message":"restriction_message",
         "number_type":"local"
@@ -137,8 +137,8 @@
         "personal_proof_qty":1,
         "business_proof_qty":2,
         "address_proof_qty":0,
-        "personal_mandatory_fields":null,
-        "business_mandatory_fields":null,
+        "personal_mandatory_fields":[],
+        "business_mandatory_fields":[],
         "service_description_required":false,
         "restriction_message":"restriction_message",
         "number_type":"local"
@@ -260,8 +260,8 @@
         "personal_proof_qty":1,
         "business_proof_qty":1,
         "address_proof_qty":0,
-        "personal_mandatory_fields":null,
-        "business_mandatory_fields":null,
+        "personal_mandatory_fields":[],
+        "business_mandatory_fields":[],
         "service_description_required":false,
         "restriction_message":"restriction_message",
         "number_type":"national"
@@ -383,8 +383,8 @@
         "personal_proof_qty":1,
         "business_proof_qty":1,
         "address_proof_qty":0,
-        "personal_mandatory_fields":null,
-        "business_mandatory_fields":null,
+        "personal_mandatory_fields":[],
+        "business_mandatory_fields":[],
         "service_description_required":false,
         "restriction_message":"restriction_message",
         "number_type":"local"
@@ -506,8 +506,8 @@
         "personal_proof_qty":1,
         "business_proof_qty":1,
         "address_proof_qty":1,
-        "personal_mandatory_fields":null,
-        "business_mandatory_fields":null,
+        "personal_mandatory_fields":[],
+        "business_mandatory_fields":[],
         "service_description_required":false,
         "restriction_message":"restriction_message",
         "number_type":"local"
@@ -644,8 +644,8 @@
         "personal_proof_qty":1,
         "business_proof_qty":1,
         "address_proof_qty":1,
-        "personal_mandatory_fields":null,
-        "business_mandatory_fields":null,
+        "personal_mandatory_fields":[],
+        "business_mandatory_fields":[],
         "service_description_required":false,
         "restriction_message":"restriction_message",
         "number_type":"mobile"
@@ -782,8 +782,8 @@
         "personal_proof_qty":1,
         "business_proof_qty":1,
         "address_proof_qty":1,
-        "personal_mandatory_fields":null,
-        "business_mandatory_fields":null,
+        "personal_mandatory_fields":[],
+        "business_mandatory_fields":[],
         "service_description_required":true,
         "restriction_message":"restriction_message",
         "number_type":"national"
@@ -920,8 +920,8 @@
         "personal_proof_qty":1,
         "business_proof_qty":1,
         "address_proof_qty":1,
-        "personal_mandatory_fields":null,
-        "business_mandatory_fields":null,
+        "personal_mandatory_fields":[],
+        "business_mandatory_fields":[],
         "service_description_required":true,
         "restriction_message":"restriction_message",
         "number_type":"mobile"
@@ -1058,8 +1058,8 @@
         "personal_proof_qty":1,
         "business_proof_qty":1,
         "address_proof_qty":1,
-        "personal_mandatory_fields":null,
-        "business_mandatory_fields":null,
+        "personal_mandatory_fields":[],
+        "business_mandatory_fields":[],
         "service_description_required":true,
         "restriction_message":"restriction_message",
         "number_type":"local"
@@ -1196,8 +1196,8 @@
         "personal_proof_qty":1,
         "business_proof_qty":1,
         "address_proof_qty":1,
-        "personal_mandatory_fields":null,
-        "business_mandatory_fields":null,
+        "personal_mandatory_fields":[],
+        "business_mandatory_fields":[],
         "service_description_required":false,
         "restriction_message":"restriction_message",
         "number_type":"national"
@@ -1449,7 +1449,7 @@
       "type":"proof_types",
       "attributes":{
         "name":"Drivers License",
-        "entity_type":"Personal"
+        "entity_type":"personal"
       }
     },
     {
@@ -1457,7 +1457,7 @@
       "type":"proof_types",
       "attributes":{
         "name":"National ID",
-        "entity_type":"Personal"
+        "entity_type":"personal"
       }
     },
     {
@@ -1465,7 +1465,7 @@
       "type":"proof_types",
       "attributes":{
         "name":"Passport",
-        "entity_type":"Personal"
+        "entity_type":"personal"
       }
     },
     {
@@ -1473,7 +1473,7 @@
       "type":"proof_types",
       "attributes":{
         "name":"Residence Permit",
-        "entity_type":"Personal"
+        "entity_type":"personal"
       }
     },
     {
@@ -1481,7 +1481,7 @@
       "type":"proof_types",
       "attributes":{
         "name":"Visa",
-        "entity_type":"Personal"
+        "entity_type":"personal"
       }
     },
     {
@@ -1489,7 +1489,7 @@
       "type":"proof_types",
       "attributes":{
         "name":"Other",
-        "entity_type":"Personal"
+        "entity_type":"personal"
       }
     },
     {
@@ -1497,7 +1497,7 @@
       "type":"proof_types",
       "attributes":{
         "name":"Business Registration Certificate / Incorporation Certificate",
-        "entity_type":"Business"
+        "entity_type":"business"
       }
     },
     {
@@ -1505,7 +1505,7 @@
       "type":"proof_types",
       "attributes":{
         "name":"Trade License",
-        "entity_type":"Business"
+        "entity_type":"business"
       }
     },
     {
@@ -1513,7 +1513,7 @@
       "type":"proof_types",
       "attributes":{
         "name":"Excerpt from the commercial register",
-        "entity_type":"Business"
+        "entity_type":"business"
       }
     },
     {
@@ -1521,7 +1521,7 @@
       "type":"proof_types",
       "attributes":{
         "name":"Other",
-        "entity_type":"Business"
+        "entity_type":"business"
       }
     },
     {
@@ -1529,7 +1529,7 @@
       "type":"proof_types",
       "attributes":{
         "name":"Copy of Phone Bill",
-        "entity_type":"Address"
+        "entity_type":"address"
       }
     },
     {
@@ -1537,7 +1537,7 @@
       "type":"proof_types",
       "attributes":{
         "name":"Utility Bill",
-        "entity_type":"Address"
+        "entity_type":"address"
       }
     },
     {
@@ -1545,7 +1545,7 @@
       "type":"proof_types",
       "attributes":{
         "name":"Rental Receipt",
-        "entity_type":"Address"
+        "entity_type":"address"
       }
     },
     {
@@ -1553,7 +1553,7 @@
       "type":"proof_types",
       "attributes":{
         "name":"Other",
-        "entity_type":"Address"
+        "entity_type":"address"
       }
     }
   ],

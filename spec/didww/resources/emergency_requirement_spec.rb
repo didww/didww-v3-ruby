@@ -16,9 +16,9 @@ RSpec.describe DIDWW::Resource::EmergencyRequirement do
       expect(first.personal_area_level).to eq('country')
       expect(first.business_area_level).to be_nil
       expect(first.meta[:setup_price]).to eq('0.0')
-      expect(first.address_mandatory_fields).to be_kind_of(Array)
-      expect(first.personal_mandatory_fields).to be_kind_of(Array)
-      expect(first.business_mandatory_fields).to be_kind_of(Array)
+      expect(first.address_mandatory_fields).to eq(['area'])
+      expect(first.personal_mandatory_fields).to eq(%w[birth_date id_number])
+      expect(first.business_mandatory_fields).to eq([])
     end
   end
 
@@ -39,6 +39,7 @@ RSpec.describe DIDWW::Resource::EmergencyRequirement do
       expect(record.business_area_level).to eq('world_wide')
       expect(record.requirement_restriction_message).to be_kind_of(String).or be_nil
       expect(record.number_type).to eq(described_class::NUMBER_TYPE_LOCAL)
+      expect(record.business_mandatory_fields).to eq(%w[id_number tax_id company_reg_number])
     end
   end
 

@@ -19,10 +19,13 @@
           "username": "username",
           "host": "example.com",
           "port": null,
-          "codec_ids": [
-            9,
-            7
+          "codecs": [
+            "pcmu",
+            "g723"
           ],
+          "ice_mode": "disabled",
+          "rtcp_mux_mode": "disabled",
+          "rtcp_feedback_mode": "disabled",
           "rx_dtmf_format_id": 1,
           "tx_dtmf_format_id": 1,
           "resolve_ruri": true,
