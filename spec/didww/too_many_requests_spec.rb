@@ -51,6 +51,17 @@ RSpec.describe DIDWW::TooManyRequests do
     end
   end
 
+  context 'when Retry-After has a leading zero' do
+    let(:retry_after_headers) { { 'Retry-After' => '010' } }
+    let!(:request) { stub_didww_request(:get, '/voice_in_trunks').to_return(too_many_requests_response) }
+
+    it 'reads it as decimal seconds' do
+      expect { client.voice_in_trunks.all }.to raise_error(described_class) do |error|
+        expect(error.retry_after).to eq(10)
+      end
+    end
+  end
+
   context 'when Retry-After is not a number of seconds' do
     let(:retry_after_headers) { { 'Retry-After' => 'Wed, 11 Nov 2026 07:28:00 GMT' } }
     let!(:request) { stub_didww_request(:get, '/voice_in_trunks').to_return(too_many_requests_response) }

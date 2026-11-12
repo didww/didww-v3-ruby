@@ -6,13 +6,22 @@ module DIDWW
   class Error < StandardError
   end
 
+  # @api private
+  module RetryAfter
+    # @param value [String,nil] the Retry-After header
+    # @return [Integer,nil] the delay in seconds, nil when the header is missing or is an HTTP date
+    def self.seconds(value)
+      value.to_i if value&.match?(/\A\d+\z/)
+    end
+  end
+
   # A 429 from the API, raised by resource calls and Export#download. It is not retried.
   class TooManyRequests < JsonApiClient::Errors::TooManyRequests
     STATUS_HANDLERS = { 429 => ->(env) { raise DIDWW::TooManyRequests, env } }.freeze
 
     # @return [Integer,nil] seconds to wait before the next request, from Retry-After
     def retry_after
-      Integer(env.response_headers['Retry-After'], exception: false) if env
+      RetryAfter.seconds(env.response_headers['Retry-After']) if env
     end
   end
 

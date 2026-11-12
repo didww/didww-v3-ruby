@@ -59,7 +59,7 @@ module DIDWW
         if response.status == 201
           JSON.parse(response.body, symbolize_names: true).dig(:data, :id)
         else
-          retry_after = Integer(response.headers['Retry-After'], exception: false) if response.status == 429
+          retry_after = RetryAfter.seconds(response.headers['Retry-After']) if response.status == 429
           raise UploadError.new(
             "Code: #{response.status} #{response.body}",
             status: response.status,
