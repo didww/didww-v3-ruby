@@ -98,6 +98,16 @@ RSpec.describe DIDWW::Resource::EncryptedFile do
       expect(stub).to have_been_requested.once
     end
 
+    it 'reads a Retry-After with a leading zero as decimal seconds' do
+      stub_request(:post, upload_uri).to_return(status: 429, body: '', headers: { 'Retry-After' => '012' })
+
+      expect {
+        described_class.upload_file(upload_file, fingerprint)
+      }.to raise_error(described_class::UploadError) do |error|
+        expect(error).to have_attributes(status: 429, retry_after: 12)
+      end
+    end
+
     it 'raises UploadError without retry_after on 429 without Retry-After' do
       stub_request(:post, upload_uri).to_return(
         status: 429,

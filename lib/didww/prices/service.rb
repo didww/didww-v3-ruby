@@ -171,7 +171,7 @@ module DIDWW
       def download_to_path!(path, if_modified_since)
         tmp_path = File.join(File.dirname(path), ".didww-#{SecureRandom.hex(8)}.tmp")
         price_file = File.open(tmp_path, 'wbx') do |file|
-          download_to_io!(file, if_modified_since)
+          download_to_io!(file, if_modified_since).tap { |downloaded| file.fsync if downloaded.modified? }
         end
         if price_file.modified?
           File.utime(price_file.last_modified, price_file.last_modified, tmp_path) if price_file.last_modified
@@ -235,7 +235,7 @@ module DIDWW
       end
 
       def retry_after(response)
-        Integer(response.headers['Retry-After'], exception: false)
+        RetryAfter.seconds(response.headers['Retry-After'])
       end
 
       # Spreads the retries of clients that got the same Retry-After.

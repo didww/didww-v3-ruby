@@ -23,10 +23,23 @@ RSpec.describe DIDWW::Prices::Service do
   let(:path) { File.join(dir, 'voice_in_prices.csv.gz') }
   let(:concurrent_tmp_path) { File.join(dir, '.didww-0123456789abcdef.tmp') }
   let(:io) { StringIO.new(String.new(encoding: Encoding::BINARY)) }
+  let(:disk_steps) { [] }
 
   before { stub_didww_token(aud: 'api-vin.didww.com') }
 
   after { FileUtils.remove_entry(dir) }
+
+  def record_disk_steps
+    allow(File).to receive(:open).and_wrap_original do |original, file_path, *args, **options, &block|
+      next original.call(file_path, *args, **options, &block) unless file_path.to_s.start_with?(File.join(dir, '.didww-'))
+
+      original.call(file_path, *args, **options) do |file|
+        allow(file).to receive(:fsync).and_wrap_original { |fsync| disk_steps << :fsync && fsync.call }
+        block.call(file)
+      end
+    end
+    allow(File).to receive(:rename).and_wrap_original { |rename, *paths| disk_steps << :rename && rename.call(*paths) }
+  end
 
   describe 'price file endpoints' do
     {
@@ -113,6 +126,14 @@ RSpec.describe DIDWW::Prices::Service do
         expect(Dir.children(dir)).to eq([long_name])
       end
 
+      it 'syncs the temp file to disk before it replaces the path' do
+        record_disk_steps
+
+        service.download(to: path)
+
+        expect(disk_steps).to eq(%i[fsync rename])
+      end
+
       it 'writes the gzipped bytes unchanged to an IO' do
         service.download(to: io)
 
@@ -163,6 +184,14 @@ RSpec.describe DIDWW::Prices::Service do
         service.download(to: path, if_modified_since: last_modified)
 
         expect(File.binread(concurrent_tmp_path)).to eq('concurrent download')
+      end
+
+      it 'neither syncs nor renames the temp file' do
+        record_disk_steps
+
+        service.download(to: path, if_modified_since: last_modified)
+
+        expect(disk_steps).to eq([])
       end
     end
 
@@ -236,6 +265,12 @@ RSpec.describe DIDWW::Prices::Service do
         expect(a_request(:get, file_uri)).to have_been_made.once
         expect(sleeps).to eq([])
       end
+
+      it 'reads a Retry-After with a leading zero as decimal seconds' do
+        stub_prices_request(:voice_in, :get, '/prices.csv.gz').to_return(status: 429, body: '', headers: { 'Retry-After' => '030' })
+
+        expect { service.download(to: io) }.to raise_error(DIDWW::Prices::TooManyRequests) { |error| expect(error).to have_attributes(retry_after: 30) }
+      end
     end
 
     context 'when the connection fails' do
@@ -287,6 +322,16 @@ RSpec.describe DIDWW::Prices::Service do
 
         expect(io.string).to eq(gzip_fixture)
         expect(sleeps).to eq([1])
+      end
+
+      it 'reads a Retry-After with a leading zero as decimal seconds' do
+        stub_prices_request(:voice_in, :get, '/prices.csv.gz')
+          .to_return(unavailable.merge(headers: json_api_headers.merge('Retry-After' => '010')))
+          .then.to_return(status: 200, body: gzip_fixture, headers: file_headers)
+
+        service.download(to: io)
+
+        expect(sleeps).to eq([10])
       end
 
       it 'waits at most one second more on a short Retry-After' do
