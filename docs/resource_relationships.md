@@ -17,7 +17,7 @@ erDiagram
 
     AddressVerification ||--o| Address : "has_one address"
     AddressVerification ||--o{ Did : "has_many dids"
-    AddressVerification ||--o{ EncryptedFile : "has_many onetime_files"
+    AddressVerification ||--o{ EncryptedFile : "has_many onetime_files (create only)"
 
     Area ||--o| Country : "has_one country"
 
@@ -61,10 +61,10 @@ erDiagram
 
     PermanentSupportingDocument ||--o| SupportingDocumentTemplate : "has_one template"
     PermanentSupportingDocument ||--o| Identity : "has_one identity"
-    PermanentSupportingDocument ||--o{ EncryptedFile : "has_many files"
+    PermanentSupportingDocument ||--o{ EncryptedFile : "has_many files (create only)"
 
     Proof ||--o| ProofType : "has_one proof_type"
-    Proof ||--o{ EncryptedFile : "has_many files"
+    Proof ||--o{ EncryptedFile : "has_many files (create only)"
 
     QtyBasedPricing }o--|| CapacityPool : "belongs_to capacity_pool"
 
@@ -120,7 +120,7 @@ erDiagram
 | Resource | has_one | has_many | belongs_to |
 |----------|---------|----------|------------|
 | Address | identity, country | proofs, city, area | — |
-| AddressVerification | address | dids, onetime_files | — |
+| AddressVerification | address | dids, onetime_files\* | — |
 | Area | country | — | — |
 | AvailableDid | did_group, nanpa_prefix | — | — |
 | Balance | — | — | — |
@@ -135,8 +135,8 @@ erDiagram
 | Identity | country | proofs, addresses, permanent_documents | — |
 | NanpaPrefix | country, region | — | — |
 | Order | — | — | — |
-| PermanentSupportingDocument | template, identity | files | — |
-| Proof | proof_type | files | — |
+| PermanentSupportingDocument | template, identity | files\* | — |
+| Proof | proof_type | files\* | — |
 | ProofType | — | — | — |
 | PublicKey | — | — | — |
 | QtyBasedPricing | — | — | capacity_pool |
@@ -154,3 +154,5 @@ erDiagram
 | VoiceInTrunkGroup | — | voice_in_trunks | — |
 | VoiceOutTrunk | default_did | dids | — |
 | VoiceOutTrunkRegenerateCredential | voice_out_trunk | — | — |
+
+\* Write-only: the encrypted files are sent when the proof, permanent supporting document or address verification is created. The API does not return these relationships and does not accept them in `include`, so they cannot be read.
