@@ -47,7 +47,7 @@ module DIDWW
     }.freeze
     SCOPES = %i[read full].freeze
     DEFAULT_MODE = :sandbox
-    DEFAULT_API_VERSION = '2026-10-22'
+    DEFAULT_API_VERSION = '2026-11-19'
     API_VERSION_FORMAT = /\A\d{4}-\d{2}-\d{2}\z/
     API_VERSION_OVERRIDE_KEY = :didww_api_version
 
