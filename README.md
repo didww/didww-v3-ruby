@@ -18,11 +18,11 @@ Read more https://doc.didww.com/api
 
 ## API Version
 
-This SDK targets DIDWW API version `2026-10-22` (`DIDWW::Client::DEFAULT_API_VERSION`). The version is not sent as a header: it is requested in the `api_version` of every access token the SDK mints (see [Authentication](#authentication)).
+This SDK targets DIDWW API version `2026-11-19` (`DIDWW::Client::DEFAULT_API_VERSION`). The version is not sent as a header: it is requested in the `api_version` of every access token the SDK mints (see [Authentication](#authentication)).
 
 | Gem Version | Branch | DIDWW API Version |
 |-------------|--------|-------------------|
-| **7.x** | [`master`](https://github.com/didww/didww-v3-ruby) | [`2026-10-22`](https://doc.didww.com/api3/2026-10-22/index.html) |
+| **7.x** | [`master`](https://github.com/didww/didww-v3-ruby) | [`2026-11-19`](https://doc.didww.com/api3/2026-11-19/index.html) |
 | **6.x** | [`release-6`](https://github.com/didww/didww-v3-ruby/tree/release-6) | [`2026-04-16`](https://doc.didww.com/api3/2026-04-16/index.html) |
 | **5.x** | [`2022-05-10`](https://github.com/didww/didww-v3-ruby/tree/2022-05-10) | [`2022-05-10`](https://doc.didww.com/api3/2022-05-10/index.html) |
 | **3.x** | [`release-3`](https://github.com/didww/didww-v3-ruby/tree/release-3) | [`2021-12-15`](https://doc.didww.com/api3/2021-12-15/index.html) |
@@ -681,7 +681,7 @@ File.open('/tmp/copy.csv.gz', 'wb') { |io| prices.download(to: io) }
 
 ## Filter Reference
 
-> See [`FILTERS.md`](FILTERS.md) for the list of `filter[KEY]` keys accepted by every list endpoint at API version `2026-10-22`.
+> See [`FILTERS.md`](FILTERS.md) for the list of `filter[KEY]` keys accepted by every list endpoint at API version `2026-11-19`.
 
 ## Error Handling
 

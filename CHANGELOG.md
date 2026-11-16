@@ -5,11 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
-Support for DIDWW API version **2026-10-22**, which authenticates with short-lived bearer tokens. Users staying on API `2026-04-16` should use 6.x from the [`release-6`](https://github.com/didww/didww-v3-ruby/tree/release-6) branch.
+Support for DIDWW API version **2026-11-19**, which authenticates with short-lived bearer tokens. Users staying on API `2026-04-16` should use 6.x from the [`release-6`](https://github.com/didww/didww-v3-ruby/tree/release-6) branch.
 
 ### Breaking Changes
 - Every request is authenticated with `Authorization: Bearer <token>`. The SDK mints the token from `api_key` with `POST /token` on the token service (`https://auth.didww.com`, sandbox `https://auth-sandbox.didww.com`), caches it, and replaces it once when a request is answered 401. The `Api-Key` header is sent only to the token service. `api_key` and `api_mode` are configured as before.
-- `X-DIDWW-API-Version` is no longer sent: the API version is requested in the token. The default API version is now `2026-10-22`.
+- `X-DIDWW-API-Version` is no longer sent: the API version is requested in the token. The default API version is now `2026-11-19`.
 - `DIDWW::Client.api_version=` and `with_api_version` raise `ArgumentError` for a value that is not a `YYYY-MM-DD` date, and for a version earlier than `DIDWW::Client::DEFAULT_API_VERSION`.
 - `DIDWW::Client.with_api_version` applies to the calling thread only.
 - Resource `DidGroupType` and `DIDWW::Client.did_group_types` removed. The `did_group_type` relationship is removed from `DidGroup`, `AddressRequirement`, `EmergencyRequirement` and `EmergencyCallingService`; use the new `number_type` attribute and filter.
