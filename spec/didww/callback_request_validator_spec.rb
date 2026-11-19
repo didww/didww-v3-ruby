@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'open3'
+
 RSpec.describe DIDWW::Callback::RequestValidator, '#validate' do
   subject do
     validator = DIDWW::Callback::RequestValidator.new(callback_secret)
@@ -189,4 +191,17 @@ RSpec.describe DIDWW::Callback::RequestValidator, '#validate' do
     end
   end
 
+  context 'when the validator is required on its own' do
+    it 'validates without the rest of the gem' do
+      lib = File.expand_path('../../lib', __dir__)
+      script = <<~RUBY
+        require 'didww/callback/request_validator'
+        validator = DIDWW::Callback::RequestValidator.new('secret')
+        signature = OpenSSL::HMAC.hexdigest('SHA1', 'secret', 'http://foo.com:80/bar')
+        print validator.validate('http://foo.com/bar', {}, signature), ' ', validator.validate('http://foo.com/bar', {}, '')
+      RUBY
+      output, status = Open3.capture2e(RbConfig.ruby, '--disable-gems', '-I', lib, '-e', script)
+      expect([output, status.success?]).to eq(['true false', true])
+    end
+  end
 end
