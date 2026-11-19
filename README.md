@@ -197,7 +197,7 @@ Every request carries `Authorization: Bearer <token>`. The SDK mints the token i
   | SMS OUT (A2P, P2P, OTP) and SMS IN prices | `api-sms.didww.com` |
 
   A token is minted on the first call to a service and reused until it expires. `GET /public_keys` is sent without a token.
-- **Expiry and 401.** A cached token expires with its `expires_in`; the SDK adds no local expiry margin. When a request is answered 401, the SDK drops that token, mints a new one and sends the request again, once. A second 401 drops the new token too and is raised (see [Error Handling](#error-handling)). A 403 is never retried.
+- **Expiry and 401.** The SDK asks for the longest lifetime the token service grants, one hour (`expires_in: 3600`); a cached token expires with the `expires_in` granted, with no local expiry margin. When a request is answered 401, the SDK drops that token, mints a new one and sends the request again, once. A second 401 drops the new token too and is raised (see [Error Handling](#error-handling)). A 403 is never retried.
 - **Token service errors.** A 429 raises `DIDWW::Auth::RateLimited` with `retry_after`; until that time has passed, plus a small random delay so that clients do not retry in step, every further mint in the process raises the same error without a request. A 5xx answer, a connection failure or a timeout is retried with exponential backoff and jitter (0.5 s base, 8 s cap, 4 attempts in all). A 400, a 401 or a TLS failure is raised at once. See [Error Handling](#error-handling) for the error classes.
 
 ### Scope
@@ -245,7 +245,8 @@ end
 ### SDK design decisions
 
 - **Audience strategy.** One token per audience, minted on first use, rather than one token naming every service. An account that never calls the prices services never requests their audiences, so a refused audience cannot break DID management, and every token is valid for one service only.
-- **Cache store.** In-process memory by default, because Ruby processes serve many requests in their lifetime. A shared store is opt-in through `token_store`. Lifetime is decided by the server through the 401 refresh, not by a local expiry margin.
+- **Cache store.** In-process memory by default, because Ruby processes serve many requests in their lifetime. A shared store is opt-in through `token_store`.
+- **Token lifetime.** The longest the token service grants, one hour, so that a process mints each token as rarely as possible. Lifetime is decided by the server through the 401 refresh, not by a local expiry margin.
 - **Gzip handling.** Price files are streamed to disk exactly as served, still gzipped and in binary mode, without being held in memory. The SDK never decompresses them on its own: `DIDWW::Prices.each_row` reads a downloaded file when you want rows.
 - **Streamed-upload retry limitation.** The 401 retry sends the request body a second time. `EncryptedFile.upload` rewinds its multipart body for that; when the file IO cannot be rewound (a pipe or a socket), the refused token is still discarded, but the 401 is not retried and the upload raises `DIDWW::Resource::EncryptedFile::UploadError`. Pass a `File`, `Tempfile` or `StringIO` to keep the retry.
 

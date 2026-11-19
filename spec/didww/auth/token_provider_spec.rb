@@ -14,12 +14,12 @@ RSpec.describe DIDWW::Auth::TokenProvider do
   before { DIDWW::Client.logger = Logger.new(log) }
 
   describe '#token_for' do
-    it 'mints a token for the audience and the default API version without a scope' do
+    it 'mints a one-hour token for the audience and the default API version without a scope' do
       provider.token_for(audience)
 
       expect(
         a_request(:post, token_uri).with(
-          body: { aud: [audience], api_version: DIDWW::Client::DEFAULT_API_VERSION },
+          body: { aud: [audience], api_version: DIDWW::Client::DEFAULT_API_VERSION, expires_in: 3600 },
           headers: { 'Api-Key' => StubRequestHelper::TEST_API_KEY, 'Content-Type' => 'application/json' }
         )
       ).to have_been_made.once
@@ -151,7 +151,11 @@ RSpec.describe DIDWW::Auth::TokenProvider do
 
         provider.token_for(audience)
 
-        expect(a_request(:post, token_uri).with(body: hash_including(scope: 'read'))).to have_been_made.once
+        expect(
+          a_request(:post, token_uri).with(
+            body: { aud: [audience], api_version: DIDWW::Client::DEFAULT_API_VERSION, scope: 'read', expires_in: 3600 }
+          )
+        ).to have_been_made.once
       end
 
       it 'warns when the granted scope is wider and keeps the token' do
