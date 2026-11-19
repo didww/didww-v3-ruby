@@ -1,7 +1,8 @@
 # frozen_string_literal: true
-# Creates a DID order by SKU resolved from DID groups.
+# Creates a DID order by SKU and quantity: one did_order_items item with
+# sku_id + qty, the SKU resolved from DID groups. DIDWW picks the numbers.
 #
-# Usage: DIDWW_API_KEY=your_api_key ruby examples/orders_by_sku.rb
+# Usage: DIDWW_API_KEY=your_api_key ruby examples/orders_sku.rb
 
 require 'bundler/setup'
 require 'didww'
