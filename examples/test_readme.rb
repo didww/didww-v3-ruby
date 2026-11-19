@@ -349,7 +349,8 @@ check('DIDs: SMS routing') do
   begin
     trunk = create_http_in_trunk('README routing')
     group_member = create_http_in_trunk('README routing group member')
-    group = DIDWW::Client.sms_trunk_groups.new(name: "README routing #{SUFFIX}")
+    # SMS trunks and SMS trunk groups share one name space
+    group = DIDWW::Client.sms_trunk_groups.new(name: "README routing group #{SUFFIX}")
     group.relationships.sms_trunks = [group_member]
     saved!(group)
 
@@ -752,7 +753,11 @@ section 'Error Handling'
 
 check('Error Handling: validation errors') do
   # Validation errors (422 Unprocessable Entity)
-  trunk = DIDWW::Client.voice_in_trunks.new(name: '')
+  trunk = DIDWW::Client.voice_in_trunks.new(
+    name: "README invalid #{SUFFIX}",
+    ringing_timeout: 100, # more than the allowed 32 seconds
+    configuration: DIDWW::ComplexObject::SipConfiguration.new(host: 'sip.example.com')
+  )
   unless trunk.save
     trunk.errors.full_messages.each do |msg|
       puts "    Validation error: #{msg}"

@@ -688,7 +688,11 @@ The SDK uses [json_api_client](https://github.com/JsonApiClient/json_api_client)
 
 ```ruby
 # Validation errors (422 Unprocessable Entity)
-trunk = DIDWW::Client.voice_in_trunks.new(name: '')
+trunk = DIDWW::Client.voice_in_trunks.new(
+  name: 'Office',
+  ringing_timeout: 100, # more than the allowed 32 seconds
+  configuration: DIDWW::ComplexObject::SipConfiguration.new(host: 'sip.example.com')
+)
 unless trunk.save
   trunk.errors.full_messages.each do |msg|
     puts "Validation error: #{msg}"

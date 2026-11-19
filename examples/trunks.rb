@@ -83,7 +83,7 @@ begin
   # Update the SIP trunk: only the changed attributes are sent
   puts "\n=== Updating SIP Trunk ==="
   sip_trunk.description = 'Updated by Ruby example'
-  sip_trunk.ringing_timeout = 45
+  sip_trunk.ringing_timeout = 25
   sip_trunk.configuration = sip_class.new(codecs: [sip_class::CODEC_PCMA, sip_class::CODEC_TELEPHONE_EVENT])
   abort "Error updating SIP trunk: #{sip_trunk.errors.full_messages}" unless sip_trunk.save
   puts "Updated SIP trunk: #{sip_trunk.description}, ringing timeout #{sip_trunk.ringing_timeout}"
