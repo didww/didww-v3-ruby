@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [7.0.0] - 2026-11-19
 Support for DIDWW API version **2026-11-19**, which authenticates with short-lived bearer tokens. Users staying on API `2026-04-16` should use 6.x from the [`release-6`](https://github.com/didww/didww-v3-ruby/tree/release-6) branch.
 
 ### Breaking Changes
@@ -17,6 +17,7 @@ Support for DIDWW API version **2026-11-19**, which authenticates with short-liv
 - `Export#download` streams through Faraday into a binary `Tempfile`, rewound. HTTP errors raise `JsonApiClient::Errors` (`NotFound`, `NotAuthorized`, ...) instead of `Down` errors. Redirects are not followed: any status other than 200 raises, a 3xx or 204 as `UnexpectedStatus`. A `url` that is not on the scheme, host and port of the API base URL or of the canonical API URL of `api_mode` raises `ArgumentError` before any request, as the download sends the API bearer token.
 - Runtime dependency `faraday` raised to `~> 2.5`, and `faraday-net_http >= 3.0` added.
 - `EmergencyCallingService#renew_date` is the `"YYYY-MM-DD"` string the API sends, like the other date-only fields, instead of a `Time` at midnight in the local time zone.
+- `SipConfiguration#codec_ids` is replaced by `codecs`, the codec names in priority order (`SipConfiguration::CODEC_*`, `SipConfiguration::CODECS`). The codec id hash `CODECS` and `DEFAULT_CODEC_IDS` of the trunk configurations are removed.
 
 ### Added
 - Configuration: `DIDWW::Client.scope` (`nil`, `:read`, `:full`), `token_store`, `logger` (default `Logger.new($stderr, level: :warn)`) and `customize_faraday`, which customizes the token service, prices, export download and file upload connections.
@@ -24,6 +25,7 @@ Support for DIDWW API version **2026-11-19**, which authenticates with short-liv
 - `DIDWW::Auth::MemoryStore`, the default token cache. Any store responding to `read`, `write(key, value, expires_in:)` and `delete`, such as `Rails.cache`, can replace it to share tokens between processes.
 - One token per audience (`api.didww.com`, `api-vin.didww.com`, `api-vout.didww.com`, `api-sms.didww.com`), minted on first use. Concurrent requests in one process share a single mint.
 - Token service errors: `DIDWW::Auth::InvalidClient`, `InvalidRequest`, `RateLimited` (with the token service's `retry_after`, at least 1; further mints raise without a request until it passes, plus a random delay of up to a fifth of it (at least up to 1 s), with the seconds left in `retry_after`), `ServerError` and `ConnectionError` (after 4 attempts with jittered exponential backoff; a TLS failure is not retried), and `InvalidGrant`. All SDK errors inherit from `DIDWW::Error`.
+- Every token is requested with `expires_in: 3600`, the longest lifetime the token service grants, so a process mints each token as rarely as possible; a token is cached for the lifetime granted.
 - A granted scope or API version that differs from the requested one is logged as a warning. Each mint, including a failed one, publishes the `ActiveSupport::Notifications` event `mint_token.didww`; neither includes the token or the API key.
 - Prices: `DIDWW::Client.voice_in_prices`, `voice_out_prices`, `sms_out_a2p_prices`, `sms_out_p2p_prices`, `sms_out_otp_prices` and `sms_in_prices`, each a `DIDWW::Prices::Service` with:
   - `lookup(**filters)`, returning a `DIDWW::Prices::LookupResult` of `VoiceInPrice`, `VoiceOutPrice`, `SmsOutPrice` or `SmsInPrice`, with filters checked before the request;
@@ -38,13 +40,20 @@ Support for DIDWW API version **2026-11-19**, which authenticates with short-liv
 - `number_type` attribute and `NUMBER_TYPE_*` / `NUMBER_TYPES` constants on `DidGroup`, `AddressRequirement`, `EmergencyRequirement` and `EmergencyCallingService`.
 - `DidGroup#is_demo`.
 - `Identity#company_website`.
-- `Export` types `sms_in` and `sms_out` (`EXPORT_TYPE_SMS_IN`, `EXPORT_TYPE_SMS_OUT`). `ExportFilters` gains the keys of every export type, including `sms_trunk_id` and `sender_id_verification_id`, sent as `sms_trunk.id` and `sender_id_verification.id`, and `TRUNK_TYPES`.
+- `Export` types `sms_in` and `sms_out` (`EXPORT_TYPE_SMS_IN`, `EXPORT_TYPE_SMS_OUT`). `ExportFilters` gains the keys of every export type, including `sms_trunk_id` and `sender_id_verification_id`, sent as `sms_trunk.id` and `sender_id_verification.id`, and `TRUNK_TYPES` and `SERVICE_TYPES`.
+- `SipConfiguration#ice_mode`, `#rtcp_mux_mode` and `#rtcp_feedback_mode` (`ICE_MODES`, `RTCP_MUX_MODES`, `RTCP_FEEDBACK_MODES`).
+- `VoiceOutTrunk#codecs` (`VoiceOutTrunk::CODEC_*`, `VoiceOutTrunk::CODECS`), `#ice_mode`, `#rtcp_mux_mode` and `#rtcp_feedback_mode`.
+- `DIDWW::TooManyRequests`, raised by resource calls and `Export#download` for a 429: a `JsonApiClient::Errors::TooManyRequests` whose `retry_after` is the `Retry-After` delay in seconds (`nil` when it is missing or an HTTP date). `EncryptedFile::UploadError` carries the `status` of the response and, on a 429, `retry_after`. Nothing is retried automatically.
+- `DIDWW::ComplexObject::GenericOrderItem`, the order item of any other charge (`generic_order_items`). It is returned only.
 - Runtime dependency `csv`, which is no longer a default gem from Ruby 3.4.
 
 ### Changed
 - `EncryptedFile.upload` posts through the SDK's Faraday connection, so it gets the bearer token, the User-Agent and `customize_faraday`. Its path is relative to the API base URL, so a `DIDWW_API_URL` override must end with `/`.
 - `#inspect` of an authentication method of a type this gem does not know (`AuthenticationMethod::Generic`) redacts every value, as for SMS trunk configurations.
 - `ExportFilters` reads the dotted keys of a server response back into `voice_out_trunk_id`, `sms_trunk_id` and `sender_id_verification_id`. `year`, `month` and `day`, returned for exports created at earlier API versions, are read-only.
+- `VoiceInTrunk::POP_*`, `ExportFilters::TRUNK_TYPE_*` and the values of `ProofType#entity_type` and of the export filters `service_type`, `trunk_type` and `status` are lowercase, as the API sends them.
+- A price file downloaded to a path is written to a temp file `.didww-<16 hex digits>.tmp` in its directory and synced to disk before it replaces the path, so a long file name no longer fails.
+- The examples follow the example set shared by the DIDWW SDKs, 41 scripts listed in `examples/README.md`: `orders_by_sku.rb` is renamed `orders_sku.rb`, `identities_and_proofs.rb` becomes `identity_address_proofs.rb` with the full proof flow, `voice_in_trunks.rb` is folded into `trunks.rb`, and `upload_file.rb`, `includes.rb`, `webhook.rb` and `test_readme.rb` are added. `test_readme.rb` runs the README snippets against the sandbox; the snippets that could not run as written are corrected.
 - CI now exercises Ruby 3.3 / 3.4 / 4.0 against activesupport 8.0 / 8.1. Rails 7.2 reached end of life on 2026-08-09 and was dropped from the matrix; the `activesupport >= 7.2` runtime floor is unchanged.
 
 ### Removed
@@ -53,6 +62,8 @@ Support for DIDWW API version **2026-11-19**, which authenticates with short-liv
 
 ### Fixed
 - After a `Did` is saved, the in-memory DID keeps the `voice_in_trunk` (or `voice_in_trunk_group`) just assigned. Applying the server response used to clear it, because the response also carries the other relationship of the pair, as null.
+- `DIDWW::Callback::RequestValidator` works when only `didww/callback/request_validator` is required, as the README shows; `validate` raised `NoMethodError` (`blank?`) or `NameError` (`URI`) without the rest of the gem.
+- An order item of another charge, such as a Sender ID verification, is read as `GenericOrderItem`. It stayed a plain Hash, so `order.items.map(&:type)` raised `NoMethodError`.
 
 ## [6.2.1] - 2026-10-07
 ### Changed
