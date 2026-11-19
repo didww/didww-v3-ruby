@@ -14,6 +14,8 @@ module DIDWW
       BACKOFF_BASE = 0.5
       BACKOFF_CAP = 8
       MAX_ATTEMPTS = 4
+      # The longest lifetime the token service grants: the fewer mints, the better.
+      REQUESTED_LIFETIME = 3600
       RETRY_SPREAD_RATIO = 0.2
       MIN_RETRY_SPREAD = 1
       TIMEOUT = 10
@@ -119,6 +121,7 @@ module DIDWW
       def token_request(audience)
         request = { aud: [audience], api_version: DIDWW::Client.api_version }
         request[:scope] = DIDWW::Client.scope.to_s if DIDWW::Client.scope
+        request[:expires_in] = REQUESTED_LIFETIME
         request
       end
 
