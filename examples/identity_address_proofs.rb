@@ -106,8 +106,12 @@ ensure
     end
   end
   file_ids.each do |file_id|
-    DIDWW::Resource::EncryptedFile.load(id: file_id).destroy
-    puts "Deleted encrypted file: #{file_id}"
+    file = DIDWW::Resource::EncryptedFile.load(id: file_id)
+    if file.destroy
+      puts "Deleted encrypted file: #{file_id}"
+    else
+      puts "Error deleting encrypted file #{file_id}: #{file.errors.full_messages}"
+    end
   rescue JsonApiClient::Errors::NotFound
     puts "Encrypted file #{file_id} was removed with its proof"
   end

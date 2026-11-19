@@ -14,6 +14,7 @@
 
 require 'bundler/setup'
 require 'didww'
+require 'didww/callback/request_validator' # the Webhook Signature Validation snippet's require
 require 'active_support/cache'
 require 'fileutils'
 require 'logger'
@@ -104,7 +105,9 @@ end
 # does not hide the outcome of the check.
 def destroy_all(*resources)
   resources.compact.select(&:persisted?).each do |resource|
-    resource.destroy
+    next if resource.destroy
+
+    puts "    cleanup: #{resource.type} #{resource.id} not deleted: #{resource.errors.full_messages.join('; ')}"
   rescue StandardError => e
     puts "    cleanup: #{resource.type} #{resource.id} not deleted: #{e.message}"
   end
@@ -615,7 +618,10 @@ check('Orders: order by SKU') do
   puts "    order #{order.id}: #{order.status}"
 ensure
   begin
-    order.destroy if order&.persisted? && order.pending? # cancel it
+    # cancel it
+    if order&.persisted? && order.pending? && !order.destroy
+      puts "    cleanup: order #{order.id} not canceled: #{order.errors.full_messages.join('; ')}"
+    end
   rescue StandardError => e
     puts "    cleanup: order #{order.id} not canceled: #{e.message}"
   end
@@ -836,8 +842,7 @@ end
 section 'Webhook Signature Validation'
 
 check('Webhook Signature Validation') do
-  require 'didww/callback/request_validator'
-
+  # require 'didww/callback/request_validator' is at the top of this file
   validator = DIDWW::Callback::RequestValidator.new('YOUR_CALLBACK_SECRET')
 
   request_url = 'https://example.com/webhooks/didww'

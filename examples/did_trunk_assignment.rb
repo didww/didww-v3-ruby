@@ -113,6 +113,13 @@ ensure
     puts "\nRestored the DID's original routing:"
     print_did_assignment(did.id)
   end
-  puts "Deleted trunk #{trunk.id}" if trunk&.persisted? && trunk.destroy
-  puts "Deleted trunk group #{trunk_group.id}" if trunk_group&.persisted? && trunk_group.destroy
+  { 'trunk' => trunk, 'trunk group' => trunk_group }.each do |label, resource|
+    next unless resource&.persisted?
+
+    if resource.destroy
+      puts "Deleted #{label} #{resource.id}"
+    else
+      puts "Error deleting #{label} #{resource.id}: #{resource.errors.full_messages}"
+    end
+  end
 end

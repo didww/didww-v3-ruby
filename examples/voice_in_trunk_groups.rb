@@ -71,6 +71,8 @@ ensure
     puts group.destroy ? 'Deleted trunk group (and its trunks)' : "Error deleting trunk group: #{group.errors.full_messages}"
   else
     # Without a group the trunks are deleted one by one
-    trunks.each { |trunk| puts "Deleted trunk #{trunk.id}" if trunk.destroy }
+    trunks.each do |trunk|
+      puts trunk.destroy ? "Deleted trunk #{trunk.id}" : "Error deleting trunk #{trunk.id}: #{trunk.errors.full_messages}"
+    end
   end
 end

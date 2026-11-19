@@ -66,7 +66,8 @@ order = DIDWW::Client.orders.new(
   ]
 )
 unless order.save
-  reservation.destroy # the order did not take the reserved DID, so release it
+  # The order did not take the reserved DID, so release it
+  puts "Error deleting reservation #{reservation.id}: #{reservation.errors.full_messages}" unless reservation.destroy
   abort "Error creating order: #{order.errors.full_messages}"
 end
 
