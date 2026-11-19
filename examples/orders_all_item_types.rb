@@ -36,8 +36,11 @@ abort 'Need at least 2 available DIDs for this example' if available_dids.size <
 
 available_did = available_dids[0]
 reserved_did = available_dids[1]
-puts "Available DID 1: #{available_did.number} - ordered directly"
-puts "Available DID 2: #{reserved_did.number} - reserved first"
+# Resolved before the reservation, so a missing SKU leaves nothing reserved
+available_sku = sku_of(available_did)
+reserved_sku = sku_of(reserved_did)
+puts "Available DID 1: #{available_did.number} (SKU #{available_sku.id}) - ordered directly"
+puts "Available DID 2: #{reserved_did.number} (SKU #{reserved_sku.id}) - reserved first"
 
 # A SKU for the item by quantity, from a DID group
 puts "\n=== Finding SKU for quantity order ==="
@@ -61,8 +64,8 @@ puts "\n=== Creating Order with All Item Types ==="
 order = DIDWW::Client.orders.new(
   items: [
     DIDWW::ComplexObject::DidOrderItem.new(sku_id: sku_for_qty.id, qty: 1),
-    DIDWW::ComplexObject::DidOrderItem.new(available_did_id: available_did.id, sku_id: sku_of(available_did).id),
-    DIDWW::ComplexObject::DidOrderItem.new(did_reservation_id: reservation.id, sku_id: sku_of(reserved_did).id)
+    DIDWW::ComplexObject::DidOrderItem.new(available_did_id: available_did.id, sku_id: available_sku.id),
+    DIDWW::ComplexObject::DidOrderItem.new(did_reservation_id: reservation.id, sku_id: reserved_sku.id)
   ]
 )
 unless order.save

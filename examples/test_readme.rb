@@ -806,7 +806,8 @@ check('Dirty Tracking: PATCH sends only the changed attributes') do
   did = DIDWW::Client.dids.find(first_did.id).first
   original_description = did.description
   begin
-    did.description = 'Updated'
+    # A value equal to the current one is not a change, so it must differ
+    did.description = original_description == 'Updated' ? 'Updated again' : 'Updated'
     sent = did.as_json_api['attributes'].keys
     verify(sent == ['description'], "only description in the PATCH payload, got #{sent}")
     saved!(did)

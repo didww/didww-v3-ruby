@@ -96,30 +96,38 @@ begin
   puts "\n4. Updated description only (trunk stays):"
   print_did_assignment(did.id)
 ensure
-  # Restore the DID first, so the created trunk and group are no longer in use
-  if did_changed
-    update_did(did.id) do |d|
-      if original_trunk
-        d.voice_in_trunk = original_trunk
-      elsif original_group
-        d.voice_in_trunk_group = original_group
-      else
-        # nil unassigns only that relationship, so both are set
-        d.voice_in_trunk = nil
-        d.voice_in_trunk_group = nil
+  begin
+    # Restore the DID first, so the created trunk and group are no longer in use
+    if did_changed
+      update_did(did.id) do |d|
+        if original_trunk
+          d.voice_in_trunk = original_trunk
+        elsif original_group
+          d.voice_in_trunk_group = original_group
+        else
+          # nil unassigns only that relationship, so both are set
+          d.voice_in_trunk = nil
+          d.voice_in_trunk_group = nil
+        end
+        d.description = original_description
       end
-      d.description = original_description
+      puts "\nRestored the DID's original routing:"
+      begin
+        print_did_assignment(did.id)
+      rescue StandardError => e
+        puts "   (could not read the routing back: #{e.message})"
+      end
     end
-    puts "\nRestored the DID's original routing:"
-    print_did_assignment(did.id)
-  end
-  { 'trunk' => trunk, 'trunk group' => trunk_group }.each do |label, resource|
-    next unless resource&.persisted?
+  ensure
+    # Deleted also when the restore fails
+    { 'trunk' => trunk, 'trunk group' => trunk_group }.each do |label, resource|
+      next unless resource&.persisted?
 
-    if resource.destroy
-      puts "Deleted #{label} #{resource.id}"
-    else
-      puts "Error deleting #{label} #{resource.id}: #{resource.errors.full_messages}"
+      if resource.destroy
+        puts "Deleted #{label} #{resource.id}"
+      else
+        puts "Error deleting #{label} #{resource.id}: #{resource.errors.full_messages}"
+      end
     end
   end
 end
