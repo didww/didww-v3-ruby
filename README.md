@@ -545,13 +545,15 @@ requirements.each do |req|
   puts req.requirement_restriction_message
 end
 
-# Create an emergency verification
+# Create an emergency verification; relationships go under relationships:
 verification = DIDWW::Client.emergency_verifications.new(
-  address: DIDWW::Resource::Address.load(id: 'address-uuid'),
-  emergency_calling_service:
-    DIDWW::Resource::EmergencyCallingService.load(id: 'ecs-uuid'),
-  dids: [DIDWW::Resource::Did.load(id: 'did-uuid')],
-  external_reference_id: 'my-ref-123'
+  external_reference_id: 'my-ref-123',
+  relationships: {
+    address: DIDWW::Resource::Address.load(id: 'address-uuid'),
+    emergency_calling_service:
+      DIDWW::Resource::EmergencyCallingService.load(id: 'ecs-uuid'),
+    dids: [DIDWW::Resource::Did.load(id: 'did-uuid')]
+  }
 )
 
 if verification.save
