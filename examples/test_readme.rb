@@ -136,9 +136,11 @@ def first_did
   DIDWW::Client.dids.page(1).per(1).all.first || skip!('no DIDs on the account')
 end
 
+# A SKU of a DID group with numbers in stock
 def first_sku
-  group = DIDWW::Client.did_groups.includes(:stock_keeping_units).all.find { |g| g.stock_keeping_units&.any? }
-  group&.stock_keeping_units&.first || skip!('no DID group with stock keeping units')
+  group = DIDWW::Client.did_groups.where(is_available: true).includes(:stock_keeping_units).all
+                       .find { |g| g.stock_keeping_units&.any? }
+  group&.stock_keeping_units&.first || skip!('no available DID group with stock keeping units')
 end
 
 def create_http_in_trunk(name)
@@ -167,15 +169,17 @@ def run_ruby(code)
   [output, status.success?, error.strip]
 end
 
-# An emergency-capable DID of the country without an emergency calling service;
-# when the account has none, one is ordered and the order awaited.
+# An emergency-capable DID of the country that no identity, emergency
+# verification or emergency calling service is bound to yet (a verification
+# binds its DIDs to the identity of its address); when the account has none,
+# one is ordered and the order awaited.
 def emergency_did_in(country)
   candidates = DIDWW::Client.dids
                             .where('did_group.features': DIDWW::Resource::DidGroup::FEATURE_EMERGENCY,
                                    emergency_enabled: false, terminated: false, 'country.id': country.id)
-                            .includes(:emergency_calling_service)
+                            .includes(:identity, :emergency_verification, :emergency_calling_service)
                             .all
-  did = candidates.find { |d| d.emergency_calling_service.nil? }
+  did = candidates.find { |d| d.identity.nil? && d.emergency_verification.nil? && d.emergency_calling_service.nil? }
   return did if did
 
   available = DIDWW::Client.available_dids

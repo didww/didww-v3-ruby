@@ -45,6 +45,7 @@ puts "Available DID 2: #{reserved_did.number} (SKU #{reserved_sku.id}) - reserve
 # A SKU for the item by quantity, from a DID group
 puts "\n=== Finding SKU for quantity order ==="
 group_with_skus = DIDWW::Client.did_groups
+                  .where(is_available: true) # numbers in stock
                   .includes(:stock_keeping_units)
                   .all
                   .find { |did_group| did_group.stock_keeping_units&.any? }

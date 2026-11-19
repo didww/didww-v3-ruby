@@ -26,16 +26,18 @@ end
 
 # Create an order with DID order items
 puts "\n=== Creating DID Order ==="
-did_groups = DIDWW::Client.did_groups
-              .includes(:stock_keeping_units)
-              .all
+# A DID group with numbers in stock, so that the order can be filled
+did_group = DIDWW::Client.did_groups
+            .where(is_available: true)
+            .includes(:stock_keeping_units)
+            .all
+            .find { |group| group.stock_keeping_units&.any? }
 
-if did_groups.empty? || did_groups.first.stock_keeping_units.nil? || did_groups.first.stock_keeping_units.empty?
-  puts 'No DID group with stock_keeping_units found'
+unless did_group
+  puts 'No available DID group with stock_keeping_units found'
   exit 1
 end
 
-did_group = did_groups.first
 sku = did_group.stock_keeping_units.first
 
 did_item = DIDWW::ComplexObject::DidOrderItem.new(
