@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-# Lists DID reservations and available DIDs.
+# DID reservations: reserves an available DID, lists and finds reservations,
+# and deletes the reservation, also when a step fails.
 #
 # Usage: DIDWW_API_KEY=your_api_key ruby examples/did_reservations.rb
 
@@ -11,45 +12,42 @@ DIDWW::Client.configure do |client|
   client.api_mode = :sandbox
 end
 
-# List DID reservations
-puts '=== Existing DID Reservations ==='
-reservations = DIDWW::Client.did_reservations
-                .includes(:available_did)
+# Get an available DID to reserve
+puts '=== Finding Available DID ==='
+available_did = DIDWW::Client.available_dids
+                .includes('did_group.stock_keeping_units')
+                .page(1).per(1)
                 .all
+                .first
+abort 'No available DIDs found' unless available_did
+puts "Reserving DID: #{available_did.number}"
+puts "  Group: #{available_did.did_group.area_name} (prefix #{available_did.did_group.prefix})" if available_did.did_group
 
-puts "Found #{reservations.size} DID reservations"
-reservations.first(10).each do |reservation|
-  did_number = reservation.available_did ? reservation.available_did.number : 'unknown'
-  puts "#{reservation.id}"
-  puts "  DID: #{did_number}"
-  puts "  Expires: #{reservation.expires_at}"
-  puts "  Created: #{reservation.created_at}"
-  puts ''
-end
+# Create a reservation
+puts "\n=== Creating Reservation ==="
+reservation = DIDWW::Client.did_reservations.new(description: 'Ruby SDK example reservation')
+reservation.available_did = available_did
+abort "Error creating reservation: #{reservation.errors.full_messages}" unless reservation.save
+puts "Created reservation: #{reservation.id}"
+puts "  Description: #{reservation.description}"
+puts "  Expires at: #{reservation.expires_at}"
 
-# List available DIDs
-puts "\n=== Available DIDs ==="
-available_dids = DIDWW::Client.available_dids
-                  .includes(:did_group)
-                  .all
-
-puts "Found #{available_dids.size} available DIDs"
-available_dids.first(10).each do |available_did|
-  puts "#{available_did.number}"
-  if available_did.did_group
-    puts "  Group: #{available_did.did_group.area_name}"
-    puts "  Prefix: #{available_did.did_group.prefix}"
+begin
+  # List reservations with the included available DID
+  puts "\n=== All Reservations ==="
+  reservations = DIDWW::Client.did_reservations
+                 .includes(:available_did)
+                 .all
+  puts "Found #{reservations.size} reservations"
+  reservations.each do |r|
+    puts "  #{r.id} - #{r.available_did&.number || 'unknown'} (expires #{r.expires_at})"
   end
-  puts ''
-end
 
-# Find a specific reservation if available
-unless reservations.empty?
-  puts "\n=== Specific Reservation Details ==="
-  specific_reservation = DIDWW::Client.did_reservations
-                         .find(reservations.first.id)
-                         .first
-  puts "Reservation: #{specific_reservation.id}"
-  puts "  Expires at: #{specific_reservation.expires_at}"
-  puts "  Created at: #{specific_reservation.created_at}"
+  # Find by ID
+  puts "\n=== Specific Reservation ==="
+  found = DIDWW::Client.did_reservations.find(reservation.id).first
+  puts "Found reservation: #{found.id}, created at #{found.created_at}"
+ensure
+  puts "\n=== Deleting Reservation ==="
+  puts reservation.destroy ? 'Deleted reservation' : "Error deleting reservation: #{reservation.errors.full_messages}"
 end
