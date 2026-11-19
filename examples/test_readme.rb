@@ -887,13 +887,16 @@ check('Emergency Services: emergency calling services') do
 end
 
 check('Emergency Services: cancel an emergency calling service') do
-  # A service that is not canceled, other than the one of the DID submitted above
-  services = DIDWW::Client.emergency_calling_services.includes(:dids).all.reject do |s|
-    s.status == DIDWW::Resource::EmergencyCallingService::STATUS_CANCELED ||
-      Array(s.dids).any? { |d| d.id == CREATED[:emergency_did_id] }
+  # A service that is not canceled, active first. Another service than the one
+  # of the DID submitted above is preferred; that one is the fallback, and
+  # canceling it on the sandbox also rejects the test verification.
+  services = DIDWW::Client.emergency_calling_services.includes(:dids).all
+                          .reject { |s| s.status == DIDWW::Resource::EmergencyCallingService::STATUS_CANCELED }
+  service = services.min_by do |s|
+    [Array(s.dids).any? { |d| d.id == CREATED[:emergency_did_id] } ? 1 : 0,
+     s.status == DIDWW::Resource::EmergencyCallingService::STATUS_ACTIVE ? 0 : 1]
   end
-  service = services.min_by { |s| s.status == DIDWW::Resource::EmergencyCallingService::STATUS_ACTIVE ? 0 : 1 }
-  skip!('no emergency calling service that is not canceled, other than the one of the DID submitted above') unless service
+  skip!('no emergency calling service that is not canceled') unless service
 
   # Cancel (destroy) an emergency calling service
   svc = DIDWW::Client.emergency_calling_services.find(service.id).first
