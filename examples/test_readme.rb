@@ -162,10 +162,10 @@ check('Quick Start') do
   puts "    Balance: #{balance.total_balance}"
 
   # List DID groups with stock keeping units
-  did_groups = DIDWW::Client.did_groups.all(
-    include: 'stock_keeping_units',
-    filter: { area_name: 'Acapulco' }
-  )
+  did_groups = DIDWW::Client.did_groups
+               .includes(:stock_keeping_units)
+               .where(area_name: 'Acapulco')
+               .all
 
   puts "    DID groups: #{did_groups.count}"
 end
@@ -288,7 +288,9 @@ check('Read-Only Resources: DID groups by number type') do
 end
 
 check('Read-Only Resources: available DIDs') do
-  available_dids = DIDWW::Client.available_dids.all(include: 'did_group.stock_keeping_units')
+  available_dids = DIDWW::Client.available_dids
+                   .includes('did_group.stock_keeping_units')
+                   .all
   puts "    #{available_dids.size} available DIDs"
 end
 
@@ -597,15 +599,11 @@ end
 
 section 'Orders'
 
-check('Orders: order by SKU, the item as a Hash') do
+check('Orders: order by SKU') do
   sku = first_sku
   order = DIDWW::Client.orders.new(
     items: [
-      {
-        type: 'did_order_items',
-        sku_id: sku.id, # 'sku-uuid' in the README
-        qty: 2
-      }
+      DIDWW::ComplexObject::DidOrderItem.new(sku_id: sku.id, qty: 2) # 'sku-uuid' in the README
     ]
   )
 

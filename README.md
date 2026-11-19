@@ -64,10 +64,10 @@ balance = DIDWW::Client.balance
 puts "Balance: #{balance.total_balance}"
 
 # List DID groups with stock keeping units
-did_groups = DIDWW::Client.did_groups.all(
-  include: 'stock_keeping_units',
-  filter: { area_name: 'Acapulco' }
-)
+did_groups = DIDWW::Client.did_groups
+             .includes(:stock_keeping_units)
+             .where(area_name: 'Acapulco')
+             .all
 
 puts "DID groups: #{did_groups.count}"
 ```
@@ -271,7 +271,9 @@ did_groups = DIDWW::Client.did_groups
              .all
 
 # Available DIDs (with DID group and stock keeping units)
-available_dids = DIDWW::Client.available_dids.all(include: 'did_group.stock_keeping_units')
+available_dids = DIDWW::Client.available_dids
+                 .includes('did_group.stock_keeping_units')
+                 .all
 
 # Public Keys
 public_keys = DIDWW::Client.public_keys.all
@@ -516,11 +518,7 @@ Filter values are lowercase: `service_type` is `a2p` or `p2p` (`ExportFilters::S
 ```ruby
 order = DIDWW::Client.orders.new(
   items: [
-    {
-      type: 'did_order_items',
-      sku_id: 'sku-uuid',
-      qty: 2
-    }
+    DIDWW::ComplexObject::DidOrderItem.new(sku_id: 'sku-uuid', qty: 2)
   ]
 )
 
