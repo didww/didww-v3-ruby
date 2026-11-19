@@ -195,7 +195,7 @@ def emergency_did_in(country)
     items: [DIDWW::ComplexObject::DidOrderItem.new(available_did_id: available.id, sku_id: sku.id)]
   ))
   puts "    ordered #{available.number} (order #{order.id})"
-  12.times do
+  24.times do # up to 120 s
     break if order.completed?
 
     sleep 5

@@ -56,8 +56,8 @@ abort "Failed to order DID: #{order.errors.full_messages}" unless order.save
 
 puts "  Order: #{order.id} — #{order.status}"
 
-# Wait for order to complete
-10.times do
+# Wait up to 120 s for the order to complete
+24.times do
   break if order.status == 'completed'
   sleep 5
   order = DIDWW::Client.orders.find(order.id).first
