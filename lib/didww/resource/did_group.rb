@@ -1,7 +1,11 @@
 # frozen_string_literal: true
+require 'didww/resource/concerns/number_types'
+
 module DIDWW
   module Resource
     class DidGroup < Base
+      include NumberTypes
+
       # Possible values for did_group.features array
       FEATURE_VOICE_IN = 'voice_in'
       FEATURE_VOICE_OUT = 'voice_out'
@@ -14,7 +18,6 @@ module DIDWW
 
       has_one :country, class_name: 'Country'
       has_one :city,    class_name: 'City'
-      has_one :did_group_type, class_name: 'DidGroupType'
       has_one :region, class_name: 'Region'
       has_many :stock_keeping_units, class_name: 'StockKeepingUnit'
       has_one :address_requirement, class_name: 'AddressRequirement'
@@ -43,6 +46,14 @@ module DIDWW
       # Type: String
       # Description: Service restriction message associated with this DID Group, if any.
       #              Null when no restrictions apply. (API 2026-04-16)
+
+      property :number_type, type: :string
+      # Type: String
+      # Description: Number type the group offers, one of NUMBER_TYPES.
+
+      property :is_demo, type: :boolean
+      # Type: Boolean
+      # Description: True when the group is flagged as a demo group.
 
       # TODO
       # Meta attributes

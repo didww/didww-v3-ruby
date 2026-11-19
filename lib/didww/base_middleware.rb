@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+require 'didww/http'
+
 module DIDWW
   # :nodoc:
   class BaseMiddleware < Faraday::Middleware
@@ -14,13 +16,10 @@ module DIDWW
 
     private
 
-    def request_headers(request_env)
-      headers = {
-        'User-Agent' => "didww-v3 Ruby gem v#{VERSION}",
+    def request_headers(_request_env)
+      {
+        'User-Agent' => DIDWW::Http::USER_AGENT,
       }
-      headers['Api-Key'] = DIDWW::Client.api_key unless request_env.url.path&.end_with?('/public_keys')
-      headers['x-didww-api-version'] = DIDWW::Client.api_version unless DIDWW::Client.api_version.blank?
-      headers
     end
   end
 end

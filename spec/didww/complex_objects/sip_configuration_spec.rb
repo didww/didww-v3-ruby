@@ -6,7 +6,7 @@ RSpec.describe DIDWW::ComplexObject::SipConfiguration do
       DIDWW::ComplexObject::SipConfiguration.new.tap do |c|
         c.username = 'username'
         c.host = example_host
-        c.codec_ids = [ 9, 7 ]
+        c.codecs = [described_class::CODEC_PCMU, described_class::CODEC_G723]
         c.rx_dtmf_format_id = 1
         c.tx_dtmf_format_id = 2
         c.resolve_ruri = 'true'
@@ -40,12 +40,70 @@ RSpec.describe DIDWW::ComplexObject::SipConfiguration do
       'REROUTING_DISCONNECT_CODES',
       'CODECS',
       'DEFAULT_REROUTING_DISCONNECT_CODE_IDS',
-      'DEFAULT_CODEC_IDS',
       'TRANSPORT_PROTOCOLS',
-      'DIVERSION_RELAY_POLICIES'
+      'DIVERSION_RELAY_POLICIES',
+      'ICE_MODES',
+      'RTCP_MUX_MODES',
+      'RTCP_FEEDBACK_MODES'
     ].each do |name|
       expect { described_class.const_get(name) }.to_not raise_error
     end
+  end
+
+  it 'has no codec id constants on the configuration base' do
+    base = DIDWW::ComplexObject::Configuration::Base
+    expect(base.const_defined?(:DEFAULT_CODEC_IDS, false)).to be(false)
+    expect(base.const_defined?(:CODECS, false)).to be(false)
+    expect(described_class.const_defined?(:DEFAULT_CODEC_IDS)).to be(false)
+  end
+
+  it 'has the codec names of the inbound SIP trunk' do
+    expect(described_class::CODECS).to eq(
+      [
+        'telephone_event',
+        'g723',
+        'g729',
+        'pcmu',
+        'pcma',
+        'speex',
+        'gsm',
+        'g726_32',
+        'g721',
+        'g726_24',
+        'g726_40',
+        'g726_16',
+        'l16',
+        'amr',
+        'amr_wb'
+      ]
+    )
+    expect(described_class::CODEC_TELEPHONE_EVENT).to eq('telephone_event')
+    expect(described_class::CODEC_G726_32).to eq('g726_32')
+    expect(described_class::CODEC_AMR_WB).to eq('amr_wb')
+  end
+
+  it 'has the values of the media modes' do
+    expect(described_class::ICE_MODES).to eq(%w[disabled accept initiate])
+    expect(described_class::RTCP_MUX_MODES).to eq(%w[disabled accept initiate])
+    expect(described_class::RTCP_FEEDBACK_MODES).to eq(%w[disabled accept initiate])
+    expect(described_class::ICE_MODE_INITIATE).to eq('initiate')
+    expect(described_class::RTCP_MUX_MODE_ACCEPT).to eq('accept')
+    expect(described_class::RTCP_FEEDBACK_MODE_DISABLED).to eq('disabled')
+  end
+
+  it 'serializes codecs in priority order and the media modes' do
+    configuration = described_class.new
+    configuration.codecs = [described_class::CODEC_PCMA, described_class::CODEC_G729]
+    configuration.ice_mode = described_class::ICE_MODE_ACCEPT
+    configuration.rtcp_mux_mode = described_class::RTCP_MUX_MODE_INITIATE
+    configuration.rtcp_feedback_mode = described_class::RTCP_FEEDBACK_MODE_DISABLED
+
+    expect(configuration.as_json[:attributes]).to eq(
+      'codecs' => %w[pcma g729],
+      'ice_mode' => 'accept',
+      'rtcp_mux_mode' => 'initiate',
+      'rtcp_feedback_mode' => 'disabled'
+    )
   end
 
   it 'exposes diversion_relay_policy (2026-04-16 replacement for diversion_relay_mode)' do

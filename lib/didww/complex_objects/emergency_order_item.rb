@@ -2,7 +2,7 @@
 module DIDWW
   module ComplexObject
     class EmergencyOrderItem < Base
-      # passed at order creation
+      # returned; the API creates emergency orders, POST /orders does not accept these items
       property :qty,                          type: :int
       property :emergency_calling_service_id, type: :string
 

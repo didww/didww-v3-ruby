@@ -2,7 +2,7 @@
 # Lists and cancels customer Emergency Calling Services (2026-04-16).
 #
 # An EmergencyCallingService represents a customer's 911/112 subscription
-# attached to one or more DIDs. It ties an address, identity, DID group type
+# attached to one or more DIDs. It ties an address, identity, number type
 # and country together with a pricing snapshot (meta.setup_price, meta.monthly_price).
 #
 # Supported operations: index, show, destroy (cancel).
@@ -19,7 +19,7 @@ end
 
 puts '=== Emergency Calling Services ==='
 services = DIDWW::Client.emergency_calling_services
-           .includes(:country, :did_group_type, :dids)
+           .includes(:country, :dids)
            .all
 puts "Found #{services.size} emergency calling services"
 
@@ -29,7 +29,7 @@ services.first(5).each do |svc|
   puts "  Reference: #{svc.reference}"
   puts "  Status: #{svc.status}"
   puts "  Country: #{svc.country&.name}"
-  puts "  DID Group Type: #{svc.did_group_type&.name}"
+  puts "  Number type: #{svc.number_type}"
   puts "  Activated: #{svc.activated_at}"
   puts "  Canceled: #{svc.canceled_at}"  if svc.canceled_at
   puts "  Renews: #{svc.renew_date}"     if svc.renew_date

@@ -10,10 +10,11 @@
         "personal_proof_qty":1,
         "business_proof_qty":1,
         "address_proof_qty":0,
-        "personal_mandatory_fields":["Country"],
-        "business_mandatory_fields":null,
+        "personal_mandatory_fields":["country"],
+        "business_mandatory_fields":[],
         "service_description_required":false,
-        "restriction_message":"restriction_message"
+        "restriction_message":"restriction_message",
+        "number_type":"local"
       },
       "relationships":{
         "country":{
@@ -24,16 +25,6 @@
           "data":{
             "type":"countries",
             "id":"f25136bb-a336-43fa-b05f-34e52d75adaa"
-          }
-        },
-        "did_group_type":{
-          "links":{
-            "self":"https://sandbox-api.didww.com/v3/address_requirements/bf22f685-c036-49d9-b3ee-d5e6092f472e/relationships/did_group_type",
-            "related":"https://sandbox-api.didww.com/v3/address_requirements/bf22f685-c036-49d9-b3ee-d5e6092f472e/did_group_type"
-          },
-          "data":{
-            "type":"did_group_types",
-            "id":"994ea201-4a4d-4b27-ac4b-b5916ac969a3"
           }
         },
         "personal_permanent_document":{
@@ -255,32 +246,11 @@
       }
     },
     {
-      "id":"994ea201-4a4d-4b27-ac4b-b5916ac969a3",
-      "type":"did_group_types",
-      "attributes":{
-        "name":"Local"
-      }
-    },
-    {
-      "id":"2c165e9d-c6f5-4fe1-ad0e-bacf5bab3d86",
-      "type":"did_group_types",
-      "attributes":{
-        "name":"National"
-      }
-    },
-    {
-      "id":"6bba60f1-e724-4d12-9ea4-a3a64705800f",
-      "type":"did_group_types",
-      "attributes":{
-        "name":"Mobile"
-      }
-    },
-    {
       "id":"c072a50b-a9f3-4be4-ac7e-902954e61128",
       "type":"proof_types",
       "attributes":{
         "name":"Drivers License",
-        "entity_type":"Personal"
+        "entity_type":"personal"
       }
     },
     {
@@ -288,7 +258,7 @@
       "type":"proof_types",
       "attributes":{
         "name":"National ID",
-        "entity_type":"Personal"
+        "entity_type":"personal"
       }
     },
     {
@@ -296,7 +266,7 @@
       "type":"proof_types",
       "attributes":{
         "name":"Passport",
-        "entity_type":"Personal"
+        "entity_type":"personal"
       }
     },
     {
@@ -304,7 +274,7 @@
       "type":"proof_types",
       "attributes":{
         "name":"Residence Permit",
-        "entity_type":"Personal"
+        "entity_type":"personal"
       }
     },
     {
@@ -312,7 +282,7 @@
       "type":"proof_types",
       "attributes":{
         "name":"Visa",
-        "entity_type":"Personal"
+        "entity_type":"personal"
       }
     },
     {
@@ -320,7 +290,7 @@
       "type":"proof_types",
       "attributes":{
         "name":"Other",
-        "entity_type":"Personal"
+        "entity_type":"personal"
       }
     },
     {
@@ -328,7 +298,7 @@
       "type":"proof_types",
       "attributes":{
         "name":"Business Registration Certificate / Incorporation Certificate",
-        "entity_type":"Business"
+        "entity_type":"business"
       }
     },
     {
@@ -336,7 +306,7 @@
       "type":"proof_types",
       "attributes":{
         "name":"Trade License",
-        "entity_type":"Business"
+        "entity_type":"business"
       }
     },
     {
@@ -344,7 +314,7 @@
       "type":"proof_types",
       "attributes":{
         "name":"Excerpt from the commercial register",
-        "entity_type":"Business"
+        "entity_type":"business"
       }
     },
     {
@@ -352,7 +322,7 @@
       "type":"proof_types",
       "attributes":{
         "name":"Other",
-        "entity_type":"Business"
+        "entity_type":"business"
       }
     },
     {
@@ -360,7 +330,7 @@
       "type":"proof_types",
       "attributes":{
         "name":"Copy of Phone Bill",
-        "entity_type":"Address"
+        "entity_type":"address"
       }
     },
     {
@@ -368,7 +338,7 @@
       "type":"proof_types",
       "attributes":{
         "name":"Utility Bill",
-        "entity_type":"Address"
+        "entity_type":"address"
       }
     },
     {
@@ -376,7 +346,7 @@
       "type":"proof_types",
       "attributes":{
         "name":"Rental Receipt",
-        "entity_type":"Address"
+        "entity_type":"address"
       }
     },
     {
@@ -384,7 +354,7 @@
       "type":"proof_types",
       "attributes":{
         "name":"Other",
-        "entity_type":"Address"
+        "entity_type":"address"
       }
     }
   ]

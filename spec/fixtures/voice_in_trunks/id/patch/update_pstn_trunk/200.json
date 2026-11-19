@@ -17,19 +17,14 @@
         "attributes": {
           "dst": "7xxxxxxxx"
         }
-      }
+      },
+      "pop": null
     },
     "relationships": {
       "voice_in_trunk_group": {
         "links": {
           "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/989d8259-9c4f-4449-97b7-a3480b1cffff/relationships/voice_in_trunk_group",
           "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/989d8259-9c4f-4449-97b7-a3480b1cffff/voice_in_trunk_group"
-        }
-      },
-      "pop": {
-        "links": {
-          "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/989d8259-9c4f-4449-97b7-a3480b1cffff/relationships/pop",
-          "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/989d8259-9c4f-4449-97b7-a3480b1cffff/pop"
         }
       }
     }

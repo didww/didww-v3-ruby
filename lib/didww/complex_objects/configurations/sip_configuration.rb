@@ -139,11 +139,30 @@ module DIDWW
         # Nullable: No
         # Description: Rerouting disconnect codes
 
-        property :codec_ids, type: :array
-        # TODO array type
-        # Type: Array
+        property :codecs, type: :strings
+        # Type: Array of strings
         # Nullable: No
-        # Description: Codecs
+        # Description: Codecs offered on calls to the trunk, in priority order: the first has the
+        # highest priority. See CODECS for available values. Defaults to pcmu, pcma, g729, g723,
+        # telephone_event.
+
+        property :ice_mode, type: :string
+        # Type: String
+        # Nullable: No
+        # Description: ICE (Interactive Connectivity Establishment) for calls to the trunk.
+        # See ICE_MODES for available values. Defaults to disabled.
+
+        property :rtcp_mux_mode, type: :string
+        # Type: String
+        # Nullable: No
+        # Description: RTP and RTCP multiplexed on one port. See RTCP_MUX_MODES for available values.
+        # Defaults to disabled.
+
+        property :rtcp_feedback_mode, type: :string
+        # Type: String
+        # Nullable: No
+        # Description: RTCP feedback (AVPF). See RTCP_FEEDBACK_MODES for available values.
+        # Defaults to disabled.
 
         property :transport_protocol_id, type: :integer
         # Type: Integer
@@ -276,6 +295,70 @@ module DIDWW
                               'original_pai',
                               'verstat'
                             ].freeze
+
+        CODEC_TELEPHONE_EVENT = 'telephone_event'
+        CODEC_G723 = 'g723'
+        CODEC_G729 = 'g729'
+        CODEC_PCMU = 'pcmu'
+        CODEC_PCMA = 'pcma'
+        CODEC_SPEEX = 'speex'
+        CODEC_GSM = 'gsm'
+        CODEC_G726_32 = 'g726_32'
+        CODEC_G721 = 'g721'
+        CODEC_G726_24 = 'g726_24'
+        CODEC_G726_40 = 'g726_40'
+        CODEC_G726_16 = 'g726_16'
+        CODEC_L16 = 'l16'
+        CODEC_AMR = 'amr'
+        CODEC_AMR_WB = 'amr_wb'
+
+        CODECS = [
+          CODEC_TELEPHONE_EVENT,
+          CODEC_G723,
+          CODEC_G729,
+          CODEC_PCMU,
+          CODEC_PCMA,
+          CODEC_SPEEX,
+          CODEC_GSM,
+          CODEC_G726_32,
+          CODEC_G721,
+          CODEC_G726_24,
+          CODEC_G726_40,
+          CODEC_G726_16,
+          CODEC_L16,
+          CODEC_AMR,
+          CODEC_AMR_WB
+        ].freeze
+
+        ICE_MODE_DISABLED = 'disabled'
+        ICE_MODE_ACCEPT = 'accept'
+        ICE_MODE_INITIATE = 'initiate'
+
+        ICE_MODES = [
+          ICE_MODE_DISABLED,
+          ICE_MODE_ACCEPT,
+          ICE_MODE_INITIATE
+        ].freeze
+
+        RTCP_MUX_MODE_DISABLED = 'disabled'
+        RTCP_MUX_MODE_ACCEPT = 'accept'
+        RTCP_MUX_MODE_INITIATE = 'initiate'
+
+        RTCP_MUX_MODES = [
+          RTCP_MUX_MODE_DISABLED,
+          RTCP_MUX_MODE_ACCEPT,
+          RTCP_MUX_MODE_INITIATE
+        ].freeze
+
+        RTCP_FEEDBACK_MODE_DISABLED = 'disabled'
+        RTCP_FEEDBACK_MODE_ACCEPT = 'accept'
+        RTCP_FEEDBACK_MODE_INITIATE = 'initiate'
+
+        RTCP_FEEDBACK_MODES = [
+          RTCP_FEEDBACK_MODE_DISABLED,
+          RTCP_FEEDBACK_MODE_ACCEPT,
+          RTCP_FEEDBACK_MODE_INITIATE
+        ].freeze
 
         def sst_refresh_method
           SST_REFRESH_METHODS[sst_refresh_method_id]

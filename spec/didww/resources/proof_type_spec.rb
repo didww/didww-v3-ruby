@@ -9,7 +9,9 @@ RSpec.describe DIDWW::Resource::ProofType do
         body: api_fixture('proof_types/get/without_includes/200'),
         headers: json_api_headers
       )
-      expect(client.proof_types.all).to all be_an_instance_of(described_class)
+      proof_types = client.proof_types.all
+      expect(proof_types).to all be_an_instance_of(described_class)
+      expect(proof_types.map(&:entity_type)).to eq(%w[address personal])
     end
   end
 end

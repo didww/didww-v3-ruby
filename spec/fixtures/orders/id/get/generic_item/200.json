@@ -1,0 +1,27 @@
+{
+  "data": {
+    "id": "f1d36d01-ce9d-4bec-a307-52aa405d20ae",
+    "type": "orders",
+    "attributes": {
+      "reference": "BEX-438025",
+      "amount": "5.0",
+      "status": "completed",
+      "created_at": "2026-11-18T10:34:55.176Z",
+      "description": "phone.systems Channels",
+      "items": [
+        {
+          "type": "generic_order_items",
+          "attributes": {
+            "qty": 1,
+            "nrc": "0.0",
+            "mrc": "5.0",
+            "prorated_mrc": false,
+            "billed_from": "2026-11-18",
+            "billed_to": "2026-12-17"
+          }
+        }
+      ],
+      "external_reference_id": null
+    }
+  }
+}

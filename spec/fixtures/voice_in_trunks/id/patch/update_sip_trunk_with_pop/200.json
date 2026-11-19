@@ -26,10 +26,13 @@
           "username": "username",
           "host": "example.com",
           "port": 5060,
-          "codec_ids": [
-            9,
-            7
+          "codecs": [
+            "pcmu",
+            "g723"
           ],
+          "ice_mode": "disabled",
+          "rtcp_mux_mode": "disabled",
+          "rtcp_feedback_mode": "disabled",
           "rx_dtmf_format_id": 1,
           "tx_dtmf_format_id": 1,
           "resolve_ruri": true,
@@ -58,7 +61,8 @@
           "max_transfers": 0,
           "max_30x_redirects": 0
         }
-      }
+      },
+      "pop": "fra"
     },
     "relationships": {
       "voice_in_trunk_group": {
@@ -66,26 +70,10 @@
           "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/081ad751-d790-4e70-9c92-7c18f6b50a6d/relationships/voice_in_trunk_group",
           "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/081ad751-d790-4e70-9c92-7c18f6b50a6d/voice_in_trunk_group"
         }
-      },
-      "pop": {
-        "links": {
-          "self": "https://sandbox-api.didww.com/v3/voice_in_trunks/081ad751-d790-4e70-9c92-7c18f6b50a6d/relationships/pop",
-          "related": "https://sandbox-api.didww.com/v3/voice_in_trunks/081ad751-d790-4e70-9c92-7c18f6b50a6d/pop"
-        },
-        "data": {
-          "type": "pops",
-          "id": "cb5ea690-e3a3-4781-a4f3-3bd0123284dd"
-        }
       }
     }
   },
   "included": [
-    {
-      "id": "cb5ea690-e3a3-4781-a4f3-3bd0123284dd",
-      "type": "pops",
-      "attributes": {
-        "name": "US, NY"
-      }
-    }
+    
   ]
 }

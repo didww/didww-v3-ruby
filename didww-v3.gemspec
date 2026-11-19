@@ -31,10 +31,12 @@ Gem::Specification.new do |spec|
   # raising a runtime floor is a breaking change for consumers and nothing
   # indicates the gem stopped working there.
   spec.add_dependency 'activesupport',     '>= 7.2', '< 9'
-  spec.add_dependency 'faraday',           '~> 2.0'
+  spec.add_dependency 'csv',               '~> 3.0'
+  spec.add_dependency 'faraday',           '~> 2.5'
+  # Streamed downloads read the response status in on_data, which the
+  # Net::HTTP adapter provides from 3.0.
+  spec.add_dependency 'faraday-net_http',  '>= 3.0'
   spec.add_dependency 'faraday-multipart', '~> 1.0'
   spec.add_dependency 'json_api_client',   '~> 1.23'
-  spec.add_dependency 'http',              '~> 5.0'
-  spec.add_dependency 'down',              '~> 5.0'
   spec.add_dependency 'openssl-oaep',      '~> 0.1'
 end

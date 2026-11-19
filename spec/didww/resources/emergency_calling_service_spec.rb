@@ -31,7 +31,8 @@ RSpec.describe DIDWW::Resource::EmergencyCallingService do
       expect(record).to be_kind_of(described_class)
       expect(record.id).to eq(id)
       expect(record.reference).to be_kind_of(String).or be_nil
-      expect(record.renew_date).to be_kind_of(Time).or be_nil
+      expect(record.renew_date).to eq('2026-06-15')
+      expect(record.number_type).to eq(described_class::NUMBER_TYPE_LOCAL)
     end
   end
 
@@ -65,6 +66,10 @@ RSpec.describe DIDWW::Resource::EmergencyCallingService do
   describe 'associations' do
     it 'declares :address as a has_one so it shows up in associations and its setter dirty-tracks' do
       expect(described_class.associations.map(&:attr_name)).to include(:address)
+    end
+
+    it 'has no did_group_type relationship' do
+      expect(described_class.associations.map(&:attr_name)).not_to include(:did_group_type)
     end
   end
 

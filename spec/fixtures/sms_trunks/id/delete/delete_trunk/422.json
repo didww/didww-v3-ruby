@@ -1,0 +1,10 @@
+{
+  "errors": [
+    {
+      "title": "is in use",
+      "detail": "base - Cannot delete an SMS trunk while DIDs are routed to it",
+      "code": "100",
+      "status": "422"
+    }
+  ]
+}

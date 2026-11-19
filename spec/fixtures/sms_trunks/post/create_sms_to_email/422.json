@@ -1,0 +1,13 @@
+{
+  "errors": [
+    {
+      "title": "can't be blank",
+      "detail": "configuration - send_to can't be blank",
+      "code": "100",
+      "source": {
+        "pointer": "/data/attributes/configuration"
+      },
+      "status": "422"
+    }
+  ]
+}

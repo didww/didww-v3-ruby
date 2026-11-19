@@ -29,7 +29,25 @@ module DIDWW
                             CONF_TYPE_PSTN  => DIDWW::ComplexObject::PstnConfiguration
                           }.freeze
 
-      has_one :pop
+      # Allowed values for trunk.pop
+      POP_NYC = 'nyc'
+      POP_FRA = 'fra'
+      POP_LAC = 'lac'
+      POP_MIA = 'mia'
+      POP_SG = 'sg'
+      POP_HK = 'hk'
+      POP_AMS = 'ams'
+
+      POPS = [
+        POP_NYC,
+        POP_FRA,
+        POP_LAC,
+        POP_MIA,
+        POP_SG,
+        POP_HK,
+        POP_AMS
+      ].freeze
+
       has_one :voice_in_trunk_group
 
       property :priority, type: :integer
@@ -81,6 +99,11 @@ module DIDWW
       property :external_reference_id, type: :string
       # Type: String
       # Description: Customer-supplied reference. Max 100 characters. (API 2026-04-16)
+
+      property :pop, type: :string
+      # Type: String
+      # Description: Point of presence the trunk is pinned to, one of POPS. Null lets DIDWW choose.
+      #              Replaces the pop relationship.
 
       def initialize(*args)
         super

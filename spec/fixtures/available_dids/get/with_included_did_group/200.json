@@ -60,7 +60,9 @@
         ],
         "is_metered": false,
         "area_name": "National",
-        "allow_additional_channels": true
+        "allow_additional_channels": true,
+        "number_type": "local",
+        "is_demo": false
       },
       "relationships": {
         "country": {
@@ -73,12 +75,6 @@
           "links": {
             "self": "https://sandbox-api.didww.com/v3/did_groups/6ff883bd-8e86-48ee-bed3-99adce779499/relationships/city",
             "related": "https://sandbox-api.didww.com/v3/did_groups/6ff883bd-8e86-48ee-bed3-99adce779499/city"
-          }
-        },
-        "did_group_type": {
-          "links": {
-            "self": "https://sandbox-api.didww.com/v3/did_groups/6ff883bd-8e86-48ee-bed3-99adce779499/relationships/did_group_type",
-            "related": "https://sandbox-api.didww.com/v3/did_groups/6ff883bd-8e86-48ee-bed3-99adce779499/did_group_type"
           }
         },
         "region": {
@@ -109,7 +105,9 @@
         ],
         "is_metered": false,
         "area_name": "Mobile",
-        "allow_additional_channels": true
+        "allow_additional_channels": true,
+        "number_type": "local",
+        "is_demo": false
       },
       "relationships": {
         "country": {
@@ -122,12 +120,6 @@
           "links": {
             "self": "https://sandbox-api.didww.com/v3/did_groups/396c3eac-a0ac-4811-a248-d15252ab5a19/relationships/city",
             "related": "https://sandbox-api.didww.com/v3/did_groups/396c3eac-a0ac-4811-a248-d15252ab5a19/city"
-          }
-        },
-        "did_group_type": {
-          "links": {
-            "self": "https://sandbox-api.didww.com/v3/did_groups/396c3eac-a0ac-4811-a248-d15252ab5a19/relationships/did_group_type",
-            "related": "https://sandbox-api.didww.com/v3/did_groups/396c3eac-a0ac-4811-a248-d15252ab5a19/did_group_type"
           }
         },
         "region": {

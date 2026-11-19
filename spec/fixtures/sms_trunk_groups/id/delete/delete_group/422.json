@@ -1,0 +1,10 @@
+{
+  "errors": [
+    {
+      "title": "is in use",
+      "detail": "base - Cannot delete an SMS trunk group while DIDs are routed to it or to its trunks",
+      "code": "100",
+      "status": "422"
+    }
+  ]
+}

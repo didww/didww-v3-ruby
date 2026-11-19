@@ -1,0 +1,13 @@
+{
+  "errors": [
+    {
+      "title": "is invalid",
+      "detail": "sms_trunk - the trunk has no credentials to rotate",
+      "code": "100",
+      "source": {
+        "pointer": "/data/relationships/sms_trunk"
+      },
+      "status": "422"
+    }
+  ]
+}

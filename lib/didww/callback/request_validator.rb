@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require 'openssl'
+require 'uri'
 
 module DIDWW
   module Callback
@@ -30,7 +31,7 @@ module DIDWW
       # @param signature [String]
       # @return [Boolean] whether signature valid or not.
       def validate(url, payload, signature)
-        return false if signature.blank?
+        return false if signature.nil? || signature.empty?
 
         OpenSSL.secure_compare(signature, valid_signature(url, payload))
       end

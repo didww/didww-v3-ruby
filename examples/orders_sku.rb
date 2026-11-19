@@ -1,0 +1,55 @@
+# frozen_string_literal: true
+# Creates a DID order by SKU and quantity: one did_order_items item with
+# sku_id + qty, the SKU resolved from DID groups. DIDWW picks the numbers.
+#
+# Usage: DIDWW_API_KEY=your_api_key ruby examples/orders_sku.rb
+
+require 'bundler/setup'
+require 'didww'
+
+DIDWW::Client.configure do |client|
+  client.api_key  = ENV.fetch('DIDWW_API_KEY') { abort 'Please set DIDWW_API_KEY' }
+  client.api_mode = :sandbox
+end
+
+# Get a DID group with numbers in stock and SKUs
+puts '=== Finding DID Group with SKUs ==='
+did_group = DIDWW::Client.did_groups
+            .where(is_available: true)
+            .includes(:stock_keeping_units)
+            .all
+            .find { |group| group.stock_keeping_units&.any? }
+
+unless did_group
+  puts 'No available DID group with stock_keeping_units found'
+  exit 1
+end
+
+sku = did_group.stock_keeping_units.first
+
+puts "Selected DID Group: #{did_group.id}"
+puts "Selected SKU: #{sku.id}"
+puts "  Monthly price: #{sku.monthly_price}"
+
+# Create order with 2 DIDs from this SKU
+puts "\n=== Creating Order by SKU ==="
+did_item = DIDWW::ComplexObject::DidOrderItem.new(
+  sku_id: sku.id,
+  qty: 2
+)
+
+order = DIDWW::Client.orders.new(items: [did_item])
+
+if order.save
+  puts "Order #{order.id}"
+  puts "  Amount: #{order.amount}"
+  puts "  Status: #{order.status}"
+  puts "  Reference: #{order.reference}"
+
+  if order.items && !order.items.empty?
+    item = order.items.first
+    puts "  Item type: #{item.type}"
+  end
+else
+  puts "Error creating order: #{order.errors.full_messages}"
+end

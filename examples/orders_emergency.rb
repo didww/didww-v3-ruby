@@ -19,10 +19,10 @@ DIDWW::Client.configure do |client|
   client.api_mode = :sandbox
 end
 
-puts '=== All Orders (last 20, filtering for Emergency) ==='
-orders = DIDWW::Client.orders.order('-created_at').all
+puts '=== Recent Orders (last 50, filtering for Emergency) ==='
+orders = DIDWW::Client.orders.order('-created_at').page(1).per(50).all
 emergency_orders = orders.select do |o|
-  o.items&.any? { |i| (i.respond_to?(:type) ? i.type : i['type']) == 'emergency_order_items' }
+  o.items&.any? { |i| i.is_a?(DIDWW::ComplexObject::EmergencyOrderItem) }
 end
 puts "Found #{emergency_orders.size} emergency orders out of #{orders.size} total"
 

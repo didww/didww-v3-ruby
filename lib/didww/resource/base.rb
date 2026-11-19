@@ -1,9 +1,12 @@
 # frozen_string_literal: true
+require 'didww/errors'
 require 'didww/jsonapi_middleware'
 
 module DIDWW
   module Resource
     class Base < JsonApiClient::Resource
+      self.connection_options = connection_options.merge(status_handlers: DIDWW::TooManyRequests::STATUS_HANDLERS)
+
       def as_json_api(*args)
         serialize_complex_attributes(super(*args))
       end

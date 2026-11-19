@@ -13,7 +13,9 @@
       ],
       "is_metered": false,
       "area_name": "National",
-      "allow_additional_channels": true
+      "allow_additional_channels": true,
+      "number_type": "national",
+      "is_demo": false
     },
     "relationships": {
       "country": {
@@ -32,16 +34,6 @@
           "related": "https://sandbox-api.didww.com/v3/did_groups/80167e78-62a1-4720-bf00-229fa7e1935d/city"
         },
         "data": null
-      },
-      "did_group_type": {
-        "links": {
-          "self": "https://sandbox-api.didww.com/v3/did_groups/80167e78-62a1-4720-bf00-229fa7e1935d/relationships/did_group_type",
-          "related": "https://sandbox-api.didww.com/v3/did_groups/80167e78-62a1-4720-bf00-229fa7e1935d/did_group_type"
-        },
-        "data": {
-          "type": "did_group_types",
-          "id": "8bc37f63-acd7-4e43-a760-1a1caa6e4683"
-        }
       },
       "region": {
         "links": {
@@ -80,13 +72,6 @@
         "name": "Israel",
         "prefix": "972",
         "iso": "IL"
-      }
-    },
-    {
-      "id": "8bc37f63-acd7-4e43-a760-1a1caa6e4683",
-      "type": "did_group_types",
-      "attributes": {
-        "name": "National"
       }
     },
     {

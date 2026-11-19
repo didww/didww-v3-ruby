@@ -35,7 +35,10 @@ trunk = DIDWW::Client.voice_in_trunks.new(
     c.enabled_sip_registration = true
     c.use_did_in_ruri = true
     c.cnam_lookup = false
-    c.codec_ids = [9, 7]
+    c.codecs = [
+      DIDWW::ComplexObject::SipConfiguration::CODEC_PCMU,
+      DIDWW::ComplexObject::SipConfiguration::CODEC_G723
+    ]
     c.transport_protocol_id = 1
   end
 )

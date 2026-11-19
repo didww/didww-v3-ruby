@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 RSpec.describe DIDWW::Resource::VoiceOutTrunk do
   let(:client) { DIDWW::Client }
+  let(:property_names) { [].tap { |names| described_class.schema.each_property { |p| names << p.name } } }
 
   it 'has ON_CLI_MISMATCH_ACTIONS constant' do
     expect(described_class::ON_CLI_MISMATCH_ACTIONS).to include(
@@ -40,11 +41,28 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
     )
   end
 
-  describe 'authentication_method (2026-04-16 polymorphic)' do
-    let(:property_names) do
-      [].tap { |names| described_class.schema.each_property { |p| names << p.name } }
-    end
+  it 'has the codec names of the outbound trunk' do
+    expect(described_class::CODECS).to eq(%w[telephone_event g723 g729 pcmu pcma gsm g722 opus amr amr_wb])
+    expect(described_class::CODEC_TELEPHONE_EVENT).to eq('telephone_event')
+    expect(described_class::CODEC_G722).to eq('g722')
+    expect(described_class::CODEC_OPUS).to eq('opus')
+    expect(described_class::CODEC_AMR_WB).to eq('amr_wb')
+  end
 
+  it 'has the values of the media modes' do
+    expect(described_class::ICE_MODES).to eq(%w[disabled accept initiate])
+    expect(described_class::RTCP_MUX_MODES).to eq(%w[disabled accept initiate])
+    expect(described_class::RTCP_FEEDBACK_MODES).to eq(%w[disabled accept initiate])
+    expect(described_class::ICE_MODE_ACCEPT).to eq('accept')
+    expect(described_class::RTCP_MUX_MODE_INITIATE).to eq('initiate')
+    expect(described_class::RTCP_FEEDBACK_MODE_DISABLED).to eq('disabled')
+  end
+
+  it 'declares codecs and the media modes' do
+    expect(property_names).to include(:codecs, :ice_mode, :rtcp_mux_mode, :rtcp_feedback_mode)
+  end
+
+  describe 'authentication_method (2026-04-16 polymorphic)' do
     it 'declares authentication_method' do
       expect(property_names).to include(:authentication_method)
     end
@@ -153,6 +171,14 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
         it '"rtp_ping", type: Boolean' do
           expect(trunk.rtp_ping).to be_in([true, false])
         end
+
+        it '"codecs", type: Array of Strings in priority order' do
+          expect(trunk.codecs).to eq(%w[pcma pcmu telephone_event])
+        end
+
+        it '"ice_mode", "rtcp_mux_mode" and "rtcp_feedback_mode", type: String' do
+          expect(trunk).to have_attributes(ice_mode: 'accept', rtcp_mux_mode: 'accept', rtcp_feedback_mode: 'accept')
+        end
       end
     end
 
@@ -249,6 +275,10 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
               dst_prefixes: ['1', '44'],
               media_encryption_mode: 'disabled',
               force_symmetric_rtp: false,
+              codecs: %w[opus pcma telephone_event],
+              ice_mode: 'initiate',
+              rtcp_mux_mode: 'accept',
+              rtcp_feedback_mode: 'disabled',
               authentication_method: {
                 type: 'credentials_and_ip',
                 attributes: {
@@ -272,6 +302,14 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
           dst_prefixes: ['1', '44'],
           media_encryption_mode: 'disabled',
           force_symmetric_rtp: false,
+          codecs: [
+            described_class::CODEC_OPUS,
+            described_class::CODEC_PCMA,
+            described_class::CODEC_TELEPHONE_EVENT
+          ],
+          ice_mode: described_class::ICE_MODE_INITIATE,
+          rtcp_mux_mode: described_class::RTCP_MUX_MODE_ACCEPT,
+          rtcp_feedback_mode: described_class::RTCP_FEEDBACK_MODE_DISABLED,
           authentication_method: DIDWW::ComplexObject::AuthenticationMethod::CredentialsAndIp.new(
             allowed_sip_ips: ['203.0.113.1/32'],
             tech_prefix: ''
@@ -374,6 +412,35 @@ RSpec.describe DIDWW::Resource::VoiceOutTrunk do
         expect(trunk.errors).to be_empty
         expect(trunk.name).to eq(updated_trunk_name)
         expect(trunk.capacity_limit).to eq(200)
+      end
+
+      it 'updates the codecs and media modes of a VoiceOutTrunk' do
+        id = '01234567-89ab-cdef-0123-456789abcdef'
+        request = stub_didww_request(:patch, "/voice_out_trunks/#{id}").
+          with(body: json_api_body(
+            id: id,
+            type: 'voice_out_trunks',
+            attributes: {
+              codecs: %w[g722 pcmu],
+              ice_mode: 'disabled',
+              rtcp_mux_mode: 'initiate',
+              rtcp_feedback_mode: 'accept'
+            }
+          )).
+          to_return(
+            status: 200,
+            body: api_fixture('voice_out_trunks/id/patch/update_attributes/200'),
+            headers: json_api_headers
+          )
+        trunk = DIDWW::Resource::VoiceOutTrunk.load(id: id).tap do |t|
+          t.codecs = [described_class::CODEC_G722, described_class::CODEC_PCMU]
+          t.ice_mode = described_class::ICE_MODE_DISABLED
+          t.rtcp_mux_mode = described_class::RTCP_MUX_MODE_INITIATE
+          t.rtcp_feedback_mode = described_class::RTCP_FEEDBACK_MODE_ACCEPT
+        end
+        trunk.save
+        expect(request).to have_been_made.once
+        expect(trunk.errors).to be_empty
       end
 
       it 'sends only dirty attributes in PATCH' do
