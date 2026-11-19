@@ -64,10 +64,10 @@ balance = DIDWW::Client.balance
 puts "Balance: #{balance.total_balance}"
 
 # List DID groups with stock keeping units
-did_groups = DIDWW::Client.did_groups.all(
-  include: 'stock_keeping_units',
-  filter: { area_name: 'Acapulco' }
-)
+did_groups = DIDWW::Client.did_groups
+             .includes(:stock_keeping_units)
+             .where(area_name: 'Acapulco')
+             .all
 
 puts "DID groups: #{did_groups.count}"
 ```
@@ -271,7 +271,9 @@ did_groups = DIDWW::Client.did_groups
              .all
 
 # Available DIDs (with DID group and stock keeping units)
-available_dids = DIDWW::Client.available_dids.all(include: 'did_group.stock_keeping_units')
+available_dids = DIDWW::Client.available_dids
+                 .includes('did_group.stock_keeping_units')
+                 .all
 
 # Public Keys
 public_keys = DIDWW::Client.public_keys.all
@@ -516,11 +518,7 @@ Filter values are lowercase: `service_type` is `a2p` or `p2p` (`ExportFilters::S
 ```ruby
 order = DIDWW::Client.orders.new(
   items: [
-    {
-      type: 'did_order_items',
-      sku_id: 'sku-uuid',
-      qty: 2
-    }
+    DIDWW::ComplexObject::DidOrderItem.new(sku_id: 'sku-uuid', qty: 2)
   ]
 )
 
@@ -547,13 +545,15 @@ requirements.each do |req|
   puts req.requirement_restriction_message
 end
 
-# Create an emergency verification
+# Create an emergency verification; relationships go under relationships:
 verification = DIDWW::Client.emergency_verifications.new(
-  address: DIDWW::Resource::Address.load(id: 'address-uuid'),
-  emergency_calling_service:
-    DIDWW::Resource::EmergencyCallingService.load(id: 'ecs-uuid'),
-  dids: [DIDWW::Resource::Did.load(id: 'did-uuid')],
-  external_reference_id: 'my-ref-123'
+  external_reference_id: 'my-ref-123',
+  relationships: {
+    address: DIDWW::Resource::Address.load(id: 'address-uuid'),
+    emergency_calling_service:
+      DIDWW::Resource::EmergencyCallingService.load(id: 'ecs-uuid'),
+    dids: [DIDWW::Resource::Did.load(id: 'did-uuid')]
+  }
 )
 
 if verification.save
@@ -690,7 +690,11 @@ The SDK uses [json_api_client](https://github.com/JsonApiClient/json_api_client)
 
 ```ruby
 # Validation errors (422 Unprocessable Entity)
-trunk = DIDWW::Client.voice_in_trunks.new(name: '')
+trunk = DIDWW::Client.voice_in_trunks.new(
+  name: 'Office',
+  ringing_timeout: 100, # more than the allowed 32 seconds
+  configuration: DIDWW::ComplexObject::SipConfiguration.new(host: 'sip.example.com')
+)
 unless trunk.save
   trunk.errors.full_messages.each do |msg|
     puts "Validation error: #{msg}"

@@ -1,7 +1,8 @@
 # frozen_string_literal: true
-# Creates a DID order by SKU resolved from DID groups.
+# Creates a DID order by SKU and quantity: one did_order_items item with
+# sku_id + qty, the SKU resolved from DID groups. DIDWW picks the numbers.
 #
-# Usage: DIDWW_API_KEY=your_api_key ruby examples/orders_by_sku.rb
+# Usage: DIDWW_API_KEY=your_api_key ruby examples/orders_sku.rb
 
 require 'bundler/setup'
 require 'didww'
@@ -11,18 +12,19 @@ DIDWW::Client.configure do |client|
   client.api_mode = :sandbox
 end
 
-# Get DID group with SKUs
+# Get a DID group with numbers in stock and SKUs
 puts '=== Finding DID Group with SKUs ==='
-did_groups = DIDWW::Client.did_groups
-              .includes(:stock_keeping_units)
-              .all
+did_group = DIDWW::Client.did_groups
+            .where(is_available: true)
+            .includes(:stock_keeping_units)
+            .all
+            .find { |group| group.stock_keeping_units&.any? }
 
-if did_groups.empty? || did_groups.first.stock_keeping_units.nil? || did_groups.first.stock_keeping_units.empty?
-  puts 'No DID group with stock_keeping_units found'
+unless did_group
+  puts 'No available DID group with stock_keeping_units found'
   exit 1
 end
 
-did_group = did_groups.first
 sku = did_group.stock_keeping_units.first
 
 puts "Selected DID Group: #{did_group.id}"

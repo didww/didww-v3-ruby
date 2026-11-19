@@ -50,11 +50,13 @@ puts "Found #{approved.size} approved verifications"
 #
 # suffix = SecureRandom.hex(4)
 # verification = DIDWW::Client.emergency_verifications.new(
-#   address: DIDWW::Resource::Address.load(id: '<address-uuid>'),
-#   emergency_calling_service:
-#     DIDWW::Resource::EmergencyCallingService.load(id: '<ecs-uuid>'),
-#   dids: [DIDWW::Resource::Did.load(id: '<did-uuid>')],
-#   external_reference_id: "ruby-ev-#{suffix}"
+#   external_reference_id: "ruby-ev-#{suffix}",
+#   relationships: {
+#     address: DIDWW::Resource::Address.load(id: '<address-uuid>'),
+#     emergency_calling_service:
+#       DIDWW::Resource::EmergencyCallingService.load(id: '<ecs-uuid>'),
+#     dids: [DIDWW::Resource::Did.load(id: '<did-uuid>')]
+#   }
 # )
 #
 # if verification.save
