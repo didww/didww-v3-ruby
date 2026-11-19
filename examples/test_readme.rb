@@ -2,13 +2,20 @@
 # Runs the code snippets of the gem's README.md against the sandbox, one check
 # per snippet (a snippet of independent statements is split along its comments),
 # and deletes what the checks create, also when a check fails; exports cannot be
-# deleted and an order is canceled while it is pending. Snippets that need
-# production, a Rails app, a proxy or DIDWW staff are reported as skipped with
-# the reason. Prints "Results: N passed, M failed" and exits 1 when a check fails.
+# deleted and an order is canceled while it is pending. Only the production
+# configuration is not run. Prints "Results: N passed, M failed" and exits 1
+# when a check fails.
 #
 # Placeholders of the snippets ('YOUR_API_KEY', 'uuid', 'sms-trunk-uuid', ...)
 # are replaced with DIDWW_API_KEY, with resources of the sandbox account or
 # with resources the check creates; changed DIDs and verifications are restored.
+# Snippets written for production run on the sandbox.
+#
+# Created records that DIDWW reviews are printed on lines starting with REVIEW.
+#
+# Optional, a check is skipped with the reason when it is missing:
+#   DIDWW_README_PROXY_URL  an HTTP(S) proxy for the proxy snippets, in place of proxy.example.com
+#   actionpack              in the bundle, for the Rails webhook controller
 #
 # Usage: DIDWW_API_KEY=your_api_key ruby examples/test_readme.rb
 
@@ -24,9 +31,21 @@ require 'rbconfig'
 require 'securerandom'
 require 'tmpdir'
 
+# ActionPack runs the README's Rails controller; without it that check is skipped
+ACTION_PACK = begin
+  require 'action_controller'
+  require 'rack/mock'
+  true
+rescue LoadError
+  false
+end
+
 API_KEY = ENV.fetch('DIDWW_API_KEY') { abort 'Please set DIDWW_API_KEY' }
+PROXY_URL = ENV['DIDWW_README_PROXY_URL'].presence
 SUFFIX = SecureRandom.hex(4)
 SMS_CONFIGURATIONS = DIDWW::ComplexObject::SmsTrunkConfiguration
+# Shared between checks: the DID the emergency verification check submitted
+CREATED = {}
 
 # Stand-in for the README's MyCustomMiddleware: counts the JSON:API requests.
 class MyCustomMiddleware < Faraday::Middleware
@@ -140,6 +159,49 @@ def sign_callback(secret, url, payload)
   OpenSSL::HMAC.hexdigest('SHA1', secret, normalized_url + payload.sort.flatten.join)
 end
 
+# Runs Ruby code in a new process of this bundle, for a snippet that has to be
+# the first configure of its process. The process inherits DIDWW_API_KEY.
+def run_ruby(code)
+  output, status = Open3.capture2e(RbConfig.ruby, '-rbundler/setup', '-e', code)
+  error = output.lines.find { |line| line.include?('Error') } || output.lines.last.to_s
+  [output, status.success?, error.strip]
+end
+
+# An emergency-capable DID of the country without an emergency calling service;
+# when the account has none, one is ordered and the order awaited.
+def emergency_did_in(country)
+  candidates = DIDWW::Client.dids
+                            .where('did_group.features': DIDWW::Resource::DidGroup::FEATURE_EMERGENCY,
+                                   emergency_enabled: false, terminated: false, 'country.id': country.id)
+                            .includes(:emergency_calling_service)
+                            .all
+  did = candidates.find { |d| d.emergency_calling_service.nil? }
+  return did if did
+
+  available = DIDWW::Client.available_dids
+                           .where('did_group.features': DIDWW::Resource::DidGroup::FEATURE_EMERGENCY, 'country.id': country.id)
+                           .includes('did_group.stock_keeping_units')
+                           .page(1).per(1)
+                           .all
+                           .first
+  sku = available&.did_group&.stock_keeping_units&.first
+  return nil unless sku
+
+  order = saved!(DIDWW::Client.orders.new(
+    items: [DIDWW::ComplexObject::DidOrderItem.new(available_did_id: available.id, sku_id: sku.id)]
+  ))
+  puts "    ordered #{available.number} (order #{order.id})"
+  12.times do
+    break if order.completed?
+
+    sleep 5
+    order = DIDWW::Client.orders.find(order.id).first
+  end
+  raise "order #{order.id} did not complete (#{order.status})" unless order.completed?
+
+  DIDWW::Client.dids.where('order.id': order.id).all.first
+end
+
 # ─── Installation ──────────────────────────────────────────
 
 section 'Installation'
@@ -187,7 +249,43 @@ check('Configuration: sandbox') do
 end
 
 skipped('Configuration: production', 'this script runs on the sandbox only')
-skipped('Connection Customization: proxy', 'needs a reachable proxy; the snippet uses proxy.example.com on production')
+
+# Prints the proxy of every JSON:API request; added to the proxy snippets below
+PROXY_PROBE = <<~'RUBY'
+  class ProxyProbe < Faraday::Middleware
+    def call(env)
+      puts "json_api_proxy=#{env.request.proxy&.uri}"
+      @app.call(env)
+    end
+  end
+RUBY
+
+check('Connection Customization: proxy') do
+  skip!('set DIDWW_README_PROXY_URL to an HTTP(S) proxy to run it') unless PROXY_URL
+
+  # The snippet on the sandbox, in a new process: the JSON:API connection is
+  # built by the first configure of a process
+  output, ok, error = run_ruby(<<~'RUBY' + PROXY_PROBE + <<~'PROBE')
+    require 'didww'
+
+    # Using a proxy
+    DIDWW::Client.configure do |config|
+      config.api_key  = ENV.fetch('DIDWW_API_KEY')
+      config.api_mode = :sandbox
+      config.customize_connection do |conn|
+        # conn is a JsonApiClient::Connection instance
+        conn.faraday.proxy = ENV.fetch('DIDWW_README_PROXY_URL')
+      end
+    end
+  RUBY
+    DIDWW::Resource::Base.connection.use ProxyProbe
+    puts "balance=#{DIDWW::Client.balance.total_balance}"
+  PROBE
+  verify(ok, "the snippet to run, it failed with: #{error}")
+  verify(output.include?("json_api_proxy=#{PROXY_URL.chomp('/')}") && output.include?('balance='),
+         "the balance request sent through #{PROXY_URL}, got: #{output.strip}")
+  puts "    balance read through #{PROXY_URL}"
+end
 
 check('Connection Customization: custom middleware and timeouts') do
   # Applied by the configure at the top of this script
@@ -198,7 +296,35 @@ check('Connection Customization: custom middleware and timeouts') do
   verify(options.timeout == 30 && options.open_timeout == 10, 'timeout 30 and open_timeout 10')
 end
 
-skipped('Connection Customization: customize_faraday proxy', 'needs a reachable proxy; the snippet uses proxy.example.com on production')
+check('Connection Customization: customize_faraday proxy') do
+  skip!('set DIDWW_README_PROXY_URL to an HTTP(S) proxy to run it') unless PROXY_URL
+
+  # The snippet on the sandbox, in a new process. Its first request mints the
+  # token over the token service connection, which customize_faraday sets up.
+  output, ok, error = run_ruby(<<~'RUBY' + PROXY_PROBE + <<~'PROBE')
+    require 'didww'
+
+    DIDWW::Client.configure do |config|
+      config.api_key  = ENV.fetch('DIDWW_API_KEY')
+      config.api_mode = :sandbox
+      config.customize_connection { |conn| conn.faraday.proxy = ENV.fetch('DIDWW_README_PROXY_URL') }
+      config.customize_faraday do |faraday|
+        # faraday is a Faraday::Connection instance
+        faraday.proxy = ENV.fetch('DIDWW_README_PROXY_URL')
+      end
+    end
+  RUBY
+    DIDWW::Resource::Base.connection.use ProxyProbe
+    puts "token_service_proxy=#{DIDWW::Http.connection(DIDWW::Client.auth_base_url).proxy&.uri}"
+    puts "balance=#{DIDWW::Client.balance.total_balance}"
+  PROBE
+  verify(ok, "the snippet to run, it failed with: #{error}")
+  proxy = PROXY_URL.chomp('/')
+  verify(output.include?("token_service_proxy=#{proxy}") && output.include?("json_api_proxy=#{proxy}") &&
+         output.include?('balance='),
+         "the token and the balance requests sent through #{PROXY_URL}, got: #{output.strip}")
+  puts "    token minted and balance read through #{PROXY_URL}"
+end
 
 check('API Version: with_api_version') do
   countries = DIDWW::Client.with_api_version('2099-01-01') do
@@ -649,8 +775,40 @@ check('Emergency Services: requirements') do
   end
 end
 
-skipped('Emergency Services: create an emergency verification',
-        'needs an emergency calling service, an address and a DID set up for it, and submits them for review by DIDWW')
+check('Emergency Services: create an emergency verification') do
+  # An address of the account and an emergency-capable DID in its country,
+  # as in examples/emergency_scenario.rb
+  addresses = DIDWW::Client.addresses.includes(:country).all.select(&:country)
+  skip!('no address on the account') if addresses.empty?
+  address = nil
+  did = nil
+  addresses.sort_by { |a| a.verified ? 0 : 1 }.each do |candidate|
+    did = emergency_did_in(candidate.country)
+    address = candidate
+    break if did
+  end
+  skip!("no emergency-capable DID can be ordered in #{addresses.map { |a| a.country.iso }.uniq.join(', ')}") unless did
+  CREATED[:emergency_did_id] = did.id
+
+  # Create an emergency verification. 'ecs-uuid' of the README is left out, as
+  # in examples/emergency_scenario.rb: a DID without an emergency calling
+  # service gets one with the verification.
+  verification = DIDWW::Client.emergency_verifications.new(
+    external_reference_id: "readme-#{SUFFIX}", # 'my-ref-123' in the README
+    relationships: {
+      address: DIDWW::Resource::Address.load(id: address.id),
+      dids: [DIDWW::Resource::Did.load(id: did.id)]
+    }
+  )
+
+  if verification.save
+    puts "    Created: #{verification.id} (status: #{verification.status})"
+  else
+    puts "    Errors: #{verification.errors.full_messages}"
+  end
+  verify(verification.persisted?, "the emergency verification to be created (#{verification.errors.full_messages.join('; ')})")
+  puts "REVIEW emergency_verification #{verification.id} #{verification.reference}"
+end
 
 check('Emergency Services: emergency calling services') do
   services = DIDWW::Client.emergency_calling_services
@@ -663,7 +821,29 @@ check('Emergency Services: emergency calling services') do
   puts "    #{services.size} emergency calling services"
 end
 
-skipped('Emergency Services: cancel an emergency calling service', 'cancels a live emergency calling service')
+check('Emergency Services: cancel an emergency calling service') do
+  # A service that is not canceled, other than the one of the DID submitted above
+  services = DIDWW::Client.emergency_calling_services.includes(:dids).all
+                          .reject { |s| s.status == DIDWW::Resource::EmergencyCallingService::STATUS_CANCELED }
+  service = services.min_by do |s|
+    [Array(s.dids).any? { |d| d.id == CREATED[:emergency_did_id] } ? 1 : 0,
+     s.status == DIDWW::Resource::EmergencyCallingService::STATUS_ACTIVE ? 0 : 1]
+  end
+  skip!('no emergency calling service that is not canceled') unless service
+
+  # Cancel (destroy) an emergency calling service
+  svc = DIDWW::Client.emergency_calling_services.find(service.id).first
+  verify(svc.destroy, "the cancel to succeed (#{svc.errors.full_messages.join('; ')})")
+
+  begin
+    after = DIDWW::Client.emergency_calling_services.find(service.id).first
+    verify(after.status == DIDWW::Resource::EmergencyCallingService::STATUS_CANCELED || after.canceled_at,
+           "the service to be canceled, it is #{after.status}")
+    puts "    #{service.reference} (#{service.status}) canceled: status #{after.status}, canceled_at #{after.canceled_at}"
+  rescue JsonApiClient::Errors::NotFound
+    puts "    #{service.reference} (#{service.status}) canceled and no longer listed"
+  end
+end
 
 # ─── DID History ───────────────────────────────────────────
 
@@ -869,12 +1049,52 @@ check('Webhook Signature Validation: the validator required on its own') do
     validator = DIDWW::Callback::RequestValidator.new('YOUR_CALLBACK_SECRET')
     validator.validate('https://example.com/webhooks/didww', { 'id' => '1' }, 'signature')
   RUBY
-  output, status = Open3.capture2e(RbConfig.ruby, '-rbundler/setup', '-e', code, chdir: File.expand_path('..', __dir__))
-  error = output.lines.find { |line| line.include?('Error') } || output
-  verify(status.success?, "the snippet to run with only that require, it failed with: #{error.strip}")
+  _output, ok, error = run_ruby(code)
+  verify(ok, "the snippet to run with only that require, it failed with: #{error}")
 end
 
-skipped('Webhook Signature Validation: Rails example', 'runs in a Rails controller')
+if ACTION_PACK
+  # Stand-in for the ApplicationController of a Rails app, which protects from forgery
+  class ApplicationController < ActionController::Base
+    protect_from_forgery with: :exception
+  end
+
+  # The README's controller
+  class WebhooksController < ApplicationController
+    skip_before_action :verify_authenticity_token
+
+    def create
+      validator = DIDWW::Callback::RequestValidator.new('YOUR_CALLBACK_SECRET')
+      signature = request.headers[DIDWW::Callback::RequestValidator::HEADER]
+      params_hash = request.POST
+
+      if validator.validate(request.original_url, params_hash, signature)
+        # Process the webhook
+        head :ok
+      else
+        head :forbidden
+      end
+    end
+  end
+end
+
+check('Webhook Signature Validation: Rails example') do
+  skip!('ActionPack is not installed; add actionpack to the bundle to run it') unless ACTION_PACK
+
+  url = 'https://example.com/webhooks/didww'
+  payload = { 'id' => SecureRandom.uuid, 'type' => 'orders', 'status' => 'completed' }
+  signature = sign_callback('YOUR_CALLBACK_SECRET', url, payload)
+  callback = lambda do |params|
+    env = Rack::MockRequest.env_for(url, method: 'POST', params: params, 'HTTP_X_DIDWW_SIGNATURE' => signature)
+    WebhooksController.action(:create).call(env).first
+  end
+
+  signed = callback.call(payload)
+  tampered = callback.call(payload.merge('status' => 'canceled'))
+  verify(signed == 200, "200 for a signed callback, got #{signed}")
+  verify(tampered == 403, "403 for a tampered callback, got #{tampered}")
+  puts "    ActionPack #{ActionPack.version}: signed callback #{signed}, tampered callback #{tampered}"
+end
 
 # ─── Enums ─────────────────────────────────────────────────
 

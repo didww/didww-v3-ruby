@@ -11,6 +11,7 @@ All examples read the API key from the `DIDWW_API_KEY` environment variable and 
 ## Environment variables
 
 - `DIDWW_API_KEY` (required): your DIDWW API key. `webhook.rb` runs offline and does not need it.
+- `DIDWW_README_PROXY_URL` (optional for `test_readme.rb`): an HTTP(S) proxy the README's proxy snippets are run through; without it they are skipped. The README's Rails webhook controller runs when `actionpack` is in the bundle.
 
 ## Install
 
