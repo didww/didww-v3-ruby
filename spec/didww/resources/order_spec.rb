@@ -58,6 +58,22 @@ RSpec.describe DIDWW::Resource::Order do
       end
     end
 
+    describe 'when the Order has an item of another charge' do
+      let (:order) do
+        stub_didww_request(:get, "/orders/#{id}").to_return(
+          status: 200,
+          body: api_fixture('orders/id/get/generic_item/200'),
+          headers: json_api_headers
+        )
+        client.orders.find(id).first
+      end
+
+      it '"items", type: Array of GenericOrderItem' do
+        expect(order.items).to all be_an_instance_of(DIDWW::ComplexObject::GenericOrderItem)
+        expect(order.items.first).to have_attributes(type: 'generic_order_items', qty: 1, mrc: BigDecimal('5.0'))
+      end
+    end
+
     describe 'when Order does not exist' do
       it 'raises a NotFound error' do
         stub_didww_request(:get, "/orders/#{id}").to_return(
