@@ -890,8 +890,11 @@ check('Emergency Services: cancel an emergency calling service') do
   # A service that is not canceled, active first. Another service than the one
   # of the DID submitted above is preferred; that one is the fallback, and
   # canceling it on the sandbox also rejects the test verification.
-  services = DIDWW::Client.emergency_calling_services.includes(:dids).all
-                          .reject { |s| s.status == DIDWW::Resource::EmergencyCallingService::STATUS_CANCELED }
+  # Read per status on the server: canceled services can fill the first pages.
+  ecs_class = DIDWW::Resource::EmergencyCallingService
+  services = (ecs_class::STATUSES - [ecs_class::STATUS_CANCELED]).flat_map do |status|
+    DIDWW::Client.emergency_calling_services.where(status: status).includes(:dids).page(1).per(10).all.to_a
+  end
   service = services.min_by do |s|
     [Array(s.dids).any? { |d| d.id == CREATED[:emergency_did_id] } ? 1 : 0,
      s.status == DIDWW::Resource::EmergencyCallingService::STATUS_ACTIVE ? 0 : 1]
