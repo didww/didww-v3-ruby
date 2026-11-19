@@ -2,20 +2,22 @@
 # Runs the code snippets of the gem's README.md against the sandbox, one check
 # per snippet (a snippet of independent statements is split along its comments),
 # and deletes what the checks create, also when a check fails; exports cannot be
-# deleted and an order is canceled while it is pending. Only the production
-# configuration is not run. Prints "Results: N passed, M failed" and exits 1
-# when a check fails.
+# deleted and an order is canceled while it is pending. Prints
+# "Results: N passed, M failed" and exits 1 when a check fails.
 #
 # Placeholders of the snippets ('YOUR_API_KEY', 'uuid', 'sms-trunk-uuid', ...)
 # are replaced with DIDWW_API_KEY, with resources of the sandbox account or
 # with resources the check creates; changed DIDs and verifications are restored.
-# Snippets written for production run on the sandbox.
+# Snippets written for production run on the sandbox, except the production
+# configuration: it runs on production, read-only, in a process of its own.
 #
 # Created records that DIDWW reviews are printed on lines starting with REVIEW.
 #
 # Optional, a check is skipped with the reason when it is missing:
-#   DIDWW_README_PROXY_URL  an HTTP(S) proxy for the proxy snippets, in place of proxy.example.com
-#   actionpack              in the bundle, for the Rails webhook controller
+#   DIDWW_README_PRODUCTION_API_KEY  a production API key for the production configuration,
+#                                    used with a read token for reads only
+#   DIDWW_README_PROXY_URL           an HTTP(S) proxy for the proxy snippets, in place of proxy.example.com
+#   actionpack                       in the bundle, for the Rails webhook controller
 #
 # Usage: DIDWW_API_KEY=your_api_key ruby examples/test_readme.rb
 
@@ -252,7 +254,52 @@ check('Configuration: sandbox') do
   puts "    API #{DIDWW::Client.api_base_url}, token service #{DIDWW::Client.auth_base_url}"
 end
 
-skipped('Configuration: production', 'this script runs on the sandbox only')
+check('Configuration: production (read-only)') do
+  unless ENV['DIDWW_README_PRODUCTION_API_KEY'].present?
+    skip!('set DIDWW_README_PRODUCTION_API_KEY to run it on production, read-only')
+  end
+
+  # In a process of its own, so that this script's sandbox configuration is
+  # untouched. The key is read there from the environment and never printed;
+  # the read scope makes the API refuse any write. Only reads are sent: the
+  # token, the balance, the countries and one price lookup.
+  output, ok, error = run_ruby(<<~'RUBY')
+    require 'didww'
+
+    # Production
+    DIDWW::Client.configure do |config|
+      config.api_key  = ENV.fetch('DIDWW_README_PRODUCTION_API_KEY')
+      config.api_mode = :production
+      config.scope    = :read # not in the README: a read token, so nothing can be changed
+    end
+    unless DIDWW::Client.api_base_url == DIDWW::Client::BASE_URLS[:production] &&
+           DIDWW::Client.auth_base_url == DIDWW::Client::AUTH_URLS[:production] &&
+           DIDWW::Client.prices_base_url(:voice_in) == DIDWW::Client::PRICES_URLS[:voice_in][:production]
+      abort 'not the production hosts'
+    end
+
+    scopes = []
+    ActiveSupport::Notifications.subscribe('mint_token.didww') { |event| scopes << event.payload[:scope_granted] }
+
+    abort 'no balance' unless DIDWW::Client.balance
+    abort 'the token is not read-only' unless scopes.any? && scopes.all?('read')
+    puts 'token_scope=read'
+    puts 'balance=read'
+    puts "countries=#{DIDWW::Client.countries.all.size}"
+    begin
+      DIDWW::Client.voice_in_prices.lookup(number: '12125551234')
+      puts 'price_lookup=ok'
+    rescue DIDWW::Prices::PricePlanNotAssigned, DIDWW::Prices::PriceNotFound => e
+      puts "price_lookup=answered #{e.class.name.demodulize}"
+    end
+  RUBY
+  verify(ok, "the production reads to succeed, they failed with: #{error}")
+  countries = output[/^countries=(\d+)/, 1].to_i
+  price = output[/^price_lookup=(.+)$/, 1]
+  verify(output.include?('token_scope=read') && output.include?('balance=read') && countries.positive? && price,
+         'a read token, the balance, the countries and a price lookup answer')
+  puts "    production: token minted (scope read), balance read, #{countries} countries, price lookup #{price}"
+end
 
 # Prints the proxy of every JSON:API request; added to the proxy snippets below
 PROXY_PROBE = <<~'RUBY'
