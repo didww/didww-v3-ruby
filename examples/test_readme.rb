@@ -43,7 +43,7 @@ rescue LoadError
 end
 
 API_KEY = ENV.fetch('DIDWW_API_KEY') { abort 'Please set DIDWW_API_KEY' }
-PROXY_URL = ENV['DIDWW_README_PROXY_URL'].presence
+PROXY_URL = ENV.fetch('DIDWW_README_PROXY_URL', nil).presence
 SUFFIX = SecureRandom.hex(4)
 SMS_CONFIGURATIONS = DIDWW::ComplexObject::SmsTrunkConfiguration
 # Shared between checks: the DID the emergency verification check submitted
@@ -255,7 +255,7 @@ check('Configuration: sandbox') do
 end
 
 check('Configuration: production (read-only)') do
-  unless ENV['DIDWW_README_PRODUCTION_API_KEY'].present?
+  unless ENV.fetch('DIDWW_README_PRODUCTION_API_KEY', '').present?
     skip!('set DIDWW_README_PRODUCTION_API_KEY to run it on production, read-only')
   end
 
