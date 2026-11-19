@@ -197,15 +197,29 @@ def emergency_did_in(country)
     items: [DIDWW::ComplexObject::DidOrderItem.new(available_did_id: available.id, sku_id: sku.id)]
   ))
   puts "    ordered #{available.number} (order #{order.id})"
-  24.times do # up to 120 s
-    break if order.completed?
+  begin
+    24.times do # up to 120 s
+      break if order.completed?
 
-    sleep 5
-    order = DIDWW::Client.orders.find(order.id).first
+      sleep 5
+      order = DIDWW::Client.orders.find(order.id).first
+    end
+  ensure
+    # An order that did not complete is canceled, so it allocates no DID later
+    cancel_pending(order) unless order.completed?
   end
   raise "order #{order.id} did not complete (#{order.status})" unless order.completed?
 
   DIDWW::Client.dids.where('order.id': order.id).all.first
+end
+
+# Cancels a pending order; a failure is printed, not raised
+def cancel_pending(order)
+  return unless order.pending?
+
+  puts "    cleanup: order #{order.id} not canceled: #{order.errors.full_messages.join('; ')}" unless order.destroy
+rescue StandardError => e
+  puts "    cleanup: order #{order.id} not canceled: #{e.message}"
 end
 
 # ─── Installation ──────────────────────────────────────────
@@ -874,13 +888,12 @@ end
 
 check('Emergency Services: cancel an emergency calling service') do
   # A service that is not canceled, other than the one of the DID submitted above
-  services = DIDWW::Client.emergency_calling_services.includes(:dids).all
-                          .reject { |s| s.status == DIDWW::Resource::EmergencyCallingService::STATUS_CANCELED }
-  service = services.min_by do |s|
-    [Array(s.dids).any? { |d| d.id == CREATED[:emergency_did_id] } ? 1 : 0,
-     s.status == DIDWW::Resource::EmergencyCallingService::STATUS_ACTIVE ? 0 : 1]
+  services = DIDWW::Client.emergency_calling_services.includes(:dids).all.reject do |s|
+    s.status == DIDWW::Resource::EmergencyCallingService::STATUS_CANCELED ||
+      Array(s.dids).any? { |d| d.id == CREATED[:emergency_did_id] }
   end
-  skip!('no emergency calling service that is not canceled') unless service
+  service = services.min_by { |s| s.status == DIDWW::Resource::EmergencyCallingService::STATUS_ACTIVE ? 0 : 1 }
+  skip!('no emergency calling service that is not canceled, other than the one of the DID submitted above') unless service
 
   # Cancel (destroy) an emergency calling service
   svc = DIDWW::Client.emergency_calling_services.find(service.id).first
